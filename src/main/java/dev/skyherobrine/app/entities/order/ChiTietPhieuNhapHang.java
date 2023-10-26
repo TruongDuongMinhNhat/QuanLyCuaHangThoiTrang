@@ -40,17 +40,29 @@ public class ChiTietPhieuNhapHang {
     public int getSoLuong() {
         return soLuong;
     }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+    /**
+     * Set số lượng nhập phải lớn hơn 0 <br></br>
+     * Nếu số lượng nhập lớn hơn thì sẽ xuất ra exception "Số lượng nhập lớn hơn 0"
+     */
+    public void setSoLuong(int soLuong) throws Exception {
+        if(soLuong>0)
+            this.soLuong = soLuong;
+        else
+            throw new Exception("Số lượng nhập phải lớn hơn 0!");
     }
 
     public double getGiaNhap() {
         return giaNhap;
     }
-
-    public void setGiaNhap(double giaNhap) {
-        this.giaNhap = giaNhap;
+    /**
+     * set số giá nhập phải lớn hơn 0
+     * Nếu số giá nhập bằng 0 thì sẽ xuất ra exception "Giá nhập lớn hơn 0"
+     */
+    public void setGiaNhap(double giaNhap) throws Exception {
+        if(giaNhap>0)
+            this.giaNhap = giaNhap;
+        else
+            throw new Exception("Giá nhập phải lớn hơn 0!");
     }
 
     /**

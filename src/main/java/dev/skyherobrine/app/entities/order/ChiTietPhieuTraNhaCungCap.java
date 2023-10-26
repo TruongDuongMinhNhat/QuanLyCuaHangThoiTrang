@@ -40,10 +40,17 @@ public class ChiTietPhieuTraNhaCungCap {
     public int getSoLuongTra() {
         return soLuongTra;
     }
-
-    public void setSoLuongTra(int soLuongTra) {
-        this.soLuongTra = soLuongTra;
+    /**
+     * Set số lượng trả cho nhà cung cấp phải lớn hơn 0 <br></br>
+     * Nếu số lượng trả cho nhà cung cấp lớn hơn thì sẽ xuất ra exception "Số lượng trả cho nhà cung cấp lớn hơn 0"
+     */
+    public void setSoLuongTra(int soLuongTra) throws Exception {
+        if(soLuongTra>0)
+            this.soLuongTra = soLuongTra;
+        else
+            throw new Exception("Số lượng mặt hàng trả cho nhà cung cấp lớn hơn 0!");
     }
+
 
     public String getLiDoTra() {
         return liDoTra;

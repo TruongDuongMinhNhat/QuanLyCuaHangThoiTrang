@@ -31,9 +31,15 @@ public class ThuongHieu {
     public String getTenTH() {
         return tenTH;
     }
-
-    public void setTenTH(String tenTH) {
-        this.tenTH = tenTH;
+    /**
+     * Set tên thương hiệu không được rỗng <br></br>
+     * Nếu tên thương hiệu rỗng thì sẽ xuất ra exception "Tên thương hiệu không được để trống!"
+     */
+    public void setTenTH(String tenTH) throws Exception {
+        if(!tenTH.equalsIgnoreCase(""))
+            this.tenTH = tenTH;
+        else
+            throw new Exception("Tên thương hiệu không được để trống!");
     }
 
     public TinhTrangThuongHieu getTinhTrang() {

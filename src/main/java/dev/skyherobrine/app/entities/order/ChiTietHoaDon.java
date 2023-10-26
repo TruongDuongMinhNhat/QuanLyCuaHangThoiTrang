@@ -2,6 +2,8 @@ package dev.skyherobrine.app.entities.order;
 
 import dev.skyherobrine.app.entities.product.SanPham;
 
+import java.util.List;
+
 /**
  * Thực thể "Chi Tiết Hoá Đơn", thực thể này dùng để chứa thông tin chi tiết về sản phẩm mà khách hàng
  * mua và cũng như giá tiền tương ứng.
@@ -39,8 +41,15 @@ public class ChiTietHoaDon {
         return soLuongMua;
     }
 
-    public void setSoLuongMua(int soLuongMua) {
-        this.soLuongMua = soLuongMua;
+    /**
+     * Set số lượng mua phải lớn hơn 0 <br></br>
+     * Nếu số lượng mua bằng 0 thì sẽ xuất ra exception "Số lượng mua lớn hơn 0"
+     */
+    public void setSoLuongMua(int soLuongMua) throws Exception {
+        if(soLuongMua>0)
+            this.soLuongMua = soLuongMua;
+        else
+            throw new Exception("Số lượng mua phải lớn hơn 0!");
     }
 
     @Override

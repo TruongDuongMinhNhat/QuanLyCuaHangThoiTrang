@@ -38,17 +38,38 @@ public class KhachHang {
     public String getHoTen() {
         return hoTen;
     }
-
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    /**
+     * Set họ và tên không được rỗng, nếu họ và tên rỗng thì sẽ xuất ra exception "Họ tên không được rỗng!" <br></br>
+     * Họ tên chỉ được chứa những chữ cái <br></br>
+     * Nếu họ và tên có ký tự khác chữ cái sẽ xuất ra exception "Họ và tên không được chứa ký tự số và ký tự đặc biệt!"
+     */
+    public void setHoTen(String hoTen) throws Exception {
+        if(!(hoTen.equalsIgnoreCase("")))
+            if(!(hoTen.matches("([\\w]+ ){1,}[\\w]+$")))
+                throw new Exception("Họ và tên không được chứa ký tự số và ký tự đặc biệt!");
+            else
+                this.hoTen = hoTen;
+        else
+            throw new Exception("Họ tên không được rỗng!");
     }
 
     public String getSoDienThoai() {
         return soDienThoai;
     }
-
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+    /**
+     * Set số điện thoại không được rỗng, nếu số điện thoại rỗng thì sẽ xuất ra exception "Số điện thoại không được rỗng!" <br></br>
+     * Số điện thoại phải bắt đầu bằng số 0 hoặc +84 và kèm theo 9 số <br></br>
+     * Nếu số điện thoại có ký tự khác số sẽ xuất ra exception "Số điện thoại phải bắt đầu bằng (0) hoặc (+84) và kèm theo 9 số!"
+     */
+    public void setSoDienThoai(String soDienThoai) throws Exception {
+        if(!(soDienThoai.equalsIgnoreCase(""))) {
+            if(!(soDienThoai.matches("(^0\\d{9}|^(\\+84)\\d{9})")))
+                throw new Exception("Số điện thoại phải bắt đầu bằng (0) hoặc (+84) và kèm theo 9 số!");
+            else
+                this.soDienThoai = soDienThoai;
+        }
+        else
+            throw new Exception("Số điện thoại không được rỗng!");
     }
 
     public boolean isGioiTinh() {
@@ -62,9 +83,15 @@ public class KhachHang {
     public LocalDate getNgaySinh() {
         return ngaySinh;
     }
-
-    public void setNgaySinh(LocalDate ngaySinh) {
-        this.ngaySinh = ngaySinh;
+    /**
+     * Set ngày sinh phải lớn hơn ngày hiện tại <br></br>
+     * Nếu ngày sinh trễ hơn ngày hiện tại thì sẽ xuất ra exception "Ngày sinh phải bé hơn ngày hiện tại!"
+     */
+    public void setNgaySinh(LocalDate ngaySinh) throws Exception {
+        if(!ngaySinh.isAfter(LocalDate.now()))
+            this.ngaySinh = ngaySinh;
+        else
+            throw new Exception("Ngày sinh phải bé hơn ngày hiện tại!");
     }
 
     public float getDiemTichLuy() {

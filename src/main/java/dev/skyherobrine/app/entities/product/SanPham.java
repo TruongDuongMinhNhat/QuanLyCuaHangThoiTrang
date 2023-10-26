@@ -1,6 +1,7 @@
 package dev.skyherobrine.app.entities.product;
 
 import dev.skyherobrine.app.enums.DoTuoi;
+import dev.skyherobrine.app.enums.PhongCachMac;
 
 /**
  * Thực thể "Sản Phẩm", thực thể này dùng để lưu trữ thông tin sản phẩm trong cửa hàng, thông tin sản phẩm
@@ -12,17 +13,17 @@ public class SanPham {
     private String maSP;
     private String tenSP;
     private LoaiSanPham loaiSanPham;
-    private boolean gioiTinh;
+    private PhongCachMac phongCachMac;
     private DoTuoi doTuoi;
     private String xuatXu;
     private ThuongHieu thuongHieu;
     private float phanTramLoi;
 
-    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, boolean gioiTinh, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi) throws Exception{
+    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi) throws Exception{
         this.setMaSP(maSP);
         this.setTenSP(tenSP);
         this.setLoaiSanPham(loaiSanPham);
-        this.setGioiTinh(gioiTinh);
+        this.setPhongCachMac(phongCachMac);
         this.setDoTuoi(doTuoi);
         this.setXuatXu(xuatXu);
         this.setThuongHieu(thuongHieu);
@@ -40,9 +41,15 @@ public class SanPham {
     public String getTenSP() {
         return tenSP;
     }
-
-    public void setTenSP(String tenSP) {
-        this.tenSP = tenSP;
+    /**
+     * Set tên sản phẩm không được rỗng <br></br>
+     * Nếu tên sản phẩm rỗng thì sẽ xuất ra exception "Tên sản phẩm không được để trống!"
+     */
+    public void setTenSP(String tenSP) throws Exception {
+        if(!tenSP.equalsIgnoreCase(""))
+            this.tenSP = tenSP;
+        else
+            throw new Exception("Tên sản phẩm không được để trống!");
     }
 
     public LoaiSanPham getLoaiSanPham() {
@@ -53,12 +60,12 @@ public class SanPham {
         this.loaiSanPham = loaiSanPham;
     }
 
-    public boolean isGioiTinh() {
-        return gioiTinh;
+    public PhongCachMac getPhongCachMac() {
+        return phongCachMac;
     }
 
-    public void setGioiTinh(boolean gioiTinh) {
-        this.gioiTinh = gioiTinh;
+    public void setPhongCachMac(PhongCachMac phongCachMac) {
+        this.phongCachMac = phongCachMac;
     }
 
     public DoTuoi getDoTuoi() {
@@ -73,10 +80,16 @@ public class SanPham {
         return xuatXu;
     }
 
-    public void setXuatXu(String xuatXu) {
-        this.xuatXu = xuatXu;
+    public void setXuatXu(String xuatXu) throws Exception {
+        if(!xuatXu.equalsIgnoreCase(""))
+            this.xuatXu = xuatXu;
+        else
+            throw new Exception("Xuất xứ không được để trống!");
     }
-
+    /**
+     * Set xuất xứ không được rỗng <br></br>
+     * Nếu xuất xứ rỗng thì sẽ xuất ra exception "Xuất xứ không được để trống!"
+     */
     public ThuongHieu getThuongHieu() {
         return thuongHieu;
     }
@@ -99,7 +112,7 @@ public class SanPham {
                 "maSP='" + maSP + '\'' +
                 ", tenSP='" + tenSP + '\'' +
                 ", loaiSanPham=" + loaiSanPham +
-                ", gioiTinh=" + gioiTinh +
+                ", phongCachMac=" + phongCachMac +
                 ", doTuoi=" + doTuoi +
                 ", xuatXu='" + xuatXu + '\'' +
                 ", thuongHieu=" + thuongHieu +

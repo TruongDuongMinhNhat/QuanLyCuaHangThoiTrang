@@ -55,9 +55,15 @@ public class PhieuNhapHang {
     public LocalDate getNgayHenGiao() {
         return ngayHenGiao;
     }
-
-    public void setNgayHenGiao(LocalDate ngayHenGiao) {
-        this.ngayHenGiao = ngayHenGiao;
+    /**
+     * Set ngày hẹn giao phải lớn hơn ngày lập phiếu nhập <br></br>
+     * Nếu ngày hẹn giao nhỏ hơn ngày lập phiếu thì sẽ xuất ra exception "Ngày hẹn giao không được sớm hơn ngày lập phiếu!"
+     */
+    public void setNgayHenGiao(LocalDate ngayHenGiao) throws Exception {
+        if(!ngayHenGiao.isBefore(this.ngayLapPhieu))
+            this.ngayHenGiao = ngayHenGiao;
+        else
+            throw new Exception("Ngày hẹn giao không được sớm hơn ngày lập phiếu!");
     }
 
     public String getGhiChu() {

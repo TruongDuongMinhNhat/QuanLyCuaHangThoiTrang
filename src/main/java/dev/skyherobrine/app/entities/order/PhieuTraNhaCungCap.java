@@ -44,9 +44,15 @@ public class PhieuTraNhaCungCap {
     public LocalDate getNgayHenLay() {
         return ngayHenLay;
     }
-
-    public void setNgayHenLay(LocalDate ngayHenLay) {
-        this.ngayHenLay = ngayHenLay;
+    /**
+     * Set ngày hẹn lấy phải lớn hơn ngày lập phiếu trả hàng nhà cung cấp <br></br>
+     * Nếu ngày hẹn lấy nhỏ hơn ngày lập phiếu thì sẽ xuất ra exception "Ngày hẹn lấy không được sớm hơn ngày lập!"
+     */
+    public void setNgayHenLay(LocalDate ngayHenLay) throws Exception {
+        if(!ngayHenLay.isBefore(this.ngayLap))
+            this.ngayHenLay = ngayLap;
+        else
+            throw new Exception("Ngày hẹn lấy không được sớm hơn ngày lập!");
     }
 
     public LocalDate getNgayLap() {

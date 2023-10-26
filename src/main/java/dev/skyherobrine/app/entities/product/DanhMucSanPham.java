@@ -26,9 +26,15 @@ public class DanhMucSanPham {
     public String getTenDM() {
         return tenDM;
     }
-
-    public void setTenDM(String tenDM) {
-        this.tenDM = tenDM;
+    /**
+     * Set tên danh mục không được rỗng <br></br>
+     * Nếu tên danh mục rỗng thì sẽ xuất ra exception "Tên danh mục không được rỗng!"
+     */
+    public void setTenDM(String tenDM) throws Exception {
+        if(!tenDM.equalsIgnoreCase(""))
+            this.tenDM = tenDM;
+        else
+            throw new Exception("Tên danh mục không được để trống!");
     }
 
     @Override

@@ -5,6 +5,9 @@ import dev.skyherobrine.app.enums.ChucVu;
 import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 
 import java.time.LocalDate;
+import java.time.Period;
+
+import static java.time.Period.*;
 
 /**
  * Thực thể nhân viên, nhân viên có trách nhiệm làm các công việc của cửa hàng từ quản lý bán hàng đến các quản
@@ -32,7 +35,7 @@ public class NhanVien {
     private String matKhau;
     private TinhTrangNhanVien tinhTrang;
 
-    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, TinhTrangNhanVien tinhTrang) {
+    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, TinhTrangNhanVien tinhTrang) throws Exception {
         this.setMaNV(maNV);
         this.setHoTen(hoTen);
         this.setSoDienThoai(soDienThoai);
@@ -58,17 +61,38 @@ public class NhanVien {
     public String getHoTen() {
         return hoTen;
     }
-
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    /**
+     * Set họ và tên không được rỗng, nếu họ và tên rỗng thì sẽ xuất ra exception "Họ tên không được rỗng!"
+     * Họ tên chỉ được chứa những chữ cái
+     * Nếu họ và tên có ký tự khác chữ cái sẽ xuất ra exception "Họ và tên không được chứa ký tự số và ký tự đặc biệt!"
+     */
+    public void setHoTen(String hoTen) throws Exception {
+        if(!(hoTen.equalsIgnoreCase("")))
+            if(!(hoTen.matches("([\\w]+ ){1,}[\\w]+$")))
+                throw new Exception("Họ và tên không được chứa ký tự số và ký tự đặc biệt");
+            else
+                this.hoTen = hoTen;
+        else
+            throw new Exception("Họ tên không được rỗng!");
     }
 
     public String getSoDienThoai() {
         return soDienThoai;
     }
-
-    public void setSoDienThoai(String soDienThoai) {
-        this.soDienThoai = soDienThoai;
+    /**
+     * Set số điện thoại không được rỗng, nếu số điện thoại rỗng thì sẽ xuất ra exception "Số điện thoại không được rỗng!" <br></br>
+     * Số điện thoại phải bắt đầu bằng số 0 hoặc +84 và kèm theo 9 số <br></br>
+     * Nếu số điện thoại có ký tự khác số sẽ xuất ra exception "Số điện thoại phải bắt đầu bằng (0) hoặc (+84) và kèm theo 9 số!"
+     */
+    public void setSoDienThoai(String soDienThoai) throws Exception {
+        if(!(soDienThoai.equalsIgnoreCase(""))) {
+            if(!(soDienThoai.matches("(^0\\d{9}|^(\\+84)\\d{9})")))
+                throw new Exception("Số điện thoại phải bắt đầu bằng (0) hoặc (+84) và kèm theo 9 số!");
+            else
+                this.soDienThoai = soDienThoai;
+        }
+        else
+            throw new Exception("Số điện thoại không được rỗng!");
     }
 
     public boolean isGioiTinh() {
@@ -82,17 +106,35 @@ public class NhanVien {
     public LocalDate getNgaySinh() {
         return ngaySinh;
     }
-
-    public void setNgaySinh(LocalDate ngaySinh) {
-        this.ngaySinh = ngaySinh;
+    /**
+     * Set ngày sinh phải lớn hơn ngày hiện tại <br></br>
+     * Nếu ngày sinh - ngày hiện tại <18 thì xuất ra exception "Số tuổi của nhân viên phải lớn hơn 18!"
+     */
+    public void setNgaySinh(LocalDate ngaySinh) throws Exception {
+        if(Period.between(ngaySinh, LocalDate.now()).getYears()>=18)
+            this.ngaySinh = ngaySinh;
+        else
+            throw new Exception("Số tuổi của nhân viên phải lớn hơn 18!");
     }
 
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    /**
+     * Set email nhà cung cấp không được rỗng <br></br>
+     * Nếu email nhà cung cấp rỗng thì sẽ xuất ra exception "Email không được rỗng!" <br></br>
+     * Kiểm tra email có đúng định dạng hay không <br></br>
+     * Nếu email sai định dạng thì sẽ xuất ra exception "Email phải có định dạng [kí tự]@gmail.com. Ví dụ: 'abc@gmail.com' !"
+     */
+    public void setEmail(String email) throws Exception {
+        if(!(email.equalsIgnoreCase(""))){
+            if(!(email.matches("([\\w{1,}][.][\\w{1,}]|[\\w{1,}])+@gmail\\.com$")))
+                throw new Exception("Email phải có định dạng [kí tự]@gmail.com. Ví dụ: 'abc@gmail.com' !");
+            else
+                this.email = email;
+        }
+        else
+            throw new Exception("Email không được rỗng!");
     }
 
     public String getDiaChi() {
@@ -130,9 +172,20 @@ public class NhanVien {
     public String getMatKhau() {
         return matKhau;
     }
-
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    /**
+     * set mật khẩu không được rỗng, nếu mật khẩu rỗng thì sẽ xuất ra exception "Mật khẩu không được rỗng!" <br></br>
+     * mật khẩu bao gỗm chữ và số, phải có trên 8 ký tự <br></br>
+     * nếu mật khẩu ít hơn 8 ký tự sẽ xuất ra exception "Mật khẩu phải có từ 8 ký tự trở lên!"
+     */
+    public void setMatKhau(String matKhau) throws Exception {
+        if(!(matKhau.equalsIgnoreCase(""))){
+            if(!(matKhau.matches("[\\w]{8,}")))
+                throw new Exception("Mật khẩu phải có từ 8 ký tự trở lên!");
+            else
+                this.matKhau = matKhau;
+        }
+        else
+            throw new Exception("Mật khẩu không được rỗng!");
     }
 
     public TinhTrangNhanVien getTinhTrang() {

@@ -38,9 +38,15 @@ public class ChiTietKhuyenMai {
     public float getTiLe() {
         return tiLe;
     }
-
+    /**
+     * Set tỉ lệ nằm trong khoảng từ 1 đến 100 <br></br>
+     * Nếu tiLe <= 0 thì tiLe sẽ bằng 0
+     */
     public void setTiLe(float tiLe) {
-        this.tiLe = tiLe;
+        if(tiLe>0 && tiLe<=100)
+            this.tiLe = tiLe;
+        else
+            this.tiLe = 0;
     }
 
     @Override

@@ -25,9 +25,15 @@ public class LoaiSanPham {
     public String getTenLoai() {
         return tenLoai;
     }
-
-    public void setTenLoai(String tenLoai) {
-        this.tenLoai = tenLoai;
+    /**
+     * set loại danh mục không được rỗng <br></br>
+     * nếu loại danh mục rỗng thì sẽ xuất ra exception "Loại danh mục không được rỗng!"
+     */
+    public void setTenLoai(String tenLoai) throws Exception {
+        if(!tenLoai.equalsIgnoreCase(""))
+            this.tenLoai = tenLoai;
+        else
+            throw new Exception("Tên loại không được để trống!");
     }
 
     @Override

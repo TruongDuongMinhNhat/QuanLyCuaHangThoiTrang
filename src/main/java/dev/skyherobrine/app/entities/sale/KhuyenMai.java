@@ -38,9 +38,15 @@ public class KhuyenMai {
     public LocalDate getNgayHetHan() {
         return ngayHetHan;
     }
-
-    public void setNgayHetHan(LocalDate ngayHetHan) {
-        this.ngayHetHan = ngayHetHan;
+    /**
+     * Set ngày hết hạn phải muộn hơn ngày ngày áp dụng <br></br>
+     * Nếu ngày hết hạn trước ngày áp dụng thì sẽ xuất ra exception "Ngày hết hạn không được sớm hơn ngày áp dụng!"
+     */
+    public void setNgayHetHan(LocalDate ngayHetHan) throws Exception {
+        if(!ngayHetHan.isBefore(ngayApDung))
+            this.ngayHetHan = ngayHetHan;
+        else
+            throw new Exception("Ngày hết hạn không được sớm hơn ngày áp dụng!");
     }
 
     @Override

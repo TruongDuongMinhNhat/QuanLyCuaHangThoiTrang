@@ -53,11 +53,17 @@ public class ChiTietPhienBanSanPham {
     public String getKichThuoc() {
         return kichThuoc;
     }
-
-    public void setKichThuoc(String kichThuoc) {
-        this.kichThuoc = kichThuoc;
+a
+    public void setKichThuoc(String kichThuoc) throws Exception {
+        if(!(kichThuoc.equalsIgnoreCase("")))
+            this.kichThuoc = kichThuoc;
+        else
+            throw new Exception("Kích thước không được rỗng!");
     }
-
+    /**
+     * Set kích thước không được rỗng <br></br>
+     * Nếu kích thước rỗng thì sẽ xuất ra exception "Kích thước không được rỗng!"
+     */
     public TinhTrangSanPham getTinhTrang() {
         return tinhTrang;
     }
@@ -69,9 +75,15 @@ public class ChiTietPhienBanSanPham {
     public String getHinhAnh() {
         return hinhAnh;
     }
-
+    /**
+     * Set hình ảnh không được rỗng <br></br>
+     * Nếu hình ảnh rỗng sẽ được set hình mặc định
+     */
     public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
+        if(!hinhAnh.equalsIgnoreCase(""))
+            this.hinhAnh = hinhAnh;
+        else
+            this.hinhAnh = "Ảnh mặc định nào có link chèn vô sau";
     }
 
     public int getSoLuong() {
@@ -85,9 +97,15 @@ public class ChiTietPhienBanSanPham {
     public LocalDate getNgaySanXuat() {
         return ngaySanXuat;
     }
-
-    public void setNgaySanXuat(LocalDate ngaySanXuat) {
-        this.ngaySanXuat = ngaySanXuat;
+    /**
+     * Set ngày sản xuất phải sớm hơn ngày hiện tại <br></br>
+     * Nếu ngày sản xuất trễ hơn ngày hiện tại thì sẽ xuất ra exception "Ngày sản xuất không được trễ hơn ngày hiện tại!"
+     */
+    public void setNgaySanXuat(LocalDate ngaySanXuat) throws Exception {
+        if(ngaySanXuat.isBefore(LocalDate.now()))
+            this.ngaySanXuat = ngaySanXuat;
+        else
+            throw new Exception("Ngày sản xuất không được trễ hơn ngày hiện tại!");
     }
 
     @Override
