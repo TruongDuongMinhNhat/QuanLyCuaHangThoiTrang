@@ -53,7 +53,7 @@ public class ChiTietPhienBanSanPham {
     public String getKichThuoc() {
         return kichThuoc;
     }
-a
+
     public void setKichThuoc(String kichThuoc) throws Exception {
         if(!(kichThuoc.equalsIgnoreCase("")))
             this.kichThuoc = kichThuoc;
