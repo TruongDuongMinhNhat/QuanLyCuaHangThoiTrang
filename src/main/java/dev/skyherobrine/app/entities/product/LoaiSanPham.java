@@ -8,10 +8,12 @@ package dev.skyherobrine.app.entities.product;
 public class LoaiSanPham {
     private String maLoai;
     private String tenLoai;
+    private DanhMucSanPham danhMucSanPham;
 
-    public LoaiSanPham(String maLoai, String tenLoai) {
+    public LoaiSanPham(String maLoai, String tenLoai, DanhMucSanPham danhMucSanPham) {
         this.maLoai = maLoai;
         this.tenLoai = tenLoai;
+        this.danhMucSanPham = danhMucSanPham;
     }
 
     public String getMaLoai() {
@@ -34,6 +36,14 @@ public class LoaiSanPham {
             this.tenLoai = tenLoai;
         else
             throw new Exception("Tên loại không được để trống!");
+    }
+
+    public DanhMucSanPham getDanhMucSanPham() {
+        return danhMucSanPham;
+    }
+
+    public void setDanhMucSanPham(DanhMucSanPham danhMucSanPham) {
+        this.danhMucSanPham = danhMucSanPham;
     }
 
     @Override
