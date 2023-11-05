@@ -1,0 +1,90 @@
+package dev.skyherobrine.app.entities.order;
+
+import dev.skyherobrine.app.entities.person.KhachHang;
+import dev.skyherobrine.app.entities.person.NhanVien;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+/**
+ * Thực thể "Hoá Đơn", dùng để lưu trữ thông tin về lập hoá đơn của khách hàng đã mua hàng tại cửa hàng.
+ * @author Trương Dương Minh Nhật
+ * @version 1.0
+ */
+public class HoaDon {
+    private String maHD;
+    private LocalDate ngayLap;
+    private NhanVien nhanVienLap;
+    private KhachHang khachHang;
+    private BigDecimal soTienKHTra;
+    private String ghiChu;
+
+    public HoaDon(String maHD, LocalDate ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
+        this.setMaHD(maHD);
+        this.setNgayLap(ngayLap);
+        this.setNhanVienLap(nhanVienLap);
+        this.setKhachHang(khachHang);
+        this.setSoTienKHTra(soTienKHTra);
+        this.setGhiChu(ghiChu);
+    }
+
+    public String getMaHD() {
+        return maHD;
+    }
+
+    public void setMaHD(String maHD) {
+        this.maHD = maHD;
+    }
+
+    public LocalDate getNgayLap() {
+        return ngayLap;
+    }
+
+    public void setNgayLap(LocalDate ngayLap) {
+        this.ngayLap = ngayLap;
+    }
+
+    public NhanVien getNhanVienLap() {
+        return nhanVienLap;
+    }
+
+    public void setNhanVienLap(NhanVien nhanVienLap) {
+        this.nhanVienLap = nhanVienLap;
+    }
+
+    public KhachHang getKhachHang() {
+        return khachHang;
+    }
+
+    public void setKhachHang(KhachHang khachHang) {
+        this.khachHang = khachHang;
+    }
+
+    public BigDecimal getSoTienKHTra() {
+        return soTienKHTra;
+    }
+
+    public void setSoTienKHTra(BigDecimal soTienKHTra) {
+        this.soTienKHTra = soTienKHTra;
+    }
+
+    public String getGhiChu() {
+        return ghiChu;
+    }
+
+    public void setGhiChu(String ghiChu) {
+        this.ghiChu = ghiChu;
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" +
+                "maHD='" + maHD + '\'' +
+                ", ngayLap=" + ngayLap +
+                ", nhanVienLap=" + nhanVienLap +
+                ", khachHang=" + khachHang +
+                ", soTienKHTra=" + soTienKHTra +
+                ", ghiChu='" + ghiChu + '\'' +
+                '}';
+    }
+}

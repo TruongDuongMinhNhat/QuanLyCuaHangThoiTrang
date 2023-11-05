@@ -3,6 +3,14 @@ package dev.skyherobrine.app.daos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * Đối tượng dùng để kết nối với hệ quản trị CSDL và thực hiện truy vấn thông qua đối tượng Connection
+ * , được lấy từ phương thức getConnection().
+ *
+ * @see Connection
+ * @author Trương Dương Minh Nhật
+ * @version 1.0
+ */
 public class ConnectDB {
     private Connection connection;
 

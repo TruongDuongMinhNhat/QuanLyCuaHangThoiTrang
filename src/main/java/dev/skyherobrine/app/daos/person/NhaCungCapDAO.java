@@ -1,0 +1,111 @@
+package dev.skyherobrine.app.daos.person;
+
+import dev.skyherobrine.app.daos.ConnectDB;
+import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.entities.person.NhaCungCap;
+import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
+
+public class NhaCungCapDAO implements IDAO<NhaCungCap> {
+    private ConnectDB connectDB;
+    public NhaCungCapDAO() throws Exception{
+        connectDB = new ConnectDB();
+    }
+
+    @Override
+    public boolean them(NhaCungCap nhaCungCap) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Insert NhaCungCap values(?, ?, ?, ?, ?)");
+        preparedStatement.setString(1, nhaCungCap.getMaNCC());
+        preparedStatement.setString(2, nhaCungCap.getTenNCC());
+        preparedStatement.setString(3, nhaCungCap.getDiaChiNCC());
+        preparedStatement.setString(4, nhaCungCap.getEmail());
+        preparedStatement.setString(5, nhaCungCap.getTinhTrang().toString());
+
+        int result = preparedStatement.executeUpdate();
+        return result > 0;
+    }
+
+    @Override
+    public boolean capNhat(NhaCungCap target) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update NhaCungCap set TenNCC = ?, DiaChiNCC = ?, Email = ?, TinhTrang = ? where MaNCC = ?");
+        preparedStatement.setString(1, target.getMaNCC());
+        preparedStatement.setString(2, target.getDiaChiNCC());
+        preparedStatement.setString(3, target.getEmail());
+        preparedStatement.setString(4, target.getTinhTrang().toString());
+        preparedStatement.setString(5, target.getMaNCC());
+
+        return preparedStatement.executeUpdate() > 0;
+    }
+
+    @Override
+    public boolean xoa(String id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public int xoa(String... ids) throws Exception {
+        return 0;
+    }
+
+    @Override
+    public List<NhaCungCap> timKiem() throws Exception {
+        List<NhaCungCap> nhaCungCaps = new ArrayList<>();
+        ResultSet result = connectDB.getConnection().createStatement().executeQuery("select * from NhaCungCap");
+        while(result.next()) {
+            NhaCungCap nhaCungCap = new NhaCungCap(result.getString("MaNCC"),
+                    result.getString("TenNCC"), result.getString("DiaChiNCC"),
+                    result.getString("Email"), TinhTrangNhaCungCap.layGiaTri(result.getString("TinhTrang")));
+
+            nhaCungCaps.add(nhaCungCap);
+        }
+        return nhaCungCaps;
+    }
+
+    @Override
+    public List<NhaCungCap> timKiem(Map<String, Object> conditions) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Optional<NhaCungCap> timKiem(String id) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from NhaCungCap NCC where NCC.MaNCC = ?");
+        preparedStatement.setString(1, id);
+
+        ResultSet result = preparedStatement.executeQuery();
+        if (result.next()) {
+            return Optional.of(new NhaCungCap(result.getString("MaNCC"),
+                    result.getString("TenNCC"), result.getString("DiaChiNCC"),
+                    result.getString("Email"), TinhTrangNhaCungCap.layGiaTri(result.getString("TinhTrang"))));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<NhaCungCap> timkiem(String... ids) throws Exception {
+        String query = "select * from NhaCungCap NCC where ";
+        String[] listID = (String[]) Arrays.stream(ids).toArray();
+        for(int i = 0; i < listID.length; ++i) {
+            query += ("NCC.MaNCC = '" + listID[i] + "'");
+            if((i + 1) >= listID.length) break;
+            else query += ", ";
+        }
+
+        List<NhaCungCap> nhaCungCaps = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query);
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            NhaCungCap nhaCungCap = new NhaCungCap(result.getString("MaNCC"),
+                    result.getString("TenNCC"), result.getString("DiaChiNCC"),
+                    result.getString("Email"), TinhTrangNhaCungCap.layGiaTri(result.getString("TinhTrang")));
+            nhaCungCaps.add(nhaCungCap);
+        }
+        return nhaCungCaps;
+    }
+}
