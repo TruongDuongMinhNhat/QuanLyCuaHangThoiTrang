@@ -19,4 +19,13 @@ public enum ChucVu {
     public static int layGiaTri(ChucVu chucVu) {
         return chucVu.value;
     }
+
+    public static ChucVu layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "NHAN_VIEN_BAN_HANG" -> { return NHAN_VIEN_BAN_HANG; }
+            case "QUAN_LY_NHAN_SU" -> { return QUAN_LY_NHAN_SU; }
+            case "ADMIN" -> { return ADMIN; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }

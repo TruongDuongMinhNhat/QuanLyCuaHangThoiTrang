@@ -28,4 +28,14 @@ public enum DoTuoi {
     public static int layGiaTri(DoTuoi tuoi) {
         return tuoi.value;
     }
+
+    public static DoTuoi layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "TRE_EM" -> { return TRE_EM; }
+            case "THIEU_NIEN" -> { return THIEU_NIEN; }
+            case "THANH_NIEN" -> { return THANH_NIEN; }
+            case "TRUNG_NIEN" -> { return TRUNG_NIEN; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }

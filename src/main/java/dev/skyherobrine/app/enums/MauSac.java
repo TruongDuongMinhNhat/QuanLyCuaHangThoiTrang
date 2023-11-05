@@ -24,4 +24,21 @@ public enum MauSac {
     public static int layGiaTri(MauSac mau) {
         return mau.value;
     }
+
+    public static MauSac layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "TRANG" -> { return TRANG; }
+            case "DO" -> { return DO; }
+            case "DEN" -> { return DEN; }
+            case "VANG" -> { return VANG; }
+            case "CAM" -> { return CAM; }
+            case "XANH_DUONG" -> { return XANH_DUONG; }
+            case "XANH_LA_CAY" -> { return XANH_LA_CAY; }
+            case "HONG" -> { return HONG; }
+            case "XAM" -> { return XAM; }
+            case "NAU" -> { return NAU; }
+            case "TIM" -> { return TIM; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }

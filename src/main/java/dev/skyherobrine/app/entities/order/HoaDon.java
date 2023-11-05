@@ -3,6 +3,7 @@ package dev.skyherobrine.app.entities.order;
 import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -15,10 +16,10 @@ public class HoaDon {
     private LocalDate ngayLap;
     private NhanVien nhanVienLap;
     private KhachHang khachHang;
-    private double soTienKHTra;
+    private BigDecimal soTienKHTra;
     private String ghiChu;
 
-    public HoaDon(String maHD, LocalDate ngayLap, NhanVien nhanVienLap, KhachHang khachHang, double soTienKHTra, String ghiChu) throws Exception {
+    public HoaDon(String maHD, LocalDate ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
         this.setMaHD(maHD);
         this.setNgayLap(ngayLap);
         this.setNhanVienLap(nhanVienLap);
@@ -59,11 +60,11 @@ public class HoaDon {
         this.khachHang = khachHang;
     }
 
-    public double getSoTienKHTra() {
+    public BigDecimal getSoTienKHTra() {
         return soTienKHTra;
     }
 
-    public void setSoTienKHTra(double soTienKHTra) {
+    public void setSoTienKHTra(BigDecimal soTienKHTra) {
         this.soTienKHTra = soTienKHTra;
     }
 

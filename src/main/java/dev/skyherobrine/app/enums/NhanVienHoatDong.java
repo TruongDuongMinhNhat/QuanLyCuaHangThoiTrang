@@ -17,4 +17,14 @@ public enum NhanVienHoatDong {
     public static int layGiaTri(NhanVienHoatDong hoatDong) {
         return hoatDong.value;
     }
+
+    public static NhanVienHoatDong layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "THEM" -> { return THEM; }
+            case "CAP_NHAT" -> { return CAP_NHAT; }
+            case "XOA" -> { return XOA; }
+            case "TIM_KIEM" -> { return TIM_KIEM; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }

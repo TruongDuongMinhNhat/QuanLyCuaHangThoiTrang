@@ -6,7 +6,7 @@ public enum PhongCachMac {
     PhongCachMac(int value) {
         this.value = value;
     }
-    public PhongCachMac layGiaTri(int value) {
+    public static PhongCachMac layGiaTri(int value) {
         switch (value) {
             case 1 -> {return NAM;}
             case 2 -> {return NU;}
@@ -15,7 +15,7 @@ public enum PhongCachMac {
         }
     }
 
-    public int layGiaTri(PhongCachMac phongCachMac){
+    public static int layGiaTri(PhongCachMac phongCachMac){
         return phongCachMac.value;
     }
 }
