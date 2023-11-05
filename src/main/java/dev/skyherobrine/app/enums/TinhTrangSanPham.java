@@ -11,4 +11,13 @@ public enum TinhTrangSanPham {
     public static int layGiaTri(TinhTrangSanPham tinhTrang) {
         return tinhTrang.value;
     }
+
+    public static TinhTrangSanPham layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "CON_BAN" -> { return CON_BAN; }
+            case "HET_HANG" -> { return HET_HANG; }
+            case "KHONG_CON_BAN" -> { return KHONG_CON_BAN; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }

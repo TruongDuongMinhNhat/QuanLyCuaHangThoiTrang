@@ -37,7 +37,7 @@ public interface IDAO<T>{
      * cú pháp</u>, <u>không kết nối SQL được</u>, <u>không tìm thấy dữ liệu để cập nhật</u>
      * @since 1.0
      */
-    int capNhat(T target) throws Exception;
+    boolean capNhat(T target) throws Exception;
 
     /**
      * Xoá dữ liệu của một đối tượng thông qua mã ID của đối tượng đó.

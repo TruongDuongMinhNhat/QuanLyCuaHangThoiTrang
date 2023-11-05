@@ -17,4 +17,13 @@ public enum TinhTrangThuongHieu {
     public static int layGiaTri(TinhTrangThuongHieu tinhTrang) {
         return tinhTrang.value;
     }
+
+    public static TinhTrangThuongHieu layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "HOP_TAC" -> { return HOP_TAC; }
+            case "TAM_NGUNG" -> { return TAM_NGUNG; }
+            case "KHONG_HOP_TAC" -> { return KHONG_HOP_TAC; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
+        }
+    }
 }
