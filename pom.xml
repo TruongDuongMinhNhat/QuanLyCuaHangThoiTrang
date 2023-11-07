@@ -13,15 +13,14 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.kenai.nbpwr</groupId>
             <artifactId>org-jdesktop-animation-timing</artifactId>
             <version>1.0-201002281504</version>
         </dependency>
-    </dependencies>
 
-    <dependencies>
         <!-- SQL Server Driver -->
         <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
         <dependency>
@@ -53,6 +52,5 @@
             <artifactId>jcommon</artifactId>
             <version>1.0.24</version>
         </dependency>
-
     </dependencies>
 </project>
