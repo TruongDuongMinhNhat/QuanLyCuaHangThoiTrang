@@ -58,7 +58,7 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
                     resultSet.getDate("NgayLapPhieu").toLocalDate(),
                     resultSet.getDate("NgayHenGiao").toLocalDate(),
                     resultSet.getString("GhiChu"),
-                    TinhTrangNhapHang.layGiaTri(resultSet.getString("TinhTrang"));
+                    TinhTrangNhapHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuNhapHangs.add(phieuNhapHang);
         }
