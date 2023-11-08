@@ -2,11 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package org.main;
+package dev.skyherobrine.app.views.dashboard.org.main;
 
-import component.*;
-import libDashBoard.scroll.win11.ScrollPaneWin11;
-import org.menu.MenuEvent;
+
+import dev.skyherobrine.app.views.dashboard.component.*;
+import dev.skyherobrine.app.views.dashboard.libDashBoard.scroll.win11.ScrollPaneWin11;
+import dev.skyherobrine.app.views.dashboard.org.menu.Menu;
+import dev.skyherobrine.app.views.dashboard.org.menu.MenuEvent;
+
 
 import javax.swing.*;
 
@@ -106,9 +109,9 @@ public class Main extends javax.swing.JFrame {
 
         pnBackGroungDashBoard = new javax.swing.JPanel();
         pnLogoNMenu = new javax.swing.JPanel();
-        header1 = new component.Header();
+        header1 = new Header();
         scrollPaneWin112 = new ScrollPaneWin11();
-        menuDashBoard = new org.menu.Menu();
+        menuDashBoard = new Menu();
         pnBody = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -214,8 +217,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private component.Header header1;
-    private org.menu.Menu menuDashBoard;
+    private Header header1;
+    private Menu menuDashBoard;
     private javax.swing.JPanel pnBackGroungDashBoard;
     private javax.swing.JPanel pnBody;
     private javax.swing.JPanel pnLogoNMenu;

@@ -1,4 +1,4 @@
-package libDashBoard.scroll.win11;
+package dev.skyherobrine.app.views.dashboard.libDashBoard.scroll.win11;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

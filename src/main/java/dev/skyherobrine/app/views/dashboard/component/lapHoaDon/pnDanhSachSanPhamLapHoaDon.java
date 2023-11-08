@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package component.lapHoaDon;
+package dev.skyherobrine.app.views.dashboard.component.lapHoaDon;
 
 
-import libDashBoard.scroll.win11.ScrollPaneWin11;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.MultipleButton;
+import dev.skyherobrine.app.views.dashboard.libDashBoard.scroll.win11.ScrollPaneWin11;
+
 
 /**
  *
@@ -31,7 +33,7 @@ public class pnDanhSachSanPhamLapHoaDon extends javax.swing.JPanel {
 
         pnBg = new javax.swing.JPanel();
         scrollPaneDanhSachSanPham = new ScrollPaneWin11();
-        multipleButton1 = new component.lapHoaDon.setting.danhSachSanPham.MultipleButton();
+        multipleButton1 = new MultipleButton();
 
         scrollPaneDanhSachSanPham.setViewportView(multipleButton1);
 
@@ -60,7 +62,7 @@ public class pnDanhSachSanPhamLapHoaDon extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private component.lapHoaDon.setting.danhSachSanPham.MultipleButton multipleButton1;
+    private MultipleButton multipleButton1;
     private javax.swing.JPanel pnBg;
     private ScrollPaneWin11 scrollPaneDanhSachSanPham;
     // End of variables declaration//GEN-END:variables

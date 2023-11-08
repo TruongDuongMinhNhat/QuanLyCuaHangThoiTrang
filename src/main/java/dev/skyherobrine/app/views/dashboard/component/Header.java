@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 
-package component;
+package dev.skyherobrine.app.views.dashboard.component;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

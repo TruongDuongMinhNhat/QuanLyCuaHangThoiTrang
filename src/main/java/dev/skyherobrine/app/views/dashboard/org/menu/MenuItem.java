@@ -1,4 +1,7 @@
-package org.menu;
+package dev.skyherobrine.app.views.dashboard.org.menu;
+
+import dev.skyherobrine.app.views.dashboard.libDashBoard.effect.RippleEffect;
+import dev.skyherobrine.app.views.dashboard.libDashBoard.swing.shadow.ShadowRenderer;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,8 +13,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import libDashBoard.effect.RippleEffect;
-import libDashBoard.swing.shadow.ShadowRenderer;
+
 
 public class MenuItem extends JButton {
 

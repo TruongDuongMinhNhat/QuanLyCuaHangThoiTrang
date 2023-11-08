@@ -1,4 +1,4 @@
-package component.lapHoaDon.setting.danhSachSanPham;
+package dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham;
 
 import java.awt.Color;
 import java.awt.GradientPaint;

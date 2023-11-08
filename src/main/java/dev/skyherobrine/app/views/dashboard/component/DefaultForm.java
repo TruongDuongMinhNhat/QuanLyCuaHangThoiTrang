@@ -1,4 +1,4 @@
-package component;
+package dev.skyherobrine.app.views.dashboard.component;
 
 public class DefaultForm extends javax.swing.JPanel {
 

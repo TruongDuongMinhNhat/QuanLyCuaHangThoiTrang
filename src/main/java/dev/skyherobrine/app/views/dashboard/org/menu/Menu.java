@@ -1,4 +1,4 @@
-package org.menu;
+package dev.skyherobrine.app.views.dashboard.org.menu;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

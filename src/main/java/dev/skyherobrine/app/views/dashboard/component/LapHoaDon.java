@@ -2,11 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package component;
+package dev.skyherobrine.app.views.dashboard.component;
 
-import component.lapHoaDon.pnDanhSachSanPhamLapHoaDon;
-import component.lapHoaDon.pnGioHangLapHoaDon;
-import component.lapHoaDon.setting.danhSachSanPham.EventItemSelected;
+
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.pnDanhSachSanPhamLapHoaDon;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.EventItemSelected;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.GradientPanel;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.MultipleButton;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +67,12 @@ public class LapHoaDon extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         pnBottomSplDsSp = new javax.swing.JPanel();
         jScrollPaneSplDsSp = new javax.swing.JScrollPane();
-        multipleButton1 = new component.lapHoaDon.setting.danhSachSanPham.MultipleButton();
+        multipleButton1 = new MultipleButton();
         txtTimKiemDsSp = new javax.swing.JTextField();
         cbLoai = new javax.swing.JComboBox<>();
         cbDanhMuc = new javax.swing.JComboBox<>();
         pnTabPhaiLapHoaDon = new javax.swing.JPanel();
-        gradientPanel1 = new component.lapHoaDon.setting.danhSachSanPham.GradientPanel();
+        gradientPanel1 = new GradientPanel();
         btnLapHoaDon = new javax.swing.JButton();
         btnLuuTamHoaDon = new javax.swing.JButton();
         pnKhachHang = new javax.swing.JPanel();
@@ -553,7 +556,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JButton btnLuuTamHoaDon;
     private javax.swing.JComboBox<String> cbDanhMuc;
     private javax.swing.JComboBox<String> cbLoai;
-    private component.lapHoaDon.setting.danhSachSanPham.GradientPanel gradientPanel1;
+    private GradientPanel gradientPanel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -572,7 +575,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel lbTenNhanVien;
     private javax.swing.JLabel lbThongSoTienThanToan;
     private javax.swing.JLabel lbThue;
-    private component.lapHoaDon.setting.danhSachSanPham.MultipleButton multipleButton1;
+    private MultipleButton multipleButton1;
     private javax.swing.JPanel pnBodyLapHoaDon;
     private javax.swing.JPanel pnBottomSplDsSp;
     private javax.swing.JPanel pnHoaDon;

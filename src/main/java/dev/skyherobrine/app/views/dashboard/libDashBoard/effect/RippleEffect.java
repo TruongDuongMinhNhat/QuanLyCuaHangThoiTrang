@@ -1,4 +1,4 @@
-package libDashBoard.effect;
+package dev.skyherobrine.app.views.dashboard.libDashBoard.effect;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

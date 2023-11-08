@@ -1,4 +1,4 @@
-package libDashBoard.swing.shadow;
+package dev.skyherobrine.app.views.dashboard.libDashBoard.swing.shadow;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;

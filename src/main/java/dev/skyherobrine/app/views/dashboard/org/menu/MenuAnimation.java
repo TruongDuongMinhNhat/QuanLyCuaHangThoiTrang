@@ -1,4 +1,4 @@
-package org.menu;
+package dev.skyherobrine.app.views.dashboard.org.menu;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
