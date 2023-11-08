@@ -14,4 +14,8 @@ public enum CaLamViec {
     public static int layGiaTri(CaLamViec ca){
         return ca.value;
     }
+
+    public static CaLamViec layGiaTri(String ca) {
+        return ca.toUpperCase().equalsIgnoreCase(CA_1.toString()) ? CA_1 : CA_2;
+    }
 }

@@ -31,7 +31,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         preparedStatement.setString(6, nhanVien.getEmail());
         preparedStatement.setString(7, nhanVien.getDiaChi());
         preparedStatement.setString(8, nhanVien.getChucVu().toString());
-        preparedStatement.setInt(9, CaLamViec.layGiaTri(nhanVien.getCaLamViec()));
+        preparedStatement.setString(9, nhanVien.getCaLamViec().toString());
         preparedStatement.setString(10, nhanVien.getTenTaiKhoan());
         preparedStatement.setString(11, nhanVien.getMatKhau());
         preparedStatement.setString(12, nhanVien.getTinhTrang().toString());
@@ -51,7 +51,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         preparedStatement.setString(5, target.getEmail());
         preparedStatement.setString(6, target.getDiaChi());
         preparedStatement.setString(7, target.getChucVu().toString());
-        preparedStatement.setInt(8, CaLamViec.layGiaTri(target.getCaLamViec()));
+        preparedStatement.setString(8, target.getCaLamViec().toString());
         preparedStatement.setString(9, target.getTenTaiKhoan());
         preparedStatement.setString(10, target.getMatKhau());
         preparedStatement.setString(11, target.getTinhTrang().toString());
@@ -84,7 +84,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     resultSet.getString("Email"),
                     resultSet.getString("DiaChi"),
                     ChucVu.layGiaTri(resultSet.getString("ChucVu")),
-                    CaLamViec.layGiaTri(resultSet.getInt("CaLamViec")),
+                    CaLamViec.layGiaTri(resultSet.getString("CaLamViec")),
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang")));
@@ -114,7 +114,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     resultSet.getString("Email"),
                     resultSet.getString("DiaChi"),
                     ChucVu.layGiaTri(resultSet.getString("ChucVu")),
-                    CaLamViec.layGiaTri(resultSet.getInt("CaLamViec")),
+                    CaLamViec.layGiaTri(resultSet.getString("CaLamViec")),
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang"))));

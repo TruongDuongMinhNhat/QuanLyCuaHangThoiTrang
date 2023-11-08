@@ -18,4 +18,19 @@ public enum PhongCachMac {
     public static int layGiaTri(PhongCachMac phongCachMac){
         return phongCachMac.value;
     }
+
+    public static PhongCachMac layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "NAM" -> {
+                return NAM;
+            }
+            case "NU" -> {
+                return NU;
+            }
+            case "NAM_NU" -> {
+                return NAM_NU;
+            }
+            default -> throw new NullPointerException("Không có giá trị nào tương ứng để quy đổi");
+        }
+    }
 }
