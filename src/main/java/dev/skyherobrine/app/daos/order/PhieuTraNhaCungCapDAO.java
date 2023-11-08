@@ -23,7 +23,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         preparedStatement.setString(2, phieuTraNhaCungCap.getPhieuNhap().getMaPhieuNhap());
         preparedStatement.setDate(3, Date.valueOf(phieuTraNhaCungCap.getNgayHenLay()));
         preparedStatement.setDate(4, Date.valueOf(phieuTraNhaCungCap.getNgayLap()));
-        preparedStatement.setBoolean(5, phieuTraNhaCungCap.getTinhTrang() == TinhTrangTraHang.CHUA_NHAN_HANG);
+        preparedStatement.setString(5, phieuTraNhaCungCap.getTinhTrang().toString());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -53,7 +53,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
                             new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                             resultSet.getDate("NgayHenLay").toLocalDate(),
                             resultSet.getDate("NgayLap").toLocalDate(),
-                            TinhTrangTraHang.layGiaTri(resultSet.getBoolean("TinhTrang") ? 1 : 0));
+                            TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuTraNhaCungCaps.add(phieuTraNhaCungCap);
         }
@@ -76,7 +76,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     resultSet.getDate("NgayHenLay").toLocalDate(),
                     resultSet.getDate("NgayLap").toLocalDate(),
-                    TinhTrangTraHang.layGiaTri(resultSet.getBoolean("TinhTrang") ? 1 : 0)));
+                    TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang"))));
         }
         return Optional.empty();
     }
@@ -99,7 +99,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     resultSet.getDate("NgayHenLay").toLocalDate(),
                     resultSet.getDate("NgayLap").toLocalDate(),
-                    TinhTrangTraHang.layGiaTri(resultSet.getBoolean("TinhTrang") ? 1 : 0));
+                    TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuTraNhaCungCaps.add(phieuTraNhaCungCap);
         }

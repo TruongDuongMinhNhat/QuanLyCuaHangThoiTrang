@@ -23,7 +23,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setString(1, sanPham.getMaSP());
         preparedStatement.setString(2, sanPham.getTenSP());
         preparedStatement.setString(3, sanPham.getLoaiSanPham().getMaLoai());
-        preparedStatement.setInt(4, PhongCachMac.layGiaTri(sanPham.getPhongCachMac()));
+        preparedStatement.setString(4, sanPham.getPhongCachMac().toString());
         preparedStatement.setString(5, sanPham.getDoTuoi().toString());
         preparedStatement.setString(6, sanPham.getXuatXu());
         preparedStatement.setInt(7, sanPham.getSoLuong());
@@ -63,7 +63,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
                     resultSet.getString("TenSP"),
                     new LoaiSanPhamDAO().timKiem(resultSet.getString("MaLoai")).get(),
-                    PhongCachMac.layGiaTri(resultSet.getInt("PhongCachMac")),
+                    PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
                     resultSet.getInt("SoLuong"),
@@ -94,7 +94,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
                     resultSet.getString("TenSP"),
                     new LoaiSanPhamDAO().timKiem(resultSet.getString("MaLoai")).get(),
-                    PhongCachMac.layGiaTri(resultSet.getInt("PhongCachMac")),
+                    PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
                     resultSet.getInt("SoLuong"),
@@ -128,7 +128,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
                     resultSet.getString("TenSP"),
                     new LoaiSanPhamDAO().timKiem(resultSet.getString("MaLoai")).get(),
-                    PhongCachMac.layGiaTri(resultSet.getInt("PhongCachMac")),
+                    PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
                     resultSet.getInt("SoLuong"),
