@@ -14,4 +14,8 @@ public enum TinhTrangNhapHang {
     public static int layGiaTri(TinhTrangNhapHang tinhTrang) {
         return tinhTrang.value;
     }
+
+    public static TinhTrangNhapHang layGiaTri(String value) {
+        return value.toUpperCase().equalsIgnoreCase(DANG_CHUYEN.toString()) ? DANG_CHUYEN : DA_NHAN;
+    }
 }

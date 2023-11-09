@@ -27,7 +27,7 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
         preparedStatement.setDate(3, Date.valueOf(phieuNhapHang.getNgayHenGiao()));
         preparedStatement.setDate(4, Date.valueOf(phieuNhapHang.getNgayLapPhieu()));
         preparedStatement.setString(5, phieuNhapHang.getGhiChu());
-        preparedStatement.setBoolean(6, TinhTrangNhapHang.layGiaTri(phieuNhapHang.getTinhTrang()) == 1 ? true : false);
+        preparedStatement.setString(6, phieuNhapHang.getTinhTrang().toString());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -58,7 +58,7 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
                     resultSet.getDate("NgayLapPhieu").toLocalDate(),
                     resultSet.getDate("NgayHenGiao").toLocalDate(),
                     resultSet.getString("GhiChu"),
-                    TinhTrangNhapHang.layGiaTri(resultSet.getBoolean("TinhTrang") == true ? 1 : 0));
+                    TinhTrangNhapHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuNhapHangs.add(phieuNhapHang);
         }
@@ -82,7 +82,7 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
                     resultSet.getDate("NgayLapPhieu").toLocalDate(),
                     resultSet.getDate("NgayHenGiao").toLocalDate(),
                     resultSet.getString("GhiChu"),
-                    TinhTrangNhapHang.layGiaTri(resultSet.getBoolean("TinhTrang") == true ? 1 : 0)));
+                    TinhTrangNhapHang.layGiaTri(resultSet.getString("TinhTrang"))));
         } else {
             return Optional.empty();
         }
@@ -107,7 +107,7 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
                     resultSet.getDate("NgayLapPhieu").toLocalDate(),
                     resultSet.getDate("NgayHenGiao").toLocalDate(),
                     resultSet.getString("GhiChu"),
-                    TinhTrangNhapHang.layGiaTri(resultSet.getBoolean("TinhTrang") == true ? 1 : 0));
+                    TinhTrangNhapHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuNhapHangs.add(phieuNhapHang);
         }

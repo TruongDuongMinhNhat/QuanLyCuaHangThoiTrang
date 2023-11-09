@@ -14,4 +14,12 @@ public enum TinhTrangTraHang {
     public static int layGiaTri(TinhTrangTraHang tinhTrang) {
         return tinhTrang.value;
     }
+
+    public static TinhTrangTraHang layGiaTri(String value) {
+        switch (value.toUpperCase()) {
+            case "CHUA_NHAN_HANG" -> { return CHUA_NHAN_HANG; }
+            case "DA_NHAN_HANG" -> { return DA_NHAN_HANG; }
+            default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi!");
+        }
+    }
 }
