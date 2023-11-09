@@ -59,7 +59,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnTimKiemPhieuNhap" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnThongTinPhieuNhap" min="-2" pref="419" max="-2" attributes="0"/>
+                  <Component id="pnThongTinPhieuNhap" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -119,11 +119,11 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="txtNgayLapPhieu" max="32767" attributes="0"/>
                           <Component id="txtTenSanPham" alignment="1" pref="277" max="32767" attributes="0"/>
-                          <Component id="txtNgayGiaoHen" alignment="1" pref="277" max="32767" attributes="0"/>
                           <Component id="SpinnerGiaNhap" alignment="0" pref="277" max="32767" attributes="0"/>
                           <Component id="SpinnerSoLuong" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jDateChooserNgayLapPhieu" max="32767" attributes="0"/>
+                          <Component id="jDateChooser1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="271" max="-2" attributes="0"/>
                   </Group>
@@ -141,26 +141,30 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="17" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbMaSpQuanLySanPham" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="txtMaPhieuNhap" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="lbMaLoaiSpQuanLySanPham" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="txtTenSanPham" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbHhQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="txtNhaCungCap" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="lbTenSpQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="txtNgayLapPhieu" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txtNhaCungCap" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                              <Component id="lbTenSpQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="lbHhQuanLySanPham" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="jDateChooserNgayLapPhieu" alignment="1" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbNgaySanXuatQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="lbMauSacQuanLySanPham" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTinhTrang" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNgayGiaoHen" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lbNgaySanXuatQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="lbMauSacQuanLySanPham" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbTinhTrang" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jDateChooser1" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -288,14 +292,6 @@
                 <Property name="text" type="java.lang.String" value="Ghi ch&#xfa;:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtNgayLapPhieu">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
-                </Property>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="lbPhanTramLoiQuanLySanPham">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -361,17 +357,13 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="txtNgayGiaoHen">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="0"/>
-                </Property>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JSpinner" name="SpinnerGiaNhap">
             </Component>
             <Component class="javax.swing.JSpinner" name="SpinnerSoLuong">
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserNgayLapPhieu">
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
             </Component>
           </SubComponents>
         </Container>
@@ -397,7 +389,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="spDanhSachPhieuNhap" alignment="0" pref="432" max="32767" attributes="0"/>
+                  <Component id="spDanhSachPhieuNhap" alignment="0" pref="415" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -441,19 +433,21 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cbTkMaPhieuNhap" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                      <Component id="cbTkTenSanPham" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                       <Component id="cbTkNhaCungCap" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                       <Component id="cbTkTinhTrang" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                      <Component id="cbTkNgatLapPhieu" min="-2" pref="176" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                      <Component id="cbTkNgayHenGiao" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jDateChooserTkNgayLapPhieu" min="-2" pref="155" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jDateChooserTkNgayHenGiao" min="-2" pref="154" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnTimKiemNhapHang" min="-2" pref="115" max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTextField1" min="-2" pref="285" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -462,80 +456,27 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cbTkNgayHenGiao" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTkMaPhieuNhap" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTkTenSanPham" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTkNhaCungCap" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTkTinhTrang" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbTkNgatLapPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnTimKiemNhapHang" alignment="3" pref="35" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel3" max="32767" attributes="0"/>
+                          <Component id="jTextField1" max="32767" attributes="0"/>
+                          <Component id="jDateChooserTkNgayHenGiao" max="32767" attributes="0"/>
+                          <Component id="jDateChooserTkNgayLapPhieu" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="cbTkNhaCungCap" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbTkTinhTrang" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnTimKiemNhapHang">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimKiemNhapHangActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbTkNgayHenGiao">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Ng&#xe0;y h&#x1eb9;n sao"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbTkMaPhieuNhap">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="M&#xe3; phi&#x1ebf;u nh&#x1ead;p"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cbTkTenSanPham">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="18" style="1"/>
-                </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="T&#xea;n s&#x1ea3;n ph&#x1ea9;m"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
             <Component class="javax.swing.JComboBox" name="cbTkNhaCungCap">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -568,21 +509,35 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cbTkNgatLapPhieu">
+            <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
                 </Property>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Ng&#xe0;y l&#x1ead;p phi&#x1ebf;u"/>
-                    <StringItem index="1" value=" "/>
-                  </StringArray>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y l&#x1ead;p phi&#x1ebf;u:"/>
               </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserTkNgayLapPhieu">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y h&#x1eb9;n giao:"/>
+              </Properties>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserTkNgayHenGiao">
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField1">
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="T&#x1eeb; kho&#xe1; t&#xec;m ki&#x1ebf;m:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

@@ -32,20 +32,16 @@ public class pnDanhSachSanPhamLapHoaDon extends javax.swing.JPanel {
     private void initComponents() {
 
         pnBg = new javax.swing.JPanel();
-        scrollPaneDanhSachSanPham = new ScrollPaneWin11();
-        multipleButton1 = new MultipleButton();
-
-        scrollPaneDanhSachSanPham.setViewportView(multipleButton1);
 
         javax.swing.GroupLayout pnBgLayout = new javax.swing.GroupLayout(pnBg);
         pnBg.setLayout(pnBgLayout);
         pnBgLayout.setHorizontalGroup(
             pnBgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPaneDanhSachSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 1250, Short.MAX_VALUE)
+            .addGap(0, 1250, Short.MAX_VALUE)
         );
         pnBgLayout.setVerticalGroup(
             pnBgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPaneDanhSachSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+            .addGap(0, 495, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -62,8 +58,6 @@ public class pnDanhSachSanPhamLapHoaDon extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private MultipleButton multipleButton1;
     private javax.swing.JPanel pnBg;
-    private ScrollPaneWin11 scrollPaneDanhSachSanPham;
     // End of variables declaration//GEN-END:variables
 }

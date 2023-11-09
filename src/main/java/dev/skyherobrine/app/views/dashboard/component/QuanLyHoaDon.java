@@ -31,12 +31,13 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         spDanhSachHoaDon = new javax.swing.JScrollPane();
         tbDanhSachHoaDon = new javax.swing.JTable();
         pnTimKiemHoaDon = new javax.swing.JPanel();
-        btnTimKiemHoaDon = new javax.swing.JButton();
-        cbTkNgayLapHoaDon = new javax.swing.JComboBox<>();
         cbTkCaLamViec = new javax.swing.JComboBox<>();
-        txtTimKiem = new javax.swing.JTextField();
+        txtTuKhoaTimKiem = new javax.swing.JTextField();
         btnXuatHoaDon = new javax.swing.JButton();
         btnInHoaDon = new javax.swing.JButton();
+        jDateChooserNgayLapHoaDon = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        lbTuKhoaTimKiem = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -75,22 +76,11 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         pnTimKiemHoaDon.setBackground(new java.awt.Color(255, 255, 255));
         pnTimKiemHoaDon.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm Kiếm hoá đơn ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
-        btnTimKiemHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnTimKiemHoaDon.setText("Tìm kiếm");
-        btnTimKiemHoaDon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimKiemHoaDonActionPerformed(evt);
-            }
-        });
-
-        cbTkNgayLapHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTkNgayLapHoaDon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày lập hoá đơn" }));
-
         cbTkCaLamViec.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cbTkCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca làm việc", " " }));
 
-        txtTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtTimKiem.setToolTipText("");
+        txtTuKhoaTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTuKhoaTimKiem.setToolTipText("");
 
         btnXuatHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnXuatHoaDon.setText("xuất hoá đơn");
@@ -98,19 +88,27 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         btnInHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnInHoaDon.setText("In hoá đơn");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setText("Ngày lập hoá đơn:");
+
+        lbTuKhoaTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbTuKhoaTimKiem.setText("Từ khoá tìm kiếm:");
+
         javax.swing.GroupLayout pnTimKiemHoaDonLayout = new javax.swing.GroupLayout(pnTimKiemHoaDon);
         pnTimKiemHoaDon.setLayout(pnTimKiemHoaDonLayout);
         pnTimKiemHoaDonLayout.setHorizontalGroup(
             pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTimKiemHoaDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbTkNgayLapHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(245, 245, 245)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooserNgayLapHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(cbTkCaLamViec, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
-                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnTimKiemHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(186, 186, 186)
+                .addComponent(lbTuKhoaTimKiem)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTuKhoaTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnXuatHoaDon)
                 .addGap(18, 18, 18)
@@ -121,14 +119,17 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
             pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTimKiemHoaDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTkNgayLapHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTkCaLamViec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiemHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXuatHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbTuKhoaTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbTkCaLamViec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooserNgayLapHoaDon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnTimKiemHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTuKhoaTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnXuatHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -179,23 +180,20 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTimKiemHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemHoaDonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTimKiemHoaDonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInHoaDon;
-    private javax.swing.JButton btnTimKiemHoaDon;
     private javax.swing.JButton btnXuatHoaDon;
     private javax.swing.JComboBox<String> cbTkCaLamViec;
-    private javax.swing.JComboBox<String> cbTkNgayLapHoaDon;
+    private com.toedter.calendar.JDateChooser jDateChooserNgayLapHoaDon;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbTuKhoaTimKiem;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachHoaDon;
     private javax.swing.JPanel pnTimKiemHoaDon;
     private javax.swing.JScrollPane spDanhSachHoaDon;
     private javax.swing.JTable tbDanhSachHoaDon;
-    private javax.swing.JTextField txtTimKiem;
+    private javax.swing.JTextField txtTuKhoaTimKiem;
     // End of variables declaration//GEN-END:variables
 }
