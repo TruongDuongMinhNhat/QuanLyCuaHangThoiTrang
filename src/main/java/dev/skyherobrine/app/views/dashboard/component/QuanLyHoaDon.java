@@ -28,6 +28,8 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
 
         pnBGThongTinCaNhan = new javax.swing.JPanel();
         pnDanhSachHoaDon = new javax.swing.JPanel();
+        spDanhSachHoaDon = new javax.swing.JScrollPane();
+        tbDanhSachHoaDon = new javax.swing.JTable();
         pnTimKiemHoaDon = new javax.swing.JPanel();
         btnTimKiemHoaDon = new javax.swing.JButton();
         cbTkNgayLapHoaDon = new javax.swing.JComboBox<>();
@@ -46,15 +48,28 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         pnDanhSachHoaDon.setBackground(new java.awt.Color(255, 255, 255));
         pnDanhSachHoaDon.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách hoá đơn", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
+        tbDanhSachHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhSachHoaDon.setViewportView(tbDanhSachHoaDon);
+
         javax.swing.GroupLayout pnDanhSachHoaDonLayout = new javax.swing.GroupLayout(pnDanhSachHoaDon);
         pnDanhSachHoaDon.setLayout(pnDanhSachHoaDonLayout);
         pnDanhSachHoaDonLayout.setHorizontalGroup(
             pnDanhSachHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 815, Short.MAX_VALUE)
+            .addComponent(spDanhSachHoaDon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
         );
         pnDanhSachHoaDonLayout.setVerticalGroup(
             pnDanhSachHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 876, Short.MAX_VALUE)
+            .addComponent(spDanhSachHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
         );
 
         pnTimKiemHoaDon.setBackground(new java.awt.Color(255, 255, 255));
@@ -179,6 +194,8 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachHoaDon;
     private javax.swing.JPanel pnTimKiemHoaDon;
+    private javax.swing.JScrollPane spDanhSachHoaDon;
+    private javax.swing.JTable tbDanhSachHoaDon;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

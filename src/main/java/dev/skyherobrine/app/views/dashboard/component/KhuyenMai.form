@@ -47,18 +47,18 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="pnDanhSachCacKhuyenMai" alignment="1" max="32767" attributes="0"/>
-              <Component id="pnThongTInKhuyenMai" alignment="0" max="32767" attributes="0"/>
-              <Component id="pnTimKiemKhuyenMai" alignment="1" max="32767" attributes="0"/>
+              <Component id="pnDanhSachCacKhuyenMai" alignment="1" min="-2" max="-2" attributes="0"/>
+              <Component id="pnThongTInKhuyenMai" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Component id="pnTimKiemKhuyenMai" alignment="1" min="-2" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="pnDanhSachCacKhuyenMai" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnTimKiemKhuyenMai" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pnDanhSachCacKhuyenMai" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="pnTimKiemKhuyenMai" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="pnThongTInKhuyenMai" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -82,15 +82,35 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="spDanhSachCacKhuyenMaiCuaSanPham" alignment="0" pref="1641" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="470" max="32767" attributes="0"/>
+                  <Component id="spDanhSachCacKhuyenMaiCuaSanPham" alignment="0" pref="470" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JScrollPane" name="spDanhSachCacKhuyenMaiCuaSanPham">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tbDanhSachCacKhuyenMaiCuaSanPham">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="4" rowCount="4">
+                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnTimKiemKhuyenMai">
           <Properties>
@@ -116,7 +136,7 @@
                       <Component id="txtTimKiemTenSanPhamKhuyenMai" min="-2" pref="260" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="240" max="-2" attributes="0"/>
                       <Component id="cbTkNgayApDung" min="-2" pref="170" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="193" max="32767" attributes="0"/>
                       <Component id="cbTimKiemNgayHetHan" min="-2" pref="170" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                       <Component id="btnTimKiemKhuyenMai" min="-2" pref="115" max="-2" attributes="0"/>
@@ -255,7 +275,7 @@
                                   <Component id="lbNgayHetHan" min="-2" max="-2" attributes="0"/>
                                   <Component id="lbNgayApDung" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="80" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
@@ -275,7 +295,7 @@
                       <Component id="btnThemKhuyenMai" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
                       <Component id="btnSuaKhuyenMai" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="315" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnXoaKhuyenMai" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="265" max="-2" attributes="0"/>
                   </Group>

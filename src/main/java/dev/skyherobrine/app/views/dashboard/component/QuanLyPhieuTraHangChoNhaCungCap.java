@@ -48,7 +48,9 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
         txtTenNhaCungCapSanPham = new javax.swing.JTextField();
         txtMaPhieuNhap = new javax.swing.JTextField();
         txtNgayLapPhieu = new javax.swing.JTextField();
-        pnDanhSachPhieuTraHang = new javax.swing.JPanel();
+        pnDanhSachPhieuTraHangChoNhaCungCap = new javax.swing.JPanel();
+        spPhieuTraHangChoNhaCungCap = new javax.swing.JScrollPane();
+        tbPhieuTraHangChoNhaCungCap = new javax.swing.JTable();
         pnTimKiemPhieuTraHang = new javax.swing.JPanel();
         btnTimKiemPhieuTraHang = new javax.swing.JButton();
         cbTkNgayLapPhieu = new javax.swing.JComboBox<>();
@@ -215,18 +217,31 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
                 .addGap(36, 36, 36))
         );
 
-        pnDanhSachPhieuTraHang.setBackground(new java.awt.Color(255, 255, 255));
-        pnDanhSachPhieuTraHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách phiếu trả hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
+        pnDanhSachPhieuTraHangChoNhaCungCap.setBackground(new java.awt.Color(255, 255, 255));
+        pnDanhSachPhieuTraHangChoNhaCungCap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách phiếu trả hàng cho nhà cung cấp", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
-        javax.swing.GroupLayout pnDanhSachPhieuTraHangLayout = new javax.swing.GroupLayout(pnDanhSachPhieuTraHang);
-        pnDanhSachPhieuTraHang.setLayout(pnDanhSachPhieuTraHangLayout);
-        pnDanhSachPhieuTraHangLayout.setHorizontalGroup(
-            pnDanhSachPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1641, Short.MAX_VALUE)
+        tbPhieuTraHangChoNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spPhieuTraHangChoNhaCungCap.setViewportView(tbPhieuTraHangChoNhaCungCap);
+
+        javax.swing.GroupLayout pnDanhSachPhieuTraHangChoNhaCungCapLayout = new javax.swing.GroupLayout(pnDanhSachPhieuTraHangChoNhaCungCap);
+        pnDanhSachPhieuTraHangChoNhaCungCap.setLayout(pnDanhSachPhieuTraHangChoNhaCungCapLayout);
+        pnDanhSachPhieuTraHangChoNhaCungCapLayout.setHorizontalGroup(
+            pnDanhSachPhieuTraHangChoNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(spPhieuTraHangChoNhaCungCap, javax.swing.GroupLayout.DEFAULT_SIZE, 1641, Short.MAX_VALUE)
         );
-        pnDanhSachPhieuTraHangLayout.setVerticalGroup(
-            pnDanhSachPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
+        pnDanhSachPhieuTraHangChoNhaCungCapLayout.setVerticalGroup(
+            pnDanhSachPhieuTraHangChoNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(spPhieuTraHangChoNhaCungCap, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
         );
 
         pnTimKiemPhieuTraHang.setBackground(new java.awt.Color(255, 255, 255));
@@ -299,13 +314,13 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
         pnBGThongTinCaNhanLayout.setHorizontalGroup(
             pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnThongTInPhieuTraHang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnDanhSachPhieuTraHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnDanhSachPhieuTraHangChoNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(pnTimKiemPhieuTraHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnBGThongTinCaNhanLayout.setVerticalGroup(
             pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
-                .addComponent(pnDanhSachPhieuTraHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnDanhSachPhieuTraHangChoNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnTimKiemPhieuTraHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -352,9 +367,11 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JLabel lbTenSpQuanLySanPham;
     private javax.swing.JLabel lbXuatXuQuanLySanPham;
     private javax.swing.JPanel pnBGThongTinCaNhan;
-    private javax.swing.JPanel pnDanhSachPhieuTraHang;
+    private javax.swing.JPanel pnDanhSachPhieuTraHangChoNhaCungCap;
     private javax.swing.JPanel pnThongTInPhieuTraHang;
     private javax.swing.JPanel pnTimKiemPhieuTraHang;
+    private javax.swing.JScrollPane spPhieuTraHangChoNhaCungCap;
+    private javax.swing.JTable tbPhieuTraHangChoNhaCungCap;
     private javax.swing.JTextField txtLyDoTraHang;
     private javax.swing.JTextField txtMaPhieuNhap;
     private javax.swing.JTextField txtMaPhieuTra;

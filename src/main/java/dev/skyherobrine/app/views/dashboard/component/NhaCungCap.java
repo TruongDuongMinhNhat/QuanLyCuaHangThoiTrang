@@ -28,6 +28,8 @@ public class NhaCungCap extends javax.swing.JPanel {
 
         pnBGThongTinCaNhan = new javax.swing.JPanel();
         pnDanhSachCacNhaCungCap = new javax.swing.JPanel();
+        spDanhCacNhaCungCap = new javax.swing.JScrollPane();
+        tbDanhSachCacNhaCungCap = new javax.swing.JTable();
         pnTimKiemNhaCungCap = new javax.swing.JPanel();
         btnTimKiemQuanLySanPham = new javax.swing.JButton();
         cbTkTinhTrangNhaCungCap = new javax.swing.JComboBox<>();
@@ -56,15 +58,32 @@ public class NhaCungCap extends javax.swing.JPanel {
         pnDanhSachCacNhaCungCap.setBackground(new java.awt.Color(255, 255, 255));
         pnDanhSachCacNhaCungCap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh các nhà cung cấp", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
+        tbDanhSachCacNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhCacNhaCungCap.setViewportView(tbDanhSachCacNhaCungCap);
+
         javax.swing.GroupLayout pnDanhSachCacNhaCungCapLayout = new javax.swing.GroupLayout(pnDanhSachCacNhaCungCap);
         pnDanhSachCacNhaCungCap.setLayout(pnDanhSachCacNhaCungCapLayout);
         pnDanhSachCacNhaCungCapLayout.setHorizontalGroup(
             pnDanhSachCacNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(pnDanhSachCacNhaCungCapLayout.createSequentialGroup()
+                .addComponent(spDanhCacNhaCungCap)
+                .addContainerGap())
         );
         pnDanhSachCacNhaCungCapLayout.setVerticalGroup(
             pnDanhSachCacNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGroup(pnDanhSachCacNhaCungCapLayout.createSequentialGroup()
+                .addComponent(spDanhCacNhaCungCap, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pnTimKiemNhaCungCap.setBackground(new java.awt.Color(255, 255, 255));
@@ -272,6 +291,8 @@ public class NhaCungCap extends javax.swing.JPanel {
     private javax.swing.JPanel pnDanhSachCacNhaCungCap;
     private javax.swing.JPanel pnThongTInNhaCungCap;
     private javax.swing.JPanel pnTimKiemNhaCungCap;
+    private javax.swing.JScrollPane spDanhCacNhaCungCap;
+    private javax.swing.JTable tbDanhSachCacNhaCungCap;
     private javax.swing.JTextField txtDiaChiNhaCungCap;
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtMaNhaCungCap;

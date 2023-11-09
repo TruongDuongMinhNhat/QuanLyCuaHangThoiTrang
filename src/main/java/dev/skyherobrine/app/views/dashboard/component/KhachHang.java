@@ -44,6 +44,8 @@ public class KhachHang extends javax.swing.JPanel {
         btnXoaKhachHang = new javax.swing.JButton();
         cbGioiTinh = new javax.swing.JComboBox<>();
         pnDanhSachKhachHang = new javax.swing.JPanel();
+        spDanhSachKhachHang = new javax.swing.JScrollPane();
+        tbDanhSachKhachHang = new javax.swing.JTable();
         pnTimKiemKhachHang = new javax.swing.JPanel();
         cbTkMaKhachHang = new javax.swing.JComboBox<>();
         cbTkGioiTinhKhachHang = new javax.swing.JComboBox<>();
@@ -190,17 +192,22 @@ public class KhachHang extends javax.swing.JPanel {
 
         pnDanhSachKhachHang.setBackground(new java.awt.Color(255, 255, 255));
         pnDanhSachKhachHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách khách hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
+        pnDanhSachKhachHang.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnDanhSachKhachHangLayout = new javax.swing.GroupLayout(pnDanhSachKhachHang);
-        pnDanhSachKhachHang.setLayout(pnDanhSachKhachHangLayout);
-        pnDanhSachKhachHangLayout.setHorizontalGroup(
-            pnDanhSachKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnDanhSachKhachHangLayout.setVerticalGroup(
-            pnDanhSachKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 521, Short.MAX_VALUE)
-        );
+        tbDanhSachKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
+
+        pnDanhSachKhachHang.add(spDanhSachKhachHang, java.awt.BorderLayout.CENTER);
 
         pnTimKiemKhachHang.setBackground(new java.awt.Color(255, 255, 255));
         pnTimKiemKhachHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm Kiếm khách hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
@@ -261,7 +268,7 @@ public class KhachHang extends javax.swing.JPanel {
         pnBGThongTinCaNhanLayout.setVerticalGroup(
             pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
-                .addComponent(pnDanhSachKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnDanhSachKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnTimKiemKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
@@ -302,6 +309,8 @@ public class KhachHang extends javax.swing.JPanel {
     private javax.swing.JPanel pnDanhSachKhachHang;
     private javax.swing.JPanel pnThongTinKhachHang;
     private javax.swing.JPanel pnTimKiemKhachHang;
+    private javax.swing.JScrollPane spDanhSachKhachHang;
+    private javax.swing.JTable tbDanhSachKhachHang;
     private javax.swing.JTextField txtDiemTichLuy;
     private javax.swing.JTextField txtHoTenKhachHang;
     private javax.swing.JTextField txtMaKhachHang;

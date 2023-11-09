@@ -56,6 +56,8 @@ public class QuanLySanPham extends javax.swing.JPanel {
         cbKieuNguoiMac = new javax.swing.JComboBox<>();
         cbDoTuoi = new javax.swing.JComboBox<>();
         PnDanhSachSanPhamQuanLySanPham = new javax.swing.JPanel();
+        spDanhSachSapnPham = new javax.swing.JScrollPane();
+        tbDanhSachSanPham = new javax.swing.JTable();
         pnTimKiemQuanLySanPham = new javax.swing.JPanel();
         btnTimKiemQuanLySanPham = new javax.swing.JButton();
         cbTkKieuNguoiMacSp = new javax.swing.JComboBox<>();
@@ -285,15 +287,28 @@ public class QuanLySanPham extends javax.swing.JPanel {
         PnDanhSachSanPhamQuanLySanPham.setBackground(new java.awt.Color(255, 255, 255));
         PnDanhSachSanPhamQuanLySanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách Sản Phẩm", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
+        tbDanhSachSanPham.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhSachSapnPham.setViewportView(tbDanhSachSanPham);
+
         javax.swing.GroupLayout PnDanhSachSanPhamQuanLySanPhamLayout = new javax.swing.GroupLayout(PnDanhSachSanPhamQuanLySanPham);
         PnDanhSachSanPhamQuanLySanPham.setLayout(PnDanhSachSanPhamQuanLySanPhamLayout);
         PnDanhSachSanPhamQuanLySanPhamLayout.setHorizontalGroup(
             PnDanhSachSanPhamQuanLySanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1641, Short.MAX_VALUE)
+            .addComponent(spDanhSachSapnPham, javax.swing.GroupLayout.DEFAULT_SIZE, 1641, Short.MAX_VALUE)
         );
         PnDanhSachSanPhamQuanLySanPhamLayout.setVerticalGroup(
             PnDanhSachSanPhamQuanLySanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
+            .addComponent(spDanhSachSapnPham, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
         );
 
         pnTimKiemQuanLySanPham.setBackground(new java.awt.Color(255, 255, 255));
@@ -432,6 +447,8 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JPanel pnImgSanPham;
     private javax.swing.JPanel pnThongTinSanPhamQuanLySanPham;
     private javax.swing.JPanel pnTimKiemQuanLySanPham;
+    private javax.swing.JScrollPane spDanhSachSapnPham;
+    private javax.swing.JTable tbDanhSachSanPham;
     private javax.swing.JTextField txtKichThuocQuanLySanPham;
     private javax.swing.JTextField txtMaSpQuanLySanPham;
     private javax.swing.JTextField txtNgaySanXuatQuanLySanPham;

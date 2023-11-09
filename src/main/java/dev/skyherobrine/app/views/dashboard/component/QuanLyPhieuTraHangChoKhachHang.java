@@ -49,6 +49,8 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         txtMaPhieuNhap = new javax.swing.JTextField();
         txtNgayLapPhieu = new javax.swing.JTextField();
         pnDanhSachPhieuTraHang = new javax.swing.JPanel();
+        spDanhSachPhieuTraHangChoKhachHang = new javax.swing.JScrollPane();
+        tbDanhSachPhieuTraHangChoKhachHang = new javax.swing.JTable();
         pnTimKiemPhieuTraHang = new javax.swing.JPanel();
         btnTimKiemPhieuTraHang = new javax.swing.JButton();
         cbTkNgayLapPhieu = new javax.swing.JComboBox<>();
@@ -216,17 +218,30 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         );
 
         pnDanhSachPhieuTraHang.setBackground(new java.awt.Color(255, 255, 255));
-        pnDanhSachPhieuTraHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách phiếu trả hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
+        pnDanhSachPhieuTraHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách phiếu trả hàng dành cho khách hàng", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
+
+        tbDanhSachPhieuTraHangChoKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhSachPhieuTraHangChoKhachHang.setViewportView(tbDanhSachPhieuTraHangChoKhachHang);
 
         javax.swing.GroupLayout pnDanhSachPhieuTraHangLayout = new javax.swing.GroupLayout(pnDanhSachPhieuTraHang);
         pnDanhSachPhieuTraHang.setLayout(pnDanhSachPhieuTraHangLayout);
         pnDanhSachPhieuTraHangLayout.setHorizontalGroup(
             pnDanhSachPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1641, Short.MAX_VALUE)
+            .addComponent(spDanhSachPhieuTraHangChoKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1641, Short.MAX_VALUE)
         );
         pnDanhSachPhieuTraHangLayout.setVerticalGroup(
             pnDanhSachPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
+            .addComponent(spDanhSachPhieuTraHangChoKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
         );
 
         pnTimKiemPhieuTraHang.setBackground(new java.awt.Color(255, 255, 255));
@@ -355,6 +370,8 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
     private javax.swing.JPanel pnDanhSachPhieuTraHang;
     private javax.swing.JPanel pnThongTInPhieuTraHang;
     private javax.swing.JPanel pnTimKiemPhieuTraHang;
+    private javax.swing.JScrollPane spDanhSachPhieuTraHangChoKhachHang;
+    private javax.swing.JTable tbDanhSachPhieuTraHangChoKhachHang;
     private javax.swing.JTextField txtLyDoTraHang;
     private javax.swing.JTextField txtMaPhieuNhap;
     private javax.swing.JTextField txtMaPhieuTra;

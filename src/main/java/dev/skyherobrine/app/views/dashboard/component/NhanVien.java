@@ -58,6 +58,8 @@ public class NhanVien extends javax.swing.JPanel {
         cbGioiTinh = new javax.swing.JComboBox<>();
         cbChucVu = new javax.swing.JComboBox<>();
         pnDanhSachNhanVien = new javax.swing.JPanel();
+        spDanhSachNhanVien = new javax.swing.JScrollPane();
+        tbDanhSachNhanVien = new javax.swing.JTable();
         pnTimKiemNhanVien = new javax.swing.JPanel();
         cbTkTinhTrangNv = new javax.swing.JComboBox<>();
         cbTkMaNv = new javax.swing.JComboBox<>();
@@ -313,15 +315,28 @@ public class NhanVien extends javax.swing.JPanel {
         pnDanhSachNhanVien.setBackground(new java.awt.Color(255, 255, 255));
         pnDanhSachNhanVien.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách Nhân Viên", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
+        tbDanhSachNhanVien.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        spDanhSachNhanVien.setViewportView(tbDanhSachNhanVien);
+
         javax.swing.GroupLayout pnDanhSachNhanVienLayout = new javax.swing.GroupLayout(pnDanhSachNhanVien);
         pnDanhSachNhanVien.setLayout(pnDanhSachNhanVienLayout);
         pnDanhSachNhanVienLayout.setHorizontalGroup(
             pnDanhSachNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1641, Short.MAX_VALUE)
+            .addComponent(spDanhSachNhanVien)
         );
         pnDanhSachNhanVienLayout.setVerticalGroup(
             pnDanhSachNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 387, Short.MAX_VALUE)
+            .addComponent(spDanhSachNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
         );
 
         pnTimKiemNhanVien.setBackground(new java.awt.Color(255, 255, 255));
@@ -456,6 +471,8 @@ public class NhanVien extends javax.swing.JPanel {
     private javax.swing.JPanel pnImgNhanVien;
     private javax.swing.JPanel pnTHongTinNhanVien;
     private javax.swing.JPanel pnTimKiemNhanVien;
+    private javax.swing.JScrollPane spDanhSachNhanVien;
+    private javax.swing.JTable tbDanhSachNhanVien;
     private javax.swing.JTextField txtDiaChiNhanVien;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTenNhanVien;
