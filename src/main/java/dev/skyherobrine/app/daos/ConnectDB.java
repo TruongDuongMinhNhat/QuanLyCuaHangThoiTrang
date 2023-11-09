@@ -20,7 +20,7 @@ public class ConnectDB {
      * database không tồn tại, tài khoản hoặc mật khẩu sai hoặc không tồn tại nên không kết nối được.
      */
     public ConnectDB() throws Exception {
-        Class.forName("com.microsoft.jdbc.SQLServerDriver");
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         connection = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QLCHTT;encrypt=false;trustServerCertificate=true", "sa", "123");
     }
 
