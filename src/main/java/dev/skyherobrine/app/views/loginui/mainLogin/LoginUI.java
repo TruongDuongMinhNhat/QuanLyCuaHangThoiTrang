@@ -4,11 +4,9 @@
  */
 package dev.virtue.loginui.mainLogin;
 
+import dev.skyherobrine.app.controllers.loginui.mainLogin.LoginController;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.net.URL;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -23,6 +21,12 @@ public class LoginUI extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
         setResizable(false);
+        buttonLogin1.addActionListener(new LoginController(this));
+        setFocusable(true);
+        requestFocus();
+        addKeyListener(new LoginController(this));
+        passwordUser1.addKeyListener(new LoginController(this));
+
 //        btnQuenMatKhau.setFont(btnQuenMatKhau.getFont().deriveFont(Font.PLAIN));
 //        Shape nutTronThoat = new Ellipse2D.Float(0,0,btnThoatLogin.getWidth(),btnThoatLogin.getHeight());
 //        LineBorder borderNutTron = new LineBorder(Color.WHITE);
@@ -74,7 +78,7 @@ public class LoginUI extends javax.swing.JFrame {
 
         txtUser.setPrefixIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconUserNPassword/user.png"))); // NOI18N
 
-        passwordUser1.setText("passwordUser1");
+        passwordUser1.setText("");
         passwordUser1.setPrefixIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconUserNPassword/key.png"))); // NOI18N
 
         buttonLogin1.setBackground(new java.awt.Color(255, 51, 51));
@@ -238,5 +242,21 @@ public class LoginUI extends javax.swing.JFrame {
     private javax.swing.JLabel lbTenDangNhap;
     private dev.virtue.loginui.swingLogin.PasswordUser passwordUser1;
     private dev.virtue.loginui.swingLogin.TextFieldUser txtUser;
+
+    public Object getUsernameField() {
+        return txtUser.getText();
+    }
+
+    public Object getLoginButton() {
+        return buttonLogin1;
+    }
+
+    public Object getPasswordField() {
+        char[] pw = passwordUser1.getPassword();
+        String password = new String(pw);
+        return password;
+    }
+
+
     // End of variables declaration//GEN-END:variables
 }
