@@ -2,17 +2,17 @@ package dev.skyherobrine.app.daos.person;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
-import dev.skyherobrine.app.entities.person.NhaCungCap;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.enums.CaLamViec;
 import dev.skyherobrine.app.enums.ChucVu;
-import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
 import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NhanVienDAO implements IDAO<NhanVien> {
     private ConnectDB connectDB;
@@ -96,7 +96,35 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public List<NhanVien> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from NhanVien nv where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " = '" + value + "'"));
+            isNeedAnd.set(true);
+        });
+
+        List<NhanVien> nhanViens = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            NhanVien nhanVien = new NhanVien(
+                    result.getString("MaNV"),
+                    result.getString("HoTen"),
+                    result.getString("SoDienThoai"),
+                    result.getBoolean("GioiTinh"),
+                    result.getDate("NgaySinh").toLocalDate(),
+                    result.getString("Email"),
+                    result.getString("DiaChi"),
+                    ChucVu.layGiaTri(result.getString("ChucVu")),
+                    CaLamViec.layGiaTri(result.getString("CaLamViec")),
+                    result.getString("TenTaiKhoan"),
+                    result.getString("MatKhau"),
+                    TinhTrangNhanVien.layGiaTri(result.getString("TinhTrang")));
+            nhanViens.add(nhanVien);
+        }
+        return nhanViens;
     }
 
     @Override
