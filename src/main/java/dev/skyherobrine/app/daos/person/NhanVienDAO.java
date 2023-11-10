@@ -88,7 +88,6 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang")));
-
             nhanViens.add(nhanVien);
         }
         return nhanViens;
@@ -177,7 +176,6 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang")));
-
             nhanViens.add(nhanVien);
         }
         return nhanViens;
