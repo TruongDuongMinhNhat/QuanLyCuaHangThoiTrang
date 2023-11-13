@@ -101,7 +101,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " = '" + value + "'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " like '%" + value + "%'"));
             isNeedAnd.set(true);
         });
 
@@ -156,7 +156,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         String query = "select * from NhanVien nv where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("nv.MaNV = '" + listID[i] + "'");
+            query += ("nv.MaNV like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

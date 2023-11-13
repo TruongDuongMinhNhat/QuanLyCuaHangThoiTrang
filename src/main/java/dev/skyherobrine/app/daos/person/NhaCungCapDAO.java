@@ -8,6 +8,8 @@ import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NhaCungCapDAO implements IDAO<NhaCungCap> {
     private ConnectDB connectDB;
@@ -92,7 +94,7 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
         String query = "select * from NhaCungCap NCC where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("NCC.MaNCC = '" + listID[i] + "'");
+            query += ("NCC.MaNCC like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

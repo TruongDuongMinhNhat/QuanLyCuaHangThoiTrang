@@ -116,7 +116,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
         String query = "select * from SanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaSP = '" + listID[i] + "'");
+            query += ("MaSP like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

@@ -84,7 +84,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         String query = "select * from KhuyenMai where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaKM = '" + listID[i] + "'");
+            query += ("MaKM like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

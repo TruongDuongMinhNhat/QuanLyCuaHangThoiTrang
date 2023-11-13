@@ -78,7 +78,7 @@ public class ThuongHieuDAO implements IDAO<ThuongHieu> {
         String query = "select * from ThuongHieu where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaHoatDong = '" + listID[i] + "'");
+            query += ("MaTH like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
