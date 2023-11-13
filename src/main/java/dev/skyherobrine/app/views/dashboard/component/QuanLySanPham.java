@@ -59,6 +59,8 @@ public class QuanLySanPham extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jDateChooserNgaySanXuat = new com.toedter.calendar.JDateChooser();
+        lbPhongCachMguoiMacQuanLySanPham2 = new javax.swing.JLabel();
+        txtSoLuongSanPham = new javax.swing.JTextField();
         PnDanhSachSanPhamQuanLySanPham = new javax.swing.JPanel();
         spDanhSachSapnPham = new javax.swing.JScrollPane();
         tbDanhSachSanPham = new javax.swing.JTable();
@@ -186,6 +188,12 @@ public class QuanLySanPham extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Danh mục:");
 
+        lbPhongCachMguoiMacQuanLySanPham2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbPhongCachMguoiMacQuanLySanPham2.setText("Số lượng:");
+
+        txtSoLuongSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSoLuongSanPham.setEnabled(false);
+
         javax.swing.GroupLayout pnThongTinSanPhamQuanLySanPhamLayout = new javax.swing.GroupLayout(pnThongTinSanPhamQuanLySanPham);
         pnThongTinSanPhamQuanLySanPham.setLayout(pnThongTinSanPhamQuanLySanPhamLayout);
         pnThongTinSanPhamQuanLySanPhamLayout.setHorizontalGroup(
@@ -225,14 +233,16 @@ public class QuanLySanPham extends javax.swing.JPanel {
                                     .addComponent(lbPhongCachMguoiMacQuanLySanPham1)
                                     .addComponent(lbKichThuocQuanLySanPham)
                                     .addComponent(lbMauSacQuanLySanPham)
-                                    .addComponent(lbHhQuanLySanPham))
+                                    .addComponent(lbHhQuanLySanPham)
+                                    .addComponent(lbPhongCachMguoiMacQuanLySanPham2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnThongTinSanPhamQuanLySanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cbMauSac, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbTh, javax.swing.GroupLayout.Alignment.TRAILING, 0, 277, Short.MAX_VALUE)
                                     .addComponent(txtKichThuocQuanLySanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                                     .addComponent(txtPhanTramLoiQuanLySanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                                    .addComponent(cbKieuNguoiMac, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(cbKieuNguoiMac, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtSoLuongSanPham, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
                             .addGroup(pnThongTinSanPhamQuanLySanPhamLayout.createSequentialGroup()
                                 .addComponent(lbMaLoaiSpQuanLySanPham)
                                 .addGap(23, 23, 23)
@@ -299,8 +309,10 @@ public class QuanLySanPham extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnThongTinSanPhamQuanLySanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbPhongCachMguoiMacQuanLySanPham2)
+                            .addComponent(txtSoLuongSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8))
                     .addGroup(pnThongTinSanPhamQuanLySanPhamLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(pnImgSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -476,6 +488,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JLabel lbNgaySanXuatQuanLySanPham;
     private javax.swing.JLabel lbPhanTramLoiQuanLySanPham;
     private javax.swing.JLabel lbPhongCachMguoiMacQuanLySanPham1;
+    private javax.swing.JLabel lbPhongCachMguoiMacQuanLySanPham2;
     private javax.swing.JLabel lbTenSpQuanLySanPham;
     private javax.swing.JLabel lbXuatXuQuanLySanPham;
     private javax.swing.JPanel pnBGThongTinCaNhan;
@@ -487,6 +500,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtKichThuocQuanLySanPham;
     private javax.swing.JTextField txtMaSpQuanLySanPham;
     private javax.swing.JTextField txtPhanTramLoiQuanLySanPham;
+    private javax.swing.JTextField txtSoLuongSanPham;
     private javax.swing.JTextField txtTenSpQuanLySanPham;
     private javax.swing.JTextField txtTuKhoaTimKiem;
     private javax.swing.JTextField txtXuatXuQuanLySanPham;
