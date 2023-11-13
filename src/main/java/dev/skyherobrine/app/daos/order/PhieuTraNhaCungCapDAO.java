@@ -86,7 +86,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         String query = "select * from PhieuTraNhaCungCap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaPhieuTra = '" + listID[i] + "'");
+            query += ("MaPhieuTra like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
