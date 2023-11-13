@@ -89,7 +89,7 @@ public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
         String query = "select * from LoaiSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for (int i = 0; i < listID.length; ++i) {
-            query += ("MaLoai = '" + listID[i] + "'");
+            query += ("MaLoai like '%" + listID[i] + "%'");
             if ((i + 1) >= listID.length) break;
             else query += ", ";
         }

@@ -96,7 +96,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
         String query = "select * from KhachHang KH where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for (int i = 0; i < listID.length; ++i) {
-            query += ("KH.MaKH = '" + listID[i] + "'");
+            query += ("KH.MaKH like '%" + listID[i] + "%'");
             if ((i + 1) >= listID.length) {
                 break;
             } else {

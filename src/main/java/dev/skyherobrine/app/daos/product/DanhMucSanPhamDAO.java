@@ -75,7 +75,7 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
         String query = "select * from DanhMucSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaDM = '" + listID[i] + "'");
+            query += ("MaDM like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
