@@ -10,6 +10,7 @@ import dev.skyherobrine.app.enums.TinhTrangNhapHang;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
@@ -22,7 +23,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("Insert PhieuTraKhachHang values(?, ?, ?)");
         preparedStatement.setString(1, phieuTraKhachHang.getMaPhieuTraKhachHang());
-        preparedStatement.setDate(2, Date.valueOf(phieuTraKhachHang.getNgayLap()));
+        preparedStatement.setTimestamp(2, Timestamp.valueOf(phieuTraKhachHang.getNgayLap()));
         preparedStatement.setString(3, phieuTraKhachHang.getHoaDon().getMaHD());
 
         return preparedStatement.executeUpdate() > 0;
@@ -51,7 +52,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         while(resultSet.next()) {
             PhieuTraKhachHang phieuTraKhachHang = new PhieuTraKhachHang(
                     resultSet.getString("MaPhieuTraKH"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get()
             );
 
@@ -75,7 +76,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         if(resultSet.next()) {
             return Optional.of(new PhieuTraKhachHang(
                     resultSet.getString("MaPhieuTraKH"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get()
             ));
         }
@@ -98,7 +99,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         while(resultSet.next()) {
             PhieuTraKhachHang phieuTraKhachHang = new PhieuTraKhachHang(
                     resultSet.getString("MaPhieuTraKH"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get()
             );
 

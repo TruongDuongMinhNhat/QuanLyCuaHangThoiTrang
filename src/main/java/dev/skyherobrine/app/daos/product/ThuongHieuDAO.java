@@ -3,6 +3,7 @@ package dev.skyherobrine.app.daos.product;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.entities.system.LichSuDangNhap;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
@@ -10,6 +11,8 @@ import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ThuongHieuDAO implements IDAO<ThuongHieu> {
     private ConnectDB connectDB;
@@ -56,7 +59,27 @@ public class ThuongHieuDAO implements IDAO<ThuongHieu> {
 
     @Override
     public List<ThuongHieu> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ThuongHieu t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<ThuongHieu> thuongHieus = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            ThuongHieu thuongHieu = new ThuongHieu(
+                    result.getString("MaTH"),
+                    result.getString("TenTH"),
+                    TinhTrangThuongHieu.layGiaTri(result.getString("TinhTrang"))
+            );
+            thuongHieus.add(thuongHieu);
+        }
+        return thuongHieus;
     }
 
     @Override

@@ -11,6 +11,7 @@ import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class HoaDonDAO implements IDAO<HoaDon> {
@@ -25,7 +26,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         preparedStatement.setString(1, hoaDon.getMaHD());
         preparedStatement.setString(2, hoaDon.getNhanVienLap().getMaNV());
         preparedStatement.setString(3, hoaDon.getKhachHang().getMaKH());
-        preparedStatement.setDate(4, Date.valueOf(hoaDon.getNgayLap()));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(hoaDon.getNgayLap()));
         preparedStatement.setBigDecimal(5, hoaDon.getSoTienKHTra());
         preparedStatement.setString(6, hoaDon.getGhiChu());
 
@@ -55,7 +56,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         while (resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
                     resultSet.getBigDecimal("SoTienKHTra"),
@@ -80,7 +81,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         if (resultSet.next()) {
             return Optional.of(new HoaDon(
                     resultSet.getString("MaHD"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
                     resultSet.getBigDecimal("SoTienKHTra"),
@@ -106,7 +107,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         while(resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
                     resultSet.getBigDecimal("SoTienKHTra"),

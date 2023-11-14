@@ -3,11 +3,15 @@ package dev.skyherobrine.app.daos.person;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.entities.person.KhachHang;
+import dev.skyherobrine.app.entities.person.NhaCungCap;
+import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class KhachHangDAO implements IDAO<KhachHang> {
     private ConnectDB connectDB;
@@ -73,7 +77,29 @@ public class KhachHangDAO implements IDAO<KhachHang> {
 
     @Override
     public List<KhachHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from KhachHang t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<KhachHang> khachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            KhachHang khachHang = new KhachHang(
+                    result.getString("MaKH"),
+                    result.getString("HoTen"),
+                    result.getString("SoDienThoai"),
+                    result.getBoolean("GioiTinh"),
+                    result.getDate("NgaySinh").toLocalDate(),
+                    result.getFloat("DiemTichLuy"));
+            khachHangs.add(khachHang);
+        }
+        return khachHangs;
     }
 
     @Override

@@ -4,7 +4,7 @@ import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Hoá Đơn", dùng để lưu trữ thông tin về lập hoá đơn của khách hàng đã mua hàng tại cửa hàng.
@@ -13,13 +13,13 @@ import java.time.LocalDate;
  */
 public class HoaDon {
     private String maHD;
-    private LocalDate ngayLap;
+    private LocalDateTime ngayLap;
     private NhanVien nhanVienLap;
     private KhachHang khachHang;
     private BigDecimal soTienKHTra;
     private String ghiChu;
 
-    public HoaDon(String maHD, LocalDate ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
+    public HoaDon(String maHD, LocalDateTime ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
         this.setMaHD(maHD);
         this.setNgayLap(ngayLap);
         this.setNhanVienLap(nhanVienLap);
@@ -36,11 +36,11 @@ public class HoaDon {
         this.maHD = maHD;
     }
 
-    public LocalDate getNgayLap() {
+    public LocalDateTime getNgayLap() {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) {
+    public void setNgayLap(LocalDateTime ngayLap) {
         this.ngayLap = ngayLap;
     }
 

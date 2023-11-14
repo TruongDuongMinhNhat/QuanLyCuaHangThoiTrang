@@ -2,7 +2,7 @@ package dev.skyherobrine.app.entities.order;
 
 import dev.skyherobrine.app.entities.order.HoaDon;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Phiếu Trả Khách Hàng", thực thể này dùng để chứa dữ liệu liên quan đến việc khách hàng
@@ -13,10 +13,10 @@ import java.time.LocalDate;
  */
 public class PhieuTraKhachHang {
     private String maPhieuTraKhachHang;
-    private LocalDate ngayLap;
+    private LocalDateTime ngayLap;
     private HoaDon hoaDon;
 
-    public PhieuTraKhachHang(String maPhieuTraKhachHang, LocalDate ngayLap, HoaDon hoaDon) throws Exception{
+    public PhieuTraKhachHang(String maPhieuTraKhachHang, LocalDateTime ngayLap, HoaDon hoaDon) throws Exception{
         this.setMaPhieuTraKhachHang(maPhieuTraKhachHang);
         this.setNgayLap(ngayLap);
         this.setHoaDon(hoaDon);
@@ -30,11 +30,11 @@ public class PhieuTraKhachHang {
         this.maPhieuTraKhachHang = maPhieuTraKhachHang;
     }
 
-    public LocalDate getNgayLap() {
+    public LocalDateTime getNgayLap() {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) {
+    public void setNgayLap(LocalDateTime ngayLap) {
         this.ngayLap = ngayLap;
     }
 

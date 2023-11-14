@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.sale;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.entities.sale.KhuyenMai;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
@@ -10,6 +11,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
     private ConnectDB connectDB;
@@ -62,7 +65,27 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
 
     @Override
     public List<KhuyenMai> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from KhuyenMai t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<KhuyenMai> khuyenMais = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            KhuyenMai khuyenMai = new KhuyenMai(
+                    result.getString("MaKM"),
+                    result.getDate("NgayApDung").toLocalDate(),
+                    result.getDate("NgayHetHan").toLocalDate()
+            );
+            khuyenMais.add(khuyenMai);
+        }
+        return khuyenMais;
     }
 
     @Override

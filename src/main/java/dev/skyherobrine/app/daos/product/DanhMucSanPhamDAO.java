@@ -2,13 +2,17 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.entities.person.NhaCungCap;
 import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
+import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
     private ConnectDB connectDB;
@@ -53,7 +57,26 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
 
     @Override
     public List<DanhMucSanPham> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from DanhMucSanPham t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<DanhMucSanPham> danhMucSanPhams = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            DanhMucSanPham danhMucSanPham =new DanhMucSanPham(
+                    result.getString("MaDM"),
+                    result.getString("TenDM")
+            );
+            danhMucSanPhams.add(danhMucSanPham);
+        }
+        return danhMucSanPhams;
     }
 
     @Override

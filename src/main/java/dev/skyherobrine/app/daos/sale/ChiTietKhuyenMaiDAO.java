@@ -3,6 +3,7 @@ package dev.skyherobrine.app.daos.sale;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
 
 import java.sql.PreparedStatement;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
     private ConnectDB connectDB;
@@ -60,7 +63,27 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
 
     @Override
     public List<ChiTietKhuyenMai> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ChiTietKhuyenMai t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<ChiTietKhuyenMai> chiTietKhuyenMais = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai(
+                    new SanPhamDAO().timKiem(result.getString("MaSP")).get(),
+                    new KhuyenMaiDAO().timKiem(result.getString("MaKM")).get(),
+                    result.getFloat("TiLe")
+            );
+            chiTietKhuyenMais.add(chiTietKhuyenMai);
+        }
+        return chiTietKhuyenMais;
     }
 
     @Override
