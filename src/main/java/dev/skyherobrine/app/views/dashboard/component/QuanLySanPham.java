@@ -4,6 +4,16 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
+import dev.skyherobrine.app.enums.MauSac;
+import dev.skyherobrine.app.enums.PhongCachMac;
+import dev.skyherobrine.app.enums.TinhTrangSanPham;
+
+
+import javax.swing.*;
+
+
 /**
  *
  * @author Virtue Nguyen
@@ -15,7 +25,41 @@ public class QuanLySanPham extends javax.swing.JPanel {
      */
     public QuanLySanPham() {
         initComponents();
+        new ProductController(this).loadDsSanPham();
+        new ProductController(this).loadComboBoxPhanThongTinSP();
+        new ProductController(this).loadComboBoxPhanTimKiem();
+        tbDanhSachSanPham.addMouseListener(new ProductController(this));
+        btnThemQuanLySanPham.addActionListener(new ProductController(this));
+        btnSuaQuanLySanPham.addActionListener(new ProductController(this));
+        btnXoaQuanLySanPham.addActionListener(new ProductController(this));
+        cbTkDanhMuc.addActionListener(new ProductController(this));
+        cbTkLoaiSanPham.addActionListener(new ProductController(this));
+        cbTkTinhTrang.addActionListener(new ProductController(this));
+        cbTkTHuongHieu.addActionListener(new ProductController(this));
+        cbTkKichThuocSp.addActionListener(new ProductController(this));
+        cbTkKieuNguoiMacSp.addActionListener(new ProductController(this));
+
+        txtTuKhoaTimKiem.addKeyListener(new ProductController(this));
+        btnThemAnhSanPham.addActionListener(new ProductController(this));
     }
+
+//    public void themAnh(String fileAnh){
+//        URL path = getClass().getResource(fileAnh);
+//        if(path==null){
+//            System.out.println("1");
+//            path = getClass().getResource("/img/imgTest/0.png");
+//        }
+//
+//        ImageIcon iconGoc = new ImageIcon(path);
+//        Image anh = iconGoc.getImage();
+//        Image tinhChinhAnh = anh.getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+//        ImageIcon icon = new ImageIcon(tinhChinhAnh);
+//        JLabel picLabel = new JLabel();
+//
+//        pnImgSanPham.add(picLabel);
+//        picLabel.setSize(new Dimension(240,320));
+//        picLabel.setIcon(icon);
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,7 +179,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
         lbPhongCachMguoiMacQuanLySanPham1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbPhongCachMguoiMacQuanLySanPham1.setText("Phong cách mặc:");
 
-        pnImgSanPham.setBackground(new java.awt.Color(255, 51, 0));
+//        pnImgSanPham.setBackground(new java.awt.Color(255, 51, 0));
         pnImgSanPham.setPreferredSize(new java.awt.Dimension(240, 320));
 
         javax.swing.GroupLayout pnImgSanPhamLayout = new javax.swing.GroupLayout(pnImgSanPham);
@@ -160,27 +204,34 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         btnThemAnhSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnThemAnhSanPham.setText("Thêm ảnh");
+        btnThemAnhSanPham.setEnabled(false);
 
         cbLoaiSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbLoaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbLoaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"Không có"}));
+        cbLoaiSanPham.setEnabled(false);
 
         cbMauSac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbMauSac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMauSac.setEnabled(false);
 
         cbTh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbTh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbTh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không có" }));
+        cbTh.setEnabled(false);
 
         cbKieuNguoiMac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbKieuNguoiMac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbKieuNguoiMac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không có" }));
+        cbKieuNguoiMac.setEnabled(false);
 
         cbDoTuoi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbDoTuoi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbDoTuoi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không có", "THANH_NIEN" }));
+        cbDoTuoi.setEnabled(false);
 
         cbTinhTrang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không có" }));
+        cbTinhTrang.setEnabled(false);
 
         cbDanhMuc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbDanhMuc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        cbDanhMuc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không có" }));
+        cbDanhMuc.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Tình trạng:");
@@ -326,19 +377,17 @@ public class QuanLySanPham extends javax.swing.JPanel {
                     .addComponent(btnThemQuanLySanPham))
                 .addContainerGap())
         );
+        jDateChooserNgaySanXuat.setEnabled(false);
 
         PnDanhSachSanPhamQuanLySanPham.setBackground(new java.awt.Color(255, 255, 255));
         PnDanhSachSanPhamQuanLySanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách Sản Phẩm", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
         tbDanhSachSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                    "Mã sản phẩm" ,"Tên sản phẩm", "Xuất xứ", "Thương hiệu", "Danh mục","Loại sản phẩm", "Kích thước", "Phong cách mặc", "Phần trăm lời", "Tình trạng"
             }
         ));
         spDanhSachSapnPham.setViewportView(tbDanhSachSanPham);
@@ -464,11 +513,11 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JButton btnXoaQuanLySanPham;
     private javax.swing.JComboBox<String> cbDanhMuc;
     private javax.swing.JComboBox<String> cbDoTuoi;
-    private javax.swing.JComboBox<String> cbKieuNguoiMac;
+    private javax.swing.JComboBox<PhongCachMac> cbKieuNguoiMac;
     private javax.swing.JComboBox<String> cbLoaiSanPham;
-    private javax.swing.JComboBox<String> cbMauSac;
+    private javax.swing.JComboBox<MauSac> cbMauSac;
     private javax.swing.JComboBox<String> cbTh;
-    private javax.swing.JComboBox<String> cbTinhTrang;
+    private javax.swing.JComboBox<TinhTrangSanPham> cbTinhTrang;
     private javax.swing.JComboBox<String> cbTkDanhMuc;
     private javax.swing.JComboBox<String> cbTkKichThuocSp;
     private javax.swing.JComboBox<String> cbTkKieuNguoiMacSp;
@@ -505,4 +554,34 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtTuKhoaTimKiem;
     private javax.swing.JTextField txtXuatXuQuanLySanPham;
     // End of variables declaration//GEN-END:variables
+
+    public JTable getTbDanhSachSanPham(){
+        return tbDanhSachSanPham;
+    }
+    public JTextField getTxtMaSanPham(){return txtMaSpQuanLySanPham;}
+    public JTextField getTxtTenSanPham(){return txtTenSpQuanLySanPham;}
+    public JDateChooser getJDateChooserNgaySanXuat(){return jDateChooserNgaySanXuat;}
+    public JTextField getTxtXuatXu(){return txtXuatXuQuanLySanPham;}
+    public JComboBox getCbDoTuoi(){return cbDoTuoi;}
+    public JComboBox getCbTinhTrang(){return cbTinhTrang;}
+    public JComboBox getDanhMuc(){return cbDanhMuc;}
+    public JComboBox getCbLoai(){return cbLoaiSanPham;}
+    public JComboBox getCbThuongHieu(){return cbTh;}
+    public JComboBox getCbMauSac(){return cbMauSac;}
+    public JTextField getTxtKichThuoc(){return txtKichThuocQuanLySanPham;}
+    public JTextField getTxtPhamTramLoi(){return txtPhanTramLoiQuanLySanPham;}
+    public JComboBox getCbKieuNguoiMac(){return cbKieuNguoiMac;}
+    public JPanel getPnImgSanPham(){return pnImgSanPham;}
+    public JButton getButtonThem(){return btnThemQuanLySanPham;}
+    public JButton getButtonSua(){return btnSuaQuanLySanPham;}
+    public JButton getButtonXoa(){return btnXoaQuanLySanPham;}
+    public JTextField getTxtSoLuongSanPham(){return txtSoLuongSanPham;}
+    public JButton getBtnThemAnhSanPham(){return btnThemAnhSanPham;}
+    public JTextField getTxtTuKhoaTimKiem(){return txtTuKhoaTimKiem;}
+    public JComboBox getCbTkDanhMuc(){return  cbTkDanhMuc;}
+    public JComboBox getCbTkLoaiSanPham(){return cbTkLoaiSanPham;}
+    public JComboBox getCbTkTinhTrang(){return cbTkTinhTrang;}
+    public JComboBox getCbTkThuongHieu(){return cbTkTHuongHieu;}
+    public JComboBox getCbTkKichThuocSp(){return cbTkKichThuocSp;}
+    public JComboBox getCbTkPhongCachMac(){return cbTkKieuNguoiMacSp;}
 }
