@@ -4,7 +4,9 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuTraNhaCungCap;
+import dev.skyherobrine.app.entities.order.PhieuTraNhaCungCap;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -67,12 +69,30 @@ public class ChiTietPhieuTraNhaCungCapDAO implements IDAO<ChiTietPhieuTraNhaCung
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietPhieuTraNhaCungCap> timKiem(String id) throws Exception {
-        return Optional.empty();
+        throw new Exception("Phương thức này không được sử dụng");
     }
 
     @Override
     public List<ChiTietPhieuTraNhaCungCap> timkiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietPhieuTraNhaCungCap> timKiem(String maPhieuTra, String maSP) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietPhieuTraNhaCungCap where MaPhieuTra = ? and MaSP = ?");
+        preparedStatement.setString(1, maPhieuTra);
+        preparedStatement.setString(2, maSP);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietPhieuTraNhaCungCap(new PhieuTraNhaCungCapDAO().timKiem(resultSet.getString("MaPhieuTra")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongTra"),
+                    resultSet.getString("LiDoTra")));
+        } else {
+            return Optional.empty();
+        }
     }
 }

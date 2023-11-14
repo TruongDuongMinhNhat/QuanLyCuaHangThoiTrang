@@ -67,12 +67,29 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietPhieuNhapHang> timKiem(String id) throws Exception {
-        return Optional.empty();
+        throw new Exception("Phương thức này không đươợc sử dụng");
     }
 
     @Override
     public List<ChiTietPhieuNhapHang> timkiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietPhieuNhapHang> timKiem(String maPhieuNhap, String maSP) throws Exception{
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietPhieuNhap where MaPhieuNhap = ? and MaSP = ?");
+        preparedStatement.setString(1, maPhieuNhap);
+        preparedStatement.setString(2, maSP);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietPhieuNhapHang(new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuong"), resultSet.getDouble("GiaNhap")));
+        } else {
+            return Optional.empty();
+        }
     }
 }

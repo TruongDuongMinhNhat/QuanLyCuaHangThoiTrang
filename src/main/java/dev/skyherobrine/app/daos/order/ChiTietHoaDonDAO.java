@@ -65,12 +65,29 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietHoaDon> timKiem(String id) throws Exception {
-        return Optional.empty();
+        throw new Exception("Phương thức này không được sử dụng");
     }
 
     @Override
     public List<ChiTietHoaDon> timkiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietHoaDon> timKiem(String maHD, String maSP) throws Exception{
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietHoaDon where MaSP = ? and MaHD = ?");
+        preparedStatement.setString(1, maSP);
+        preparedStatement.setString(2, maHD);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietHoaDon(new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongMua")));
+        } else {
+            return Optional.empty();
+        }
     }
 }

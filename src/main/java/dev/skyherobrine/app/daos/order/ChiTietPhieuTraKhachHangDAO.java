@@ -68,25 +68,31 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietPhieuTraKhachHang> timKiem(String id) throws Exception {
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ?");
-        preparedStatement.setString(1, id);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()) {
-            return Optional.of(new ChiTietPhieuTraKhachHang(
-                    new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    resultSet.getInt("SoLuongTra"),
-                    resultSet.getString("NoiDungTra")
-            ));
-        }
-        return Optional.empty();
+        throw new Exception("Phương thức này không được sử dụng");
     }
 
     @Override
+
     public List<ChiTietPhieuTraKhachHang> timkiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietPhieuTraKhachHang> timKiem(String maPhieuTraKH, String maSP) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ? and MaSP = ?");
+        preparedStatement.setString(1, maPhieuTraKH);
+        preparedStatement.setString(2, maSP);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietPhieuTraKhachHang(new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongTra"),
+                    resultSet.getString("NoiDungTra")));
+        } else {
+            return Optional.empty();
+        }
     }
 }
