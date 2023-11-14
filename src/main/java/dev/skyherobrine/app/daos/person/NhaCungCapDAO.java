@@ -3,11 +3,17 @@ package dev.skyherobrine.app.daos.person;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.entities.person.NhaCungCap;
+import dev.skyherobrine.app.entities.person.NhanVien;
+import dev.skyherobrine.app.enums.CaLamViec;
+import dev.skyherobrine.app.enums.ChucVu;
 import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
+import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NhaCungCapDAO implements IDAO<NhaCungCap> {
     private ConnectDB connectDB;
@@ -68,7 +74,29 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
 
     @Override
     public List<NhaCungCap> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from NhaCungCap t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<NhaCungCap> nhaCungCaps = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            NhaCungCap nhaCungCap = new NhaCungCap(
+                    result.getString("MaNCC"),
+                    result.getString("TenNCC"),
+                    result.getString("DiaChiNCC"),
+                    result.getString("Email"),
+                    TinhTrangNhaCungCap.layGiaTri(result.getString("TinhTrang"))
+            );
+            nhaCungCaps.add(nhaCungCap);
+        }
+        return nhaCungCaps;
     }
 
     @Override
@@ -88,11 +116,11 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
     }
 
     @Override
-    public List<NhaCungCap> timkiem(String... ids) throws Exception {
+    public List<NhaCungCap> timKiem(String... ids) throws Exception {
         String query = "select * from NhaCungCap NCC where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("NCC.MaNCC = '" + listID[i] + "'");
+            query += ("NCC.MaNCC like '%" + listID[i] + "%'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
