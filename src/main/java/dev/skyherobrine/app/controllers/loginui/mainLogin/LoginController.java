@@ -4,6 +4,7 @@ package dev.skyherobrine.app.controllers.loginui.mainLogin;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.views.dashboard.org.main.Main;
+import dev.skyherobrine.app.views.loginui.mainLogin.FormQuenMatKhau;
 import dev.virtue.loginui.mainLogin.LoginUI;
 
 import javax.swing.*;
@@ -33,6 +34,8 @@ public class LoginController implements ActionListener, KeyListener {
         try {
             if (o.equals(loginUI.getLoginButton())) {
                 checkLogin();
+            } else if(o.equals(loginUI.getBtnQuenMatKhau())) {
+                new FormQuenMatKhau().setVisible(true);
             }
         } catch (Exception a) {
             throw new RuntimeException(a);

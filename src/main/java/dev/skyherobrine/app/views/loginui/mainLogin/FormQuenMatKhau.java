@@ -4,16 +4,20 @@
  */
 package dev.skyherobrine.app.views.loginui.mainLogin;
 
+import dev.skyherobrine.app.controllers.loginui.mainLogin.QuenMatKhauController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
  */
-public class FormQuanMatKhau extends javax.swing.JFrame {
+public class FormQuenMatKhau extends javax.swing.JFrame {
 
     /**
      * Creates new form formQuanMatKhau
      */
-    public FormQuanMatKhau() {
+    public FormQuenMatKhau() {
         initComponents();
     }
 
@@ -32,7 +36,9 @@ public class FormQuanMatKhau extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtMaNhanVien = new javax.swing.JTextField();
         btnGui = new javax.swing.JButton();
+        btnGui.addActionListener(new QuenMatKhauController(this));
         btnHuy = new javax.swing.JButton();
+        btnHuy.addActionListener(new QuenMatKhauController(this));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -122,13 +128,13 @@ public class FormQuanMatKhau extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormQuanMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormQuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormQuanMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormQuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormQuanMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormQuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormQuanMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormQuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -136,7 +142,7 @@ public class FormQuanMatKhau extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormQuanMatKhau().setVisible(true);
+                new FormQuenMatKhau().setVisible(true);
             }
         });
     }
@@ -149,5 +155,18 @@ public class FormQuanMatKhau extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtMaNhanVien;
+
+    public JButton getBtnGui() {
+        return btnGui;
+    }
+
+    public JButton getBtnHuy() {
+        return btnHuy;
+    }
+
+    public JTextField getTxtMaNhanVien() {
+        return txtMaNhanVien;
+    }
+
     // End of variables declaration//GEN-END:variables
 }

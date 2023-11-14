@@ -5,7 +5,6 @@
 package dev.virtue.loginui.mainLogin;
 
 import dev.skyherobrine.app.controllers.loginui.mainLogin.LoginController;
-import dev.skyherobrine.app.views.loginui.mainLogin.FormQuanMatKhau;
 
 import javax.swing.*;
 
@@ -97,6 +96,7 @@ public class LoginUI extends javax.swing.JFrame {
         btnQuenMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnQuenMatKhau.setFocusPainted(false);
         btnQuenMatKhau.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQuenMatKhau.addActionListener(new LoginController(this));
 
         btnThoatLogin.setBackground(new java.awt.Color(255, 51, 51));
         btnThoatLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,6 +263,9 @@ public class LoginUI extends javax.swing.JFrame {
         return password;
     }
 
+    public JButton getBtnQuenMatKhau() {
+        return btnQuenMatKhau;
+    }
 
     // End of variables declaration//GEN-END:variables
 }

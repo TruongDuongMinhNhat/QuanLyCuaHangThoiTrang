@@ -101,4 +101,9 @@ public class KhachHang {
     public void setDiemTichLuy(float diemTichLuy) {
         this.diemTichLuy = diemTichLuy;
     }
+
+    public String layBaSoCuoiDienThoai() {
+        int getLength = soDienThoai.toCharArray().length;
+        return soDienThoai.toCharArray()[getLength - 3] + "" + soDienThoai.toCharArray()[getLength - 2] + soDienThoai.toCharArray()[getLength - 1];
+    }
 }
