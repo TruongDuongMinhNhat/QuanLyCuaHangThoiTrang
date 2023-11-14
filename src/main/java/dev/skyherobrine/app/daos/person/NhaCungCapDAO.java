@@ -116,7 +116,7 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
     }
 
     @Override
-    public List<NhaCungCap> timkiem(String... ids) throws Exception {
+    public List<NhaCungCap> timKiem(String... ids) throws Exception {
         String query = "select * from NhaCungCap NCC where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

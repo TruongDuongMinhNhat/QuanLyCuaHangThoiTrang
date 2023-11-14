@@ -70,7 +70,7 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
     }
 
     @Override
-    public List<ChiTietHoaDon> timkiem(String... ids) throws Exception {
+    public List<ChiTietHoaDon> timKiem(String... ids) throws Exception {
         return null;
     }
 }

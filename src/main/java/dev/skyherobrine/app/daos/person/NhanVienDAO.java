@@ -151,7 +151,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
     }
 
     @Override
-    public List<NhanVien> timkiem(String... ids) throws Exception {
+    public List<NhanVien> timKiem(String... ids) throws Exception {
         String query = "select * from NhanVien nv where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

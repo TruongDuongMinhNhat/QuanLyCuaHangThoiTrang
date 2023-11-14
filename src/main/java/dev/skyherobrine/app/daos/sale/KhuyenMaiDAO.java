@@ -103,7 +103,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
     }
 
     @Override
-    public List<KhuyenMai> timkiem(String... ids) throws Exception {
+    public List<KhuyenMai> timKiem(String... ids) throws Exception {
         String query = "select * from KhuyenMai where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

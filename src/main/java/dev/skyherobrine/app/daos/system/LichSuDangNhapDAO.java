@@ -79,7 +79,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
     }
 
     @Override
-    public List<LichSuDangNhap> timkiem(String... ids) throws Exception {
+    public List<LichSuDangNhap> timKiem(String... ids) throws Exception {
         String query = "select * from LichSuDangNhap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

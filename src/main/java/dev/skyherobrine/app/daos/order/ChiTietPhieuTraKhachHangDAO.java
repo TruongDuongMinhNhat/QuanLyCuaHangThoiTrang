@@ -86,7 +86,7 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
     }
 
     @Override
-    public List<ChiTietPhieuTraKhachHang> timkiem(String... ids) throws Exception {
+    public List<ChiTietPhieuTraKhachHang> timKiem(String... ids) throws Exception {
         return null;
     }
 }

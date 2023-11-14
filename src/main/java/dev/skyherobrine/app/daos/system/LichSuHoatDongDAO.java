@@ -89,7 +89,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
     }
 
     @Override
-    public List<LichSuHoatDong> timkiem(String... ids) throws Exception {
+    public List<LichSuHoatDong> timKiem(String... ids) throws Exception {
         String query = "select * from LichSuHoatDong where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

@@ -1,6 +1,5 @@
 package dev.skyherobrine.app.daos;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -105,5 +104,5 @@ public interface IDAO<T>{
      * cú pháp</u>, <u>không kết nối SQL được</u>
      * @since 1.0
      */
-    List<T> timkiem(String...ids) throws Exception;
+    List<T> timKiem(String...ids) throws Exception;
 }

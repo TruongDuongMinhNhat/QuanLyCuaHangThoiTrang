@@ -83,7 +83,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
     }
 
     @Override
-    public List<PhieuTraNhaCungCap> timkiem(String... ids) throws Exception {
+    public List<PhieuTraNhaCungCap> timKiem(String... ids) throws Exception {
         String query = "select * from PhieuTraNhaCungCap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
