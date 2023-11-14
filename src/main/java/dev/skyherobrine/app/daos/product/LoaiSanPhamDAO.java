@@ -71,23 +71,22 @@ public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
     @Override
     public List<LoaiSanPham> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from LoaiSanPham t where ");
+                ("select * from LoaiSanPham lsp where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("lsp." + column + " = N'" + value + "'"));
             isNeedAnd.set(true);
         });
 
         List<LoaiSanPham> loaiSanPhams = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        ResultSet result = preparedStatement.executeQuery();
-        while(result.next()) {
-            LoaiSanPham loaiSanPham = new LoaiSanPham(
-                    result.getString("MaLoai"),
-                    result.getString("TenLoai"),
-                    new DanhMucSanPhamDAO().timKiem(result.getString("MaDM")).get()
-            );
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            LoaiSanPham loaiSanPham = new LoaiSanPham(resultSet.getString("MaLoai"),
+                    resultSet.getString("TenLoai"),
+                    new DanhMucSanPhamDAO().timKiem(resultSet.getString("MaDM")).get());
+
             loaiSanPhams.add(loaiSanPham);
         }
         return loaiSanPhams;
@@ -108,11 +107,11 @@ public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
     }
 
     @Override
-    public List<LoaiSanPham> timKiem(String... ids) throws Exception {
+    public List<LoaiSanPham> timkiem(String... ids) throws Exception {
         String query = "select * from LoaiSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for (int i = 0; i < listID.length; ++i) {
-            query += ("MaLoai like '%" + listID[i] + "%'");
+            query += ("MaLoai = '" + listID[i] + "'");
             if ((i + 1) >= listID.length) break;
             else query += ", ";
         }
