@@ -1,11 +1,17 @@
 package dev.skyherobrine.app.entities.product;
 
+import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
+import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
+import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
+import dev.skyherobrine.app.entities.sale.KhuyenMai;
 import dev.skyherobrine.app.enums.DoTuoi;
 import dev.skyherobrine.app.enums.MauSac;
 import dev.skyherobrine.app.enums.PhongCachMac;
 import dev.skyherobrine.app.enums.TinhTrangSanPham;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Thực thể "Sản Phẩm", thực thể này dùng để lưu trữ thông tin sản phẩm trong cửa hàng, thông tin sản phẩm
@@ -28,6 +34,8 @@ public class SanPham {
     private String hinhAnh;
     private LocalDate ngaySanXuat;
     private TinhTrangSanPham tinhTrang;
+    private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs;
+    private List<ChiTietKhuyenMai> chiTietKhuyenMais;
 
     public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, int soLuong, ThuongHieu thuongHieu, float phanTramLoi, MauSac mauSac, String kichThuoc, String hinhAnh, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
         this.setMaSP(maSP);
@@ -168,6 +176,53 @@ public class SanPham {
 
     public void setTinhTrang(TinhTrangSanPham tinhTrang) {
         this.tinhTrang = tinhTrang;
+    }
+
+    public List<ChiTietPhieuNhapHang> getChiTietPhieuNhapHangs() {
+        return chiTietPhieuNhapHangs;
+    }
+
+    public void setChiTietPhieuNhapHangs(List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs) {
+        this.chiTietPhieuNhapHangs = chiTietPhieuNhapHangs;
+    }
+
+    public List<ChiTietKhuyenMai> getChiTietKhuyenMais() {
+        return chiTietKhuyenMais;
+    }
+
+    public void setChiTietKhuyenMais(List<ChiTietKhuyenMai> chiTietKhuyenMais) {
+        this.chiTietKhuyenMais = chiTietKhuyenMais;
+    }
+
+    public double giaBan() {
+        double giaBanGanNhat = giaNhapGanNhat();
+        double tongTienChuaKM = giaBanGanNhat + (giaBanGanNhat * (phanTramLoi / 100));
+        double khuyenMaiGanNhat = layKhuyenMaiGanNhat();
+        return tongTienChuaKM - (tongTienChuaKM * khuyenMaiGanNhat);
+    }
+
+    public double giaNhapGanNhat() {
+        double giaBan = 0;
+        LocalDateTime ngayNhap = null;
+        for(ChiTietPhieuNhapHang chiTietPhieuNhapHang : chiTietPhieuNhapHangs) {
+            if(ngayNhap == null) {
+                ngayNhap = chiTietPhieuNhapHang.getPhieuNhapHang().getNgayLapPhieu();
+                giaBan = chiTietPhieuNhapHang.getGiaNhap();
+            } else if(ngayNhap.isBefore(chiTietPhieuNhapHang.getPhieuNhapHang().getNgayLapPhieu())) {
+                ngayNhap = chiTietPhieuNhapHang.getPhieuNhapHang().getNgayLapPhieu();
+                giaBan = chiTietPhieuNhapHang.getGiaNhap();
+            }
+        }
+        return giaBan;
+    }
+
+    public double layKhuyenMaiGanNhat() {
+        for(ChiTietKhuyenMai chiTietKhuyenMai : chiTietKhuyenMais) {
+            if(chiTietKhuyenMai.getKhuyenMai().getNgayApDung().isBefore(LocalDate.now()) &&
+            chiTietKhuyenMai.getKhuyenMai().getNgayHetHan().isAfter(LocalDate.now())) {
+                return chiTietKhuyenMai.getTiLe();
+            }
+        }
     }
 
     @Override
