@@ -98,7 +98,6 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         AtomicReference<String> query = new AtomicReference<>
                 ("select * from NhanVien nv where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
-
         conditions.forEach((column, value) -> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " like '%" + value + "%'"));
             isNeedAnd.set(true);
@@ -108,6 +107,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
+            System.out.println(result.getString("MaNV"));
             NhanVien nhanVien = new NhanVien(
                     result.getString("MaNV"),
                     result.getString("HoTen"),
@@ -128,6 +128,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public Optional<NhanVien> timKiem(String id) throws Exception {
+        System.out.println("1");
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("select * from NhanVien nv where nv.MaNV = ?");
         preparedStatement.setString(1, id);
@@ -152,6 +153,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public List<NhanVien> timKiem(String... ids) throws Exception {
+        System.out.println("1");
         String query = "select * from NhanVien nv where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

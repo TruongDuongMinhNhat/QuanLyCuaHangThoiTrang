@@ -4,6 +4,9 @@
  */
 package dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham;
 
+import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.MutipleButtonController;
+import dev.skyherobrine.app.entities.product.SanPham;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,7 +41,7 @@ public class MultipleButton extends JPanel{
         return items;
     }
 
-    public void setItems(List items) {
+    public void setItems(List<SanPham> items) {
         this.items = items;
         initItem();
     }
@@ -54,8 +57,7 @@ public class MultipleButton extends JPanel{
         int blue = effectColor.getBlue();
         colors = new Color[]{new Color(red, green, blue, 70), new Color(red, green, blue, 20), new Color(red, green, blue, showLine)};
     }
-
-    private List items = new ArrayList();
+    private List<SanPham> items = new ArrayList();
     private Color effectColor;
     private Point point;
     private float[] dist = {0.0f, 0.5f, 1.0f};
@@ -120,13 +122,13 @@ public class MultipleButton extends JPanel{
 //        }
 //        repaint();
 //        revalidate();
-        int numberOfItems =10;// số lượng sản phẩm
-        removeAll();
-
-
-        for (int i = 0; i < numberOfItems; i++) {
-            add(createItem());
+        try {
+            System.out.println(items);
+            int slsp = new MutipleButtonController(this).loadSP(items);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
         repaint();
         revalidate();
     }
@@ -141,10 +143,6 @@ public class MultipleButton extends JPanel{
 //        return label;
 //    }
 
-    private Item createItem() {
-        Item item = new Item();
-        return item;
-    }
 
     private void checKMouse() {
         if (point == null) {

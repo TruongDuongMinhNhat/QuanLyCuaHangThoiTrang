@@ -95,7 +95,7 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
     }
 
     @Override
-    public List<DanhMucSanPham> timkiem(String... ids) throws Exception {
+    public List<DanhMucSanPham> timKiem(String... ids) throws Exception {
         String query = "select * from DanhMucSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

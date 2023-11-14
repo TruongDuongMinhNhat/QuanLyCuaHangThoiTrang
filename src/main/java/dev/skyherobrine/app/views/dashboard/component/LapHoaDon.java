@@ -5,8 +5,12 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 
+import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.LapHoaDonController;
+import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.MutipleButtonController;
+import dev.skyherobrine.app.controllers.loginui.mainLogin.LoginController;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.pnDanhSachSanPhamLapHoaDon;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.EventItemSelected;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.setting.danhSachSanPham.MultipleButton;
 
 
 import java.awt.Color;
@@ -32,19 +36,22 @@ public class LapHoaDon extends JPanel {
         jScrollPaneSplDsSp.setBorder(null);
 
         //khu vục đổi chũ thành label
-        List<String> items = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            items.add("");
+        try {
+            new LapHoaDonController(this);
+            LapHoaDonController.loadTTNV();
+            LapHoaDonController.loadSP();
+            LapHoaDonController.loadLoai();
+            LapHoaDonController.loadDanhMuc();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        multipleButton1.setItems(items);
-
-        // xử lý khi chọn vào vào items của danh sách các sản phẩm 
-        multipleButton1.setEvent(new EventItemSelected() {
-            @Override
-            public void selected(int index) {
-                System.out.println("đã chọn sản phẩm số: "+index);
-            }
-        });
+        jTable1.getModel().addTableModelListener(new LapHoaDonController(this));
+        txtTimKiemDsSp.addFocusListener(new LapHoaDonController(this));
+        txtTimKiemDsSp.addKeyListener(new LapHoaDonController(this));
+        txtSĐTKhachHang.addFocusListener(new LapHoaDonController(this));
+        txtSĐTKhachHang.addKeyListener(new LapHoaDonController(this));
+        btnLapHoaDon.addActionListener(new LapHoaDonController(this));
+        multipleButton1.setEvent(new MutipleButtonController(multipleButton1));
 
     }
 
@@ -117,13 +124,9 @@ public class LapHoaDon extends JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã sản phẩm", "Tên sản phẩm", "Kích thước","Số lượng", "Giá bán", "Thành tiền"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -146,16 +149,16 @@ public class LapHoaDon extends JPanel {
         jScrollPaneSplDsSp.setViewportView(multipleButton1);
 
         txtTimKiemDsSp.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemDsSp.setText("tìm kiếm");
+        txtTimKiemDsSp.setText("");
         txtTimKiemDsSp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemDsSpActionPerformed(evt);
             }
         });
 
-        cbLoai.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbLoai.setModel(new DefaultComboBoxModel<>(new String[] { }));
 
-        cbDanhMuc.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbDanhMuc.setModel(new DefaultComboBoxModel<>(new String[] {}));
 
         GroupLayout pnBottomSplDsSpLayout = new GroupLayout(pnBottomSplDsSp);
         pnBottomSplDsSp.setLayout(pnBottomSplDsSpLayout);
@@ -548,7 +551,64 @@ public class LapHoaDon extends JPanel {
         // TODO add your handling code here:
     }
 
+    public JButton getBtnLapHoaDon() {
+        return btnLapHoaDon;
+    }
+    public JTextField getTxtMaHoaDon() {
+        return txtMaHoaDon;
+    }
+    public JTextField getTxtNgayLap() {
+        return txtNgayLap;
+    }
 
+    public JTextField getTxtChietKhau() {
+        return txtChietKhau;
+    }
+    public JTextField getTxtThue() {
+        return txtThue;
+    }
+    public JTextField getTxtSoTienKhachPhaiTra() {
+        return txtSoTienKhachPhaiTra;
+    }
+    public JTextField getTxtTongSoTienThanhToan() {
+        return txtTongSoTienThanhToan;
+    }
+    public JTextField getTxtMaNhanVien() {
+        return txtMaNhanVien;
+    }
+    public JTextField getTxtTenNhanVien() {
+        return txtTenNhanVien;
+    }
+    public JTextField getTxtSoDienThoaiNhanVien() {
+        return txtSoDienThoaiNhanVien;
+    }
+    public JTextField getTxtTenKh() {
+        return txtTenKh;
+    }
+    public JTextField getTxtSĐTKhachHang() {
+        return txtSĐTKhachHang;
+    }
+    public JTextField getTxtNgaySinhKh() {
+        return txtNgaySinhKh;
+    }
+    public JTextField getTxtTimKiemDsSp() {
+        return txtTimKiemDsSp;
+    }
+    public JTable getjTable1() {
+        return jTable1;
+    }
+    public JTextArea getTxtAGhiChu() {
+        return txtAGhiChu;
+    }
+    public JComboBox getCbDanhMuc() {
+        return cbDanhMuc;
+    }
+    public JComboBox getCbLoai() {
+        return cbLoai;
+    }
+    public MultipleButton getMultipleButton1() {
+        return multipleButton1;
+    }
 
     private JButton btnLapHoaDon;
     private JButton btnLuuTamHoaDon;

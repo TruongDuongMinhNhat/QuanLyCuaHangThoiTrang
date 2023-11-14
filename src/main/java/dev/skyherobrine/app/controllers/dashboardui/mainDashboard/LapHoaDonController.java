@@ -109,7 +109,6 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
                     conditionsLoai.put("MaLoai", loai.getMaLoai());
                     List<SanPham> listSP = sanPhamDAO.timKiem(conditionsLoai);
                     dsSP.addAll(listSP);
-//                    System.out.println(dsSP);
                 }
                 lapHoaDon.getMultipleButton1().removeAll();
                 lapHoaDon.getMultipleButton1().setItems(dsSP);
@@ -168,7 +167,6 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         int index = thue.indexOf(" ");
         double thueSP = Double.parseDouble(thue.substring(0, index));
         tt += (giaBan+giaBan*(thueSP/100));
-        System.out.println(tt);
         lapHoaDon.getTxtChietKhau().setText(CheckCK(tt)+"");
         tt -= giaBan*CheckCK(tt)/100;
 
@@ -182,7 +180,6 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
             conditions.put("TenLoai", ten);
             List<LoaiSanPham> maloai = loaiSanPhamDAO.timKiem(conditions);
             for(LoaiSanPham lsp : maloai){
-                System.out.println(lsp.getMaLoai().toString());
                 return lsp.getMaLoai().toString();
             }
         } catch (Exception e) {
@@ -254,7 +251,6 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getjTable1().getModel();
         for(int i = 0; i < tmHoaDon.getRowCount(); i++){
             tmHoaDon.removeRow(i);
-            System.out.println("1");
         }
         lapHoaDon.getTxtNgayLap().setText("");
         lapHoaDon.getTxtMaHoaDon().setText("");
@@ -263,9 +259,8 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         lapHoaDon.getTxtSĐTKhachHang().setText("");
         lapHoaDon.getTxtSoTienKhachPhaiTra().setText("");
         lapHoaDon.getTxtTongSoTienThanhToan().setText("");
-        lapHoaDon.getTxtGhiChu().setText("");
+        lapHoaDon.getTxtAGhiChu().setText("");
         lapHoaDon.getTxtTongSoTienThanhToan().setText(tt+"");
-        System.out.println("1");
     }
 
     public static void lapHoaDon(){
@@ -273,11 +268,10 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
             DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getjTable1().getModel();
             Optional<NhanVien> nv = nhanVienDAO.timKiem(lapHoaDon.getTxtMaNhanVien().getText());
             LocalDateTime ngayLap = LocalDateTime.parse(lapHoaDon.getTxtNgayLap().getText(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-            HoaDon hd = new HoaDon(lapHoaDon.getTxtMaHoaDon().getText(), ngayLap, nv.get(),dsKH.get(0), new BigDecimal(lapHoaDon.getTxtSoTienKhachPhaiTra().getText()), lapHoaDon.getTxtGhiChu().getText());
+            HoaDon hd = new HoaDon(lapHoaDon.getTxtMaHoaDon().getText(), ngayLap, nv.get(),dsKH.get(0), new BigDecimal(lapHoaDon.getTxtSoTienKhachPhaiTra().getText()), lapHoaDon.getTxtAGhiChu().getText());
             hoaDonDAO.them(hd);
             for(int i = 0; i < tmHoaDon.getRowCount(); i++){
                 Optional<SanPham> sp = sanPhamDAO.timKiem(tmHoaDon.getValueAt(i, 0).toString());
-                System.out.println(tmHoaDon.getValueAt(i, 3).toString());
                 ChiTietHoaDon cthd = new ChiTietHoaDon(hd, sp.get(), Integer.parseInt(tmHoaDon.getValueAt(i, 3).toString()));
                 chiTietHoaDonDAO.them(cthd);
             }

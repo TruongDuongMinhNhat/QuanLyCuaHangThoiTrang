@@ -23,22 +23,28 @@ public class Item extends javax.swing.JPanel {
         
         //khu vực chỉnh sửa nhé tên và các thành phàn của item
 
-            Imformation(3);
-
     }
-    
-    private void Imformation(int i){
-        URL url = getClass().getResource("/img/imgTest/"+i+".png");
-        if (url != null) {
-            ImageIcon iconGoc = new ImageIcon(url);
+
+    public Item(String url, String tenSanPham, String giaTien, String soLuong){
+        initComponents();
+        URL path = getClass().getResource(url);
+
+        if (path != null) {
+            ImageIcon iconGoc = new ImageIcon(path);
             Image anh = iconGoc.getImage();
             Image tinhChinhAnh = anh.getScaledInstance(200, 150, Image.SCALE_SMOOTH);
             ImageIcon icon = new ImageIcon(tinhChinhAnh);
             lbAnhItem.setIcon(icon);
-            lbTenSanPham.setText("Giày số hiệu"+i);
-            lbGiaTienSo.setText(i+" tỷ");
-            lbSoLuongSanPhamChinhSo.setText(""+i);
+        }else{
+            ImageIcon iconGoc = new ImageIcon(getClass().getResource("/img/imgSanPham/Image_not_available.png"));
+            Image anh = iconGoc.getImage();
+            Image tinhChinhAnh = anh.getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(tinhChinhAnh);
+            lbAnhItem.setIcon(icon);
         }
+        lbTenSanPham.setText(tenSanPham);
+        lbGiaTienSo.setText(giaTien);
+        lbSoLuongSanPhamChinhSo.setText(soLuong);
     }
    
     
@@ -70,13 +76,13 @@ public class Item extends javax.swing.JPanel {
 
         lbSoLuongSanPhamChinhSo.setText("null");
 
-        pnGia.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        pnGia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         pnGia.setText("Giá");
 
-        lbGiaTienSo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbGiaTienSo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbGiaTienSo.setText("00.0");
 
-        pnDonViTienTe.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        pnDonViTienTe.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         pnDonViTienTe.setText("đ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -97,7 +103,7 @@ public class Item extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(pnGia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                         .addComponent(lbGiaTienSo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnDonViTienTe)))

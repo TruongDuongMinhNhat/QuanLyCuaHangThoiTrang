@@ -164,7 +164,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
     }
 
     @Override
-    public List<SanPham> timkiem(String... ids) throws Exception {
+    public List<SanPham> timKiem(String... ids) throws Exception {
         String query = "select * from SanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
