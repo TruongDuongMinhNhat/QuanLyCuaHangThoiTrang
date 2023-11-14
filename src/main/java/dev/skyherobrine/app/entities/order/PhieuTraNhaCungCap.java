@@ -2,7 +2,7 @@ package dev.skyherobrine.app.entities.order;
 
 import dev.skyherobrine.app.enums.TinhTrangTraHang;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Phiếu Trả Nhà Cung Cấp", thực thể này dùng để lưu trữ thông tin việc trả những món hàng bị lỗi
@@ -13,11 +13,11 @@ import java.time.LocalDate;
 public class PhieuTraNhaCungCap {
     private String maPhieuTra;
     private PhieuNhapHang phieuNhap;
-    private LocalDate ngayHenLay;
-    private LocalDate ngayLap;
+    private LocalDateTime ngayHenLay;
+    private LocalDateTime ngayLap;
     private TinhTrangTraHang tinhTrang;
 
-    public PhieuTraNhaCungCap(String maPhieuTra, PhieuNhapHang phieuNhap, LocalDate ngayHenLay, LocalDate ngayLap, TinhTrangTraHang tinhTrang) throws Exception{
+    public PhieuTraNhaCungCap(String maPhieuTra, PhieuNhapHang phieuNhap, LocalDateTime ngayHenLay, LocalDateTime ngayLap, TinhTrangTraHang tinhTrang) throws Exception{
         this.setMaPhieuTra(maPhieuTra);
         this.setPhieuNhap(phieuNhap);
         this.setNgayHenLay(ngayHenLay);
@@ -41,25 +41,25 @@ public class PhieuTraNhaCungCap {
         this.phieuNhap = phieuNhap;
     }
 
-    public LocalDate getNgayHenLay() {
+    public LocalDateTime getNgayHenLay() {
         return ngayHenLay;
     }
     /**
      * Set ngày hẹn lấy phải lớn hơn ngày lập phiếu trả hàng nhà cung cấp <br></br>
      * Nếu ngày hẹn lấy nhỏ hơn ngày lập phiếu thì sẽ xuất ra exception "Ngày hẹn lấy không được sớm hơn ngày lập!"
      */
-    public void setNgayHenLay(LocalDate ngayHenLay) throws Exception {
+    public void setNgayHenLay(LocalDateTime ngayHenLay) throws Exception {
         if(!ngayHenLay.isBefore(this.ngayLap))
             this.ngayHenLay = ngayLap;
         else
             throw new Exception("Ngày hẹn lấy không được sớm hơn ngày lập!");
     }
 
-    public LocalDate getNgayLap() {
+    public LocalDateTime getNgayLap() {
         return ngayLap;
     }
 
-    public void setNgayLap(LocalDate ngayLap) {
+    public void setNgayLap(LocalDateTime ngayLap) {
         this.ngayLap = ngayLap;
     }
 

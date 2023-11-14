@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.enums.*;
@@ -10,6 +11,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SanPhamDAO implements IDAO<SanPham> {
     private ConnectDB connectDB;
@@ -82,7 +85,39 @@ public class SanPhamDAO implements IDAO<SanPham> {
 
     @Override
     public List<SanPham> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from SanPham t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<SanPham> sanPhams = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            SanPham sanPham = new SanPham(
+                    result.getString("MaSP"),
+                    result.getString("TenSP"),
+                    new LoaiSanPhamDAO().timKiem(result.getString("MaLoai")).get(),
+                    PhongCachMac.layGiaTri(result.getString("PhongCachMac")),
+                    DoTuoi.layGiaTri(result.getString("DoTuoi")),
+                    result.getString("SoLuong"),
+                    result.getInt("SoLuong"),
+                    new ThuongHieuDAO().timKiem(result.getString("ThuongHieu")).get(),
+                    result.getFloat("PhanTramLoi"),
+                    MauSac.layGiaTri(result.getString("MauSac")),
+                    result.getString("KichThuoc"),
+                    result.getString("HinhAnh"),
+                    result.getDate("NgaySanXuat").toLocalDate(),
+                    TinhTrangSanPham.layGiaTri(result.getString("TinhTrang"))
+            );
+
+            sanPhams.add(sanPham);
+        }
+        return sanPhams;
     }
 
     @Override

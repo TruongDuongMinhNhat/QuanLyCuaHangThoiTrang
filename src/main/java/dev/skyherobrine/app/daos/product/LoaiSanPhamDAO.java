@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.LoaiSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
@@ -10,6 +11,8 @@ import javax.swing.text.html.Option;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
     private ConnectDB connectDB;
@@ -67,7 +70,27 @@ public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
 
     @Override
     public List<LoaiSanPham> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from LoaiSanPham t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<LoaiSanPham> loaiSanPhams = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            LoaiSanPham loaiSanPham = new LoaiSanPham(
+                    result.getString("MaLoai"),
+                    result.getString("TenLoai"),
+                    new DanhMucSanPhamDAO().timKiem(result.getString("MaDM")).get()
+            );
+            loaiSanPhams.add(loaiSanPham);
+        }
+        return loaiSanPhams;
     }
 
     @Override

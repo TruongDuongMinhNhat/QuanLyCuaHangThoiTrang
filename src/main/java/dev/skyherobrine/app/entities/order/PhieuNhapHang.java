@@ -3,7 +3,7 @@ package dev.skyherobrine.app.entities.order;
 import dev.skyherobrine.app.entities.person.NhaCungCap;
 import dev.skyherobrine.app.enums.TinhTrangNhapHang;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Phiếu Nhập Hàng", thực thể này dùng để lưu trữ thông tin phiếu nhập hàng của cửa hàng trong
@@ -14,12 +14,12 @@ import java.time.LocalDate;
 public class PhieuNhapHang {
     private String maPhieuNhap;
     private NhaCungCap nhaCungCap;
-    private LocalDate ngayLapPhieu;
-    private LocalDate ngayHenGiao;
+    private LocalDateTime ngayLapPhieu;
+    private LocalDateTime ngayHenGiao;
     private String ghiChu;
     private TinhTrangNhapHang tinhTrang;
 
-    public PhieuNhapHang(String maPhieuNhap, NhaCungCap nhaCungCap, LocalDate ngayLapPhieu, LocalDate ngayHenGiao, String ghiChu, TinhTrangNhapHang tinhTrang) {
+    public PhieuNhapHang(String maPhieuNhap, NhaCungCap nhaCungCap, LocalDateTime ngayLapPhieu, LocalDateTime ngayHenGiao, String ghiChu, TinhTrangNhapHang tinhTrang) {
         this.maPhieuNhap = maPhieuNhap;
         this.nhaCungCap = nhaCungCap;
         this.ngayLapPhieu = ngayLapPhieu;
@@ -44,22 +44,22 @@ public class PhieuNhapHang {
         this.nhaCungCap = nhaCungCap;
     }
 
-    public LocalDate getNgayLapPhieu() {
+    public LocalDateTime getNgayLapPhieu() {
         return ngayLapPhieu;
     }
 
-    public void setNgayLapPhieu(LocalDate ngayLapPhieu) {
+    public void setNgayLapPhieu(LocalDateTime ngayLapPhieu) {
         this.ngayLapPhieu = ngayLapPhieu;
     }
 
-    public LocalDate getNgayHenGiao() {
+    public LocalDateTime getNgayHenGiao() {
         return ngayHenGiao;
     }
     /**
      * Set ngày hẹn giao phải lớn hơn ngày lập phiếu nhập <br></br>
      * Nếu ngày hẹn giao nhỏ hơn ngày lập phiếu thì sẽ xuất ra exception "Ngày hẹn giao không được sớm hơn ngày lập phiếu!"
      */
-    public void setNgayHenGiao(LocalDate ngayHenGiao) throws Exception {
+    public void setNgayHenGiao(LocalDateTime ngayHenGiao) throws Exception {
         if(!ngayHenGiao.isBefore(this.ngayLapPhieu))
             this.ngayHenGiao = ngayHenGiao;
         else

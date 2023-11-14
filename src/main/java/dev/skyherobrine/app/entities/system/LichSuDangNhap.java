@@ -2,7 +2,7 @@ package dev.skyherobrine.app.entities.system;
 
 import dev.skyherobrine.app.entities.person.NhanVien;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Lịch Sử Đăng Nhập", thực thể này sẽ chứa dữ liệu liên quan đến việc nhân viên sẽ đăng nhập ở trong
@@ -13,10 +13,10 @@ import java.time.LocalDate;
 public class LichSuDangNhap {
     private long id;
     private NhanVien maNV;
-    private LocalDate ngayDangNhap;
-    private LocalDate ngayDangXuat;
+    private LocalDateTime ngayDangNhap;
+    private LocalDateTime ngayDangXuat;
 
-    public LichSuDangNhap(long id, NhanVien maNV, LocalDate ngayDangNhap, LocalDate ngayDangXuat) {
+    public LichSuDangNhap(long id, NhanVien maNV, LocalDateTime ngayDangNhap, LocalDateTime ngayDangXuat) {
         this.setId(id);
         this.setMaNV(maNV);
         this.setNgayDangNhap(ngayDangNhap);
@@ -39,19 +39,19 @@ public class LichSuDangNhap {
         this.maNV = maNV;
     }
 
-    public LocalDate getNgayDangNhap() {
+    public LocalDateTime getNgayDangNhap() {
         return ngayDangNhap;
     }
 
-    public void setNgayDangNhap(LocalDate ngayDangNhap) {
+    public void setNgayDangNhap(LocalDateTime ngayDangNhap) {
         this.ngayDangNhap = ngayDangNhap;
     }
 
-    public LocalDate getNgayDangXuat() {
+    public LocalDateTime getNgayDangXuat() {
         return ngayDangXuat;
     }
 
-    public void setNgayDangXuat(LocalDate ngayDangXuat) {
+    public void setNgayDangXuat(LocalDateTime ngayDangXuat) {
         this.ngayDangXuat = ngayDangXuat;
     }
 
