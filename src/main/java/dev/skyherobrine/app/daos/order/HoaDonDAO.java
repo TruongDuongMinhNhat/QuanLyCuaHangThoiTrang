@@ -122,7 +122,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         String query = "select * from HoaDon where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaHD like '%" + listID[i] + "%'");
+            query += ("MaHD = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

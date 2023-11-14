@@ -88,7 +88,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         String query = "select * from PhieuTraKhachHang where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaPhieuTraKH like '%" + listID[i] + "%'");
+            query += ("MaPhieuTraKH = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

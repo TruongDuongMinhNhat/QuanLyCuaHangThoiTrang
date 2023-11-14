@@ -93,7 +93,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
         String query = "select * from LichSuHoatDong where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaHoatDong like '%" + listID[i] + "%'");
+            query += ("MaHoatDong = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

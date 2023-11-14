@@ -74,7 +74,7 @@ public class MutipleButtonController implements ActionListener, KeyListener, Eve
     public double getGiaSP(String maSP, double ptLoi) throws Exception {
 
         Optional<ChiTietPhieuNhapHang> SP = chiTietPhieuNhapHangDAO.timKiem(maSP);
-
+        System.out.println(SP);
         if(SP.isPresent()){
             double giaSP = SP.get().getGiaNhap();
             double tienLoi = giaSP*(ptLoi/100);

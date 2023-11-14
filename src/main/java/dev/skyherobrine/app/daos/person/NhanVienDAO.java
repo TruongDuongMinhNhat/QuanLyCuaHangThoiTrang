@@ -151,6 +151,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         }
     }
 
+
     @Override
     public List<NhanVien> timKiem(String... ids) throws Exception {
         System.out.println("1");

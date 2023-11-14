@@ -51,11 +51,10 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         List<PhieuTraNhaCungCap> phieuTraNhaCungCaps = new ArrayList<>();
         while(resultSet.next()) {
             PhieuTraNhaCungCap phieuTraNhaCungCap = new PhieuTraNhaCungCap(resultSet.getString("MaPhieuTra"),
-                            new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
-                            resultSet.getTimestamp("NgayHenLay").toLocalDateTime(),
-                            resultSet.getTimestamp("NgayLap").toLocalDateTime(),
-                            TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
-
+                    new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
+                    resultSet.getTimestamp("NgayHenLay").toLocalDateTime(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
+                    TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
             phieuTraNhaCungCaps.add(phieuTraNhaCungCap);
         }
         return phieuTraNhaCungCaps;
@@ -87,7 +86,7 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         String query = "select * from PhieuTraNhaCungCap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaPhieuTra like '%" + listID[i] + "%'");
+            query += ("MaPhieuTra = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

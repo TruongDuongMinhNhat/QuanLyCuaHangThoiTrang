@@ -21,6 +21,7 @@ public class LoginUI extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
         setResizable(false);
+        setLocationRelativeTo(null);
         buttonLogin1.addActionListener(new LoginController(this));
         setFocusable(true);
         requestFocus();

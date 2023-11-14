@@ -1,0 +1,524 @@
+package dev.skyherobrine.app.controllers.dashboardui.person;
+
+import dev.skyherobrine.app.daos.person.NhanVienDAO;
+import dev.skyherobrine.app.entities.person.NhanVien;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
+import dev.skyherobrine.app.entities.product.LoaiSanPham;
+import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.entities.product.ThuongHieu;
+import dev.skyherobrine.app.enums.*;
+import dev.skyherobrine.app.views.dashboard.component.NhanVienGUI;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.List;
+
+public class NhanVienController implements ActionListener, MouseListener {
+    private NhanVienGUI nhanVienUI;
+    private NhanVienDAO nhanVienDAO;
+    private List<NhanVien> dsNhanVien;
+
+
+    private static int trangThaiNutXoa = 0;
+    private static int trangThaiNutThem = 0;
+    private static int trangThaiNutSua = 0;
+    private static String fileAnhNV = "";
+
+
+    public NhanVienController(NhanVienGUI nhanVienUI) {
+        try {
+            nhanVienDAO = new NhanVienDAO();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        this.nhanVienUI = nhanVienUI;
+    }
+
+    //load danh sách lên table
+    public void loadDsNhanVien() {
+        DefaultTableModel clearTable = (DefaultTableModel) nhanVienUI.getTbDanhSachNhanVien().getModel();
+        clearTable.setRowCount(0);
+        nhanVienUI.getTbDanhSachNhanVien().setModel(clearTable);
+        try {
+            dsNhanVien = nhanVienDAO.timKiem();
+            DefaultTableModel tmNhanVien = (DefaultTableModel) nhanVienUI.getTbDanhSachNhanVien().getModel();
+            for(dev.skyherobrine.app.entities.person.NhanVien nv : dsNhanVien){
+                String row[] = {nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.isGioiTinh()+"", nv.getNgaySinh()+"", nv.getEmail(), nv.getDiaChi(), nv.getChucVu()+"", nv.getCaLamViec()+"", nv.getTenTaiKhoan(), nv.getMatKhau(), nv.getTinhTrang()+""};
+                tmNhanVien.addRow(row);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object op = e.getSource();
+        /*NÚT THÊM*/
+        if(op.equals(nhanVienUI.getButtonThemNhanVien())){
+            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm nhân viên
+            if (trangThaiNutThem==0) {
+                nhanVienUI.getButtonThemNhanVien().setText("Xác nhận thêm");
+                nhanVienUI.getButtonSuaNhanVien().setText("Xóa trắng");
+                nhanVienUI.getButtonXoaNhanVien().setText("Thoát thêm");
+                trangThaiNutXoa = 1;
+                trangThaiNutThem = 1;
+                trangThaiNutSua = 1;
+
+                //Mở tương tác với thông tin
+                tuongTac(true);
+                tuongTacTimKiem(false);
+
+                //Xóa trắng dữ liệu
+                xoaTrangAll();
+                //load sẵn tình trang còn bán
+            }
+            // Thực hiện chức năng nghiệp vụ thêm nhân viên
+            else if(trangThaiNutThem==1) {
+                NhanVien sp = layDataThem();
+                if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm nhân viên mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
+                    try {
+                        if(nhanVienDAO.them(sp)){
+                            loadDsNhanVien();
+                            xoaTrangAll();
+                            JOptionPane.showMessageDialog(null, "Thêm thành công!");
+                            trangThaiNutThem = 1;
+                            trangThaiNutXoa = 1;
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+            }
+            //Thực hiện chức năng nghiệp vụ sửa nhân viên
+            else if(trangThaiNutThem==2){
+                if (nhanVienUI.getTxtMaNhanVien().getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa!");
+                }else {
+                    NhanVien nvSua = layDataSua();
+                    if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa nhân viên có mã " +nvSua.getMaNV()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
+                        try {
+                            if(nhanVienDAO.capNhat(nvSua)){
+                                loadDsNhanVien();
+                                xoaTrangAll();
+                                JOptionPane.showMessageDialog(null, "Sửa thành công!");
+                                trangThaiNutThem = 2;
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Sửa thất bại!");
+                            }
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+                trangThaiNutXoa = 1;
+            }
+        }
+
+        /*NÚT SỬA*/
+        if(op.equals(nhanVienUI.getButtonSuaNhanVien())){
+            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa nhân viên
+            if (trangThaiNutSua==0) {
+                //Mở tương tác với thông tin
+                tuongTac(true);
+
+                nhanVienUI.getTxtMaNhanVien().setText("Xác nhận sửa");
+                nhanVienUI.getButtonSuaNhanVien().setText("Xóa trắng");
+                nhanVienUI.getButtonXoaNhanVien().setText("Thoát sửa");
+                trangThaiNutThem = 2;
+                trangThaiNutSua = 1;
+                trangThaiNutXoa = 1;
+            }
+            // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín nhân viên
+            else if(trangThaiNutSua==1) {
+                xoaTrangSua();
+            }
+        }
+
+        /*NÚT XÓA*/
+        if (op == nhanVienUI.getButtonXoaNhanVien()) {
+            // Thực hiện chức năng nghiệp vụ xóa nhân viên
+            if (trangThaiNutXoa==0) {
+                if (nhanVienUI.getTxtMatKhauNhanVien().getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa!");
+                } else {
+                    String ma = nhanVienUI.getTxtMaNhanVien().getText();
+                    if ((JOptionPane.showConfirmDialog(null,
+                            "Bạn có chắc muốn ngừng bán nhân viên có mã " + nhanVienUI.getTxtMaNhanVien().getText() + " không?", "Lựa chọn",
+                            JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+                        try {
+                            if (nhanVienDAO.xoa(ma)){
+                                loadDsNhanVien();
+                                xoaTrangAll();
+                                JOptionPane.showMessageDialog(null, "Xóa thành công!");
+                            }else {
+                                JOptionPane.showMessageDialog(null, "Xóa thất bại!");
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }
+            // Thực hiện trả các nút về giao diện quản lý nhân viên
+            else if(trangThaiNutXoa==1) {
+                tuongTac(false);
+                tuongTacTimKiem(true);
+//                xoaTrangAll();
+                nhanVienUI.getButtonThemNhanVien().setText("Thêm nhân viên");
+                nhanVienUI.getButtonSuaNhanVien().setText("Sửa nhân viên");
+                nhanVienUI.getButtonXoaNhanVien().setText("Xóa nhân viên");
+                trangThaiNutXoa = 0;
+                trangThaiNutThem = 0;
+                trangThaiNutSua = 0;
+            }
+        }
+    }
+    
+
+    //Hàm đóng/mở tương tác
+    public void tuongTac(boolean c){
+        nhanVienUI.getTxtMaNhanVien().setEnabled(c);
+        nhanVienUI.getTxtSoDienThoaiNhanVien().setEnabled(c);
+        nhanVienUI.getjDateChooserNgaySinhNhanVien().setEnabled(c);
+        nhanVienUI.getTxtDiaChiNhanVien().setEnabled(c);
+        nhanVienUI.getCbCaLamViecNhanVien().setEnabled(c);
+        nhanVienUI.getCbTinhTrangNhanVien().setEnabled(c);
+        nhanVienUI.getTxtHoTenNhanVien().setEnabled(c);
+        nhanVienUI.getCbGioiTinh().setEnabled(c);
+        nhanVienUI.getTxtEmail().setEnabled(c);
+        nhanVienUI.getCbChucVu().setEnabled(c);
+        nhanVienUI.getTxtTaiKhoanNhanVien().setEnabled(c);
+        nhanVienUI.getTxtMatKhauNhanVien().setEnabled(c);
+        nhanVienUI.getButtonThemHinhAnh().setEnabled(c);
+    }
+    //Hàm đóng/mở tương tác tìm kiếm
+    public void tuongTacTimKiem(boolean o){
+        nhanVienUI.getCbTkGioiTinh().setEnabled(o);
+        nhanVienUI.getCbTkChucVu().setEnabled(o);
+        nhanVienUI.getCbTkCaLamViec().setEnabled(o);
+        nhanVienUI.getCbTkTinhTrang().setEnabled(o);
+        nhanVienUI.getTxtTuKhoaTimKiem().setEnabled(o);
+    }
+
+    //Hàm xóa trắng sửa
+    public void xoaTrangSua(){
+        loadComboBoxPhanThongTinNV();
+        nhanVienUI.getTxtSoDienThoaiNhanVien().setText("");
+        nhanVienUI.getjDateChooserNgaySinhNhanVien().setDate(null);
+        nhanVienUI.getTxtDiaChiNhanVien().setText("");
+        nhanVienUI.getTxtHoTenNhanVien().setText("");
+        nhanVienUI.getTxtEmail().setText("");
+        nhanVienUI.getTxtTaiKhoanNhanVien().setText("");
+        nhanVienUI.getTxtMatKhauNhanVien().setText("");
+    }
+
+    //Hàm xóa trắng dữ liệu nhập
+    public void xoaTrangAll(){
+        loadComboBoxPhanThongTinNV();
+        nhanVienUI.getTxtMaNhanVien().setText("");
+        nhanVienUI.getTxtSoDienThoaiNhanVien().setText("");
+        nhanVienUI.getjDateChooserNgaySinhNhanVien().setDate(null);
+        nhanVienUI.getTxtDiaChiNhanVien().setText("");
+        nhanVienUI.getTxtHoTenNhanVien().setText("");
+        nhanVienUI.getTxtEmail().setText("");
+        nhanVienUI.getTxtTaiKhoanNhanVien().setText("");
+        nhanVienUI.getTxtMatKhauNhanVien().setText("");
+    }
+
+    //Load các comboBox phần thông tin
+    public void loadComboBoxPhanThongTinNV(){
+        //Lấy ca làm việc
+        CaLamViec[] dsCaLamViec = CaLamViec.values();
+        String[] itemsCaLamViec = new String[dsCaLamViec.length + 1];
+        itemsCaLamViec[0] = "--Select--";
+        for (int i = 0; i < dsCaLamViec.length; i++) {
+            itemsCaLamViec[i + 1] = dsCaLamViec[i].toString();
+        }
+        DefaultComboBoxModel<String> caLamViecCb = new DefaultComboBoxModel<>(itemsCaLamViec);
+        nhanVienUI.getCbCaLamViecNhanVien().setModel(caLamViecCb);
+
+        //Lấy tình trạng từ enum
+        TinhTrangNhanVien[] dsTinhTrang = TinhTrangNhanVien.values();
+        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
+        itemsTinhTrang[0] = "--Select--";
+        for (int i = 0; i < dsTinhTrang.length; i++) {
+            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
+        }
+        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
+        nhanVienUI.getCbTinhTrangNhanVien().setModel(tinhTrangCb);
+
+        //Giới tính
+        String[] gioiTinh = {"--Select--", "NAM", "NỮ"};
+        DefaultComboBoxModel<String> gioiTinhCb = new DefaultComboBoxModel<>(gioiTinh);
+        nhanVienUI.getCbGioiTinh().setModel(gioiTinhCb);
+
+        //Lấy tình
+        ChucVu[] dsChucVu = ChucVu.values();
+        String[] itemsPhongCachMac = new String[dsChucVu.length + 1];
+        itemsPhongCachMac[0] = "--Select--";
+        for (int i = 0; i < dsChucVu.length; i++) {
+            itemsPhongCachMac[i + 1] = dsChucVu[i].toString();
+        }
+        DefaultComboBoxModel<String> PhongCachMacCb = new DefaultComboBoxModel<>(itemsPhongCachMac);
+        nhanVienUI.getCbChucVu().setModel(PhongCachMacCb);
+    }
+
+    //Load các comboBox phần tìm kiếm
+    public void loadComboBoxPhanTimKiem(){
+        //Lấy ca làm việc
+        CaLamViec[] dsCaLamViec = CaLamViec.values();
+        String[] itemsCaLamViec = new String[dsCaLamViec.length + 1];
+        itemsCaLamViec[0] = "--Ca làm việc--";
+        for (int i = 0; i < dsCaLamViec.length; i++) {
+            itemsCaLamViec[i + 1] = dsCaLamViec[i].toString();
+        }
+        DefaultComboBoxModel<String> caLamViecCb = new DefaultComboBoxModel<>(itemsCaLamViec);
+        nhanVienUI.getCbTkCaLamViec().setModel(caLamViecCb);
+
+        //Lấy tình trạng từ enum
+        TinhTrangNhanVien[] dsTinhTrang = TinhTrangNhanVien.values();
+        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
+        itemsTinhTrang[0] = "--Tình trạng--";
+        for (int i = 0; i < dsTinhTrang.length; i++) {
+            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
+        }
+        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
+        nhanVienUI.getCbTkTinhTrang().setModel(tinhTrangCb);
+
+        //Giới tính
+        String[] gioiTinh = {"--Giới tính--", "NAM", "NỮ"};
+        DefaultComboBoxModel<String> gioiTinhCb = new DefaultComboBoxModel<>(gioiTinh);
+        nhanVienUI.getCbTkGioiTinh().setModel(gioiTinhCb);
+
+        //Lấy chức vụ
+        ChucVu[] dsChucVu = ChucVu.values();
+        String[] itemsChucVu = new String[dsChucVu.length + 1];
+        itemsChucVu[0] = "--Chức vụ--";
+        for (int i = 0; i < dsChucVu.length; i++) {
+            itemsChucVu[i + 1] = dsChucVu[i].toString();
+        }
+        DefaultComboBoxModel<String> ChucVuCb = new DefaultComboBoxModel<>(itemsChucVu);
+        nhanVienUI.getCbTkChucVu().setModel(ChucVuCb);
+    }
+    
+    //Hàm lấy nhân viên từ phần thông tin
+    private NhanVien layDataThem() {
+        NhanVien nv;
+        String sdt = nhanVienUI.getTxtSoDienThoaiNhanVien().getText();
+
+        // Lấy ngày từ JDateChooser
+        Date selectedDate = nhanVienUI.getjDateChooserNgaySinhNhanVien().getDate();
+        // Chuyển đổi từ Date sang LocalDate
+        LocalDate localDate = dateToLocalDate(selectedDate);
+
+        String dc = nhanVienUI.getTxtDiaChiNhanVien().getText();
+        CaLamViec caLamViec = CaLamViec.layGiaTri(nhanVienUI.getCbCaLamViecNhanVien().getSelectedItem().toString());
+        TinhTrangNhanVien tinhTrang = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTkTinhTrang().getSelectedItem().toString());
+        String ten = nhanVienUI.getTxtHoTenNhanVien().getText();
+        Boolean gt;
+        if(nhanVienUI.getCbGioiTinh().getSelectedItem().toString().equals("NAM")){
+            gt = true;
+        }else {
+            gt = false;
+        }
+        String email = nhanVienUI.getTxtEmail().getText();
+        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbTkChucVu().getSelectedItem().toString());
+        String tk = nhanVienUI.getTxtTaiKhoanNhanVien().getText();
+        String mk = nhanVienUI.getTxtMatKhauNhanVien().getText();
+
+        //Hình ảnh
+        String anh = fileAnhNV;
+        //Mã nhân viên
+        String ma = laymaNV();
+        try {
+            nv = new NhanVien(ma,ten,sdt,gt,localDate,email,dc,cv,caLamViec,tk,mk,tinhTrang);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return nv;
+    }
+
+    //Hàm lấy nhân viên để update
+    private NhanVien layDataSua() {
+        NhanVien nv;
+        String sdt = nhanVienUI.getTxtSoDienThoaiNhanVien().getText();
+
+        // Lấy ngày từ JDateChooser
+        Date selectedDate = nhanVienUI.getjDateChooserNgaySinhNhanVien().getDate();
+        // Chuyển đổi từ Date sang LocalDate
+        LocalDate localDate = dateToLocalDate(selectedDate);
+
+        String dc = nhanVienUI.getTxtDiaChiNhanVien().getText();
+        CaLamViec caLamViec = CaLamViec.layGiaTri(nhanVienUI.getCbCaLamViecNhanVien().getSelectedItem().toString());
+        TinhTrangNhanVien tinhTrang = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTkTinhTrang().getSelectedItem().toString());
+        String ten = nhanVienUI.getTxtHoTenNhanVien().getText();
+        Boolean gt;
+        if(nhanVienUI.getCbGioiTinh().getSelectedItem().toString().equals("NAM")){
+            gt = true;
+        }else {
+            gt = false;
+        }
+        String email = nhanVienUI.getTxtEmail().getText();
+        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbTkChucVu().getSelectedItem().toString());
+        String tk = nhanVienUI.getTxtTaiKhoanNhanVien().getText();
+        String mk = nhanVienUI.getTxtMatKhauNhanVien().getText();
+
+        //Hình ảnh
+        String anh = fileAnhNV;
+        //Mã nhân viên
+        String ma = nhanVienUI.getTxtMaNhanVien().getText();
+        try {
+            nv = new NhanVien(ma,ten,sdt,gt,localDate,email,dc,cv,caLamViec,tk,mk,tinhTrang);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return nv;
+    }
+
+    //Hàm sinh mã nhân viên
+    private String laymaNV() {
+        String ma = "NV-";
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        ma = ma+nThem;
+        ma = ma+"-"+formatNumber(laysoDuoiMaNV());
+        return ma;
+    }
+    //Hàm lấy số đuôi
+    public int laysoDuoiMaNV(){
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("maHD", "%"+nThem+"%");
+        List<NhanVien> nhanViens = new ArrayList<>();
+        try {
+            nhanViens = nhanVienDAO.timKiem(conditions);
+        } catch (Exception e) {
+            return 1;
+        }
+        if(nhanViens==null){
+            return 1;
+        }
+        NhanVien nv = nhanViens.get(nhanViens.size()-1);
+        int soHD = Integer.parseInt(nv.getMaNV().substring(nv.getMaNV().length()-3));
+        return soHD+1;
+    }
+
+    //Hàm gán thêm số ví dụ 001
+    public static String formatNumber(int number) {
+        if(number < 10)
+            return String.format("00%d", number);
+        else if((number >= 10) && (number < 100))
+            return String.format("0%d", number);
+        else
+            return String.format("%d", number);
+    }
+
+    //Hàm lấy viết tắt của tên
+    public  String getInitials(String input) {
+        String[] words = input.split("\\s+"); // Sử dụng "\\s+" để tách các từ dựa trên khoảng trắng
+
+        // Lấy chữ cái đầu của từng từ ghép
+        StringBuilder initials = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                initials.append(word.charAt(0));
+            }
+        }
+
+        return initials.toString();
+    }
+
+
+    //Hàm đổi Date thành LocalDate
+    public LocalDate dateToLocalDate(Date date) {
+        Instant instant = date.toInstant();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+    @Override
+    public void mouseClicked(MouseEvent event) {
+        if(trangThaiNutThem==1){
+            JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
+        }else {
+            int row = nhanVienUI.getTbDanhSachNhanVien().getSelectedRow();
+            String ma = nhanVienUI.getTbDanhSachNhanVien().getValueAt(row, 0).toString();
+            Optional<NhanVien> nvHienThuc = null;
+            try {
+                nvHienThuc = nhanVienDAO.timKiem(ma);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            nhanVienUI.getTxtMaNhanVien().setText(nvHienThuc.get().getMaNV());
+            nhanVienUI.getTxtHoTenNhanVien().setText(nvHienThuc.get().getHoTen());
+            nhanVienUI.getTxtSoDienThoaiNhanVien().setText(nvHienThuc.get().getSoDienThoai());
+            nhanVienUI.getTxtDiaChiNhanVien().setText(nvHienThuc.get().getDiaChi());
+            nhanVienUI.getTxtEmail().setText(nvHienThuc.get().getEmail());
+            nhanVienUI.getTxtTaiKhoanNhanVien().setText(nvHienThuc.get().getTenTaiKhoan());
+            nhanVienUI.getTxtMatKhauNhanVien().setText(nvHienThuc.get().getMatKhau());
+
+            //Xử lý ngày
+            String date = String.valueOf(nvHienThuc.get().getNgaySinh());
+            Date date2 = null;
+            try {
+                date2 = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+            } catch (ParseException e) {throw new RuntimeException(e);
+
+            }
+            nhanVienUI.getjDateChooserNgaySinhNhanVien().setDate(date2);
+
+            nhanVienUI.getCbCaLamViecNhanVien().setSelectedItem(nvHienThuc.get().getCaLamViec().toString());
+            nhanVienUI.getCbTinhTrangNhanVien().setSelectedItem(nvHienThuc.get().getTinhTrang().toString());
+            nhanVienUI.getCbGioiTinh().setSelectedItem(nvHienThuc.get().isGioiTinh() ? "NAM" : "NỮ");
+            nhanVienUI.getCbChucVu().setSelectedItem(nvHienThuc.get().getChucVu().toString());
+
+            URL path = getClass().getResource("/img/imgSanPham/Image_not_available.png");
+            if(path==null){
+                path = getClass().getResource("/img/imgSanPham/Image_not_available.png");
+            }
+
+            ImageIcon iconGoc = new ImageIcon(path);
+            Image anh = iconGoc.getImage();
+            Image tinhChinhAnh = anh.getScaledInstance(200, 320, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(tinhChinhAnh);
+            JLabel picLabel = new JLabel();
+            nhanVienUI.getPnImgNhanVien().removeAll();
+            nhanVienUI.getPnImgNhanVien().add(picLabel);
+            picLabel.setSize(new Dimension(240,320));
+            picLabel.setIcon(icon);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+}

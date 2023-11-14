@@ -4,17 +4,31 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.person.NhanVienController;
+import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
+//import dev.skyherobrine.app.controllers.dashboardui.person.NhanVienController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
  */
-public class NhanVien extends javax.swing.JPanel {
+public class NhanVienGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form ThongTinCaNhan
      */
-    public NhanVien() {
+    public NhanVienGUI() {
         initComponents();
+        new NhanVienController(this).loadDsNhanVien();
+        new NhanVienController(this).loadComboBoxPhanThongTinNV();
+        new NhanVienController(this).loadComboBoxPhanTimKiem();
+        tbDanhSachNhanVien.addMouseListener(new NhanVienController(this));
+        btnThemNhanVien.addActionListener(new NhanVienController(this));
+        btnSuaNhanVien.addActionListener(new NhanVienController(this));
+        btnXoaNhanVien.addActionListener(new NhanVienController(this));
     }
 
     /**
@@ -139,7 +153,7 @@ public class NhanVien extends javax.swing.JPanel {
         lbTinhTrangQuanLySanPham1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbTinhTrangQuanLySanPham1.setText("Mật Khẩu:");
 
-        pnImgNhanVien.setBackground(new java.awt.Color(255, 51, 0));
+//        pnImgNhanVien.setBackground(new java.awt.Color(255, 51, 0));
         pnImgNhanVien.setPreferredSize(new java.awt.Dimension(240, 320));
 
         javax.swing.GroupLayout pnImgNhanVienLayout = new javax.swing.GroupLayout(pnImgNhanVien);
@@ -310,13 +324,10 @@ public class NhanVien extends javax.swing.JPanel {
 
         tbDanhSachNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã nhân viên", "Họ tên", "Số điện thoại", "Giớ tính", "Ngày sinh", "Email", "Địa chỉ", "Chức vụ", "Ca làm việc", "Tên tài khoản", "Mật khẩu", "Tình trạng"
             }
         ));
         spDanhSachNhanVien.setViewportView(tbDanhSachNhanVien);
@@ -460,4 +471,31 @@ public class NhanVien extends javax.swing.JPanel {
     private javax.swing.JTextField txtTaiKhoanNhanVien;
     private javax.swing.JTextField txtTuKhoaTimKiem;
     // End of variables declaration//GEN-END:variables
+
+
+    public JTable getTbDanhSachNhanVien() {
+        return tbDanhSachNhanVien;
+    }
+    public JButton getButtonThemNhanVien(){return btnThemNhanVien;}
+    public JButton getButtonSuaNhanVien(){return btnSuaNhanVien;}
+    public JButton getButtonXoaNhanVien(){return btnXoaNhanVien;}
+    public JTextField getTxtMaNhanVien(){return txtMaNhanVien;}
+    public JTextField getTxtSoDienThoaiNhanVien(){return txtSoDienThoaiNhanVien;}
+    public JDateChooser getjDateChooserNgaySinhNhanVien(){return jDateChooserNgaySinh;}
+    public JTextField getTxtDiaChiNhanVien(){return  txtDiaChiNhanVien;}
+    public JComboBox getCbCaLamViecNhanVien(){return  cbCaLmViec;}
+    public JComboBox getCbTinhTrangNhanVien(){return cbTinhTrang;}
+    public JTextField getTxtHoTenNhanVien(){return txtHoTenNhanVien;}
+    public JComboBox getCbGioiTinh(){return  cbGioiTinh;}
+    public JTextField getTxtEmail(){return  txtEmail;}
+    public JComboBox getCbChucVu(){return cbChucVu;}
+    public JTextField getTxtTaiKhoanNhanVien(){return txtTaiKhoanNhanVien;}
+    public JTextField getTxtMatKhauNhanVien(){return txtMatKhauNhanVien;}
+    public JButton getButtonThemHinhAnh(){return btnThemAnhNhanVien;}
+    public JPanel getPnImgNhanVien(){return pnImgNhanVien;}
+    public JComboBox getCbTkGioiTinh(){return cbTkGioiTinhNv;}
+    public JComboBox getCbTkChucVu(){return cbTkChucVuNv;}
+    public JComboBox getCbTkCaLamViec(){return cbTkCaLamViecNv;}
+    public JComboBox getCbTkTinhTrang(){return cbTkTinhTrangNv;}
+    public JTextField getTxtTuKhoaTimKiem(){return txtTuKhoaTimKiem;}
 }
