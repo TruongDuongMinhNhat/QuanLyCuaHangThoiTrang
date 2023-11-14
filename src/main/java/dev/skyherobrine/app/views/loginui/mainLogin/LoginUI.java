@@ -5,6 +5,7 @@
 package dev.virtue.loginui.mainLogin;
 
 import dev.skyherobrine.app.controllers.loginui.mainLogin.LoginController;
+import dev.skyherobrine.app.views.loginui.mainLogin.FormQuanMatKhau;
 
 import javax.swing.*;
 
@@ -35,6 +36,10 @@ public class LoginUI extends javax.swing.JFrame {
 //        btnThoatLogin.setContentAreaFilled(false);
 //        btnThoatLogin.setForeground(Color.WHITE);
 //        btnThoatLogin.setBackground(Color.RED);
+    }
+    private void btnGuiActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        
+        
     }
     
 
