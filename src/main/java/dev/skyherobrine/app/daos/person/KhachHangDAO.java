@@ -97,7 +97,6 @@ public class KhachHangDAO implements IDAO<KhachHang> {
                     result.getBoolean("GioiTinh"),
                     result.getDate("NgaySinh").toLocalDate(),
                     result.getFloat("DiemTichLuy"));
-            System.out.println(khachHang);
             khachHangs.add(khachHang);
         }
         return khachHangs;

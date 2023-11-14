@@ -5,6 +5,7 @@ import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuTraKhachHang;
 import dev.skyherobrine.app.entities.order.PhieuTraKhachHang;
+import dev.skyherobrine.app.entities.person.KhachHang;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHang> {
     private ConnectDB connectDB;
@@ -64,7 +67,27 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
 
     @Override
     public List<ChiTietPhieuTraKhachHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ChiTietPhieuTraKhachHang ctptkh where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+        List<ChiTietPhieuTraKhachHang> chiTietPhieuTraKhachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctptkh." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+        while(resultSet.next()) {
+            ChiTietPhieuTraKhachHang chiTietPhieuTraKhachHang = new ChiTietPhieuTraKhachHang(
+                    new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongTra"),
+                    resultSet.getString("NoiDungTra")
+            );
+
+            chiTietPhieuTraKhachHangs.add(chiTietPhieuTraKhachHang);
+        }
+        return chiTietPhieuTraKhachHangs;
     }
 
     @Override

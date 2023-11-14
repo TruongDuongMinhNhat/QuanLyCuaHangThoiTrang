@@ -1,14 +1,23 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f49a56e9-fea4-4ab4-b58a-f47455974dec">
 	<property name="ireport.zoom" value="1.3310000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="12"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ThanhTien" class="java.lang.String"/>
 	<parameter name="tienKhachDua" class="java.lang.String"/>
 	<parameter name="TongTien" class="java.lang.String"/>
 	<parameter name="tienThua" class="java.lang.String"/>
+	<parameter name="maHD" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[Select TenSP, HoaDon.MaHD, NgayLap, kichthuoc, kh.HoTen as khTen, nv.HoTen, giaNhap*1.1 as GiaSanPHam, GhiChu, SoLuongMua from HoaDon join ChiTietHoaDon on HoaDon.maHD = ChiTietHoaDon.maHD join SanPham sp on ChiTietHoaDon.MaSP = sp.MaSP join KhachHang kh on HoaDon.maKH = kh.MaKH join NhanVien nv on HoaDon.MaNV = nv.MaNV join ChiTietPhieuNhap ctnp on ctnp.MaSP = ChiTietHoaDon.MaSP]]>
+		<![CDATA[
+  Select TenSP, hd.MaHD, NgayLap, kichthuoc, kh.HoTen as khTen, nv.HoTen, giaNhap*1.1 as GiaSanPHam, GhiChu, SoLuongMua from HoaDon hd 
+                    join ChiTietHoaDon on hd.maHD = ChiTietHoaDon.maHD  
+                    join SanPham sp on ChiTietHoaDon.MaSP = sp.MaSP 
+                    join KhachHang kh on hd.maKH = kh.MaKH 
+                    join NhanVien nv on hd.MaNV = nv.MaNV 
+                    join ChiTietPhieuNhap ctnp on ctnp.MaSP = ChiTietHoaDon.MaSP WHERE hd.maHD = $P{maHD}]]>
 	</queryString>
 	<field name="TenSP" class="java.lang.String"/>
 	<field name="MaHD" class="java.lang.String"/>

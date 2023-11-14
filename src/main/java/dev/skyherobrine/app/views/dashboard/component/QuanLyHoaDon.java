@@ -4,6 +4,11 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -15,6 +20,12 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
      */
     public QuanLyHoaDon() {
         initComponents();
+        new HoaDonController(this).loadDsHoaDon();
+        HoaDonController.loadCbMucTien();
+        tbDanhSachHoaDon.addMouseListener(new HoaDonController(this));
+        btnInHoaDon.addActionListener(new HoaDonController(this));
+        btnXuatHoaDon.addActionListener(new HoaDonController(this));
+        txtTuKhoaTimKiem.addKeyListener(new HoaDonController(this));
     }
 
     /**
@@ -39,6 +50,7 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         lbTuKhoaTimKiem = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        pnHoaDon = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1651, 1000));
@@ -51,13 +63,9 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
 
         tbDanhSachHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã hóa đơn", "Ngày lập", "Nhân viên", "Khách hàng", "Tổng tiền"
             }
         ));
         spDanhSachHoaDon.setViewportView(tbDanhSachHoaDon);
@@ -135,15 +143,28 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin chi tiết", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
+        pnHoaDon.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout pnHoaDonLayout = new javax.swing.GroupLayout(pnHoaDon);
+        pnHoaDon.setLayout(pnHoaDonLayout);
+        pnHoaDonLayout.setHorizontalGroup(
+            pnHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnHoaDonLayout.setVerticalGroup(
+            pnHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(pnHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(pnHoaDon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout pnBGThongTinCaNhanLayout = new javax.swing.GroupLayout(pnBGThongTinCaNhan);
@@ -180,7 +201,31 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getBtnInHoaDon() {
+        return btnInHoaDon;
+    }
+    public JButton getBtnXuatHoaDon() {
+        return btnXuatHoaDon;
+    }
 
+    public JComboBox<String> getCbTkCaLamViec() {
+        return cbTkCaLamViec;
+    }
+    public JTable getTbDanhSachHoaDon() {
+        return tbDanhSachHoaDon;
+    }
+    public JTextField getTxtTuKhoaTimKiem() {
+        return txtTuKhoaTimKiem;
+    }
+    public JDateChooser getjDateChooserNgayLapHoaDon() {
+        return jDateChooserNgayLapHoaDon;
+    }
+    public JPanel getjPanel1() {
+        return jPanel1;
+    }
+    public JPanel getPnHoaDon(){
+        return pnHoaDon;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInHoaDon;
     private javax.swing.JButton btnXuatHoaDon;
@@ -191,6 +236,7 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel lbTuKhoaTimKiem;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachHoaDon;
+    private javax.swing.JPanel pnHoaDon;
     private javax.swing.JPanel pnTimKiemHoaDon;
     private javax.swing.JScrollPane spDanhSachHoaDon;
     private javax.swing.JTable tbDanhSachHoaDon;

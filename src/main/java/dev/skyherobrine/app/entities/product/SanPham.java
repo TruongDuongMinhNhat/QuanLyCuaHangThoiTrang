@@ -217,6 +217,7 @@ public class SanPham {
     }
 
     public double layKhuyenMaiGanNhat() {
+        if(chiTietKhuyenMais == null) return 0;
         for(ChiTietKhuyenMai chiTietKhuyenMai : chiTietKhuyenMais) {
             if(chiTietKhuyenMai.getKhuyenMai().getNgayApDung().isBefore(LocalDate.now()) &&
             chiTietKhuyenMai.getKhuyenMai().getNgayHetHan().isAfter(LocalDate.now())) {

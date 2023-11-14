@@ -82,38 +82,54 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         Object o = e.getSource();
 
         if (o.toString().equalsIgnoreCase(lapHoaDon.getCbLoai().toString())){
-            JComboBox<String> cb = (JComboBox<String>) o;
-            String value = cb.getSelectedItem().toString();
-            Map<String, Object> conditions = new HashMap<>();
-            conditions.put("MaLoai", getMaLoai(value));
-
-            try {
-                List<SanPham> dsSP = sanPhamDAO.timKiem(conditions);
-                lapHoaDon.getMultipleButton1().removeAll();
-                lapHoaDon.getMultipleButton1().setItems(dsSP);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
-        }else if(o.toString().equalsIgnoreCase(lapHoaDon.getCbDanhMuc().toString())){
-            JComboBox<String> cb = (JComboBox<String>) o;
-            String valueDM = cb.getSelectedItem().toString();
-            Map<String, Object> conditions = new HashMap<>();
-            conditions.put("MaDM", getMaDM(valueDM));
-            try {
-                List<LoaiSanPham> loaiSP = loaiSanPhamDAO.timKiem(conditions);
-                List<SanPham> dsSP = new ArrayList<>();
-
-                for(LoaiSanPham loai : loaiSP){
-                    Map<String, Object> conditionsLoai = new HashMap<>();
-                    conditionsLoai.put("MaLoai", loai.getMaLoai());
-                    List<SanPham> listSP = sanPhamDAO.timKiem(conditionsLoai);
-                    dsSP.addAll(listSP);
+            if(lapHoaDon.getCbLoai().getSelectedItem().equals("Tất cả")){
+                try {
+                    loadSP();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
-                lapHoaDon.getMultipleButton1().removeAll();
-                lapHoaDon.getMultipleButton1().setItems(dsSP);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            }else{
+                JComboBox<String> cb = (JComboBox<String>) o;
+                String value = cb.getSelectedItem().toString();
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("MaLoai", getMaLoai(value));
+
+                try {
+                    List<SanPham> dsSP = sanPhamDAO.timKiem(conditions);
+                    lapHoaDon.getMultipleButton1().removeAll();
+                    lapHoaDon.getMultipleButton1().setItems(dsSP);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }else if(o.toString().equalsIgnoreCase(lapHoaDon.getCbDanhMuc().toString())){
+            if(lapHoaDon.getCbDanhMuc().getSelectedItem().equals("Tất cả")){
+                try {
+                    loadSP();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else{
+                lapHoaDon.getCbLoai().setSelectedItem("Tất cả");
+                JComboBox<String> cb = (JComboBox<String>) o;
+                String valueDM = cb.getSelectedItem().toString();
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("MaDM", getMaDM(valueDM));
+                try {
+                    List<LoaiSanPham> loaiSP = loaiSanPhamDAO.timKiem(conditions);
+                    List<SanPham> dsSP = new ArrayList<>();
+
+                    for(LoaiSanPham loai : loaiSP){
+                        Map<String, Object> conditionsLoai = new HashMap<>();
+                        conditionsLoai.put("MaLoai", loai.getMaLoai());
+                        List<SanPham> listSP = sanPhamDAO.timKiem(conditionsLoai);
+                        dsSP.addAll(listSP);
+                    }
+                    lapHoaDon.getMultipleButton1().removeAll();
+                    lapHoaDon.getMultipleButton1().setItems(dsSP);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }else{
             lapHoaDon();
@@ -249,9 +265,7 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
     public static void xoaTrang() {
         tt = 0.00;
         DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getjTable1().getModel();
-        for(int i = 0; i < tmHoaDon.getRowCount(); i++){
-            tmHoaDon.removeRow(i);
-        }
+        tmHoaDon.setRowCount(0);
         lapHoaDon.getTxtNgayLap().setText("");
         lapHoaDon.getTxtMaHoaDon().setText("");
         lapHoaDon.getTxtTenKh().setText("");
@@ -284,15 +298,6 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         try {
             DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getjTable1().getModel();
             JasperDesign jd = JRXmlLoader.load("src/main/resources/HoaDon/hoadon.jrxml");
-            String sql = "Select TenSP, hd.MaHD, NgayLap, kichthuoc, kh.HoTen as khTen, nv.HoTen, giaNhap*1.1 as GiaSanPHam, GhiChu, SoLuongMua from HoaDon hd " +
-                    "join ChiTietHoaDon on hd.maHD = ChiTietHoaDon.maHD " +
-                    "join SanPham sp on ChiTietHoaDon.MaSP = sp.MaSP " +
-                    "join KhachHang kh on hd.maKH = kh.MaKH " +
-                    "join NhanVien nv on hd.MaNV = nv.MaNV " +
-                    "join ChiTietPhieuNhap ctnp on ctnp.MaSP = ChiTietHoaDon.MaSP WHERE hd.maHD = '"+ lapHoaDon.getTxtMaHoaDon().getText() +"'";
-            JRDesignQuery newquery = new JRDesignQuery();
-            newquery.setText(sql);
-            jd.setQuery(newquery);
             Map<String, Object> data= new HashMap<>();
             JasperReport report = JasperCompileManager.compileReport(jd);
             for(int i = 0; i < tmHoaDon.getRowCount(); i++){
@@ -301,12 +306,15 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
             }
             double tienTT = Double.parseDouble(lapHoaDon.getTxtTongSoTienThanhToan().getText());
             double tienKhachDua = Double.parseDouble(lapHoaDon.getTxtSoTienKhachPhaiTra().getText());
+            String maHD = lapHoaDon.getTxtMaHoaDon().getText();
+            data.put("maHD", maHD);
             data.put("TongTien", tienTT);
             data.put("tienKhachDua", tienKhachDua);
             data.put("tienThua", abs(tienTT - tienKhachDua));
             JasperPrint print = JasperFillManager.fillReport(report, data, connectDB.getConnection());
             JasperViewer.viewReport(print, false);
             JasperExportManager.exportReportToPdfFile(print, "src/main/resources/HoaDon/DanhSachHoaDon/"+ lapHoaDon.getTxtMaHoaDon().getText() +".pdf");
+
         } catch (JRException e) {
             throw new RuntimeException(e);
         }
@@ -325,6 +333,7 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         lapHoaDon.getTxtNgayLap().setText(local.format(dateTimeFormatter));
     }
+
     public static int laySoHoaDon(){
         String nlap = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
 
@@ -336,9 +345,10 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         } catch (Exception e) {
             return 1;
         }
-        if(hoaDons==null){
+        if(hoaDons.size()==0){
             return 1;
         }
+        System.out.println(hoaDons);
         HoaDon hd = hoaDons.get(hoaDons.size()-1);
         int soHD = Integer.parseInt(hd.getMaHD().substring(hd.getMaHD().length()-3));
         return soHD+1;
@@ -382,10 +392,12 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
     public void focusLost(FocusEvent e) {
         Object o = e.getSource();
         if(o.toString().equalsIgnoreCase(lapHoaDon.getTxtSĐTKhachHang().toString())){
-            layDsKH(lapHoaDon.getTxtSĐTKhachHang().getText());
-            lapHoaDon.getTxtTenKh().setText(dsKH.get(0).getHoTen());
-            lapHoaDon.getTxtNgaySinhKh().setText(dsKH.get(0).getNgaySinh().toString());
-            loadHD();
+            if(!lapHoaDon.getTxtSĐTKhachHang().toString().equalsIgnoreCase("")){
+                layDsKH(lapHoaDon.getTxtSĐTKhachHang().getText());
+                lapHoaDon.getTxtTenKh().setText(dsKH.get(0).getHoTen());
+                lapHoaDon.getTxtNgaySinhKh().setText(dsKH.get(0).getNgaySinh().toString());
+                loadHD();
+            }
         }
         else{
             String tenSP = lapHoaDon.getTxtTimKiemDsSp().getText();
@@ -444,7 +456,7 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
         if(e.getColumn()==3){
             DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getjTable1().getModel();
             int row = e.getFirstRow();
-            int sl = Integer.parseInt(tmHoaDon.getValueAt(row, 3).toString());
+            int count = Integer.parseInt(tmHoaDon.getValueAt(row, 3).toString());
             SanPham sp = null;
             double tta = 0;
             try {
@@ -455,14 +467,14 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
             String ptThue = lapHoaDon.getTxtThue().getText();
             int index = ptThue.indexOf(" ");
             double thue = Double.parseDouble(ptThue.substring(0, index));
-            if(sl<0) {
+            if(count<0) {
                 tmHoaDon.setValueAt("1", row, 3);
-            } else if (sl > sp.getSoLuong()){
+            } else if (count > sp.getSoLuong()){
                 tmHoaDon.setValueAt(sp.getSoLuong()+"", row, 3);
             }
 
             BigDecimal giaTien = new BigDecimal(tmHoaDon.getValueAt(row, 4).toString());
-            double gia = giaTien.doubleValue()*sl;
+            double gia = giaTien.doubleValue()*count;
             tmHoaDon.setValueAt(gia+"", row, 5);
             for(int i = 0; i < tmHoaDon.getRowCount(); i++){
                 tta += Double.parseDouble(tmHoaDon.getValueAt(i, 5).toString());
