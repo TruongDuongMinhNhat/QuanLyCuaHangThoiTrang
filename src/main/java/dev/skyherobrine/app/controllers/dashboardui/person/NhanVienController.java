@@ -2,20 +2,16 @@ package dev.skyherobrine.app.controllers.dashboardui.person;
 
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.person.NhanVien;
-import dev.skyherobrine.app.entities.product.DanhMucSanPham;
-import dev.skyherobrine.app.entities.product.LoaiSanPham;
-import dev.skyherobrine.app.entities.product.SanPham;
-import dev.skyherobrine.app.entities.product.ThuongHieu;
+
 import dev.skyherobrine.app.enums.*;
 import dev.skyherobrine.app.views.dashboard.component.NhanVienGUI;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.io.File;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,15 +22,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
-public class NhanVienController implements ActionListener, MouseListener {
+public class NhanVienController implements ActionListener, MouseListener, KeyListener {
     private NhanVienGUI nhanVienUI;
     private NhanVienDAO nhanVienDAO;
     private List<NhanVien> dsNhanVien;
 
 
-    private static int trangThaiNutXoa = 0;
-    private static int trangThaiNutThem = 0;
-    private static int trangThaiNutSua = 0;
+    private static int trangThaiNutXoaNV = 0;
+    private static int trangThaiNutThemNV = 0;
+    private static int trangThaiNutSuaNV = 0;
     private static String fileAnhNV = "";
 
 
@@ -56,26 +52,31 @@ public class NhanVienController implements ActionListener, MouseListener {
             dsNhanVien = nhanVienDAO.timKiem();
             DefaultTableModel tmNhanVien = (DefaultTableModel) nhanVienUI.getTbDanhSachNhanVien().getModel();
             for(dev.skyherobrine.app.entities.person.NhanVien nv : dsNhanVien){
-                String row[] = {nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.isGioiTinh()+"", nv.getNgaySinh()+"", nv.getEmail(), nv.getDiaChi(), nv.getChucVu()+"", nv.getCaLamViec()+"", nv.getTenTaiKhoan(), nv.getMatKhau(), nv.getTinhTrang()+""};
+                String row[] = {nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.isGioiTinh() ? "NAM" : "NỮ", nv.getNgaySinh()+"", nv.getEmail(), nv.getDiaChi(), nv.getChucVu()+"", nv.getCaLamViec()+"", nv.getTenTaiKhoan(), nv.getMatKhau(), nv.getTinhTrang()+""};
                 tmNhanVien.addRow(row);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        trangThaiNutThemNV = 0;
+        trangThaiNutSuaNV = 0;
+        trangThaiNutXoaNV = 0;
     }
+    private List<NhanVien> dsLoc;
+    private List<NhanVien> dsTam = new ArrayList<NhanVien>();
     @Override
-    public void actionPerformed(ActionEvent e) {
-        Object op = e.getSource();
+    public void actionPerformed(ActionEvent event) {
+        Object op = event.getSource();
         /*NÚT THÊM*/
         if(op.equals(nhanVienUI.getButtonThemNhanVien())){
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm nhân viên
-            if (trangThaiNutThem==0) {
+            if (trangThaiNutThemNV==0) {
                 nhanVienUI.getButtonThemNhanVien().setText("Xác nhận thêm");
                 nhanVienUI.getButtonSuaNhanVien().setText("Xóa trắng");
                 nhanVienUI.getButtonXoaNhanVien().setText("Thoát thêm");
-                trangThaiNutXoa = 1;
-                trangThaiNutThem = 1;
-                trangThaiNutSua = 1;
+                trangThaiNutXoaNV = 1;
+                trangThaiNutThemNV = 1;
+                trangThaiNutSuaNV = 1;
 
                 //Mở tương tác với thông tin
                 tuongTac(true);
@@ -84,18 +85,21 @@ public class NhanVienController implements ActionListener, MouseListener {
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
                 //load sẵn tình trang còn bán
+                nhanVienUI.getTxtMaNhanVien().setEnabled(false);
+                nhanVienUI.getTxtMaNhanVien().setText(laymaNV());
+                nhanVienUI.getCbTinhTrangNhanVien().setSelectedItem("DANG_LAM");
             }
             // Thực hiện chức năng nghiệp vụ thêm nhân viên
-            else if(trangThaiNutThem==1) {
-                NhanVien sp = layDataThem();
+            else if(trangThaiNutThemNV==1) {
+                NhanVien nv = layDataThem();
                 if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm nhân viên mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                     try {
-                        if(nhanVienDAO.them(sp)){
+                        if(nhanVienDAO.them(nv)){
                             loadDsNhanVien();
                             xoaTrangAll();
                             JOptionPane.showMessageDialog(null, "Thêm thành công!");
-                            trangThaiNutThem = 1;
-                            trangThaiNutXoa = 1;
+                            trangThaiNutThemNV = 1;
+                            trangThaiNutXoaNV = 1;
                         }else{
                             JOptionPane.showMessageDialog(null, "Thêm thất bại!");
                         }
@@ -106,7 +110,7 @@ public class NhanVienController implements ActionListener, MouseListener {
 
             }
             //Thực hiện chức năng nghiệp vụ sửa nhân viên
-            else if(trangThaiNutThem==2){
+            else if(trangThaiNutThemNV==2){
                 if (nhanVienUI.getTxtMaNhanVien().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa!");
                 }else {
@@ -117,7 +121,7 @@ public class NhanVienController implements ActionListener, MouseListener {
                                 loadDsNhanVien();
                                 xoaTrangAll();
                                 JOptionPane.showMessageDialog(null, "Sửa thành công!");
-                                trangThaiNutThem = 2;
+                                trangThaiNutThemNV = 2;
                             }else{
                                 JOptionPane.showMessageDialog(null, "Sửa thất bại!");
                             }
@@ -126,34 +130,35 @@ public class NhanVienController implements ActionListener, MouseListener {
                         }
                     }
                 }
-                trangThaiNutXoa = 1;
+                trangThaiNutXoaNV = 1;
             }
         }
 
         /*NÚT SỬA*/
         if(op.equals(nhanVienUI.getButtonSuaNhanVien())){
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa nhân viên
-            if (trangThaiNutSua==0) {
+            if (trangThaiNutSuaNV==0) {
                 //Mở tương tác với thông tin
                 tuongTac(true);
 
-                nhanVienUI.getTxtMaNhanVien().setText("Xác nhận sửa");
+                nhanVienUI.getButtonThemNhanVien().setText("Xác nhận sửa");
                 nhanVienUI.getButtonSuaNhanVien().setText("Xóa trắng");
                 nhanVienUI.getButtonXoaNhanVien().setText("Thoát sửa");
-                trangThaiNutThem = 2;
-                trangThaiNutSua = 1;
-                trangThaiNutXoa = 1;
+                trangThaiNutThemNV = 2;
+                trangThaiNutSuaNV = 1;
+                trangThaiNutXoaNV = 1;
+                nhanVienUI.getTxtMaNhanVien().setEnabled(false);
             }
             // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín nhân viên
-            else if(trangThaiNutSua==1) {
+            else if(trangThaiNutSuaNV==1) {
                 xoaTrangSua();
             }
         }
 
         /*NÚT XÓA*/
-        if (op == nhanVienUI.getButtonXoaNhanVien()) {
+        if (op.equals(nhanVienUI.getButtonXoaNhanVien())) {
             // Thực hiện chức năng nghiệp vụ xóa nhân viên
-            if (trangThaiNutXoa==0) {
+            if (trangThaiNutXoaNV==0) {
                 if (nhanVienUI.getTxtMatKhauNhanVien().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa!");
                 } else {
@@ -176,20 +181,67 @@ public class NhanVienController implements ActionListener, MouseListener {
                 }
             }
             // Thực hiện trả các nút về giao diện quản lý nhân viên
-            else if(trangThaiNutXoa==1) {
+            else if(trangThaiNutXoaNV==1) {
                 tuongTac(false);
                 tuongTacTimKiem(true);
-//                xoaTrangAll();
+                xoaTrangAll();
                 nhanVienUI.getButtonThemNhanVien().setText("Thêm nhân viên");
                 nhanVienUI.getButtonSuaNhanVien().setText("Sửa nhân viên");
                 nhanVienUI.getButtonXoaNhanVien().setText("Xóa nhân viên");
-                trangThaiNutXoa = 0;
-                trangThaiNutThem = 0;
-                trangThaiNutSua = 0;
+                trangThaiNutXoaNV = 0;
+                trangThaiNutThemNV = 0;
+                trangThaiNutSuaNV = 0;
+            }
+        }
+
+        /*LỌC SẢN PHẨM*/
+        if(op.equals(nhanVienUI.getCbTkGioiTinh()) ||
+                op.equals(nhanVienUI.getCbTkChucVu()) ||
+                op.equals(nhanVienUI.getCbTkTinhTrang()) ||
+                op.equals(nhanVienUI.getCbTkCaLamViec())){
+//            DefaultTableModel clearTable = (DefaultTableModel) nhanVienUI.getTbDanhSachNhanVien().getModel();
+//            clearTable.setRowCount(0);
+//            nhanVienUI.getTbDanhSachNhanVien().setModel(clearTable);
+//            try {
+//                dsNhanVien = nhanVienDAO.timKiem();
+//                DefaultTableModel tmNhanVien = (DefaultTableModel) nhanVienUI.getTbDanhSachNhanVien().getModel();
+//                for(dev.skyherobrine.app.entities.person.NhanVien nv : dsNhanVien){
+//                    String row[] = {nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.isGioiTinh() ? "NAM" : "NỮ", nv.getNgaySinh()+"", nv.getEmail(), nv.getDiaChi(), nv.getChucVu()+"", nv.getCaLamViec()+"", nv.getTenTaiKhoan(), nv.getMatKhau(), nv.getTinhTrang()+""};
+//                    tmNhanVien.addRow(row);
+//                }
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+        }
+
+        /*NÚT LẤY ẢNH TỪ MÁY*/
+        if(op.equals(nhanVienUI.getButtonThemHinhAnh())){
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Hình ảnh", "jpg", "jpeg", "png"));
+            int result = fileChooser.showOpenDialog(null);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                // Lấy tên file và đuôi file
+                fileAnhNV = selectedFile.getName();
+                URL path = getClass().getResource("/img/imgSanPham/"+fileAnhNV);
+                if(path==null){
+                    path = getClass().getResource("/img/imgSanPham/Image_not_available.png");
+                }
+
+                ImageIcon iconGoc = new ImageIcon(path);
+                Image anh = iconGoc.getImage();
+                Image tinhChinhAnh = anh.getScaledInstance(200, 320, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(tinhChinhAnh);
+                JLabel picLabel = new JLabel();
+                nhanVienUI.getPnImgNhanVien().removeAll();
+                nhanVienUI.getPnImgNhanVien().add(picLabel);
+                picLabel.setSize(new Dimension(240,320));
+                picLabel.setIcon(icon);
             }
         }
     }
-    
+
 
     //Hàm đóng/mở tương tác
     public void tuongTac(boolean c){
@@ -329,7 +381,7 @@ public class NhanVienController implements ActionListener, MouseListener {
 
         String dc = nhanVienUI.getTxtDiaChiNhanVien().getText();
         CaLamViec caLamViec = CaLamViec.layGiaTri(nhanVienUI.getCbCaLamViecNhanVien().getSelectedItem().toString());
-        TinhTrangNhanVien tinhTrang = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTkTinhTrang().getSelectedItem().toString());
+        TinhTrangNhanVien tinhTrang = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTinhTrangNhanVien().getSelectedItem().toString());
         String ten = nhanVienUI.getTxtHoTenNhanVien().getText();
         Boolean gt;
         if(nhanVienUI.getCbGioiTinh().getSelectedItem().toString().equals("NAM")){
@@ -338,14 +390,14 @@ public class NhanVienController implements ActionListener, MouseListener {
             gt = false;
         }
         String email = nhanVienUI.getTxtEmail().getText();
-        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbTkChucVu().getSelectedItem().toString());
+        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbChucVu().getSelectedItem().toString());
         String tk = nhanVienUI.getTxtTaiKhoanNhanVien().getText();
         String mk = nhanVienUI.getTxtMatKhauNhanVien().getText();
 
         //Hình ảnh
         String anh = fileAnhNV;
         //Mã nhân viên
-        String ma = laymaNV();
+        String ma = nhanVienUI.getTxtMaNhanVien().getText();
         try {
             nv = new NhanVien(ma,ten,sdt,gt,localDate,email,dc,cv,caLamViec,tk,mk,tinhTrang);
         } catch (Exception e) {
@@ -362,11 +414,11 @@ public class NhanVienController implements ActionListener, MouseListener {
         // Lấy ngày từ JDateChooser
         Date selectedDate = nhanVienUI.getjDateChooserNgaySinhNhanVien().getDate();
         // Chuyển đổi từ Date sang LocalDate
-        LocalDate localDate = dateToLocalDate(selectedDate);
+        LocalDate localDate1 = dateToLocalDate(selectedDate);
 
         String dc = nhanVienUI.getTxtDiaChiNhanVien().getText();
         CaLamViec caLamViec = CaLamViec.layGiaTri(nhanVienUI.getCbCaLamViecNhanVien().getSelectedItem().toString());
-        TinhTrangNhanVien tinhTrang = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTkTinhTrang().getSelectedItem().toString());
+        TinhTrangNhanVien tinhTrangNv = TinhTrangNhanVien.layGiaTri(nhanVienUI.getCbTinhTrangNhanVien().getSelectedItem().toString());
         String ten = nhanVienUI.getTxtHoTenNhanVien().getText();
         Boolean gt;
         if(nhanVienUI.getCbGioiTinh().getSelectedItem().toString().equals("NAM")){
@@ -375,7 +427,7 @@ public class NhanVienController implements ActionListener, MouseListener {
             gt = false;
         }
         String email = nhanVienUI.getTxtEmail().getText();
-        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbTkChucVu().getSelectedItem().toString());
+        ChucVu cv = ChucVu.layGiaTri(nhanVienUI.getCbChucVu().getSelectedItem().toString());
         String tk = nhanVienUI.getTxtTaiKhoanNhanVien().getText();
         String mk = nhanVienUI.getTxtMatKhauNhanVien().getText();
 
@@ -384,7 +436,7 @@ public class NhanVienController implements ActionListener, MouseListener {
         //Mã nhân viên
         String ma = nhanVienUI.getTxtMaNhanVien().getText();
         try {
-            nv = new NhanVien(ma,ten,sdt,gt,localDate,email,dc,cv,caLamViec,tk,mk,tinhTrang);
+            nv = new NhanVien(ma,ten,sdt,gt,localDate1,email,dc,cv,caLamViec,tk,mk,tinhTrangNv);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -403,7 +455,7 @@ public class NhanVienController implements ActionListener, MouseListener {
     public int laysoDuoiMaNV(){
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         Map<String, Object> conditions = new HashMap<>();
-        conditions.put("maHD", "%"+nThem+"%");
+        conditions.put("MaNV", "%"+nThem+"%");
         List<NhanVien> nhanViens = new ArrayList<>();
         try {
             nhanViens = nhanVienDAO.timKiem(conditions);
@@ -451,7 +503,7 @@ public class NhanVienController implements ActionListener, MouseListener {
     }
     @Override
     public void mouseClicked(MouseEvent event) {
-        if(trangThaiNutThem==1){
+        if(trangThaiNutThemNV==1){
             JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
         }else {
             int row = nhanVienUI.getTbDanhSachNhanVien().getSelectedRow();
@@ -519,6 +571,21 @@ public class NhanVienController implements ActionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

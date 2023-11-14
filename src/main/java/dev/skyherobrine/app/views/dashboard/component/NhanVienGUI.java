@@ -29,6 +29,14 @@ public class NhanVienGUI extends javax.swing.JPanel {
         btnThemNhanVien.addActionListener(new NhanVienController(this));
         btnSuaNhanVien.addActionListener(new NhanVienController(this));
         btnXoaNhanVien.addActionListener(new NhanVienController(this));
+
+        cbTkGioiTinhNv.addActionListener(new NhanVienController(this));
+        cbTkCaLamViecNv.addActionListener(new NhanVienController(this));
+        cbTkChucVuNv.addActionListener(new NhanVienController(this));
+        cbTkTinhTrangNv.addActionListener(new NhanVienController(this));
+
+        txtTuKhoaTimKiem.addKeyListener(new NhanVienController(this));
+        btnThemAnhNhanVien.addActionListener(new NhanVienController(this));
     }
 
     /**
@@ -67,10 +75,15 @@ public class NhanVienGUI extends javax.swing.JPanel {
         btnXoaNhanVien = new javax.swing.JButton();
         btnThemAnhNhanVien = new javax.swing.JButton();
         cbCaLmViec = new javax.swing.JComboBox<>();
+        cbCaLmViec.setEnabled(false);
         cbTinhTrang = new javax.swing.JComboBox<>();
+        cbTinhTrang.setEnabled(false);
         cbGioiTinh = new javax.swing.JComboBox<>();
+        cbGioiTinh.setEnabled(false);
         cbChucVu = new javax.swing.JComboBox<>();
+        cbChucVu.setEnabled(false);
         jDateChooserNgaySinh = new com.toedter.calendar.JDateChooser();
+        jDateChooserNgaySinh.setEnabled(false);
         pnDanhSachNhanVien = new javax.swing.JPanel();
         spDanhSachNhanVien = new javax.swing.JScrollPane();
         tbDanhSachNhanVien = new javax.swing.JTable();

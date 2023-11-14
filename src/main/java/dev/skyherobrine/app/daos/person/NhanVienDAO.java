@@ -62,7 +62,12 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update NhanVien set TinhTrang = ? where MaNV = ?");
+        preparedStatement.setString(1, "NGHI");
+        preparedStatement.setString(2, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
