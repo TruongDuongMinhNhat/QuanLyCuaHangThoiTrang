@@ -52,6 +52,10 @@ public class ChiTietHoaDon {
             throw new Exception("Số lượng mua phải lớn hơn 0!");
     }
 
+    public double giaTienSanPham() {
+        return soLuongMua * sanPham.giaBan();
+    }
+
     @Override
     public String toString() {
         return "ChiTietHoaDon{" +
