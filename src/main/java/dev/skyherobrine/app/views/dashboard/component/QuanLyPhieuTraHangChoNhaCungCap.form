@@ -62,7 +62,6 @@
                   <Component id="pnTimKiemPhieuTraHang" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnThongTInPhieuTraHang" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -142,49 +141,53 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbMaPhieuTra" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="txtMaPhieuTra" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="lbTenNhaCungCapSanPham" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="txtTenNhaCungCapSanPham" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbMaPhieuNhap" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="txtTenSanPham" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="lbTenSpQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="txtMaPhieuNhap" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbNgaySanXuatQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="txtSoLuongTra" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="lbNgayLapPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jDateChooserNgayLapPhieu" min="-2" pref="31" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lbMaPhieuTra" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="txtMaPhieuTra" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="lbTenNhaCungCapSanPham" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <Component id="txtTenNhaCungCapSanPham" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                  <Component id="lbXuatXuQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="txtLyDoTraHang" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lbMaPhieuNhap" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="txtTenSanPham" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                                  <Component id="lbTenSpQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="txtMaPhieuNhap" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lbNgaySanXuatQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="txtSoLuongTra" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="lbNgayLapPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jDateChooserNgayLapPhieu" min="-2" pref="31" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="jDateChooserNgayHenLay" min="-2" pref="34" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lbNgayHenLay" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbNgayHenLay" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="jDateChooserNgayHenLay" min="-2" pref="34" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtLyDoTraHang" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="lbXuatXuQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbDoTuoiQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="txtTinhTrang" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="lbDoTuoiQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace pref="112" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThemPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnInPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
