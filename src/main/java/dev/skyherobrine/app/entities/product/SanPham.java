@@ -223,6 +223,7 @@ public class SanPham {
                 return chiTietKhuyenMai.getTiLe();
             }
         }
+        return 0;
     }
 
     @Override
