@@ -3,7 +3,7 @@ package dev.skyherobrine.app.entities.system;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.enums.NhanVienHoatDong;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Thực thể "Lịch Sử Hoạt Động", thực thể này dùng để lưu trữ thông tin liên quan đến vấn đề các nhân
@@ -16,10 +16,10 @@ public class LichSuHoatDong {
     private long id;
     private NhanVien nhanVien;
     private NhanVienHoatDong hoatDong;
-    private LocalDate thoiDiemThucHien;
+    private LocalDateTime thoiDiemThucHien;
     private String ghiChu;
 
-    public LichSuHoatDong(long id, NhanVien nhanVien, NhanVienHoatDong hoatDong, LocalDate thoiDiemThucHien, String ghiChu) throws Exception {
+    public LichSuHoatDong(long id, NhanVien nhanVien, NhanVienHoatDong hoatDong, LocalDateTime thoiDiemThucHien, String ghiChu) throws Exception {
         this.setId(id);
         this.setNhanVien(nhanVien);
         this.setHoatDong(hoatDong);
@@ -51,11 +51,11 @@ public class LichSuHoatDong {
         this.hoatDong = hoatDong;
     }
 
-    public LocalDate getThoiDiemThucHien() {
+    public LocalDateTime getThoiDiemThucHien() {
         return thoiDiemThucHien;
     }
 
-    public void setThoiDiemThucHien(LocalDate thoiDiemThucHien) {
+    public void setThoiDiemThucHien(LocalDateTime thoiDiemThucHien) {
         this.thoiDiemThucHien = thoiDiemThucHien;
     }
 

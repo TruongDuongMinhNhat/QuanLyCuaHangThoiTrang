@@ -3,7 +3,11 @@ package dev.skyherobrine.app.daos.person;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.entities.person.NhaCungCap;
+import dev.skyherobrine.app.entities.person.NhanVien;
+import dev.skyherobrine.app.enums.CaLamViec;
+import dev.skyherobrine.app.enums.ChucVu;
 import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
+import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,7 +74,29 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
 
     @Override
     public List<NhaCungCap> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from NhaCungCap t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<NhaCungCap> nhaCungCaps = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            NhaCungCap nhaCungCap = new NhaCungCap(
+                    result.getString("MaNCC"),
+                    result.getString("TenNCC"),
+                    result.getString("DiaChiNCC"),
+                    result.getString("Email"),
+                    TinhTrangNhaCungCap.layGiaTri(result.getString("TinhTrang"))
+            );
+            nhaCungCaps.add(nhaCungCap);
+        }
+        return nhaCungCaps;
     }
 
     @Override

@@ -13,6 +13,7 @@ import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
@@ -27,7 +28,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
         preparedStatement.setLong(1, lichSuHoatDong.getId());
         preparedStatement.setString(2, lichSuHoatDong.getNhanVien().getMaNV());
         preparedStatement.setString(3, lichSuHoatDong.getHoatDong().toString());
-        preparedStatement.setDate(4, Date.valueOf(lichSuHoatDong.getThoiDiemThucHien()));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(lichSuHoatDong.getThoiDiemThucHien()));
         preparedStatement.setString(5, lichSuHoatDong.getGhiChu());
 
         return preparedStatement.executeUpdate() > 0;
@@ -56,7 +57,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
             LichSuHoatDong lichSuHoatDong = new LichSuHoatDong(resultSet.getLong("MaHoatDong"
                     ), new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     NhanVienHoatDong.layGiaTri(resultSet.getString("KieuHoatDong")),
-                    resultSet.getDate("ThoiDiemThucHien").toLocalDate(),
+                    resultSet.getTimestamp("ThoiDiemThucHien").toLocalDateTime(),
                     resultSet.getString("GhiChu"));
 
             lichSuHoatDongs.add(lichSuHoatDong);
@@ -79,7 +80,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
             LichSuHoatDong lichSuHoatDong = new LichSuHoatDong(resultSet.getLong("MaHoatDong"),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     NhanVienHoatDong.layGiaTri(resultSet.getString("KieuHoatDong")),
-                    resultSet.getDate("ThoiDiemThucHien").toLocalDate(),
+                    resultSet.getTimestamp("ThoiDiemThucHien").toLocalDateTime(),
                     resultSet.getString("GhiChu"));
             return Optional.of(lichSuHoatDong);
         } else {
@@ -104,7 +105,7 @@ public class LichSuHoatDongDAO implements IDAO<LichSuHoatDong> {
             LichSuHoatDong lichSuHoatDong = new LichSuHoatDong(resultSet.getLong("MaHoatDong"),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     NhanVienHoatDong.layGiaTri(resultSet.getString("KieuHoatDong")),
-                    resultSet.getDate("ThoiDiemThucHien").toLocalDate(),
+                    resultSet.getTimestamp("ThoiDiemThucHien").toLocalDateTime(),
                     resultSet.getString("GhiChu"));
 
             lichSuHoatDongs.add(lichSuHoatDong);

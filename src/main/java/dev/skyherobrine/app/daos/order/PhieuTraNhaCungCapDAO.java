@@ -8,6 +8,7 @@ import dev.skyherobrine.app.enums.TinhTrangTraHang;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
@@ -21,8 +22,8 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
                 ("Insert PhieuTraHangNhaCungCap values(?, ?, ?, ?, ?)");
         preparedStatement.setString(1, phieuTraNhaCungCap.getMaPhieuTra());
         preparedStatement.setString(2, phieuTraNhaCungCap.getPhieuNhap().getMaPhieuNhap());
-        preparedStatement.setDate(3, Date.valueOf(phieuTraNhaCungCap.getNgayHenLay()));
-        preparedStatement.setDate(4, Date.valueOf(phieuTraNhaCungCap.getNgayLap()));
+        preparedStatement.setTimestamp(3, Timestamp.valueOf(phieuTraNhaCungCap.getNgayHenLay()));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(phieuTraNhaCungCap.getNgayLap()));
         preparedStatement.setString(5, phieuTraNhaCungCap.getTinhTrang().toString());
 
         return preparedStatement.executeUpdate() > 0;
@@ -51,8 +52,8 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         while(resultSet.next()) {
             PhieuTraNhaCungCap phieuTraNhaCungCap = new PhieuTraNhaCungCap(resultSet.getString("MaPhieuTra"),
                             new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
-                            resultSet.getDate("NgayHenLay").toLocalDate(),
-                            resultSet.getDate("NgayLap").toLocalDate(),
+                            resultSet.getTimestamp("NgayHenLay").toLocalDateTime(),
+                            resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                             TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuTraNhaCungCaps.add(phieuTraNhaCungCap);
@@ -74,8 +75,8 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         if(resultSet.next()) {
             return Optional.of(new PhieuTraNhaCungCap(resultSet.getString("MaPhieuTra"),
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
-                    resultSet.getDate("NgayHenLay").toLocalDate(),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayHenLay").toLocalDateTime(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang"))));
         }
         return Optional.empty();
@@ -97,8 +98,8 @@ public class PhieuTraNhaCungCapDAO implements IDAO<PhieuTraNhaCungCap> {
         while(resultSet.next()) {
             PhieuTraNhaCungCap phieuTraNhaCungCap = new PhieuTraNhaCungCap(resultSet.getString("MaPhieuTra"),
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
-                    resultSet.getDate("NgayHenLay").toLocalDate(),
-                    resultSet.getDate("NgayLap").toLocalDate(),
+                    resultSet.getTimestamp("NgayHenLay").toLocalDateTime(),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     TinhTrangTraHang.layGiaTri(resultSet.getString("TinhTrang")));
 
             phieuTraNhaCungCaps.add(phieuTraNhaCungCap);

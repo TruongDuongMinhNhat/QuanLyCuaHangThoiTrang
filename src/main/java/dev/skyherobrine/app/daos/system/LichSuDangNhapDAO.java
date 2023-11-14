@@ -10,6 +10,7 @@ import dev.skyherobrine.app.enums.NhanVienHoatDong;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
@@ -23,8 +24,8 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
                 ("Insert LichSuDangNhap values(?, ?, ?, ?)");
         preparedStatement.setLong(1, lichSuDangNhap.getId());
         preparedStatement.setString(2, lichSuDangNhap.getMaNV().getMaNV());
-        preparedStatement.setDate(3, Date.valueOf(lichSuDangNhap.getNgayDangNhap()));
-        preparedStatement.setDate(4, Date.valueOf(lichSuDangNhap.getNgayDangXuat()));
+        preparedStatement.setTimestamp(3, Timestamp.valueOf(lichSuDangNhap.getNgayDangNhap()));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(lichSuDangNhap.getNgayDangXuat()));
         return preparedStatement.executeUpdate() > 0;
     }
 
@@ -51,7 +52,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         while(result.next()) {
             LichSuDangNhap lichSuDangNhap = new LichSuDangNhap
                     (result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                            result.getDate("NgayDangNhap").toLocalDate(), result.getDate("NgayDangXuat").toLocalDate());
+                            result.getDate("NgayDangNhap").toLocalDate().atStartOfDay(), result.getDate("NgayDangXuat").toLocalDate().atStartOfDay());
 
             lichSuDangNhaps.add(lichSuDangNhap);
         }
@@ -71,7 +72,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         ResultSet result = preparedStatement.executeQuery();
         if(result.next()) {
             return Optional.of(new LichSuDangNhap(result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                    result.getDate("NgayDangNhap").toLocalDate(), result.getDate("NgayDangXuat").toLocalDate()));
+                    result.getTimestamp("NgayDangNhap").toLocalDateTime(), result.getTimestamp("NgayDangXuat").toLocalDateTime()));
         } else {
             return Optional.empty();
         }
@@ -92,7 +93,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
             LichSuDangNhap lichSuHoatDong = new LichSuDangNhap(result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                    result.getDate("NgayDangNhap").toLocalDate(), result.getDate("NgayDangXuat").toLocalDate());
+                    result.getTimestamp("NgayDangNhap").toLocalDateTime(), result.getTimestamp("NgayDangXuat").toLocalDateTime());
 
             lichSuDangNhaps.add(lichSuHoatDong);
         }
