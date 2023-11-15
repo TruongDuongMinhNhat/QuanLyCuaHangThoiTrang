@@ -288,8 +288,11 @@ public class LapHoaDonController implements ActionListener, KeyListener, FocusLi
                 Optional<SanPham> sp = sanPhamDAO.timKiem(tmHoaDon.getValueAt(i, 0).toString());
                 ChiTietHoaDon cthd = new ChiTietHoaDon(hd, sp.get(), Integer.parseInt(tmHoaDon.getValueAt(i, 3).toString()));
                 chiTietHoaDonDAO.them(cthd);
+                sp.get().setSoLuong(sp.get().getSoLuong()-Integer.parseInt(tmHoaDon.getValueAt(i, 3).toString()));
+                sanPhamDAO.capNhat(sp.get());
             }
             xuatPDF();
+            loadSP();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
