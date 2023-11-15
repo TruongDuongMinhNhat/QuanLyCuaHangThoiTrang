@@ -118,7 +118,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
     }
 
     @Override
-    public List<KhachHang> timkiem(String... ids) throws Exception {
+    public List<KhachHang> timKiem(String... ids) throws Exception {
         String query = "select * from KhachHang KH where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for (int i = 0; i < listID.length; ++i) {

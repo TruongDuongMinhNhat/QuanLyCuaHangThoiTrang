@@ -92,7 +92,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
     }
 
     @Override
-    public List<HoaDon> timkiem(String... ids) throws Exception {
+    public List<HoaDon> timKiem(String... ids) throws Exception {
         String query = "select * from HoaDon where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

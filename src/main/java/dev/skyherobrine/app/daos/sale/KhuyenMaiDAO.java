@@ -2,10 +2,7 @@ package dev.skyherobrine.app.daos.sale;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
-import dev.skyherobrine.app.entities.product.DanhMucSanPham;
-import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.entities.sale.KhuyenMai;
-import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -103,7 +100,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
     }
 
     @Override
-    public List<KhuyenMai> timkiem(String... ids) throws Exception {
+    public List<KhuyenMai> timKiem(String... ids) throws Exception {
         String query = "select * from KhuyenMai where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

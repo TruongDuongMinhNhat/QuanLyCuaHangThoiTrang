@@ -105,5 +105,5 @@ public interface IDAO<T>{
      * cú pháp</u>, <u>không kết nối SQL được</u>
      * @since 1.0
      */
-    List<T> timkiem(String...ids) throws Exception;
+    List<T> timKiem(String...ids) throws Exception;
 }

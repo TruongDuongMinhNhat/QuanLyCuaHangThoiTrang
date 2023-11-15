@@ -108,7 +108,7 @@ public class LoaiSanPhamDAO implements IDAO<LoaiSanPham> {
     }
 
     @Override
-    public List<LoaiSanPham> timkiem(String... ids) throws Exception {
+    public List<LoaiSanPham> timKiem(String... ids) throws Exception {
         String query = "select * from LoaiSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for (int i = 0; i < listID.length; ++i) {

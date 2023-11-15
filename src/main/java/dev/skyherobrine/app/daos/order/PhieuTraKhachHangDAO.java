@@ -84,7 +84,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
     }
 
     @Override
-    public List<PhieuTraKhachHang> timkiem(String... ids) throws Exception {
+    public List<PhieuTraKhachHang> timKiem(String... ids) throws Exception {
         String query = "select * from PhieuTraKhachHang where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {

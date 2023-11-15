@@ -4,10 +4,7 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.system.LichSuDangNhap;
-import dev.skyherobrine.app.entities.system.LichSuHoatDong;
-import dev.skyherobrine.app.enums.NhanVienHoatDong;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -79,7 +76,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
     }
 
     @Override
-    public List<LichSuDangNhap> timkiem(String... ids) throws Exception {
+    public List<LichSuDangNhap> timKiem(String... ids) throws Exception {
         String query = "select * from LichSuDangNhap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
