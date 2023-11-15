@@ -22,10 +22,14 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         initComponents();
         try{
             new PhieuTraHangKHController(this).loadComboBoxPhanTimKiem();
-//            new PhieuTraHangKHController(this).loa();
+            new PhieuTraHangKHController(this).loadDsPhieuTraHang();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        btnThemPhieu.addActionListener(new PhieuTraHangKHController(this));
+        txtMaPhieuNhap.addKeyListener(new PhieuTraHangKHController(this));
+        txtMaPhieuNhap.addFocusListener(new PhieuTraHangKHController(this));
+        tbDanhSachPhieuTraHangChoKhachHang.addMouseListener(new PhieuTraHangKHController(this));
     }
 
     /**
@@ -236,7 +240,7 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
             new Object [][] {
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã phiếu trả", "Ngày lập", "Số hóa đơn", "Sản phẩm trả", "Số lượng trả"
             }
         ));
         spDanhSachPhieuTraHangChoKhachHang.setViewportView(tbDanhSachPhieuTraHangChoKhachHang);

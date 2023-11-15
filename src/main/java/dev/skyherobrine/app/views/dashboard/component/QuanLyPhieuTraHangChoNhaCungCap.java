@@ -4,6 +4,10 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -335,6 +339,41 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public JDateChooser getjDateChooserTkNgayHenLay() {
+        return jDateChooserTkNgayHenLay;
+    }
+
+    public JButton getBtnInPhieu() {
+        return btnInPhieu;
+    }
+    public JButton getBtnThemPhieu() {
+        return btnThemPhieu;
+    }
+
+    public JTextField getTxtLyDoTraHang() {
+        return txtLyDoTraHang;
+    }
+    public JTextField getTxtMaPhieuTra() {
+        return txtMaPhieuTra;
+    }
+    public JTextField getTxtMaPhieuNhap() {
+        return txtMaPhieuNhap;
+    }
+    public JTextField getTxtSoLuongTra() {
+        return txtSoLuongTra;
+    }
+    public JTextField getTxtTenNhaCungCapSanPham() {
+        return txtTenNhaCungCapSanPham;
+    }
+    public JTextField getTxtTenSanPham(){
+        return txtTenSanPham;
+    }
+    public JTextField getTxtTinhTrang(){
+        return txtTinhTrang;
+    }
+    public JDateChooser getjDateChooserNgayHenLay() {
+        return jDateChooserNgayHenLay;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInPhieu;

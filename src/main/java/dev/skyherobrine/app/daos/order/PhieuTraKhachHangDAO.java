@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
     private ConnectDB connectDB;
@@ -63,7 +65,27 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
 
     @Override
     public List<PhieuTraKhachHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from PhieuTraKhachHang ptkh where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ptkh." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+        List<PhieuTraKhachHang> phieuTraKhachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            PhieuTraKhachHang phieuTraKhachHang = new PhieuTraKhachHang(
+                    resultSet.getString("MaPhieuTraKH"),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
+                    new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get()
+            );
+
+            phieuTraKhachHangs.add(phieuTraKhachHang);
+        }
+        return phieuTraKhachHangs;
     }
 
     @Override
