@@ -27,6 +27,8 @@ public class LoginUI extends javax.swing.JFrame {
         requestFocus();
         addKeyListener(new LoginController(this));
         passwordUser1.addKeyListener(new LoginController(this));
+        txtUser.setText("tamtu123");
+        passwordUser1.setText("tamtu123");
 
 //        btnQuenMatKhau.setFont(btnQuenMatKhau.getFont().deriveFont(Font.PLAIN));
 //        Shape nutTronThoat = new Ellipse2D.Float(0,0,btnThoatLogin.getWidth(),btnThoatLogin.getHeight());

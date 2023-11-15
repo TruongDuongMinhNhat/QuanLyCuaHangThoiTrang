@@ -201,19 +201,19 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                     throw new RuntimeException(ex);
                 }
 
-                Date newd = khachHangUI.getjDateChooserTkNgaySinh().getDate();
-                String s = convertDateToString(newd);
-//                String s1 = convertDateToString(dsLoc.get(0).getNgaySinh().toEpochSecond())
-                System.out.println(s);
-                if(!s.equals("")){
-                    for (int i=0; i<dsLoc.size(); i++){
-                        if(s.equals("")){
-                            dsTam.add(dsLoc.get(i));
-                        }
-                    }
-                    dsLoc = dsTam;
-                    dsTam = new ArrayList<>();
-                }
+//                Date newd = khachHangUI.getjDateChooserTkNgaySinh().getDate();
+//                String s = convertDateToString(newd);
+////                String s1 = convertDateToString(dsLoc.get(0).getNgaySinh().toEpochSecond())
+//                System.out.println(s);
+//                if(!s.equals("")){
+//                    for (int i=0; i<dsLoc.size(); i++){
+//                        if(s.equals("")){
+//                            dsTam.add(dsLoc.get(i));
+//                        }
+//                    }
+//                    dsLoc = dsTam;
+//                    dsTam = new ArrayList<>();
+//                }
             }
 
             DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
