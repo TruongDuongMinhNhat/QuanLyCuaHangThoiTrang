@@ -50,7 +50,12 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update NhaCungCap set TinhTrang = ? where MaNCC = ?");
+        preparedStatement.setString(1, "CHAM_DUT");
+        preparedStatement.setString(2, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override

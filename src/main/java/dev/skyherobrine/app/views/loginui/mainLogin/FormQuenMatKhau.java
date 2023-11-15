@@ -19,6 +19,7 @@ public class FormQuenMatKhau extends javax.swing.JFrame {
      */
     public FormQuenMatKhau() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

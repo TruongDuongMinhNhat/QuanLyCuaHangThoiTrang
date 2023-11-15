@@ -27,8 +27,9 @@ public class KhachHangDAO implements IDAO<KhachHang> {
         preparedStatement.setString(1, khachHang.getMaKH());
         preparedStatement.setString(2, khachHang.getHoTen());
         preparedStatement.setString(3, khachHang.getSoDienThoai());
-        preparedStatement.setDate(4, Date.valueOf(khachHang.getNgaySinh()));
-        preparedStatement.setFloat(5, khachHang.getDiemTichLuy());
+        preparedStatement.setBoolean(4, khachHang.isGioiTinh());
+        preparedStatement.setDate(5, Date.valueOf(khachHang.getNgaySinh()));
+        preparedStatement.setFloat(6, khachHang.getDiemTichLuy());
 
         int result = preparedStatement.executeUpdate();
         return result > 0;
@@ -37,9 +38,9 @@ public class KhachHangDAO implements IDAO<KhachHang> {
     @Override
     public boolean capNhat(KhachHang target) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update KhachHang KH set KH.HoTen = ?," +
-                        "KH.SoDienThoai = ?, KH.GioiTinh = ?, KH.NgaySinh = ?," +
-                        "KH.DiemTichLuy = ? where KH.MaKH = ?");
+                ("Update KhachHang  set HoTen = ?," +
+                        "SoDienThoai = ?, GioiTinh = ?, NgaySinh = ?," +
+                        "DiemTichLuy = ? where MaKH = ?");
         preparedStatement.setString(1, target.getHoTen());
         preparedStatement.setString(2, target.getSoDienThoai());
         preparedStatement.setBoolean(3, target.isGioiTinh());

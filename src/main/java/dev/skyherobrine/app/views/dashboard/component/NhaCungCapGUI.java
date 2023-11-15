@@ -4,17 +4,32 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.person.NhaCungCapController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
  */
-public class NhaCungCap extends javax.swing.JPanel {
+public class NhaCungCapGUI extends javax.swing.JPanel {
 
     /**
      * Creates new form ThongTinCaNhan
      */
-    public NhaCungCap() {
+    public NhaCungCapGUI() {
         initComponents();
+        new NhaCungCapController(this).loaddsNhaCungCap();
+        new NhaCungCapController(this).loadComboBoxPhanThongTinNCC();
+        new NhaCungCapController(this).loadComboBoxPhanTimKiem();
+        tbDanhSachCacNhaCungCap.addMouseListener(new NhaCungCapController(this));
+        btnThemNhaCungCap.addActionListener(new NhaCungCapController(this));
+        btnSuaNhaCungCap.addActionListener(new NhaCungCapController(this));
+        btnXoaNhaCungCap.addActionListener(new NhaCungCapController(this));
+
+        cbTkTinhTrangNhaCungCap.addActionListener(new NhaCungCapController(this));
+        txtTuKhoaTimKiem.addKeyListener(new NhaCungCapController(this));
     }
 
     /**
@@ -42,9 +57,13 @@ public class NhaCungCap extends javax.swing.JPanel {
         lbTinhTrangNhaCungCap = new javax.swing.JLabel();
         txtMaNhaCungCap = new javax.swing.JTextField();
         txtTenNhaCungCap = new javax.swing.JTextField();
+        txtTenNhaCungCap.setEnabled(false);
         txtDiaChiNhaCungCap = new javax.swing.JTextField();
-        txtTinhTrangNhaCungCap3 = new javax.swing.JTextField();
+        txtDiaChiNhaCungCap.setEnabled(false);
+        cbTinhTrangNhaCungCap = new javax.swing.JComboBox<>();
+        cbTinhTrangNhaCungCap.setEnabled(false);
         txtEmailNhaCungCap = new javax.swing.JTextField();
+        txtEmailNhaCungCap.setEnabled(false);
         btnThemNhaCungCap = new javax.swing.JButton();
         btnSuaNhaCungCap = new javax.swing.JButton();
         btnXoaNhaCungCap = new javax.swing.JButton();
@@ -59,13 +78,10 @@ public class NhaCungCap extends javax.swing.JPanel {
 
         tbDanhSachCacNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Tình trạng"
             }
         ));
         spDanhCacNhaCungCap.setViewportView(tbDanhSachCacNhaCungCap);
@@ -144,7 +160,7 @@ public class NhaCungCap extends javax.swing.JPanel {
 
         txtDiaChiNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        txtTinhTrangNhaCungCap3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbTinhTrangNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtEmailNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -180,7 +196,7 @@ public class NhaCungCap extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -212,7 +228,7 @@ public class NhaCungCap extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +292,22 @@ public class NhaCungCap extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtMaNhaCungCap;
     private javax.swing.JTextField txtTenNhaCungCap;
-    private javax.swing.JTextField txtTinhTrangNhaCungCap3;
+    private javax.swing.JComboBox cbTinhTrangNhaCungCap;
     private javax.swing.JTextField txtTuKhoaTimKiem;
     // End of variables declaration//GEN-END:variables
+
+    public JTable getTbDanhSachNhaCungCap() {
+        return tbDanhSachCacNhaCungCap;
+    }
+    public JButton getButtonThemNhaCungCap(){return btnThemNhaCungCap;}
+    public JButton getButtonSuaNhaCungCap(){return btnSuaNhaCungCap;}
+    public JButton getButtonXoaNhaCungCap(){return btnXoaNhaCungCap;}
+    public JTextField getTxtMaNhaCungCap(){return txtMaNhaCungCap;}
+    public JTextField getTxtDiaChiNhaCungCap(){return txtDiaChiNhaCungCap;}
+    public JTextField getTxtTenNhaCungCap(){return txtTenNhaCungCap;}
+    public JTextField getTxtEmailNhaCungCap(){return txtEmailNhaCungCap;}
+    public JComboBox getCbTinhTrangNhaCungCap(){return cbTinhTrangNhaCungCap;}
+    public JComboBox getCbTkTinhTrangNhaCungCap(){return cbTkTinhTrangNhaCungCap;}
+    public JTextField getTxtTuKhoaTimKiem(){return txtTuKhoaTimKiem;}
+
 }
