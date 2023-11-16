@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author Trương Dương Minh Nhật
  * @param <T>
  * @see T
- * @version 2.0
+ * @version 3.0
  */
 public interface IDAO<T>{
     /**
@@ -69,6 +69,26 @@ public interface IDAO<T>{
      * @since 1.0
      */
     List<T> timKiem() throws Exception;
+
+    /**
+     * Lấy danh sách các dữ liệu của bảng {@link T} trong CSDL và lấy một số giá trị của thuộc tình trong
+     * bảng. Phương thức này sẽ thực hiện truy vấn lấy danh sách các dữ liệu ứng với số thuộc tính cần thiết
+     * để lấy. Ngoài ra có thể lọc các dữ liệu theo điều kiện.<br><br>
+     * <i>(!) -> Lưu ý rằng các tên cột trong tham số thứ 2 phải trùng với các tên cột trong <b>Key</b> của {@link Map}</i>
+     * @param conditions là <b>{@link Map}</b> thuộc <b>{@link java.util.Collection}</b>, dùng để chứa danh sách
+     * các tên cột {@link String} và ứng với giá trị {@link Object}, các phần tử này sẽ là những điều kiện để có
+     * thể lọc dữ liệu.<br>
+     * @param isDuplicateResult là tham số cho phép kết quả của dữ liệu truy vấn trả về có được phép trùng lặp hay không?<br>
+     * @param colNames là danh sách các phần tử theo kiểu {@link String} dùng để chứa các tên cột, khi lấy dữ liệu
+     * sẽ lấy dữ liệu theo các tên cột tương ứng.
+     * @return {@link List} chứ danh sách và mỗi phần tử là {@link Map}, mỗi phần tử trong danh sách sẽ có 2
+     * trường <b>Key</b> và <b>Value</b>. Trường <b>Key</b> sẽ giữ vai trò chứa tên cột và trường <b>Value</b>
+     * sẽ giữ vai trò là giá trị lưu trữ ứng với tên cột đó.
+     * @throws Exception phương thức sẽ ném ngoại lệ nếu rơi một trong những trường hợp: <u>sai cú pháp</u>,
+     * <u>không thể kết nối SQL được</u>
+     * @since 3.0
+     */
+    List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String...colNames) throws Exception;
 
     /**
      * Lấy danh sách các dữ liệu của bảng {@link T} trong CSDL theo điều kiện trong tham số. Phương thức

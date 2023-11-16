@@ -26,30 +26,24 @@ public class SanPham {
     private PhongCachMac phongCachMac;
     private DoTuoi doTuoi;
     private String xuatXu;
-    private int soLuong;
     private ThuongHieu thuongHieu;
     private float phanTramLoi;
     private MauSac mauSac;
-    private String kichThuoc;
-    private String hinhAnh;
     private LocalDate ngaySanXuat;
     private TinhTrangSanPham tinhTrang;
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs;
     private List<ChiTietKhuyenMai> chiTietKhuyenMais;
 
-    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, int soLuong, ThuongHieu thuongHieu, float phanTramLoi, MauSac mauSac, String kichThuoc, String hinhAnh, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
+    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, MauSac mauSac, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
         this.setMaSP(maSP);
         this.setTenSP(tenSP);
         this.setLoaiSanPham(loaiSanPham);
         this.setPhongCachMac(phongCachMac);
         this.setDoTuoi(doTuoi);
         this.setXuatXu(xuatXu);
-        this.setSoLuong(soLuong);
         this.setThuongHieu(thuongHieu);
         this.setPhanTramLoi(phanTramLoi);
         this.setMauSac(mauSac);
-        this.setKichThuoc(kichThuoc);
-        this.setHinhAnh(hinhAnh);
         this.setNgaySanXuat(ngaySanXuat);
         this.setTinhTrang(tinhTrang);
     }
@@ -130,36 +124,12 @@ public class SanPham {
         this.phanTramLoi = phanTramLoi;
     }
 
-    public int getSoLuong() {
-        return soLuong;
-    }
-
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
-    }
-
     public MauSac getMauSac() {
         return mauSac;
     }
 
     public void setMauSac(MauSac mauSac) {
         this.mauSac = mauSac;
-    }
-
-    public String getKichThuoc() {
-        return kichThuoc;
-    }
-
-    public void setKichThuoc(String kichThuoc) {
-        this.kichThuoc = kichThuoc;
-    }
-
-    public String getHinhAnh() {
-        return hinhAnh;
-    }
-
-    public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
     }
 
     public LocalDate getNgaySanXuat() {

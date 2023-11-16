@@ -8,10 +8,9 @@ import dev.skyherobrine.app.entities.order.PhieuTraKhachHang;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHang> {
     private ConnectDB connectDB;
@@ -68,25 +67,63 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietPhieuTraKhachHang> timKiem(String id) throws Exception {
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ?");
-        preparedStatement.setString(1, id);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()) {
-            return Optional.of(new ChiTietPhieuTraKhachHang(
-                    new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    resultSet.getInt("SoLuongTra"),
-                    resultSet.getString("NoiDungTra")
-            ));
-        }
-        return Optional.empty();
+        throw new Exception("Phương thức này không được sử dụng");
     }
 
     @Override
+
     public List<ChiTietPhieuTraKhachHang> timKiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietPhieuTraKhachHang> timKiem(String maPhieuTraKH, String maSP) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ? and MaSP = ?");
+        preparedStatement.setString(1, maPhieuTraKH);
+        preparedStatement.setString(2, maSP);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietPhieuTraKhachHang(new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongTra"),
+                    resultSet.getString("NoiDungTra")));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String... colNames) throws Exception {
+        AtomicReference<String> query = new AtomicReference<>("select " + (isDuplicateResult ? "distinct " : ""));
+        AtomicBoolean canPhay = new AtomicBoolean(false);
+        AtomicBoolean canAnd = new AtomicBoolean(false);
+
+        Arrays.stream(colNames).forEach(column -> {
+            query.set(query.get() + (canPhay.get() ? "," : "") + column);
+            canPhay.set(true);
+        });
+
+        query.set(query.get() + " from ChiTietPhieuTraKhachHang where ");
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            canAnd.set(true);
+        });
+
+        System.out.println(query);
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
+
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        while(resultSet.next()){
+            Map<String, Object> rowDatas = new HashMap<>();
+            for(String column : Arrays.stream(colNames).toList()) {
+                rowDatas.put(column, resultSet.getString(column));
+            }
+            listResult.add(rowDatas);
+        }
+        return listResult;
     }
 }

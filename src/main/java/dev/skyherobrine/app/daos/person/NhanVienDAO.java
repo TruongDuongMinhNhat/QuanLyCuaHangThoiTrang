@@ -62,12 +62,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update NhanVien set TinhTrang = ? where MaNV = ?");
-        preparedStatement.setString(1, "NGHI");
-        preparedStatement.setString(2, id);
-
-        return preparedStatement.executeUpdate() > 0;
+        return false;
     }
 
     @Override
@@ -103,6 +98,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         AtomicReference<String> query = new AtomicReference<>
                 ("select * from NhanVien nv where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
         conditions.forEach((column, value) -> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " like '%" + value + "%'"));
             isNeedAnd.set(true);
@@ -112,7 +108,6 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
-            System.out.println(result.getString("MaNV"));
             NhanVien nhanVien = new NhanVien(
                     result.getString("MaNV"),
                     result.getString("HoTen"),
@@ -133,7 +128,6 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public Optional<NhanVien> timKiem(String id) throws Exception {
-        System.out.println("1");
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("select * from NhanVien nv where nv.MaNV = ?");
         preparedStatement.setString(1, id);
@@ -156,10 +150,8 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         }
     }
 
-
     @Override
     public List<NhanVien> timKiem(String... ids) throws Exception {
-        System.out.println("1");
         String query = "select * from NhanVien nv where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
@@ -187,5 +179,36 @@ public class NhanVienDAO implements IDAO<NhanVien> {
             nhanViens.add(nhanVien);
         }
         return nhanViens;
+    }
+
+    @Override
+    public List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String... colNames) throws Exception {
+        AtomicReference<String> query = new AtomicReference<>("select " + (isDuplicateResult ? "distinct " : ""));
+        AtomicBoolean canPhay = new AtomicBoolean(false);
+        AtomicBoolean canAnd = new AtomicBoolean(false);
+
+        Arrays.stream(colNames).forEach(column -> {
+            query.set(query.get() + (canPhay.get() ? "," : "") + column);
+            canPhay.set(true);
+        });
+
+        query.set(query.get() + " from NhanVien where ");
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            canAnd.set(true);
+        });
+
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
+
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        while(resultSet.next()){
+            Map<String, Object> rowDatas = new HashMap<>();
+            for(String column : Arrays.stream(colNames).toList()) {
+                rowDatas.put(column, resultSet.getString(column));
+            }
+            listResult.add(rowDatas);
+        }
+        return listResult;
     }
 }
