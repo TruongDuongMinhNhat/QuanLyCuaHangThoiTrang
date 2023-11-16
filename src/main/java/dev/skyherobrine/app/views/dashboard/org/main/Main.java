@@ -67,7 +67,7 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("Form : " + index + " " + subIndex);
                 }
                 else if (index==5 ) {//nhà cung cấp
-                    showForm(new NhaCungCap());
+                    showForm(new NhaCungCapGUI());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==6 ) {//khách hàng
                     showForm(new KhachHangGUI());

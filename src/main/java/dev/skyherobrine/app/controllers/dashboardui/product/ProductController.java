@@ -223,7 +223,6 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                 conditionsDanhMuc.put("TenDM", sanPhamUI.getCbTkDanhMuc().getSelectedItem().toString());
                 try {
                     dsDanhMucTim = danhMucSanPhamDAO.timKiem(conditionsDanhMuc);
-                    System.out.println(dsDanhMucTim);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

@@ -79,9 +79,9 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
-                //load sẵn tình trang còn bán
+                //load sẵn mã khách hàng
+                khachHangUI.getTxtMaKhachHang().setText(laymaKH());
                 khachHangUI.getTxtMaKhachHang().setEnabled(false);
-                khachHangUI.getTxtMaKhachHang().setText(laymaNV());
             }
             // Thực hiện chức năng nghiệp vụ thêm khách hàng
             else if(trangThaiNutThemKH==1) {
@@ -189,24 +189,54 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         }
 
         /*LỌC KHÁCH HÀNG*/
-//        if(op.equals(khachHangUI.getCbTkGioiTinh()) ||
-//                op.equals(khachHangUI.getCbTkChucVu()) ||
-//                op.equals(khachHangUI.getCbTkTinhTrang()) ||
-//                op.equals(khachHangUI.getCbTkCaLamViec())){
-//            DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
-//            clearTable.setRowCount(0);
-//            khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
-//            try {
-//                dsKhachHang = khachHangDAO.timKiem();
-//                DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
-//                for(dev.skyherobrine.app.entities.person.KhachHang kh : dsKhachHang){
-//                    String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getEmail(), kh.getDiaChi(), kh.getChucVu()+"", kh.getCaLamViec()+"", kh.getTenTaiKhoan(), kh.getMatKhau(), kh.getTinhTrang()+""};
-//                    tmKhachHang.addRow(row);
+        if(op.equals(khachHangUI.getCbTkGioiTinh()) || op.equals(khachHangUI.getjDateChooserTkNgaySinh())){
+            List<KhachHang> dsLoc = new ArrayList<>();
+            List<KhachHang> dsTam = new ArrayList<>();
+            if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("GioiTinh", khachHangUI.getCbTkGioiTinh().getSelectedItem().toString().equals("NAM") ? 1 : 0);
+                try {
+                    dsLoc = khachHangDAO.timKiem(conditions);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+//                Date newd = khachHangUI.getjDateChooserTkNgaySinh().getDate();
+//                String s = convertDateToString(newd);
+////                String s1 = convertDateToString(dsLoc.get(0).getNgaySinh().toEpochSecond())
+//                System.out.println(s);
+//                if(!s.equals("")){
+//                    for (int i=0; i<dsLoc.size(); i++){
+//                        if(s.equals("")){
+//                            dsTam.add(dsLoc.get(i));
+//                        }
+//                    }
+//                    dsLoc = dsTam;
+//                    dsTam = new ArrayList<>();
 //                }
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
+            }
+
+            DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+            clearTable.setRowCount(0);
+            khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+            try {
+                DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                for(dev.skyherobrine.app.entities.person.KhachHang kh : dsLoc){
+                    String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
+                    tmKhachHang.addRow(row);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private static String convertDateToString(Date date) {
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            return sdf.format(date);
+        }
+        return "No Date Selected";
     }
 
 
@@ -319,8 +349,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm sinh mã khách hàng
-    private String laymaNV() {
-        String ma = "NV-";
+    private String laymaKH() {
+        String ma = "KH-";
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         ma = ma+nThem;
         ma = ma+"-"+formatNumber(laysoDuoiMaKH());
@@ -331,16 +361,16 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("MaKH", "%"+nThem+"%");
-        List<KhachHang> KhachHangs = new ArrayList<>();
+        List<KhachHang> khachHag;
         try {
-            KhachHangs = khachHangDAO.timKiem(conditions);
+            khachHag = khachHangDAO.timKiem(conditions);
         } catch (Exception e) {
             return 1;
         }
-        if(KhachHangs==null){
+        if(khachHag.size()==0){
             return 1;
         }
-        KhachHang kh = KhachHangs.get(KhachHangs.size()-1);
+        KhachHang kh = khachHag.get(khachHag.size()-1);
         int soHD = Integer.parseInt(kh.getMaKH().substring(kh.getMaKH().length()-3));
         return soHD+1;
     }
@@ -356,19 +386,19 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm lấy viết tắt của tên
-    public  String getInitials(String input) {
-        String[] words = input.split("\\s+"); // Sử dụng "\\s+" để tách các từ dựa trên khoảng trắng
-
-        // Lấy chữ cái đầu của từng từ ghép
-        StringBuilder initials = new StringBuilder();
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                initials.append(word.charAt(0));
-            }
-        }
-
-        return initials.toString();
-    }
+//    public  String getInitials(String input) {
+//        String[] words = input.split("\\s+"); // Sử dụng "\\s+" để tách các từ dựa trên khoảng trắng
+//
+//        // Lấy chữ cái đầu của từng từ ghép
+//        StringBuilder initials = new StringBuilder();
+//        for (String word : words) {
+//            if (!word.isEmpty()) {
+//                initials.append(word.charAt(0));
+//            }
+//        }
+//
+//        return initials.toString();
+//    }
 
 
     //Hàm đổi Date thành LocalDate

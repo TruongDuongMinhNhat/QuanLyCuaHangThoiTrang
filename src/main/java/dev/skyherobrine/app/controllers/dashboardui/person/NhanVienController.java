@@ -85,8 +85,8 @@ public class NhanVienController implements ActionListener, MouseListener, KeyLis
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
                 //load sẵn tình trang còn bán
-                nhanVienUI.getTxtMaNhanVien().setEnabled(false);
                 nhanVienUI.getTxtMaNhanVien().setText(laymaNV());
+                nhanVienUI.getTxtMaNhanVien().setEnabled(false);
                 nhanVienUI.getCbTinhTrangNhanVien().setSelectedItem("DANG_LAM");
             }
             // Thực hiện chức năng nghiệp vụ thêm nhân viên
@@ -456,13 +456,13 @@ public class NhanVienController implements ActionListener, MouseListener, KeyLis
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("MaNV", "%"+nThem+"%");
-        List<NhanVien> nhanViens = new ArrayList<>();
+        List<NhanVien> nhanViens;
         try {
             nhanViens = nhanVienDAO.timKiem(conditions);
         } catch (Exception e) {
             return 1;
         }
-        if(nhanViens==null){
+        if(nhanViens.size()==0){
             return 1;
         }
         NhanVien nv = nhanViens.get(nhanViens.size()-1);

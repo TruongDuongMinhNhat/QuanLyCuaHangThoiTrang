@@ -4,6 +4,8 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -338,7 +340,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    public JTable getTbDanhSachPheiNhap() {
+        return tbDanhSachPheiNhap;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner SpinnerGiaNhap;
     private javax.swing.JSpinner SpinnerSoLuong;

@@ -2,6 +2,7 @@ package dev.skyherobrine.app.controllers.dashboardui.mainDashboard;
 
 import dev.skyherobrine.app.daos.order.ChiTietPhieuNhapHangDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.daos.sale.ChiTietKhuyenMaiDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
@@ -14,7 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MutipleButtonController implements ActionListener, KeyListener, EventItemSelected {
@@ -23,10 +26,13 @@ public class MutipleButtonController implements ActionListener, KeyListener, Eve
     private static SanPhamDAO sanPhamDAO;
     private static int soLuongSP;
     private static ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
+    private static ChiTietKhuyenMaiDAO chiTietKhuyenMaiDAO;
+
     public MutipleButtonController(MultipleButton multipleButton){
         try {
             sanPhamDAO = new SanPhamDAO();
             chiTietPhieuNhapHangDAO = new ChiTietPhieuNhapHangDAO();
+            chiTietKhuyenMaiDAO = new ChiTietKhuyenMaiDAO();
         }catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -57,8 +63,14 @@ public class MutipleButtonController implements ActionListener, KeyListener, Eve
         // TODO implement here
         soLuongSP = dsSP.size();
         multipleButton.removeAll();
+
         for(SanPham sp : dsSP){
-            multipleButton.add(createItem("/img/imgSanPham/"+sp.getHinhAnh(), sp.getTenSP()+" - "+sp.getKichThuoc(), getGiaSP(sp.getMaSP(),sp.getPhanTramLoi())+"", sp.getSoLuong()+""));
+            Map<String, Object> conditions = new HashMap<>();
+            conditions.put("MaSP", sp.getMaSP());
+            sp.setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditions));
+            sp.setChiTietKhuyenMais(chiTietKhuyenMaiDAO.timKiem(conditions));
+
+            multipleButton.add(createItem("/img/imgSanPham/"+sp.getHinhAnh(), sp.getTenSP()+" - "+sp.getKichThuoc(), String.format("%.1f", sp.giaBan()), sp.getSoLuong()+""));
         }
         multipleButton.repaint();
         multipleButton.revalidate();
@@ -74,7 +86,6 @@ public class MutipleButtonController implements ActionListener, KeyListener, Eve
     public double getGiaSP(String maSP, double ptLoi) throws Exception {
 
         Optional<ChiTietPhieuNhapHang> SP = chiTietPhieuNhapHangDAO.timKiem(maSP);
-        System.out.println(SP);
         if(SP.isPresent()){
             double giaSP = SP.get().getGiaNhap();
             double tienLoi = giaSP*(ptLoi/100);
@@ -97,7 +108,7 @@ public class MutipleButtonController implements ActionListener, KeyListener, Eve
         SanPham sp = (SanPham) multipleButton.getItems().get(index);
         try {
             if(LapHoaDonController.checkSP(sp.getMaSP()) == 0){
-                LapHoaDonController.loadTable(sp, getGiaSP(sp.getMaSP(), sp.getPhanTramLoi()));
+                LapHoaDonController.loadTable(sp, Double.parseDouble(String.format("%.1f", sp.giaBan())));
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

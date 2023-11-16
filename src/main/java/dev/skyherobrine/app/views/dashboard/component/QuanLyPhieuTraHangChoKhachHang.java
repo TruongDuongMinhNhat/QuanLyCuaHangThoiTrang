@@ -4,6 +4,11 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.PhieuTraHangKHController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -15,6 +20,12 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
      */
     public QuanLyPhieuTraHangChoKhachHang() {
         initComponents();
+        try{
+            new PhieuTraHangKHController(this).loadComboBoxPhanTimKiem();
+//            new PhieuTraHangKHController(this).loa();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -223,10 +234,6 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
 
         tbDanhSachPhieuTraHangChoKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -249,10 +256,10 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         pnTimKiemPhieuTraHang.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm Kiếm phiếu trả hàng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         cbTkNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTkNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhà cung cấp", " " }));
+        cbTkNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
         cbTkTinhTrang.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTkTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tình trạng", " " }));
+        cbTkTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Ngày lập phiếu:");
@@ -341,6 +348,61 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTextField getTxtMaPhieuTra() {
+        return txtMaPhieuTra;
+    }
+
+    public JButton getBtnInPhieu() {
+        return btnInPhieu;
+    }
+
+    public JButton getBtnThemPhieu() {
+        return btnThemPhieu;
+    }
+
+    public JComboBox<String> getCbTkNhaCungCap() {
+        return cbTkNhaCungCap;
+    }
+
+    public JComboBox<String> getCbTkTinhTrang() {
+        return cbTkTinhTrang;
+    }
+
+    public JDateChooser getjDateChooserNgayHenLay() {
+        return jDateChooserNgayHenLay;
+    }
+
+    public JDateChooser getjDateChooserTkNgayHenLay() {
+        return jDateChooserTkNgayHenLay;
+    }
+
+    public JTextField getTxtLyDoTraHang() {
+        return txtLyDoTraHang;
+    }
+    public JTextField getTxtMaPhieuNhap() {
+        return txtMaPhieuNhap;
+    }
+    public JTextField getTxtSoLuongTra() {
+        return txtSoLuongTra;
+    }
+    public JTextField getTxtTuKhoaTimKiem() {
+        return txtTuKhoaTimKiem;
+    }
+    public JTextField getTxtTinhTrang() {
+        return txtTinhTrang;
+    }
+    public JTextField getTxtTenNhaCungCapSanPham() {
+        return txtTenNhaCungCapSanPham;
+    }
+    public JTextField getTxtTenSanPham() {
+        return txtTenSanPham;
+    }
+    public JDateChooser getjDateChooserNgayLapPhieu() {
+        return jDateChooserNgayLapPhieu;
+    }
+    public JTable getTbDanhSachPhieuTraHangChoKhachHang() {
+        return tbDanhSachPhieuTraHangChoKhachHang;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInPhieu;

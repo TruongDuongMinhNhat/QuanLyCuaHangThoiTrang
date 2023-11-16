@@ -123,7 +123,6 @@ public class MultipleButton extends JPanel{
 //        repaint();
 //        revalidate();
         try {
-            System.out.println(items);
             int slsp = new MutipleButtonController(this).loadSP(items);
         } catch (Exception e) {
             throw new RuntimeException(e);

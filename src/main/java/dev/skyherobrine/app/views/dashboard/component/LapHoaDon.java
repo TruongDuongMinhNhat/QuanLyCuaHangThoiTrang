@@ -48,6 +48,8 @@ public class LapHoaDon extends JPanel {
         jTable1.getModel().addTableModelListener(new LapHoaDonController(this));
         txtTimKiemDsSp.addFocusListener(new LapHoaDonController(this));
         txtTimKiemDsSp.addKeyListener(new LapHoaDonController(this));
+        cbLoai.addActionListener(new LapHoaDonController(this));
+        cbDanhMuc.addActionListener(new LapHoaDonController(this));
         txtSĐTKhachHang.addFocusListener(new LapHoaDonController(this));
         txtSĐTKhachHang.addKeyListener(new LapHoaDonController(this));
         btnLapHoaDon.addActionListener(new LapHoaDonController(this));
