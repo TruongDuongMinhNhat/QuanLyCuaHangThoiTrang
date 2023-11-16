@@ -34,7 +34,7 @@ public class SanPham {
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs;
     private List<ChiTietKhuyenMai> chiTietKhuyenMais;
 
-    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, MauSac mauSac, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
+    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
         this.setMaSP(maSP);
         this.setTenSP(tenSP);
         this.setLoaiSanPham(loaiSanPham);
@@ -43,7 +43,6 @@ public class SanPham {
         this.setXuatXu(xuatXu);
         this.setThuongHieu(thuongHieu);
         this.setPhanTramLoi(phanTramLoi);
-        this.setMauSac(mauSac);
         this.setNgaySanXuat(ngaySanXuat);
         this.setTinhTrang(tinhTrang);
     }

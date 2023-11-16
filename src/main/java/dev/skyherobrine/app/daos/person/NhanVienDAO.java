@@ -22,7 +22,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
     @Override
     public boolean them(NhanVien nhanVien) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert NhanVien values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ("Insert NhanVien values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, nhanVien.getMaNV());
         preparedStatement.setString(2, nhanVien.getHoTen());
         preparedStatement.setString(3, nhanVien.getSoDienThoai());
@@ -34,7 +34,8 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         preparedStatement.setString(9, nhanVien.getCaLamViec().toString());
         preparedStatement.setString(10, nhanVien.getTenTaiKhoan());
         preparedStatement.setString(11, nhanVien.getMatKhau());
-        preparedStatement.setString(12, nhanVien.getTinhTrang().toString());
+        preparedStatement.setString(12, nhanVien.getHinhAnh());
+        preparedStatement.setString(13, nhanVien.getTinhTrang().toString());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -87,6 +88,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     CaLamViec.layGiaTri(resultSet.getString("CaLamViec")),
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
+                    resultSet.getString("HinhAnh"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang")));
             nhanViens.add(nhanVien);
         }
@@ -120,6 +122,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     CaLamViec.layGiaTri(result.getString("CaLamViec")),
                     result.getString("TenTaiKhoan"),
                     result.getString("MatKhau"),
+                    result.getString("HinhAnh"),
                     TinhTrangNhanVien.layGiaTri(result.getString("TinhTrang")));
             nhanViens.add(nhanVien);
         }
@@ -144,6 +147,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     CaLamViec.layGiaTri(resultSet.getString("CaLamViec")),
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
+                    resultSet.getString("HinhAnh"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang"))));
         } else {
             return Optional.empty();
@@ -175,6 +179,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
                     CaLamViec.layGiaTri(resultSet.getInt("CaLamViec")),
                     resultSet.getString("TenTaiKhoan"),
                     resultSet.getString("MatKhau"),
+                    resultSet.getString("HinhAnh"),
                     TinhTrangNhanVien.layGiaTri(resultSet.getString("TinhTrang")));
             nhanViens.add(nhanVien);
         }

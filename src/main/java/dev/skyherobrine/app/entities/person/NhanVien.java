@@ -33,9 +33,10 @@ public class NhanVien {
     private CaLamViec caLamViec;
     private String tenTaiKhoan;
     private String matKhau;
+    private String hinhAnh;
     private TinhTrangNhanVien tinhTrang;
 
-    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, TinhTrangNhanVien tinhTrang) throws Exception {
+    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, String hinhAnh, TinhTrangNhanVien tinhTrang) throws Exception {
         this.setMaNV(maNV);
         this.setHoTen(hoTen);
         this.setSoDienThoai(soDienThoai);
@@ -47,6 +48,7 @@ public class NhanVien {
         this.setCaLamViec(caLamViec);
         this.setTenTaiKhoan(tenTaiKhoan);
         this.setMatKhau(matKhau);
+        this.setHinhAnh(hinhAnh);
         this.setTinhTrang(tinhTrang);
     }
 
@@ -194,6 +196,14 @@ public class NhanVien {
         }
         else
             throw new Exception("Mật khẩu không được rỗng!");
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 
     public TinhTrangNhanVien getTinhTrang() {
