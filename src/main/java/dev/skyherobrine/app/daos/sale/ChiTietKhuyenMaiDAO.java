@@ -87,12 +87,26 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
     }
 
     @Override
+    @Deprecated
     public Optional<ChiTietKhuyenMai> timKiem(String id) throws Exception {
-        return null;
+        throw new Exception("Phương thức này không thể áp dụng cho class này");
     }
 
     @Override
-    public List<ChiTietKhuyenMai> timkiem(String... ids) throws Exception {
+    public List<ChiTietKhuyenMai> timKiem(String... ids) throws Exception {
         return null;
+    }
+
+    public Optional<ChiTietKhuyenMai> timKiem(String maKM, String maSP) throws Exception {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement("select * from ChiTietKhuyenMai where MaKM = ? and MaSP = ?");
+        preparedStatement.setString(1, maKM);
+        preparedStatement.setString(2, maSP);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietKhuyenMai(new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(), resultSet.getFloat("TiLe")));
+        } else {
+            return Optional.empty();
+        }
     }
 }

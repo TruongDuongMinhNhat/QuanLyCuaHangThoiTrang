@@ -2,7 +2,7 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
-import dev.skyherobrine.app.entities.product.DanhMucSanPham;
+import dev.skyherobrine.app.entities.product.LoaiSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.enums.*;
@@ -22,35 +22,48 @@ public class SanPhamDAO implements IDAO<SanPham> {
     @Override
     public boolean them(SanPham sanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, sanPham.getMaSP());
         preparedStatement.setString(2, sanPham.getTenSP());
         preparedStatement.setString(3, sanPham.getLoaiSanPham().getMaLoai());
         preparedStatement.setString(4, sanPham.getPhongCachMac().toString());
         preparedStatement.setString(5, sanPham.getDoTuoi().toString());
         preparedStatement.setString(6, sanPham.getXuatXu());
-        preparedStatement.setInt(7, sanPham.getSoLuong());
-        preparedStatement.setString(8, sanPham.getThuongHieu().getMaTH());
+        preparedStatement.setString(7, sanPham.getThuongHieu().getMaTH());
+        preparedStatement.setDouble(8, sanPham.getPhanTramLoi());
         preparedStatement.setString(9, sanPham.getMauSac().toString());
-        preparedStatement.setString(10, sanPham.getKichThuoc());
-        preparedStatement.setString(11, sanPham.getHinhAnh());
-        preparedStatement.setDate(12, Date.valueOf(sanPham.getNgaySanXuat()));
-        preparedStatement.setString(12, sanPham.getTinhTrang().toString());
-
+        preparedStatement.setDate(10, Date.valueOf(sanPham.getNgaySanXuat()));
+        preparedStatement.setString(11, sanPham.getTinhTrang().toString());
         return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
     public boolean capNhat(SanPham target) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, MauSac = ?, KichThuoc = ?, HinhAnh = ?, NgaySanXuat = ?, TinhTrang = ? where MaSP = ?");
+                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, MauSac = ?, NgaySanXuat = ?, TinhTrang = ? where MaSP = ?");
+        preparedStatement.setString(1, target.getTenSP());
+        preparedStatement.setString(2, target.getLoaiSanPham().getMaLoai());
+        preparedStatement.setString(3, target.getPhongCachMac().toString());
+        preparedStatement.setString(4, target.getDoTuoi().toString());
+        preparedStatement.setString(5, target.getXuatXu());
+        preparedStatement.setString(6, target.getThuongHieu().getMaTH());
+        preparedStatement.setDouble(7, target.getPhanTramLoi());
+        preparedStatement.setString(8, target.getMauSac().toString());
+        preparedStatement.setDate(9, Date.valueOf(target.getNgaySanXuat()));
+        preparedStatement.setString(10, target.getTinhTrang().toString());
+        preparedStatement.setString(11, target.getMaSP());
 
-        return false;
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update SanPham set TinhTrang = ? where MaSP = ?");
+        preparedStatement.setString(1, "KHONG_CON_BAN");
+        preparedStatement.setString(2, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
@@ -60,7 +73,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
 
     @Override
     public List<SanPham> timKiem() throws Exception {
-        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select * from SanPham");
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select TOP 10 * from SanPham");
         List<SanPham> sanPhams = new ArrayList<>();
         while(resultSet.next()) {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
@@ -69,12 +82,9 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
-                    resultSet.getInt("SoLuong"),
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     MauSac.layGiaTri(resultSet.getString("MauSac")),
-                    resultSet.getString("KichThuoc"),
-                    resultSet.getString("HinhAnh"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
@@ -86,35 +96,29 @@ public class SanPhamDAO implements IDAO<SanPham> {
     @Override
     public List<SanPham> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from SanPham t where ");
+                ("select * from SanPham sp where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("sp." + column + " = N'" + value + "'"));
             isNeedAnd.set(true);
         });
 
         List<SanPham> sanPhams = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        ResultSet result = preparedStatement.executeQuery();
-        while(result.next()) {
-            SanPham sanPham = new SanPham(
-                    result.getString("MaSP"),
-                    result.getString("TenSP"),
-                    new LoaiSanPhamDAO().timKiem(result.getString("MaLoai")).get(),
-                    PhongCachMac.layGiaTri(result.getString("PhongCachMac")),
-                    DoTuoi.layGiaTri(result.getString("DoTuoi")),
-                    result.getString("SoLuong"),
-                    result.getInt("SoLuong"),
-                    new ThuongHieuDAO().timKiem(result.getString("ThuongHieu")).get(),
-                    result.getFloat("PhanTramLoi"),
-                    MauSac.layGiaTri(result.getString("MauSac")),
-                    result.getString("KichThuoc"),
-                    result.getString("HinhAnh"),
-                    result.getDate("NgaySanXuat").toLocalDate(),
-                    TinhTrangSanPham.layGiaTri(result.getString("TinhTrang"))
-            );
-
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
+                    resultSet.getString("TenSP"),
+                    new LoaiSanPhamDAO().timKiem(resultSet.getString("MaLoai")).get(),
+                    PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
+                    DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
+                    resultSet.getString("XuatXu"),
+                    new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
+                    resultSet.getFloat("PhanTramLoi"),
+                    MauSac.layGiaTri(resultSet.getString("MauSac")),
+                    resultSet.getDate("NgaySanXuat").toLocalDate(),
+                    TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
             sanPhams.add(sanPham);
         }
         return sanPhams;
@@ -124,6 +128,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
     public Optional<SanPham> timKiem(String id) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("select * from SanPham where MaSP = ?");
+        preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
@@ -132,12 +137,9 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
-                    resultSet.getInt("SoLuong"),
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     MauSac.layGiaTri(resultSet.getString("MauSac")),
-                    resultSet.getString("KichThuoc"),
-                    resultSet.getString("HinhAnh"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
@@ -147,11 +149,11 @@ public class SanPhamDAO implements IDAO<SanPham> {
     }
 
     @Override
-    public List<SanPham> timkiem(String... ids) throws Exception {
+    public List<SanPham> timKiem(String... ids) throws Exception {
         String query = "select * from SanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaSP like '%" + listID[i] + "%'");
+            query += ("MaSP = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
@@ -166,17 +168,46 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     PhongCachMac.layGiaTri(resultSet.getString("PhongCachMac")),
                     DoTuoi.layGiaTri(resultSet.getString("DoTuoi")),
                     resultSet.getString("XuatXu"),
-                    resultSet.getInt("SoLuong"),
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     MauSac.layGiaTri(resultSet.getString("MauSac")),
-                    resultSet.getString("KichThuoc"),
-                    resultSet.getString("HinhAnh"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
             sanPhams.add(sanPham);
         }
         return sanPhams;
+    }
+
+    @Override
+    public List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String... colNames) throws Exception {
+        AtomicReference<String> query = new AtomicReference<>("select " + (isDuplicateResult ? "distinct " : ""));
+        AtomicBoolean canPhay = new AtomicBoolean(false);
+        AtomicBoolean canAnd = new AtomicBoolean(false);
+
+        Arrays.stream(colNames).forEach(column -> {
+            query.set(query.get() + (canPhay.get() ? "," : "") + column);
+            canPhay.set(true);
+        });
+
+        query.set(query.get() + " from SanPham where ");
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            canAnd.set(true);
+        });
+
+        System.out.println(query);
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
+
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        while(resultSet.next()){
+            Map<String, Object> rowDatas = new HashMap<>();
+            for(String column : Arrays.stream(colNames).toList()) {
+                rowDatas.put(column, resultSet.getString(column));
+            }
+            listResult.add(rowDatas);
+        }
+        return listResult;
     }
 }
