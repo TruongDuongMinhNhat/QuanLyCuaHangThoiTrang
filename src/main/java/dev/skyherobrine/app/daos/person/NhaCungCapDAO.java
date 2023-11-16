@@ -136,4 +136,35 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
         }
         return nhaCungCaps;
     }
+
+    @Override
+    public List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String... colNames) throws Exception {
+        AtomicReference<String> query = new AtomicReference<>("select " + (isDuplicateResult ? "distinct " : ""));
+        AtomicBoolean canPhay = new AtomicBoolean(false);
+        AtomicBoolean canAnd = new AtomicBoolean(false);
+
+        Arrays.stream(colNames).forEach(column -> {
+            query.set(query.get() + (canPhay.get() ? "," : "") + column);
+            canPhay.set(true);
+        });
+
+        query.set(query.get() + " from NhaCungCap where ");
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            canAnd.set(true);
+        });
+
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
+
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        while(resultSet.next()){
+            Map<String, Object> rowDatas = new HashMap<>();
+            for(String column : Arrays.stream(colNames).toList()) {
+                rowDatas.put(column, resultSet.getString(column));
+            }
+            listResult.add(rowDatas);
+        }
+        return listResult;
+    }
 }
