@@ -5,7 +5,7 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
-import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
+//import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
 import dev.skyherobrine.app.enums.MauSac;
 import dev.skyherobrine.app.enums.PhongCachMac;
 import dev.skyherobrine.app.enums.TinhTrangSanPham;
@@ -25,22 +25,22 @@ public class QuanLySanPham extends javax.swing.JPanel {
      */
     public QuanLySanPham() {
         initComponents();
-        new ProductController(this).loadDsSanPham();
-        new ProductController(this).loadComboBoxPhanThongTinSP();
-        new ProductController(this).loadComboBoxPhanTimKiem();
-        tbDanhSachSanPham.addMouseListener(new ProductController(this));
-        btnThemQuanLySanPham.addActionListener(new ProductController(this));
-        btnSuaQuanLySanPham.addActionListener(new ProductController(this));
-        btnXoaQuanLySanPham.addActionListener(new ProductController(this));
-        cbTkDanhMuc.addActionListener(new ProductController(this));
-        cbTkLoaiSanPham.addActionListener(new ProductController(this));
-        cbTkTinhTrang.addActionListener(new ProductController(this));
-        cbTkTHuongHieu.addActionListener(new ProductController(this));
-        cbTkKichThuocSp.addActionListener(new ProductController(this));
-        cbTkKieuNguoiMacSp.addActionListener(new ProductController(this));
-
-        txtTuKhoaTimKiem.addKeyListener(new ProductController(this));
-        btnThemAnhSanPham.addActionListener(new ProductController(this));
+//        new ProductController(this).loadDsSanPham();
+//        new ProductController(this).loadComboBoxPhanThongTinSP();
+//        new ProductController(this).loadComboBoxPhanTimKiem();
+//        tbDanhSachSanPham.addMouseListener(new ProductController(this));
+//        btnThemQuanLySanPham.addActionListener(new ProductController(this));
+//        btnSuaQuanLySanPham.addActionListener(new ProductController(this));
+//        btnXoaQuanLySanPham.addActionListener(new ProductController(this));
+//        cbTkDanhMuc.addActionListener(new ProductController(this));
+//        cbTkLoaiSanPham.addActionListener(new ProductController(this));
+//        cbTkTinhTrang.addActionListener(new ProductController(this));
+//        cbTkTHuongHieu.addActionListener(new ProductController(this));
+//        cbTkKichThuocSp.addActionListener(new ProductController(this));
+//        cbTkKieuNguoiMacSp.addActionListener(new ProductController(this));
+//
+//        txtTuKhoaTimKiem.addKeyListener(new ProductController(this));
+//        btnThemAnhSanPham.addActionListener(new ProductController(this));
     }
 
 //    public void themAnh(String fileAnh){
