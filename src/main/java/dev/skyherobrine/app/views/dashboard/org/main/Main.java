@@ -70,7 +70,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(new NhaCungCapGUI());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==6 ) {//khách hàng
-                    showForm(new KhachHangGUI());
+                    showForm(new KhachHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==7) {//nhân viên
                     showForm(new NhanVienGUI());

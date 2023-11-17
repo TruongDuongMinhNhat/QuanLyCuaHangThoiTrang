@@ -1,8 +1,7 @@
 package dev.skyherobrine.app.controllers.dashboardui.person;
 
 import dev.skyherobrine.app.daos.person.KhachHangDAO;
-import dev.skyherobrine.app.entities.person.KhachHang;
-import dev.skyherobrine.app.views.dashboard.component.KhachHangGUI;
+import dev.skyherobrine.app.views.dashboard.component.KhachHang;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,9 +18,9 @@ import java.util.*;
 import java.util.List;
 
 public class KhachHangController implements MouseListener, ActionListener, PropertyChangeListener, KeyListener {
-    private KhachHangGUI khachHangUI;
+    private KhachHang khachHangUI;
     private KhachHangDAO khachHangDAO;
-    private List<KhachHang> dsKhachHang;
+    private List<dev.skyherobrine.app.entities.person.KhachHang> dsKhachHang;
 
 
     private static int trangThaiNutXoaKH = 0;
@@ -29,7 +28,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     private static int trangThaiNutSuaKH = 0;
 
 
-    public KhachHangController(KhachHangGUI khachHangUI) {
+    public KhachHangController(KhachHang khachHangUI) {
         try {
             khachHangDAO = new KhachHangDAO();
         } catch (Exception e) {
@@ -46,7 +45,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         try {
             dsKhachHang = khachHangDAO.timKiem();
             DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
-            for(KhachHang kh : dsKhachHang){
+            for(dev.skyherobrine.app.entities.person.KhachHang kh : dsKhachHang){
                 String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
                 tmKhachHang.addRow(row);
             }
@@ -57,8 +56,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         trangThaiNutSuaKH = 0;
         trangThaiNutXoaKH = 0;
     }
-    private List<KhachHang> dsLoc;
-    private List<KhachHang> dsTam = new ArrayList<KhachHang>();
+    private List<dev.skyherobrine.app.entities.person.KhachHang> dsLoc;
+    private List<dev.skyherobrine.app.entities.person.KhachHang> dsTam = new ArrayList<dev.skyherobrine.app.entities.person.KhachHang>();
     @Override
     public void actionPerformed(ActionEvent event) {
         Object op = event.getSource();
@@ -85,7 +84,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
             }
             // Thực hiện chức năng nghiệp vụ thêm khách hàng
             else if(trangThaiNutThemKH==1) {
-                KhachHang kh = layDataThem();
+                dev.skyherobrine.app.entities.person.KhachHang kh = layDataThem();
                 if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                     try {
                         if(khachHangDAO.them(kh)){
@@ -108,7 +107,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                 if (khachHangUI.getTxtMaKhachHang().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần sửa!");
                 }else {
-                    KhachHang khSua = layDataSua();
+                    dev.skyherobrine.app.entities.person.KhachHang khSua = layDataSua();
                     if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa khách hàng có mã " +khSua.getMaKH()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                         try {
                             if(khachHangDAO.capNhat(khSua)){
@@ -190,8 +189,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
         /*LỌC KHÁCH HÀNG*/
         if(op.equals(khachHangUI.getCbTkGioiTinh()) || op.equals(khachHangUI.getjDateChooserTkNgaySinh())){
-            List<KhachHang> dsLoc = new ArrayList<>();
-            List<KhachHang> dsTam = new ArrayList<>();
+            List<dev.skyherobrine.app.entities.person.KhachHang> dsLoc = new ArrayList<>();
+            List<dev.skyherobrine.app.entities.person.KhachHang> dsTam = new ArrayList<>();
             if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
                 Map<String, Object> conditions = new HashMap<>();
                 conditions.put("GioiTinh", khachHangUI.getCbTkGioiTinh().getSelectedItem().toString().equals("NAM") ? 1 : 0);
@@ -292,8 +291,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm lấy khách hàng từ phần thông tin
-    private KhachHang layDataThem() {
-        KhachHang kh;
+    private dev.skyherobrine.app.entities.person.KhachHang layDataThem() {
+        dev.skyherobrine.app.entities.person.KhachHang kh;
         String sdt = khachHangUI.getTxtSoDienThoaiKhachHang().getText();
 
         // Lấy ngày từ JDateChooser
@@ -313,7 +312,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         //Mã khách hàng
         String ma = khachHangUI.getTxtMaKhachHang().getText();
         try {
-            kh = new KhachHang(ma,ten,sdt,gt,localDate,dtl);
+            kh = new dev.skyherobrine.app.entities.person.KhachHang(ma,ten,sdt,gt,localDate,dtl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -321,8 +320,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm lấy khách hàng để update
-    private KhachHang layDataSua() {
-        KhachHang kh;
+    private dev.skyherobrine.app.entities.person.KhachHang layDataSua() {
+        dev.skyherobrine.app.entities.person.KhachHang kh;
         String sdt = khachHangUI.getTxtSoDienThoaiKhachHang().getText();
 
         // Lấy ngày từ JDateChooser
@@ -341,7 +340,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
         String ma = khachHangUI.getTxtMaKhachHang().getText();
         try {
-            kh = new KhachHang(ma,ten,sdt,gt,localDate1,dtl);
+            kh = new dev.skyherobrine.app.entities.person.KhachHang(ma,ten,sdt,gt,localDate1,dtl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -361,7 +360,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("MaKH", "%"+nThem+"%");
-        List<KhachHang> khachHag;
+        List<dev.skyherobrine.app.entities.person.KhachHang> khachHag;
         try {
             khachHag = khachHangDAO.timKiem(conditions);
         } catch (Exception e) {
@@ -370,7 +369,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         if(khachHag.size()==0){
             return 1;
         }
-        KhachHang kh = khachHag.get(khachHag.size()-1);
+        dev.skyherobrine.app.entities.person.KhachHang kh = khachHag.get(khachHag.size()-1);
         int soHD = Integer.parseInt(kh.getMaKH().substring(kh.getMaKH().length()-3));
         return soHD+1;
     }
@@ -413,7 +412,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         }else {
             int row = khachHangUI.getTbDanhSachKhachHang().getSelectedRow();
             String ma = khachHangUI.getTbDanhSachKhachHang().getValueAt(row, 0).toString();
-            Optional<KhachHang> khHienThuc = null;
+            Optional<dev.skyherobrine.app.entities.person.KhachHang> khHienThuc = null;
             try {
                 khHienThuc = khachHangDAO.timKiem(ma);
             } catch (Exception e) {
