@@ -64,7 +64,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
     @Override
     public List<KhachHang> timKiem() throws Exception {
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery
-                ("select * from KhachHang");
+                ("select TOP(10) * from KhachHang ORDER BY DiemTichLuy DESC");
         List<KhachHang> khachHangs = new ArrayList<>();
         while (resultSet.next()) {
             KhachHang khachHang = new KhachHang
@@ -83,7 +83,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + "= '" +value+"'"));
             isNeedAnd.set(true);
         });
 
