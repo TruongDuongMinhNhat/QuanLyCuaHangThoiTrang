@@ -4,7 +4,6 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
-import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.person.NhaCungCapController;
 
 import javax.swing.*;
@@ -13,12 +12,12 @@ import javax.swing.*;
  *
  * @author Virtue Nguyen
  */
-public class NhaCungCapGUI extends javax.swing.JPanel {
+public class FrmNhaCungCap extends javax.swing.JPanel {
 
     /**
      * Creates new form ThongTinCaNhan
      */
-    public NhaCungCapGUI() {
+    public FrmNhaCungCap() {
         initComponents();
         new NhaCungCapController(this).loaddsNhaCungCap();
         new NhaCungCapController(this).loadComboBoxPhanThongTinNCC();

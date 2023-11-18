@@ -15,12 +15,12 @@ import javax.swing.*;
  *
  * @author Virtue Nguyen
  */
-public class NhanVien extends javax.swing.JPanel {
+public class FrmNhanVien extends javax.swing.JPanel {
 
     /**
      * Creates new form ThongTinCaNhan
      */
-    public NhanVien() {
+    public FrmNhanVien() {
         initComponents();
 //        new NhanVienController(this).loadDsNhanVien();
 //        new NhanVienController(this).loadComboBoxPhanThongTinNV();
