@@ -106,7 +106,7 @@ public class LapHoaDon extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành viên", ""
+                "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành tiền", ""
             }
         ));
         tbDanhSachCacSanPhamTrongGioHang.setRowHeight(40);
@@ -173,7 +173,7 @@ public class LapHoaDon extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Số thứ tự", "Mã hoá đơn", "Số điện thoại", ""
+                "Số thứ tự", "Tên khách hàng", "Số điện thoại", ""
             }
         ));
         tbHoaDonLuuTam.setRowHeight(40);
