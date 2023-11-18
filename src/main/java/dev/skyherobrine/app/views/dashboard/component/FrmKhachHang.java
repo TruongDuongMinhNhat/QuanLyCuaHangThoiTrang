@@ -5,6 +5,8 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JMonthChooser;
+import com.toedter.calendar.JYearChooser;
 import dev.skyherobrine.app.controllers.dashboardui.person.KhachHangController;
 
 import javax.swing.*;
@@ -13,12 +15,12 @@ import javax.swing.*;
  *
  * @author Virtue Nguyen
  */
-public class KhachHang extends javax.swing.JPanel {
+public class FrmKhachHang extends javax.swing.JPanel {
 
     /**
      * Creates new form ThongTinCaNhan
      */
-    public KhachHang() {
+    public FrmKhachHang() {
         initComponents();
         new KhachHangController(this).loaddsKhachHang();
         new KhachHangController(this).loadComboBoxPhanThongTinNV();
@@ -26,10 +28,16 @@ public class KhachHang extends javax.swing.JPanel {
         tbDanhSachKhachHang.addMouseListener(new KhachHangController(this));
         btnThemKhachHang.addActionListener(new KhachHangController(this));
         btnSuaKhachHang.addActionListener(new KhachHangController(this));
-        btnXoaKhachHang.addActionListener(new KhachHangController(this));
+        btnXuatFile.addActionListener(new KhachHangController(this));
 
         cbTkGioiTinhKhachHang.addActionListener(new KhachHangController(this));
         jDateChooserTkNgaySinh.addPropertyChangeListener(new KhachHangController(this));
+        jDateChooserTuNgayLocDanhSach.addPropertyChangeListener(new KhachHangController(this));
+        jDateChooserDenNgayLocDanhSachFile.addPropertyChangeListener(new KhachHangController(this));
+        jMonthChooserThang.addPropertyChangeListener(new KhachHangController(this));
+        jYearChooserNam.addPropertyChangeListener(new KhachHangController(this));
+        btnLocDanhSach.addActionListener(new KhachHangController(this));
+        btnLamMoiLoc.addActionListener(new KhachHangController(this));
         txtTuKhoaTimKiem.addKeyListener(new KhachHangController(this));
     }
 
@@ -56,7 +64,7 @@ public class KhachHang extends javax.swing.JPanel {
         lbNgaySinhNhanVien = new javax.swing.JLabel();
         btnSuaKhachHang = new javax.swing.JButton();
         btnThemKhachHang = new javax.swing.JButton();
-        btnXoaKhachHang = new javax.swing.JButton();
+        btnXuatFile = new javax.swing.JButton();
         cbGioiTinh = new javax.swing.JComboBox<>();
         jDateChooserNgaySinh = new com.toedter.calendar.JDateChooser();
         pnDanhSachKhachHang = new javax.swing.JPanel();
@@ -73,11 +81,14 @@ public class KhachHang extends javax.swing.JPanel {
         jMonthChooserThang = new com.toedter.calendar.JMonthChooser();
         jDateChooserDenNgayLocDanhSachFile = new com.toedter.calendar.JDateChooser();
         jDateChooserTuNgayLocDanhSach = new com.toedter.calendar.JDateChooser();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblTuNgay = new javax.swing.JLabel();
+        lblDenNgay = new javax.swing.JLabel();
+        lblThangLoc = new javax.swing.JLabel();
+        lblNamLoc = new javax.swing.JLabel();
         btnLocDanhSach = new javax.swing.JButton();
+        btnLamMoiLoc = new javax.swing.JButton();
+        lblLocTheoNamThang = new javax.swing.JLabel();
+        lblTieuDeLocTheoNgay = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -129,10 +140,14 @@ public class KhachHang extends javax.swing.JPanel {
         btnThemKhachHang.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         btnThemKhachHang.setText("Thêm khách hàng");
 
-        btnXoaKhachHang.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        btnXoaKhachHang.setText("Xoá khách hàng");
+        btnXuatFile.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        btnXuatFile.setText("Xuất danh sách");
+        btnXuatFile.setActionCommand("Xuất danh sách");
 
         cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGioiTinh.setEnabled(false);
+
+        jDateChooserNgaySinh.setEnabled(false);
 
         javax.swing.GroupLayout pnThongTinKhachHangLayout = new javax.swing.GroupLayout(pnThongTinKhachHang);
         pnThongTinKhachHang.setLayout(pnThongTinKhachHangLayout);
@@ -179,7 +194,7 @@ public class KhachHang extends javax.swing.JPanel {
                         .addGap(16, 16, 16)
                         .addComponent(btnSuaKhachHang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnXoaKhachHang)
+                        .addComponent(btnXuatFile)
                         .addGap(137, 137, 137))))
         );
         pnThongTinKhachHangLayout.setVerticalGroup(
@@ -208,7 +223,7 @@ public class KhachHang extends javax.swing.JPanel {
                 .addGroup(pnThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemKhachHang)
                     .addComponent(btnSuaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoaKhachHang))
+                    .addComponent(btnXuatFile))
                 .addGap(36, 36, 36))
         );
 
@@ -218,13 +233,10 @@ public class KhachHang extends javax.swing.JPanel {
 
         tbDanhSachKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã khách hàng", "Họ và tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Điểm tích lũy"
             }
         ));
         spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
@@ -259,7 +271,7 @@ public class KhachHang extends javax.swing.JPanel {
                 .addGap(189, 189, 189)
                 .addComponent(lbTkTenKhachHang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTuKhoaTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                .addComponent(txtTuKhoaTimKiem)
                 .addGap(137, 137, 137))
         );
         pnTimKiemKhachHangLayout.setVerticalGroup(
@@ -277,72 +289,108 @@ public class KhachHang extends javax.swing.JPanel {
         );
 
         pnLocDanhSachXuatFile.setBackground(new java.awt.Color(255, 255, 255));
-        pnLocDanhSachXuatFile.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lọc danh sách xuất file", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
+        pnLocDanhSachXuatFile.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lọc danh sách xuất file", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Từ ngày:");
+        jYearChooserNam.setEnabled(false);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("Đến ngày:");
+        jMonthChooserThang.setEnabled(false);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Tháng:");
+        jDateChooserDenNgayLocDanhSachFile.setEnabled(false);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("Năm:");
+        jDateChooserTuNgayLocDanhSach.setEnabled(false);
+
+        lblTuNgay.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTuNgay.setText("Từ ngày:");
+
+        lblDenNgay.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblDenNgay.setText("Đến ngày:");
+
+        lblThangLoc.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblThangLoc.setText("Tháng:");
+
+        lblNamLoc.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblNamLoc.setText("Năm:");
 
         btnLocDanhSach.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLocDanhSach.setText("Lọc danh sách");
+        btnLocDanhSach.setEnabled(false);
+
+        btnLamMoiLoc.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnLamMoiLoc.setText("Làm mới");
+        btnLamMoiLoc.setEnabled(false);
+        btnLamMoiLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLamMoiLocActionPerformed(evt);
+            }
+        });
+
+        lblLocTheoNamThang.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        lblLocTheoNamThang.setText("Hoặc lọc theo Năm và Tháng");
+
+        lblTieuDeLocTheoNgay.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        lblTieuDeLocTheoNgay.setText("Lọc theo ngày(từ ngày .. đến ngày ..)");
 
         javax.swing.GroupLayout pnLocDanhSachXuatFileLayout = new javax.swing.GroupLayout(pnLocDanhSachXuatFile);
         pnLocDanhSachXuatFile.setLayout(pnLocDanhSachXuatFileLayout);
         pnLocDanhSachXuatFileLayout.setHorizontalGroup(
             pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                        .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jDateChooserDenNgayLocDanhSachFile, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-                            .addComponent(jDateChooserTuNgayLocDanhSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jMonthChooserThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jYearChooserNam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTuNgay)
+                            .addComponent(lblDenNgay))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jDateChooserDenNgayLocDanhSachFile, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserTuNgayLocDanhSach, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblTieuDeLocTheoNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLocTheoNamThang, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLocDanhSach, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
+                        .addComponent(lblNamLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addComponent(jMonthChooserThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLocDanhSach)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLamMoiLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(19, 19, 19))
         );
         pnLocDanhSachXuatFileLayout.setVerticalGroup(
             pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(lblTieuDeLocTheoNgay)
+                .addGap(18, 18, 18)
+                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooserTuNgayLocDanhSach, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooserDenNgayLocDanhSachFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblLocTheoNamThang)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jMonthChooserThang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNamLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLocDanhSach, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLocDanhSach)
+                    .addComponent(btnLamMoiLoc))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout pnBGThongTinCaNhanLayout = new javax.swing.GroupLayout(pnBGThongTinCaNhan);
@@ -382,12 +430,17 @@ public class KhachHang extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLamMoiLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiLocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLamMoiLocActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLamMoiLoc;
     private javax.swing.JButton btnLocDanhSach;
     private javax.swing.JButton btnSuaKhachHang;
     private javax.swing.JButton btnThemKhachHang;
-    private javax.swing.JButton btnXoaKhachHang;
+    private javax.swing.JButton btnXuatFile;
     private javax.swing.JComboBox<String> cbGioiTinh;
     private javax.swing.JComboBox<String> cbTkGioiTinhKhachHang;
     private com.toedter.calendar.JDateChooser jDateChooserDenNgayLocDanhSachFile;
@@ -395,10 +448,6 @@ public class KhachHang extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser jDateChooserTkNgaySinh;
     private com.toedter.calendar.JDateChooser jDateChooserTuNgayLocDanhSach;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private com.toedter.calendar.JMonthChooser jMonthChooserThang;
     private com.toedter.calendar.JYearChooser jYearChooserNam;
     private javax.swing.JLabel lbEmail;
@@ -408,6 +457,12 @@ public class KhachHang extends javax.swing.JPanel {
     private javax.swing.JLabel lbNgaySinhNhanVien;
     private javax.swing.JLabel lbSoDienThoaiNhanVien;
     private javax.swing.JLabel lbTkTenKhachHang;
+    private javax.swing.JLabel lblDenNgay;
+    private javax.swing.JLabel lblLocTheoNamThang;
+    private javax.swing.JLabel lblNamLoc;
+    private javax.swing.JLabel lblThangLoc;
+    private javax.swing.JLabel lblTieuDeLocTheoNgay;
+    private javax.swing.JLabel lblTuNgay;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachKhachHang;
     private javax.swing.JPanel pnLocDanhSachXuatFile;
@@ -427,7 +482,7 @@ public class KhachHang extends javax.swing.JPanel {
     }
     public JButton getButtonThemKhachHang(){return btnThemKhachHang;}
     public JButton getButtonSuaKhachHang(){return btnSuaKhachHang;}
-    public JButton getButtonXoaKhachHang(){return btnXoaKhachHang;}
+    public JButton getButtonXoaKhachHang(){return btnXuatFile;}
     public JTextField getTxtMaKhachHang(){return txtMaKhachHang;}
     public JTextField getTxtSoDienThoaiKhachHang(){return txtSoDienThoaiKhachHang;}
     public JDateChooser getjDateChooserNgaySinhKhachHang(){return jDateChooserNgaySinh;}
@@ -437,4 +492,10 @@ public class KhachHang extends javax.swing.JPanel {
     public JComboBox getCbTkGioiTinh(){return cbTkGioiTinhKhachHang;}
     public JTextField getTxtTuKhoaTimKiem(){return txtTuKhoaTimKiem;}
     public JDateChooser getjDateChooserTkNgaySinh(){return jDateChooserTkNgaySinh;}
+    public JDateChooser getjDateChooserTuNgayLocDanhSach(){return jDateChooserTuNgayLocDanhSach;}
+    public JDateChooser getjDateChooserDenNgayLocDanhSachFile(){return jDateChooserDenNgayLocDanhSachFile;}
+    public JMonthChooser getjMonthChooserThang(){return jMonthChooserThang;}
+    public JYearChooser getjYearChooserNam(){return jYearChooserNam;}
+    public JButton getBtnLocDanhSach(){return btnLocDanhSach;}
+    public JButton getBtnLamMoiLoc(){return btnLamMoiLoc;}
 }

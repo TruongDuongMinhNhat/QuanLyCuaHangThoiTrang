@@ -147,7 +147,7 @@
                               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               <Component id="btnSuaKhachHang" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnXoaKhachHang" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnXuatFile" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -184,7 +184,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThemKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnSuaKhachHang" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                          <Component id="btnXoaKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnXuatFile" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
@@ -299,12 +299,13 @@
                 <Property name="text" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch h&#xe0;ng"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnXoaKhachHang">
+            <Component class="javax.swing.JButton" name="btnXuatFile">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="24" style="3"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Xo&#xe1; kh&#xe1;ch h&#xe0;ng"/>
+                <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t danh s&#xe1;ch"/>
+                <Property name="actionCommand" type="java.lang.String" value="Xu&#x1ea5;t danh s&#xe1;ch"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbGioiTinh">
@@ -317,12 +318,16 @@
                     <StringItem index="3" value="Item 4"/>
                   </StringArray>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserNgaySinh">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -394,7 +399,7 @@
                       <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
                       <Component id="lbTkTenKhachHang" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTuKhoaTimKiem" pref="263" max="32767" attributes="0"/>
+                      <Component id="txtTuKhoaTimKiem" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -472,7 +477,7 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="L&#x1ecd;c danh s&#xe1;ch xu&#x1ea5;t file">
+                <TitledBorder justification="2" title="L&#x1ecd;c danh s&#xe1;ch xu&#x1ea5;t file">
                   <Font PropertyName="font" name="Segoe UI" size="24" style="1"/>
                 </TitledBorder>
               </Border>
@@ -483,75 +488,102 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jDateChooserDenNgayLocDanhSachFile" pref="181" max="32767" attributes="0"/>
-                                  <Component id="jDateChooserTuNgayLocDanhSach" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
                           <Group type="102" attributes="0">
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jMonthChooserThang" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jYearChooserNam" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblTuNgay" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblDenNgay" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jDateChooserDenNgayLocDanhSachFile" min="-2" pref="224" max="-2" attributes="0"/>
+                                  <Component id="jDateChooserTuNgayLocDanhSach" min="-2" pref="224" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
+                          <Component id="lblTieuDeLocTheoNgay" alignment="0" min="-2" pref="328" max="-2" attributes="0"/>
+                          <Component id="lblLocTheoNamThang" alignment="0" min="-2" pref="213" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnLocDanhSach" min="-2" pref="184" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="lblNamLoc" min="-2" pref="52" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jYearChooserNam" min="-2" pref="82" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="lblThangLoc" min="-2" pref="64" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                              <Component id="jMonthChooserThang" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Component id="btnLocDanhSach" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnLamMoiLoc" min="-2" pref="144" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel2" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="lblTieuDeLocTheoNgay" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblTuNgay" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jDateChooserTuNgayLocDanhSach" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel3" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="jDateChooserDenNgayLocDanhSachFile" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblDenNgay" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="jDateChooserDenNgayLocDanhSachFile" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel4" min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="lblLocTheoNamThang" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblThangLoc" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jMonthChooserThang" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="jYearChooserNam" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lblNamLoc" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnLocDanhSach" min="-2" pref="46" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnLocDanhSach" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLamMoiLoc" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
             <Component class="com.toedter.calendar.JYearChooser" name="jYearChooserNam">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="com.toedter.calendar.JMonthChooser" name="jMonthChooserThang">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserDenNgayLocDanhSachFile">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserTuNgayLocDanhSach">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="lblTuNgay">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -559,7 +591,7 @@
                 <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
+            <Component class="javax.swing.JLabel" name="lblDenNgay">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -567,7 +599,7 @@
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel4">
+            <Component class="javax.swing.JLabel" name="lblThangLoc">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -575,7 +607,7 @@
                 <Property name="text" type="java.lang.String" value="Th&#xe1;ng:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel5">
+            <Component class="javax.swing.JLabel" name="lblNamLoc">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
@@ -589,6 +621,35 @@
                   <Font name="Segoe UI" size="18" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="L&#x1ecd;c danh s&#xe1;ch"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnLamMoiLoc">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiLocActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblLocTheoNamThang">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="2"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Ho&#x1eb7;c l&#x1ecd;c theo N&#x103;m v&#xe0; Th&#xe1;ng"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblTieuDeLocTheoNgay">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="2"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="L&#x1ecd;c theo ng&#xe0;y(t&#x1eeb; ng&#xe0;y .. &#x111;&#x1ebf;n ng&#xe0;y ..)"/>
               </Properties>
             </Component>
           </SubComponents>
