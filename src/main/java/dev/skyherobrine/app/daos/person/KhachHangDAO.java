@@ -83,7 +83,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + "= '" +value+"'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + "= '" + value +"'"));
             isNeedAnd.set(true);
         });
 
