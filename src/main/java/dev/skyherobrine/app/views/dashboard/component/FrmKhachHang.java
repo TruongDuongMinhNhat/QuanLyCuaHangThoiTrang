@@ -232,13 +232,10 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
         tbDanhSachKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã khách hàng", "Họ và tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Điểm tích lũy"
             }
         ));
         spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
