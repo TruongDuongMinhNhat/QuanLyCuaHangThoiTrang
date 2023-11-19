@@ -1,13 +1,25 @@
 package dev.skyherobrine.app.controllers.dashboardui.person;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JYearChooser;
 import dev.skyherobrine.app.daos.person.KhachHangDAO;
-import dev.skyherobrine.app.views.dashboard.component.KhachHang;
+import dev.skyherobrine.app.entities.person.KhachHang;
+import dev.skyherobrine.app.views.dashboard.component.FrmKhachHang;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -15,20 +27,19 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 
 public class KhachHangController implements MouseListener, ActionListener, PropertyChangeListener, KeyListener {
-    private KhachHang khachHangUI;
+    private FrmKhachHang khachHangUI;
     private KhachHangDAO khachHangDAO;
-    private List<dev.skyherobrine.app.entities.person.KhachHang> dsKhachHang;
+    private List<KhachHang> dsKhachHang;
 
 
-    private static int trangThaiNutXoaKH = 0;
+    private static int trangThaiNutXuatFile = 0;
     private static int trangThaiNutThemKH = 0;
     private static int trangThaiNutSuaKH = 0;
 
 
-    public KhachHangController(KhachHang khachHangUI) {
+    public KhachHangController(FrmKhachHang khachHangUI) {
         try {
             khachHangDAO = new KhachHangDAO();
         } catch (Exception e) {
@@ -45,7 +56,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         try {
             dsKhachHang = khachHangDAO.timKiem();
             DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
-            for(dev.skyherobrine.app.entities.person.KhachHang kh : dsKhachHang){
+            for(KhachHang kh : dsKhachHang){
                 String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
                 tmKhachHang.addRow(row);
             }
@@ -54,10 +65,10 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         }
         trangThaiNutThemKH = 0;
         trangThaiNutSuaKH = 0;
-        trangThaiNutXoaKH = 0;
+        trangThaiNutXuatFile = 0;
     }
-    private List<dev.skyherobrine.app.entities.person.KhachHang> dsLoc;
-    private List<dev.skyherobrine.app.entities.person.KhachHang> dsTam = new ArrayList<dev.skyherobrine.app.entities.person.KhachHang>();
+    private static List<KhachHang> dsLoc;
+    private List<KhachHang> dsTam = new ArrayList<>();
     @Override
     public void actionPerformed(ActionEvent event) {
         Object op = event.getSource();
@@ -68,7 +79,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                 khachHangUI.getButtonThemKhachHang().setText("Xác nhận thêm");
                 khachHangUI.getButtonSuaKhachHang().setText("Xóa trắng");
                 khachHangUI.getButtonXoaKhachHang().setText("Thoát thêm");
-                trangThaiNutXoaKH = 1;
+                trangThaiNutXuatFile = 1;
                 trangThaiNutThemKH = 1;
                 trangThaiNutSuaKH = 1;
 
@@ -84,7 +95,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
             }
             // Thực hiện chức năng nghiệp vụ thêm khách hàng
             else if(trangThaiNutThemKH==1) {
-                dev.skyherobrine.app.entities.person.KhachHang kh = layDataThem();
+                KhachHang kh = layDataThem();
                 if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm khách hàng mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                     try {
                         if(khachHangDAO.them(kh)){
@@ -92,7 +103,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                             xoaTrangAll();
                             JOptionPane.showMessageDialog(null, "Thêm thành công!");
                             trangThaiNutThemKH = 1;
-                            trangThaiNutXoaKH = 1;
+                            trangThaiNutXuatFile = 1;
                         }else{
                             JOptionPane.showMessageDialog(null, "Thêm thất bại!");
                         }
@@ -107,7 +118,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                 if (khachHangUI.getTxtMaKhachHang().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần sửa!");
                 }else {
-                    dev.skyherobrine.app.entities.person.KhachHang khSua = layDataSua();
+                    KhachHang khSua = layDataSua();
                     if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa khách hàng có mã " +khSua.getMaKH()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                         try {
                             if(khachHangDAO.capNhat(khSua)){
@@ -123,7 +134,78 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                         }
                     }
                 }
-                trangThaiNutXoaKH = 1;
+                trangThaiNutXuatFile = 1;
+            }
+            //Thực hiện chức năng xuất file danh sách khách hàng
+            else if(trangThaiNutThemKH==3){
+                int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xuất file danh sách khách hàng này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+                if(result == JOptionPane.YES_OPTION) {
+                    DefaultTableModel tmHoaDon = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    XSSFWorkbook workbook = new XSSFWorkbook();
+                    XSSFSheet sheet = workbook.createSheet("Danh sách khách hàng");
+                    XSSFRow row = null;
+                    Cell cell = null;
+                    row = sheet.createRow(7);
+                    cell = row.createCell(0, CellType.STRING);
+                    cell.setCellValue("STT");
+
+                    cell = row.createCell(1, CellType.STRING);
+                    cell.setCellValue("Mã khách hàng");
+
+                    cell = row.createCell(2, CellType.STRING);
+                    cell.setCellValue("Họ và tên");
+
+                    cell = row.createCell(3, CellType.STRING);
+                    cell.setCellValue("Số điện thoại");
+
+                    cell = row.createCell(4, CellType.STRING);
+                    cell.setCellValue("Giới tính");
+
+                    cell = row.createCell(5, CellType.STRING);
+                    cell.setCellValue("Ngày sinh");
+
+                    cell = row.createCell(6, CellType.STRING);
+                    cell.setCellValue("Điểm tích lũy");
+
+                    for (int i = 0; i < tmHoaDon.getRowCount(); i++) {
+                        row = sheet.createRow(i + 8);
+
+                        cell = row.createCell(0, CellType.STRING);
+                        cell.setCellValue(String.valueOf(i+1));
+
+                        cell = row.createCell(1, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 0).toString());
+
+                        cell = row.createCell(2, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 1).toString());
+
+                        cell = row.createCell(3, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 2).toString());
+
+                        cell = row.createCell(4, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 3).toString());
+
+                        cell = row.createCell(5, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 4).toString());
+
+                        cell = row.createCell(6, CellType.STRING);
+                        cell.setCellValue(tmHoaDon.getValueAt(i, 5).toString());
+                    }
+
+                    File f = new File("src/main/resources/KhachHang/DanhSachKhachHang.xlsx");
+                    try {
+                        FileOutputStream fos = new FileOutputStream(f);
+                        workbook.write(fos);
+                        fos.close();
+
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Xuất file thành công");
+                }
             }
         }
 
@@ -139,7 +221,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                 khachHangUI.getButtonXoaKhachHang().setText("Thoát sửa");
                 trangThaiNutThemKH = 2;
                 trangThaiNutSuaKH = 1;
-                trangThaiNutXoaKH = 1;
+                trangThaiNutXuatFile = 1;
                 khachHangUI.getTxtMaKhachHang().setEnabled(false);
             }
             // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín khách hàng
@@ -148,73 +230,85 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
             }
         }
 
-        /*NÚT XÓA*/
+        /*NÚT XUẤT DANH SÁCH KHÁCH HÀNG*/
         if (op.equals(khachHangUI.getButtonXoaKhachHang())) {
-            // Thực hiện chức năng nghiệp vụ xóa khách hàng
-            if (trangThaiNutXoaKH==0) {
-                if (khachHangUI.getTxtMaKhachHang().getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn khách hàng cần xóa!");
-                } else {
-                    String ma = khachHangUI.getTxtMaKhachHang().getText();
-                    if ((JOptionPane.showConfirmDialog(null,
-                            "Bạn có chắc muốn ngừng bán khách hàng có mã " + khachHangUI.getTxtMaKhachHang().getText() + " không?", "Lựa chọn",
-                            JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
-                        try {
-                            if (khachHangDAO.xoa(ma)){
-                                loaddsKhachHang();
-                                xoaTrangAll();
-                                JOptionPane.showMessageDialog(null, "Xóa thành công!");
-                            }else {
-                                JOptionPane.showMessageDialog(null, "Xóa thất bại!");
-                            }
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                }
+            // Thực hiện chức năng nghiệp vụ xuất file danh sách khách hàng
+            if (trangThaiNutXuatFile==0) {
+                khachHangUI.getButtonThemKhachHang().setText("Xác nhận xuất");
+                khachHangUI.getButtonSuaKhachHang().setVisible(false);
+                khachHangUI.getButtonXoaKhachHang().setText("Thoát xuất");
+
+                //Mở tương tác cho bộ lọc
+                khachHangUI.getjDateChooserTuNgayLocDanhSach().setEnabled(true);
+                khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setEnabled(true);
+                khachHangUI.getCbThangLoc().setEnabled(true);
+                khachHangUI.getjYearChooserNam().setEnabled(true);
+                khachHangUI.getBtnLocDanhSach().setEnabled(true);
+                khachHangUI.getBtnLamMoiLoc().setEnabled(true);
+
+                trangThaiNutXuatFile = 1;
+                trangThaiNutThemKH = 3;
             }
             // Thực hiện trả các nút về giao diện quản lý khách hàng
-            else if(trangThaiNutXoaKH==1) {
+            else if(trangThaiNutXuatFile==1) {
                 tuongTac(false);
                 tuongTacTimKiem(true);
                 xoaTrangAll();
                 khachHangUI.getButtonThemKhachHang().setText("Thêm khách hàng");
                 khachHangUI.getButtonSuaKhachHang().setText("Sửa khách hàng");
-                khachHangUI.getButtonXoaKhachHang().setText("Xóa khách hàng");
-                trangThaiNutXoaKH = 0;
+                khachHangUI.getButtonSuaKhachHang().setVisible(true);
+                khachHangUI.getButtonXoaKhachHang().setText("Xuất danh sách");
+
+                //Đóng tương tác bộ lọc
+                khachHangUI.getjDateChooserTuNgayLocDanhSach().setEnabled(false);
+                khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setEnabled(false);
+                khachHangUI.getCbThangLoc().setEnabled(false);
+                khachHangUI.getjYearChooserNam().setEnabled(false);
+                khachHangUI.getBtnLocDanhSach().setEnabled(false);
+                khachHangUI.getBtnLamMoiLoc().setEnabled(false);
+
+                trangThaiNutXuatFile = 0;
                 trangThaiNutThemKH = 0;
                 trangThaiNutSuaKH = 0;
             }
         }
 
         /*LỌC KHÁCH HÀNG*/
-        if(op.equals(khachHangUI.getCbTkGioiTinh()) || op.equals(khachHangUI.getjDateChooserTkNgaySinh())){
-            List<dev.skyherobrine.app.entities.person.KhachHang> dsLoc = new ArrayList<>();
-            List<dev.skyherobrine.app.entities.person.KhachHang> dsTam = new ArrayList<>();
-            if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
+        if(op.equals(khachHangUI.getCbTkGioiTinh())){
+            if(khachHangUI.getjDateChooserTkNgaySinh().getDate() == null){
+                if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("GioiTinh", khachHangUI.getCbTkGioiTinh().getSelectedItem().toString().equals("NAM") ? 1 : 0);
+                    try {
+                        dsLoc = khachHangDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }else{
+                    try {
+                        dsLoc = khachHangDAO.timKiem();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }else {
                 Map<String, Object> conditions = new HashMap<>();
-                conditions.put("GioiTinh", khachHangUI.getCbTkGioiTinh().getSelectedItem().toString().equals("NAM") ? 1 : 0);
+                conditions.put("NgaySinh", dateToLocalDate(khachHangUI.getjDateChooserTkNgaySinh().getDate()));
                 try {
                     dsLoc = khachHangDAO.timKiem(conditions);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-
-//                Date newd = khachHangUI.getjDateChooserTkNgaySinh().getDate();
-//                String s = convertDateToString(newd);
-////                String s1 = convertDateToString(dsLoc.get(0).getNgaySinh().toEpochSecond())
-//                System.out.println(s);
-//                if(!s.equals("")){
-//                    for (int i=0; i<dsLoc.size(); i++){
-//                        if(s.equals("")){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                }
+                if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
+                    for(int i=0; i<dsLoc.size(); i++){
+                        if(dsLoc.get(i).isGioiTinh() == (khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("NAM") ? true : false)){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
+                }
             }
-
             DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
             clearTable.setRowCount(0);
             khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
@@ -228,6 +322,15 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                 throw new RuntimeException(e);
             }
         }
+
+        /*LỌC DANH SÁCH ĐỂ IN*/
+//        if(op.equals(khachHangUI.getBtnLocDanhSach())){
+//            if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate() != null && khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate() != null){
+//                if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate().compareTo(khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate()) < 0){
+//
+//                }
+//            }
+//        }
     }
 
     private static String convertDateToString(Date date) {
@@ -291,8 +394,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm lấy khách hàng từ phần thông tin
-    private dev.skyherobrine.app.entities.person.KhachHang layDataThem() {
-        dev.skyherobrine.app.entities.person.KhachHang kh;
+    private KhachHang layDataThem() {
+        KhachHang kh;
         String sdt = khachHangUI.getTxtSoDienThoaiKhachHang().getText();
 
         // Lấy ngày từ JDateChooser
@@ -312,7 +415,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         //Mã khách hàng
         String ma = khachHangUI.getTxtMaKhachHang().getText();
         try {
-            kh = new dev.skyherobrine.app.entities.person.KhachHang(ma,ten,sdt,gt,localDate,dtl);
+            kh = new KhachHang(ma,ten,sdt,gt,localDate,dtl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -320,8 +423,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
     }
 
     //Hàm lấy khách hàng để update
-    private dev.skyherobrine.app.entities.person.KhachHang layDataSua() {
-        dev.skyherobrine.app.entities.person.KhachHang kh;
+    private KhachHang layDataSua() {
+        KhachHang kh;
         String sdt = khachHangUI.getTxtSoDienThoaiKhachHang().getText();
 
         // Lấy ngày từ JDateChooser
@@ -340,7 +443,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
         String ma = khachHangUI.getTxtMaKhachHang().getText();
         try {
-            kh = new dev.skyherobrine.app.entities.person.KhachHang(ma,ten,sdt,gt,localDate1,dtl);
+            kh = new KhachHang(ma,ten,sdt,gt,localDate1,dtl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -360,7 +463,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("MaKH", "%"+nThem+"%");
-        List<dev.skyherobrine.app.entities.person.KhachHang> khachHag;
+        List<KhachHang> khachHag;
         try {
             khachHag = khachHangDAO.timKiem(conditions);
         } catch (Exception e) {
@@ -369,7 +472,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         if(khachHag.size()==0){
             return 1;
         }
-        dev.skyherobrine.app.entities.person.KhachHang kh = khachHag.get(khachHag.size()-1);
+        KhachHang kh = khachHag.get(khachHag.size()-1);
         int soHD = Integer.parseInt(kh.getMaKH().substring(kh.getMaKH().length()-3));
         return soHD+1;
     }
@@ -412,7 +515,7 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         }else {
             int row = khachHangUI.getTbDanhSachKhachHang().getSelectedRow();
             String ma = khachHangUI.getTbDanhSachKhachHang().getValueAt(row, 0).toString();
-            Optional<dev.skyherobrine.app.entities.person.KhachHang> khHienThuc = null;
+            Optional<KhachHang> khHienThuc = null;
             try {
                 khHienThuc = khachHangDAO.timKiem(ma);
             } catch (Exception e) {
@@ -474,6 +577,73 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        handlePropertyChange(evt);
+    }
 
+    private void handlePropertyChange(PropertyChangeEvent evt) {
+        Object source = evt.getSource();
+        String propertyName = evt.getPropertyName();
+        khachHangUI.getjDateChooserTkNgaySinh().setName("NgaySinhTK");
+        khachHangUI.getjDateChooserTuNgayLocDanhSach().setName("TuNgay");
+        khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setName("DenNgay");
+        khachHangUI.getjYearChooserNam().setName("LocNam");
+        if ("date".equals(propertyName) && source instanceof JDateChooser) {
+            JDateChooser dateChooser = (JDateChooser) source;
+            String dateChooserName = dateChooser.getName();
+
+            if ("NgaySinhTK".equals(dateChooserName)) {
+                if(!khachHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("GioiTinh", khachHangUI.getCbTkGioiTinh().getSelectedItem().toString().equals("NAM") ? 1 : 0);
+                    try {
+                        dsLoc = khachHangDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    for (int i=0; i<dsLoc.size(); i++){
+                        if(dsLoc.get(i).getNgaySinh().equals(dateToLocalDate(khachHangUI.getjDateChooserTkNgaySinh().getDate()))){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
+                }else {
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("NgaySinh", dateToLocalDate(khachHangUI.getjDateChooserTkNgaySinh().getDate()));
+                    try {
+                        dsLoc = khachHangDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                clearTable.setRowCount(0);
+                khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+                try {
+                    DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    for(KhachHang kh : dsLoc){
+                        String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
+                        tmKhachHang.addRow(row);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else if ("TuNgay".equals(dateChooserName) || "DenNgay".equals(dateChooserName)) {
+                khachHangUI.getCbThangLoc().setEnabled(false);
+                khachHangUI.getjYearChooserNam().setEnabled(false);
+            }
+        }
+        if("year".equals(propertyName) && source instanceof JYearChooser){
+            JYearChooser yearChooser = (JYearChooser) source;
+            String yearChooserName = yearChooser.getName();
+
+            if("LocNam".equals(yearChooserName)){
+                khachHangUI.getjDateChooserTuNgayLocDanhSach().setEnabled(false);
+                khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setEnabled(false);
+                khachHangUI.getCbThangLoc().setEnabled(true);
+            }
+        }
     }
 }

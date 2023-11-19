@@ -160,7 +160,6 @@ public class KhachHangDAO implements IDAO<KhachHang> {
             canAnd.set(true);
         });
 
-        System.out.println(query);
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

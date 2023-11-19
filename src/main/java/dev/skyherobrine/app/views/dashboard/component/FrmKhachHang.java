@@ -34,7 +34,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
         jDateChooserTkNgaySinh.addPropertyChangeListener(new KhachHangController(this));
         jDateChooserTuNgayLocDanhSach.addPropertyChangeListener(new KhachHangController(this));
         jDateChooserDenNgayLocDanhSachFile.addPropertyChangeListener(new KhachHangController(this));
-        jMonthChooserThang.addPropertyChangeListener(new KhachHangController(this));
+        cbThangLoc.addPropertyChangeListener(new KhachHangController(this));
         jYearChooserNam.addPropertyChangeListener(new KhachHangController(this));
         btnLocDanhSach.addActionListener(new KhachHangController(this));
         btnLamMoiLoc.addActionListener(new KhachHangController(this));
@@ -78,7 +78,6 @@ public class FrmKhachHang extends javax.swing.JPanel {
         jDateChooserTkNgaySinh = new com.toedter.calendar.JDateChooser();
         pnLocDanhSachXuatFile = new javax.swing.JPanel();
         jYearChooserNam = new com.toedter.calendar.JYearChooser();
-        jMonthChooserThang = new com.toedter.calendar.JMonthChooser();
         jDateChooserDenNgayLocDanhSachFile = new com.toedter.calendar.JDateChooser();
         jDateChooserTuNgayLocDanhSach = new com.toedter.calendar.JDateChooser();
         lblTuNgay = new javax.swing.JLabel();
@@ -89,6 +88,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
         btnLamMoiLoc = new javax.swing.JButton();
         lblLocTheoNamThang = new javax.swing.JLabel();
         lblTieuDeLocTheoNgay = new javax.swing.JLabel();
+        cbThangLoc = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -142,7 +142,6 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
         btnXuatFile.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         btnXuatFile.setText("Xuất danh sách");
-        btnXuatFile.setActionCommand("Xuất danh sách");
 
         cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbGioiTinh.setEnabled(false);
@@ -233,10 +232,13 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
         tbDanhSachKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã khách hàng", "Họ và tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Điểm tích lũy"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
@@ -293,8 +295,6 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
         jYearChooserNam.setEnabled(false);
 
-        jMonthChooserThang.setEnabled(false);
-
         jDateChooserDenNgayLocDanhSachFile.setEnabled(false);
 
         jDateChooserTuNgayLocDanhSach.setEnabled(false);
@@ -330,6 +330,10 @@ public class FrmKhachHang extends javax.swing.JPanel {
         lblTieuDeLocTheoNgay.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         lblTieuDeLocTheoNgay.setText("Lọc theo ngày(từ ngày .. đến ngày ..)");
 
+        cbThangLoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cbThangLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", " " }));
+        cbThangLoc.setEnabled(false);
+
         javax.swing.GroupLayout pnLocDanhSachXuatFileLayout = new javax.swing.GroupLayout(pnLocDanhSachXuatFile);
         pnLocDanhSachXuatFile.setLayout(pnLocDanhSachXuatFileLayout);
         pnLocDanhSachXuatFileLayout.setHorizontalGroup(
@@ -348,22 +352,20 @@ public class FrmKhachHang extends javax.swing.JPanel {
                     .addComponent(lblLocTheoNamThang, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                        .addComponent(lblNamLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(jMonthChooserThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnLocDanhSachXuatFileLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLocDanhSach)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLamMoiLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(19, 19, 19))
+                .addComponent(lblNamLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLocDanhSachXuatFileLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(btnLocDanhSach)
+                .addGap(18, 18, 18)
+                .addComponent(btnLamMoiLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pnLocDanhSachXuatFileLayout.setVerticalGroup(
             pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,8 +384,9 @@ public class FrmKhachHang extends javax.swing.JPanel {
                 .addComponent(lblLocTheoNamThang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jMonthChooserThang, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnLocDanhSachXuatFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbThangLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jYearChooserNam, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNamLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -442,13 +445,13 @@ public class FrmKhachHang extends javax.swing.JPanel {
     private javax.swing.JButton btnThemKhachHang;
     private javax.swing.JButton btnXuatFile;
     private javax.swing.JComboBox<String> cbGioiTinh;
+    private javax.swing.JComboBox<String> cbThangLoc;
     private javax.swing.JComboBox<String> cbTkGioiTinhKhachHang;
     private com.toedter.calendar.JDateChooser jDateChooserDenNgayLocDanhSachFile;
     private com.toedter.calendar.JDateChooser jDateChooserNgaySinh;
     private com.toedter.calendar.JDateChooser jDateChooserTkNgaySinh;
     private com.toedter.calendar.JDateChooser jDateChooserTuNgayLocDanhSach;
     private javax.swing.JLabel jLabel1;
-    private com.toedter.calendar.JMonthChooser jMonthChooserThang;
     private com.toedter.calendar.JYearChooser jYearChooserNam;
     private javax.swing.JLabel lbEmail;
     private javax.swing.JLabel lbGIoiTinhNhanVien;
@@ -494,7 +497,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
     public JDateChooser getjDateChooserTkNgaySinh(){return jDateChooserTkNgaySinh;}
     public JDateChooser getjDateChooserTuNgayLocDanhSach(){return jDateChooserTuNgayLocDanhSach;}
     public JDateChooser getjDateChooserDenNgayLocDanhSachFile(){return jDateChooserDenNgayLocDanhSachFile;}
-    public JMonthChooser getjMonthChooserThang(){return jMonthChooserThang;}
+    public JComboBox<String> getCbThangLoc(){return cbThangLoc;}
     public JYearChooser getjYearChooserNam(){return jYearChooserNam;}
     public JButton getBtnLocDanhSach(){return btnLocDanhSach;}
     public JButton getBtnLamMoiLoc(){return btnLamMoiLoc;}
