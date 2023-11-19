@@ -235,7 +235,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã khách hàng", "Họ và tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Điểm tích lũy"
+                "Mã khách hàng", "Họ và tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Điểm tích lũyf"
             }
         ));
         spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
