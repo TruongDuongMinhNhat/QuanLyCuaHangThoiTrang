@@ -57,7 +57,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
             dsKhachHang = khachHangDAO.timKiem();
             DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
             for(KhachHang kh : dsKhachHang){
-                String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
+                String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ",
+                        kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
                 tmKhachHang.addRow(row);
             }
         } catch (Exception e) {
@@ -261,8 +262,14 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
                 //Đóng tương tác bộ lọc
                 khachHangUI.getjDateChooserTuNgayLocDanhSach().setEnabled(false);
+                khachHangUI.getjDateChooserTuNgayLocDanhSach().setDate(null);
+
                 khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setEnabled(false);
+                khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setDate(null);
+
                 khachHangUI.getCbThangLoc().setEnabled(false);
+                khachHangUI.getCbThangLoc().setSelectedIndex(0);
+
                 khachHangUI.getjYearChooserNam().setEnabled(false);
                 khachHangUI.getBtnLocDanhSach().setEnabled(false);
                 khachHangUI.getBtnLamMoiLoc().setEnabled(false);
@@ -324,13 +331,123 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
         }
 
         /*LỌC DANH SÁCH ĐỂ IN*/
-//        if(op.equals(khachHangUI.getBtnLocDanhSach())){
-//            if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate() != null && khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate() != null){
-//                if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate().compareTo(khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate()) < 0){
-//
-//                }
-//            }
-//        }
+        if(op.equals(khachHangUI.getBtnLocDanhSach())){
+            if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate() != null && khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate() != null){
+                if(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate().compareTo(khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate()) <= 0){
+                    Map<String, Object> conditions1 = new HashMap<>();
+                    conditions1.put("SUBSTRING(MaKH, 4, 8) BETWEEN '"+dateToLocalDate(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+                            +"' AND '"+dateToLocalDate(khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate()).format(DateTimeFormatter.ofPattern("yyyyMMdd")) +"' AND maKH","");
+                    String[] col = {"MaKH", "HoTen", "SoDienThoai", "GioiTinh", "NgaySinh", "DiemTichLuy"};
+                    List<Map<String, Object>> kh;
+                    try {
+                        kh = khachHangDAO.timKiem(conditions1, false, col);
+                        System.out.println(kh.get(0).get("MaKH"));
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    clearTable.setRowCount(0);
+                    khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+                    try {
+                        DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                        for(int i=0; i<kh.size(); i++){
+                            String row[] = {kh.get(i).get("MaKH")+"", kh.get(i).get("HoTen")+"",  kh.get(i).get("SoDienThoai")+"",
+                                    (kh.get(i).get("GioiTinh").equals("0") ? "NỮ" : "NAM"), (kh.get(i).get("NgaySinh")+"").substring(0, 10), kh.get(i).get("DiemTichLuy")+""};
+                            tmKhachHang.addRow(row);
+                        }
+                    } catch (Exception o) {
+                        throw new RuntimeException(o);
+                    }
+                }
+                else {
+                    Map<String, Object> conditions1 = new HashMap<>();
+                    conditions1.put("SUBSTRING(MaKH, 4, 8) BETWEEN '"+dateToLocalDate(khachHangUI.getjDateChooserDenNgayLocDanhSachFile().getDate()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+                            +"' AND '"+dateToLocalDate(khachHangUI.getjDateChooserTuNgayLocDanhSach().getDate()).format(DateTimeFormatter.ofPattern("yyyyMMdd"))+"' AND maKH","");
+                    String[] col = {"MaKH", "HoTen", "SoDienThoai", "GioiTinh", "NgaySinh", "DiemTichLuy"};
+                    List<Map<String, Object>> kh;
+                    try {
+                        kh = khachHangDAO.timKiem(conditions1, false, col);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    clearTable.setRowCount(0);
+                    khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+                    try {
+                        DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                        for(int i=0; i<kh.size(); i++){
+                            String row[] = {kh.get(i).get("MaKH")+"", kh.get(i).get("HoTen")+"",  kh.get(i).get("SoDienThoai")+"",
+                                    (kh.get(i).get("GioiTinh").equals("0") ? "NỮ" : "NAM"), (kh.get(i).get("NgaySinh")+"").substring(0, 10), kh.get(i).get("DiemTichLuy")+""};
+                            tmKhachHang.addRow(row);
+                        }
+                    } catch (Exception o) {
+                        throw new RuntimeException(o);
+                    }
+                }
+            }
+            else if(khachHangUI.getCbThangLoc().getSelectedIndex() == 0){
+                Map<String, Object> conditions2 = new HashMap<>();
+                conditions2.put("MaKH", String.valueOf(khachHangUI.getjYearChooserNam().getYear()));
+                String[] col = {"MaKH", "HoTen", "SoDienThoai", "GioiTinh", "NgaySinh", "DiemTichLuy"};
+                List<Map<String, Object>> kH;
+                try {
+                    kH = khachHangDAO.timKiem(conditions2, false, col);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                clearTable.setRowCount(0);
+                khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+                try {
+                    DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    for(int i=0; i<kH.size(); i++){
+                        String row[] = {kH.get(i).get("MaKH")+"", kH.get(i).get("HoTen")+"",  kH.get(i).get("SoDienThoai")+"",
+                                (kH.get(i).get("GioiTinh").equals("0") ? "NỮ" : "NAM"), (kH.get(i).get("NgaySinh")+"").substring(0, 10), kH.get(i).get("DiemTichLuy")+""};
+                        tmKhachHang.addRow(row);
+                    }
+                } catch (Exception o) {
+                    throw new RuntimeException(o);
+                }
+            }
+            else {
+                Map<String, Object> conditions2 = new HashMap<>();
+                conditions2.put("MaKH", String.valueOf(khachHangUI.getjYearChooserNam().getYear())+khachHangUI.getCbThangLoc().getSelectedItem().toString());
+                String[] col = {"MaKH", "HoTen", "SoDienThoai", "GioiTinh", "NgaySinh", "DiemTichLuy"};
+                List<Map<String, Object>> kH;
+                try {
+                    kH = khachHangDAO.timKiem(conditions2, false, col);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                clearTable.setRowCount(0);
+                khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+                try {
+                    DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                    for(int i=0; i<kH.size(); i++){
+                        String row[] = {kH.get(i).get("MaKH")+"", kH.get(i).get("HoTen")+"",  kH.get(i).get("SoDienThoai")+"",
+                                (kH.get(i).get("GioiTinh").equals("0") ? "NỮ" : "NAM"), (kH.get(i).get("NgaySinh")+"").substring(0, 10), kH.get(i).get("DiemTichLuy")+""};
+                        tmKhachHang.addRow(row);
+                    }
+                } catch (Exception o) {
+                    throw new RuntimeException(o);
+                }
+            }
+        }
+
+        if(op.equals(khachHangUI.getBtnLamMoiLoc())){
+            khachHangUI.getjDateChooserTuNgayLocDanhSach().setDate(null);
+            khachHangUI.getjDateChooserTuNgayLocDanhSach().setEnabled(true);
+
+            khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setDate(null);
+            khachHangUI.getjDateChooserDenNgayLocDanhSachFile().setEnabled(true);
+
+            khachHangUI.getjYearChooserNam().setEnabled(true);
+
+            khachHangUI.getCbThangLoc().setSelectedIndex(0);
+            khachHangUI.getCbThangLoc().setEnabled(true);
+
+        }
     }
 
     private static String convertDateToString(Date date) {
@@ -570,11 +687,51 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
 
     }
 
+    //Tìm kiếm bất kỳ
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if(!khachHangUI.getTxtTuKhoaTimKiem().getText().equals("")){
+            Map<String, Object> conditions = new HashMap<>();
+            conditions.put("CONCAT(MaKH, HoTen, SoDienThoai, GioiTinh, NgaySinh, DiemTichLuy)", khachHangUI.getTxtTuKhoaTimKiem().getText());
+            String[] col = {"MaKH", "HoTen", "SoDienThoai", "GioiTinh", "NgaySinh", "DiemTichLuy"};
+            List<Map<String, Object>> kh;
+            try {
+                kh = khachHangDAO.timKiem(conditions, false, col);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+            DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+            clearTable.setRowCount(0);
+            khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+            try {
+                DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                for(int i=0; i<kh.size(); i++){
+                    String row[] = {kh.get(i).get("MaKH")+"", kh.get(i).get("HoTen")+"",  kh.get(i).get("SoDienThoai")+"",
+                            (kh.get(i).get("GioiTinh").equals("0") ? "NỮ" : "NAM"), (kh.get(i).get("NgaySinh")+"").substring(0, 10), kh.get(i).get("DiemTichLuy")+""};
+                    tmKhachHang.addRow(row);
+                }
+            } catch (Exception o) {
+                throw new RuntimeException(o);
+            }
+        }else {
+            System.out.println(1);
+            DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+            clearTable.setRowCount(0);
+            khachHangUI.getTbDanhSachKhachHang().setModel(clearTable);
+            try {
+                dsKhachHang = khachHangDAO.timKiem();
+                DefaultTableModel tmKhachHang = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
+                for(KhachHang kh : dsKhachHang){
+                    String row[] = {kh.getMaKH(), kh.getHoTen(), kh.getSoDienThoai(), kh.isGioiTinh() ? "NAM" : "NỮ", kh.getNgaySinh()+"", kh.getDiemTichLuy()+""};
+                    tmKhachHang.addRow(row);
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
+    //Lọc khách hàng
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         handlePropertyChange(evt);
