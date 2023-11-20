@@ -156,7 +156,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
         query.set(query.get() + " from KhachHang where ");
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like N'%" + value + "%'");
             canAnd.set(true);
         });
 
