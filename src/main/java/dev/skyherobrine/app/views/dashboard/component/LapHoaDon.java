@@ -4,10 +4,12 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.LapHoaDonController;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableCellEditor;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableCellRenderer;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableEvent;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 
@@ -35,7 +37,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         };
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableCellRenderer());
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(event1));
-        
+
         TableEvent event2 = new TableEvent() {
             @Override
             public void onDelete(int row) {
@@ -49,6 +51,9 @@ public class LapHoaDon extends javax.swing.JPanel {
         };
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer());
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableCellEditor(event2));
+        new LapHoaDonController(this);
+        txtTimKiemSanPham.addKeyListener(new LapHoaDonController(this));
+        menuProduct.add(panel2);
     }
 
     /**
@@ -60,6 +65,9 @@ public class LapHoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel2 = new java.awt.Panel();
+        listProduct = new javax.swing.JList<>();
+        menuProduct = new javax.swing.JPopupMenu();
         pnBGLapHoaDon = new javax.swing.JPanel();
         pnTraiLapHoaDon = new javax.swing.JPanel();
         pnPhaiTrenLapHoaDon = new javax.swing.JPanel();
@@ -76,6 +84,23 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiLapHoaDon = new javax.swing.JPanel();
         pnThongTinHoaDon = new javax.swing.JPanel();
 
+        panel2.setPreferredSize(new java.awt.Dimension(390, 100));
+
+        listProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(listProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(listProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+
+        menuProduct.setFocusable(false);
+
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
         pnBGLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
@@ -86,7 +111,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiTrenLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTimKiemSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemSanPham.setText("Tìm kiếm sản phẩm");
+        txtTimKiemSanPham.setText("");
         txtTimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemSanPhamActionPerformed(evt);
@@ -306,9 +331,28 @@ public class LapHoaDon extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtTimKiemSanPhamActionPerformed
 
+   public JTextField getTxtTimKiemSanPham(){
+        return txtTimKiemSanPham;
+    }
 
+    public JTextField getTxtTimKiemHoaDonLuuTam(){
+        return txtTimKiemHoaDonLuuTam;
+    }
+
+    public JPopupMenu getMenuProduct(){
+        return menuProduct;
+    }
+    public JList getListProduct(){
+        return listProduct;
+    }
+    public JPanel getPnCamera(){
+        return pnCamera;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JList<String> listProduct;
+    private javax.swing.JPopupMenu menuProduct;
+    private java.awt.Panel panel2;
     private javax.swing.JPanel pnBGLapHoaDon;
     private javax.swing.JPanel pnCamera;
     private javax.swing.JPanel pnHoaDonLuuTam;

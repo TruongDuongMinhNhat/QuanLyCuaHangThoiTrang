@@ -139,8 +139,10 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
+        System.out.println(query.get().toString());
 
-        System.out.println(query);
+
+        System.out.println(query.get().toString());
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();
