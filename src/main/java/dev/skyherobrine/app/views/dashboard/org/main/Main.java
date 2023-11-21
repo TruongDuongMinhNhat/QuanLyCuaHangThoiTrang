@@ -67,13 +67,13 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("Form : " + index + " " + subIndex);
                 }
                 else if (index==5 ) {//nhà cung cấp
-                    showForm(new NhaCungCapGUI());
+                    showForm(new FrmNhaCungCap());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==6 ) {//khách hàng
-                    showForm(new KhachHang());
+                    showForm(new FrmKhachHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==7) {//nhân viên
-                    showForm(new NhanVien());
+                    showForm(new FrmNhanVien());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==8 ) {// báo cáo cửa hàng
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));

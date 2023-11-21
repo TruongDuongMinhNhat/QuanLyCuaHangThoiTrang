@@ -2,25 +2,18 @@ package dev.skyherobrine.app.controllers.dashboardui.person;
 
 import dev.skyherobrine.app.daos.person.NhaCungCapDAO;
 import dev.skyherobrine.app.entities.person.NhaCungCap;
-import dev.skyherobrine.app.enums.DoTuoi;
 import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
-import dev.skyherobrine.app.views.dashboard.component.NhaCungCapGUI;
+import dev.skyherobrine.app.views.dashboard.component.FrmNhaCungCap;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class NhaCungCapController implements MouseListener, ActionListener, KeyListener {
-    private NhaCungCapGUI nhaCungCapUI;
+    private FrmNhaCungCap frmNhaCungCap;
     private NhaCungCapDAO nhaCungCapDAO;
     private List<NhaCungCap> dsNhaCungCap;
 
@@ -30,23 +23,23 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
     private static int trangThaiNutSuaNCC = 0;
 
 
-    public NhaCungCapController(NhaCungCapGUI nhaCungCapUI) {
+    public NhaCungCapController(FrmNhaCungCap frmNhaCungCap) {
         try {
             nhaCungCapDAO = new NhaCungCapDAO();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        this.nhaCungCapUI = nhaCungCapUI;
+        this.frmNhaCungCap = frmNhaCungCap;
     }
 
     //load danh sách lên table
     public void loaddsNhaCungCap() {
-        DefaultTableModel clearTable = (DefaultTableModel) nhaCungCapUI.getTbDanhSachNhaCungCap().getModel();
+        DefaultTableModel clearTable = (DefaultTableModel) frmNhaCungCap.getTbDanhSachNhaCungCap().getModel();
         clearTable.setRowCount(0);
-        nhaCungCapUI.getTbDanhSachNhaCungCap().setModel(clearTable);
+        frmNhaCungCap.getTbDanhSachNhaCungCap().setModel(clearTable);
         try {
             dsNhaCungCap = nhaCungCapDAO.timKiem();
-            DefaultTableModel tmNhaCungCap = (DefaultTableModel) nhaCungCapUI.getTbDanhSachNhaCungCap().getModel();
+            DefaultTableModel tmNhaCungCap = (DefaultTableModel) frmNhaCungCap.getTbDanhSachNhaCungCap().getModel();
             for(NhaCungCap ncc : dsNhaCungCap){
                 String row[] = {ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChiNCC(), ncc.getEmail(), ncc.getTinhTrang()+""};
                 tmNhaCungCap.addRow(row);
@@ -64,12 +57,12 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
     public void actionPerformed(ActionEvent event) {
         Object op = event.getSource();
         /*NÚT THÊM*/
-        if(op.equals(nhaCungCapUI.getButtonThemNhaCungCap())){
+        if(op.equals(frmNhaCungCap.getButtonThemNhaCungCap())){
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm nhà cung cấp
             if (trangThaiNutThemNCC==0) {
-                nhaCungCapUI.getButtonThemNhaCungCap().setText("Xác nhận thêm");
-                nhaCungCapUI.getButtonSuaNhaCungCap().setText("Xóa trắng");
-                nhaCungCapUI.getButtonXoaNhaCungCap().setText("Thoát thêm");
+                frmNhaCungCap.getButtonThemNhaCungCap().setText("Xác nhận thêm");
+                frmNhaCungCap.getButtonSuaNhaCungCap().setText("Xóa trắng");
+                frmNhaCungCap.getButtonXoaNhaCungCap().setText("Thoát thêm");
                 trangThaiNutXoaNCC = 1;
                 trangThaiNutThemNCC = 1;
                 trangThaiNutSuaNCC = 1;
@@ -81,8 +74,8 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
                 //load sẵn mã nhà cung cấp
-                nhaCungCapUI.getTxtMaNhaCungCap().setText(laymaKH());
-                nhaCungCapUI.getTxtMaNhaCungCap().setEnabled(false);
+                frmNhaCungCap.getTxtMaNhaCungCap().setText(laymaKH());
+                frmNhaCungCap.getTxtMaNhaCungCap().setEnabled(false);
             }
             // Thực hiện chức năng nghiệp vụ thêm nhà cung cấp
             else if(trangThaiNutThemNCC==1) {
@@ -106,7 +99,7 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
             }
             //Thực hiện chức năng nghiệp vụ sửa nhà cung cấp
             else if(trangThaiNutThemNCC==2){
-                if (nhaCungCapUI.getTxtMaNhaCungCap().getText().equals("")) {
+                if (frmNhaCungCap.getTxtMaNhaCungCap().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần sửa!");
                 }else {
                     NhaCungCap nccSua = layDataSua();
@@ -130,19 +123,19 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
         }
 
         /*NÚT SỬA*/
-        if(op.equals(nhaCungCapUI.getButtonSuaNhaCungCap())){
+        if(op.equals(frmNhaCungCap.getButtonSuaNhaCungCap())){
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa nhà cung cấp
             if (trangThaiNutSuaNCC==0) {
                 //Mở tương tác với thông tin
                 tuongTac(true);
 
-                nhaCungCapUI.getButtonThemNhaCungCap().setText("Xác nhận sửa");
-                nhaCungCapUI.getButtonSuaNhaCungCap().setText("Xóa trắng");
-                nhaCungCapUI.getButtonXoaNhaCungCap().setText("Thoát sửa");
+                frmNhaCungCap.getButtonThemNhaCungCap().setText("Xác nhận sửa");
+                frmNhaCungCap.getButtonSuaNhaCungCap().setText("Xóa trắng");
+                frmNhaCungCap.getButtonXoaNhaCungCap().setText("Thoát sửa");
                 trangThaiNutThemNCC = 2;
                 trangThaiNutSuaNCC = 1;
                 trangThaiNutXoaNCC = 1;
-                nhaCungCapUI.getTxtMaNhaCungCap().setEnabled(false);
+                frmNhaCungCap.getTxtMaNhaCungCap().setEnabled(false);
             }
             // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín nhà cung cấp
             else if(trangThaiNutSuaNCC==1) {
@@ -151,15 +144,15 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
         }
 
         /*NÚT XÓA*/
-        if (op.equals(nhaCungCapUI.getButtonXoaNhaCungCap())) {
+        if (op.equals(frmNhaCungCap.getButtonXoaNhaCungCap())) {
             // Thực hiện chức năng nghiệp vụ xóa nhà cung cấp
             if (trangThaiNutXoaNCC==0) {
-                if (nhaCungCapUI.getTxtMaNhaCungCap().getText().equals("")) {
+                if (frmNhaCungCap.getTxtMaNhaCungCap().getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn nhà cung cấp cần xóa!");
                 } else {
-                    String ma = nhaCungCapUI.getTxtMaNhaCungCap().getText();
+                    String ma = frmNhaCungCap.getTxtMaNhaCungCap().getText();
                     if ((JOptionPane.showConfirmDialog(null,
-                            "Bạn có chắc muốn ngừng bán nhà cung cấp có mã " + nhaCungCapUI.getTxtMaNhaCungCap().getText() + " không?", "Lựa chọn",
+                            "Bạn có chắc muốn ngừng bán nhà cung cấp có mã " + frmNhaCungCap.getTxtMaNhaCungCap().getText() + " không?", "Lựa chọn",
                             JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
                         try {
                             if (nhaCungCapDAO.xoa(ma)){
@@ -180,9 +173,9 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
                 tuongTac(false);
                 tuongTacTimKiem(true);
                 xoaTrangAll();
-                nhaCungCapUI.getButtonThemNhaCungCap().setText("Thêm nhà cung cấp");
-                nhaCungCapUI.getButtonSuaNhaCungCap().setText("Sửa nhà cung cấp");
-                nhaCungCapUI.getButtonXoaNhaCungCap().setText("Xóa nhà cung cấp");
+                frmNhaCungCap.getButtonThemNhaCungCap().setText("Thêm nhà cung cấp");
+                frmNhaCungCap.getButtonSuaNhaCungCap().setText("Sửa nhà cung cấp");
+                frmNhaCungCap.getButtonXoaNhaCungCap().setText("Xóa nhà cung cấp");
                 trangThaiNutXoaNCC = 0;
                 trangThaiNutThemNCC = 0;
                 trangThaiNutSuaNCC = 0;
@@ -190,12 +183,12 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
         }
 
         /*LỌC KHÁCH HÀNG*/
-        if(op.equals(nhaCungCapUI.getCbTkTinhTrangNhaCungCap())){
+        if(op.equals(frmNhaCungCap.getCbTkTinhTrangNhaCungCap())){
             List<NhaCungCap> dsLoc = new ArrayList<>();
             List<NhaCungCap> dsTam = new ArrayList<>();
-            if(!nhaCungCapUI.getCbTkTinhTrangNhaCungCap().getSelectedItem().equals("--Tình trạng--")){
+            if(!frmNhaCungCap.getCbTkTinhTrangNhaCungCap().getSelectedItem().equals("--Tình trạng--")){
                 Map<String, Object> conditions = new HashMap<>();
-                conditions.put("TinhTrang", nhaCungCapUI.getCbTkTinhTrangNhaCungCap().getSelectedItem().toString());
+                conditions.put("TinhTrang", frmNhaCungCap.getCbTkTinhTrangNhaCungCap().getSelectedItem().toString());
                 try {
                     dsLoc = nhaCungCapDAO.timKiem(conditions);
                 } catch (Exception ex) {
@@ -210,11 +203,11 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
                 }
             }
 
-            DefaultTableModel clearTable = (DefaultTableModel) nhaCungCapUI.getTbDanhSachNhaCungCap().getModel();
+            DefaultTableModel clearTable = (DefaultTableModel) frmNhaCungCap.getTbDanhSachNhaCungCap().getModel();
             clearTable.setRowCount(0);
-            nhaCungCapUI.getTbDanhSachNhaCungCap().setModel(clearTable);
+            frmNhaCungCap.getTbDanhSachNhaCungCap().setModel(clearTable);
             try {
-                DefaultTableModel tmNhaCungCap = (DefaultTableModel) nhaCungCapUI.getTbDanhSachNhaCungCap().getModel();
+                DefaultTableModel tmNhaCungCap = (DefaultTableModel) frmNhaCungCap.getTbDanhSachNhaCungCap().getModel();
                 for(NhaCungCap ncc : dsLoc){
                     String row[] = {ncc.getMaNCC(), ncc.getTenNCC(), ncc.getDiaChiNCC(), ncc.getEmail(), ncc.getTinhTrang()+""};
                     tmNhaCungCap.addRow(row);
@@ -227,34 +220,34 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
 
     //Hàm đóng/mở tương tác
     public void tuongTac(boolean c){
-        nhaCungCapUI.getTxtMaNhaCungCap().setEnabled(c);
-        nhaCungCapUI.getTxtEmailNhaCungCap().setEnabled(c);
-        nhaCungCapUI.getTxtDiaChiNhaCungCap().setEnabled(c);
-        nhaCungCapUI.getTxtTenNhaCungCap().setEnabled(c);
-        nhaCungCapUI.getCbTinhTrangNhaCungCap().setEnabled(c);
+        frmNhaCungCap.getTxtMaNhaCungCap().setEnabled(c);
+        frmNhaCungCap.getTxtEmailNhaCungCap().setEnabled(c);
+        frmNhaCungCap.getTxtDiaChiNhaCungCap().setEnabled(c);
+        frmNhaCungCap.getTxtTenNhaCungCap().setEnabled(c);
+        frmNhaCungCap.getCbTinhTrangNhaCungCap().setEnabled(c);
     }
     //Hàm đóng/mở tương tác tìm kiếm
     public void tuongTacTimKiem(boolean o){
-        nhaCungCapUI.getTxtTuKhoaTimKiem().setEnabled(o);
-        nhaCungCapUI.getCbTkTinhTrangNhaCungCap().setEnabled(o);
+        frmNhaCungCap.getTxtTuKhoaTimKiem().setEnabled(o);
+        frmNhaCungCap.getCbTkTinhTrangNhaCungCap().setEnabled(o);
     }
 
     //Hàm xóa trắng sửa
     public void xoaTrangSua(){
         loadComboBoxPhanThongTinNCC();
-        nhaCungCapUI.getTxtTenNhaCungCap().setText("");
-        nhaCungCapUI.getTxtDiaChiNhaCungCap().setText("");
-        nhaCungCapUI.getTxtMaNhaCungCap().setText("");
-        nhaCungCapUI.getCbTinhTrangNhaCungCap().setSelectedIndex(0);
+        frmNhaCungCap.getTxtTenNhaCungCap().setText("");
+        frmNhaCungCap.getTxtDiaChiNhaCungCap().setText("");
+        frmNhaCungCap.getTxtMaNhaCungCap().setText("");
+        frmNhaCungCap.getCbTinhTrangNhaCungCap().setSelectedIndex(0);
     }
 
     //Hàm xóa trắng dữ liệu nhập
     public void xoaTrangAll(){
         loadComboBoxPhanThongTinNCC();
-        nhaCungCapUI.getTxtMaNhaCungCap().setText("");
-        nhaCungCapUI.getTxtDiaChiNhaCungCap().setText("");
-        nhaCungCapUI.getTxtMaNhaCungCap().setText("");
-        nhaCungCapUI.getTxtTenNhaCungCap().setText("");
+        frmNhaCungCap.getTxtMaNhaCungCap().setText("");
+        frmNhaCungCap.getTxtDiaChiNhaCungCap().setText("");
+        frmNhaCungCap.getTxtMaNhaCungCap().setText("");
+        frmNhaCungCap.getTxtTenNhaCungCap().setText("");
     }
 
     //Load các comboBox phần thông tin
@@ -266,7 +259,7 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
             itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
         }
         DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
-        nhaCungCapUI.getCbTinhTrangNhaCungCap().setModel(tinhTrangCb);
+        frmNhaCungCap.getCbTinhTrangNhaCungCap().setModel(tinhTrangCb);
 
     }
 
@@ -279,19 +272,19 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
             itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
         }
         DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
-        nhaCungCapUI.getCbTkTinhTrangNhaCungCap().setModel(tinhTrangCb);
+        frmNhaCungCap.getCbTkTinhTrangNhaCungCap().setModel(tinhTrangCb);
     }
 
     //Hàm lấy nhà cung cấp từ phần thông tin
     private NhaCungCap layDataThem() {
         NhaCungCap ncc;
-        String dc = nhaCungCapUI.getTxtDiaChiNhaCungCap().getText();
-        String ten = nhaCungCapUI.getTxtTenNhaCungCap().getText();
-        String email = nhaCungCapUI.getTxtEmailNhaCungCap().getText();
-        TinhTrangNhaCungCap tt = TinhTrangNhaCungCap.layGiaTri(nhaCungCapUI.getCbTinhTrangNhaCungCap().getSelectedItem().toString());
+        String dc = frmNhaCungCap.getTxtDiaChiNhaCungCap().getText();
+        String ten = frmNhaCungCap.getTxtTenNhaCungCap().getText();
+        String email = frmNhaCungCap.getTxtEmailNhaCungCap().getText();
+        TinhTrangNhaCungCap tt = TinhTrangNhaCungCap.layGiaTri(frmNhaCungCap.getCbTinhTrangNhaCungCap().getSelectedItem().toString());
 
         //Mã nhà cung cấp
-        String ma = nhaCungCapUI.getTxtMaNhaCungCap().getText();
+        String ma = frmNhaCungCap.getTxtMaNhaCungCap().getText();
         try {
             ncc = new NhaCungCap(ma,ten,dc,email,tt);
         } catch (Exception e) {
@@ -303,13 +296,13 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
     //Hàm lấy nhà cung cấp để update
     private NhaCungCap layDataSua() {
         NhaCungCap ncc;
-        String dc = nhaCungCapUI.getTxtDiaChiNhaCungCap().getText();
-        String ten = nhaCungCapUI.getTxtTenNhaCungCap().getText();
-        String email = nhaCungCapUI.getTxtEmailNhaCungCap().getText();
-        TinhTrangNhaCungCap tt = TinhTrangNhaCungCap.layGiaTri(nhaCungCapUI.getCbTinhTrangNhaCungCap().getSelectedItem().toString());
+        String dc = frmNhaCungCap.getTxtDiaChiNhaCungCap().getText();
+        String ten = frmNhaCungCap.getTxtTenNhaCungCap().getText();
+        String email = frmNhaCungCap.getTxtEmailNhaCungCap().getText();
+        TinhTrangNhaCungCap tt = TinhTrangNhaCungCap.layGiaTri(frmNhaCungCap.getCbTinhTrangNhaCungCap().getSelectedItem().toString());
 
         //Mã nhà cung cấp
-        String ma = nhaCungCapUI.getTxtMaNhaCungCap().getText();
+        String ma = frmNhaCungCap.getTxtMaNhaCungCap().getText();
         try {
             ncc = new NhaCungCap(ma,ten,dc,email,tt);
         } catch (Exception e) {
@@ -381,19 +374,19 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
         if(trangThaiNutThemNCC==1){
             JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
         }else {
-            int row = nhaCungCapUI.getTbDanhSachNhaCungCap().getSelectedRow();
-            String ma = nhaCungCapUI.getTbDanhSachNhaCungCap().getValueAt(row, 0).toString();
+            int row = frmNhaCungCap.getTbDanhSachNhaCungCap().getSelectedRow();
+            String ma = frmNhaCungCap.getTbDanhSachNhaCungCap().getValueAt(row, 0).toString();
             Optional<NhaCungCap> nccHienThuc = null;
             try {
                 nccHienThuc = nhaCungCapDAO.timKiem(ma);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            nhaCungCapUI.getTxtMaNhaCungCap().setText(nccHienThuc.get().getMaNCC());
-            nhaCungCapUI.getTxtTenNhaCungCap().setText(nccHienThuc.get().getTenNCC());
-            nhaCungCapUI.getTxtEmailNhaCungCap().setText(nccHienThuc.get().getEmail());
-            nhaCungCapUI.getTxtDiaChiNhaCungCap().setText(nccHienThuc.get().getDiaChiNCC());
-            nhaCungCapUI.getCbTinhTrangNhaCungCap().setSelectedItem(nccHienThuc.get().getTinhTrang().toString());
+            frmNhaCungCap.getTxtMaNhaCungCap().setText(nccHienThuc.get().getMaNCC());
+            frmNhaCungCap.getTxtTenNhaCungCap().setText(nccHienThuc.get().getTenNCC());
+            frmNhaCungCap.getTxtEmailNhaCungCap().setText(nccHienThuc.get().getEmail());
+            frmNhaCungCap.getTxtDiaChiNhaCungCap().setText(nccHienThuc.get().getDiaChiNCC());
+            frmNhaCungCap.getCbTinhTrangNhaCungCap().setSelectedItem(nccHienThuc.get().getTinhTrang().toString());
         }
     }
 

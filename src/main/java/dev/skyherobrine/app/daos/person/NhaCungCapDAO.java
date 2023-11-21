@@ -154,12 +154,10 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
         });
 
         query.set(query.get() + " from NhaCungCap where ");
-
         conditions.forEach((column, value) -> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
-
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();
