@@ -5,9 +5,8 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
-//import dev.skyherobrine.app.controllers.dashboardui.person.NhanVienController;
-//import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
-////import dev.skyherobrine.app.controllers.dashboardui.person.NhanVienController;
+import dev.skyherobrine.app.controllers.dashboardui.person.NhanVienController;
+
 
 import javax.swing.*;
 
@@ -22,21 +21,21 @@ public class FrmNhanVien extends javax.swing.JPanel {
      */
     public FrmNhanVien() {
         initComponents();
-//        new NhanVienController(this).loadDsNhanVien();
-//        new NhanVienController(this).loadComboBoxPhanThongTinNV();
-//        new NhanVienController(this).loadComboBoxPhanTimKiem();
-//        tbDanhSachNhanVien.addMouseListener(new NhanVienController(this));
-//        btnThemNhanVien.addActionListener(new NhanVienController(this));
-//        btnSuaNhanVien.addActionListener(new NhanVienController(this));
-//        btnXoaNhanVien.addActionListener(new NhanVienController(this));
-//
-//        cbTkGioiTinhNv.addActionListener(new NhanVienController(this));
-//        cbTkCaLamViecNv.addActionListener(new NhanVienController(this));
-//        cbTkChucVuNv.addActionListener(new NhanVienController(this));
-//        cbTkTinhTrangNv.addActionListener(new NhanVienController(this));
-//
-//        txtTuKhoaTimKiem.addKeyListener(new NhanVienController(this));
-//        btnThemAnhNhanVien.addActionListener(new NhanVienController(this));
+        new NhanVienController(this).loadDsNhanVien();
+        new NhanVienController(this).loadComboBoxPhanThongTinNV();
+        new NhanVienController(this).loadComboBoxPhanTimKiem();
+        tbDanhSachNhanVien.addMouseListener(new NhanVienController(this));
+        btnThemNhanVien.addActionListener(new NhanVienController(this));
+        btnSuaNhanVien.addActionListener(new NhanVienController(this));
+        btnXoaNhanVien.addActionListener(new NhanVienController(this));
+
+        cbTkGioiTinhNv.addActionListener(new NhanVienController(this));
+        cbTkCaLamViecNv.addActionListener(new NhanVienController(this));
+        cbTkChucVuNv.addActionListener(new NhanVienController(this));
+        cbTkTinhTrangNv.addActionListener(new NhanVienController(this));
+
+        txtTuKhoaTimKiem.addKeyListener(new NhanVienController(this));
+        btnThemAnhNhanVien.addActionListener(new NhanVienController(this));
     }
 
     /**
@@ -74,6 +73,7 @@ public class FrmNhanVien extends javax.swing.JPanel {
         btnThemNhanVien = new javax.swing.JButton();
         btnXoaNhanVien = new javax.swing.JButton();
         btnThemAnhNhanVien = new javax.swing.JButton();
+        btnThemAnhNhanVien.setEnabled(false);
         cbCaLmViec = new javax.swing.JComboBox<>();
         cbCaLmViec.setEnabled(false);
         cbTinhTrang = new javax.swing.JComboBox<>();

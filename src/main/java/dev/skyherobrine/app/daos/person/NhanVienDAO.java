@@ -63,7 +63,12 @@ public class NhanVienDAO implements IDAO<NhanVien> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update NhanVien set TinhTrang = ? where MaNV = ?");
+        preparedStatement.setString(1, "NGHI");
+        preparedStatement.setString(2, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
@@ -102,7 +107,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("nv." + column + " = '" + value + "'"));
             isNeedAnd.set(true);
         });
 
@@ -200,7 +205,7 @@ public class NhanVienDAO implements IDAO<NhanVien> {
         query.set(query.get() + " from NhanVien where ");
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
+            query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like N'%" + value + "%'");
             canAnd.set(true);
         });
 
