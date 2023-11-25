@@ -6,6 +6,9 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 
 
+import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellEditor1;
+import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellRender1;
+import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionEvent1;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,23 +23,23 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
      */
     public QuanLyNhapHang() {
         initComponents();
-//        TableActionEvent event = new TableActionEvent() {
-//            @Override
-//            public void onDuyet(int row) {
-//                    System.out.println(".onDuyet");
-//                }
-//
-//            @Override
-//            public void onHuy(int row) {
-//                if (tbDanhSachPheiNhap.isEditing()) {
-//                    tbDanhSachPheiNhap.getCellEditor().stopCellEditing();
-//                }
-//                DefaultTableModel model = (DefaultTableModel) tbDanhSachPheiNhap.getModel();
-//                model.removeRow(row);
-//            }
-//        };
-//        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
-//        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event));
+        TableActionEvent1 event = new TableActionEvent1() {
+            @Override
+            public void onDuyet(int row) {
+                    System.out.println(".onDuyet");
+                }
+
+            @Override
+            public void onHuy(int row) {
+                if (tbDanhSachPheiNhap.isEditing()) {
+                    tbDanhSachPheiNhap.getCellEditor().stopCellEditing();
+                }
+                DefaultTableModel model = (DefaultTableModel) tbDanhSachPheiNhap.getModel();
+                model.removeRow(row);
+            }
+        };
+        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender1());
+        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor1(event));
         
         
         
