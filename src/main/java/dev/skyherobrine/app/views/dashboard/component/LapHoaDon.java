@@ -5,13 +5,15 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.LapHoaDonController;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableCellEditor;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableCellRenderer;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableEvent;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellEditor;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellRender;
+import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -24,7 +26,7 @@ public class LapHoaDon extends javax.swing.JPanel {
      */
     public LapHoaDon() {
         initComponents();
-        TableEvent event1 = new TableEvent() {
+        TableActionEvent event1 = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
                 if(tbDanhSachCacSanPhamTrongGioHang.isEditing()){
@@ -35,10 +37,10 @@ public class LapHoaDon extends javax.swing.JPanel {
                 System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
             }
         };
-        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableCellRenderer());
-        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(event1));
+        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRender());
+        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(event1));
 
-        TableEvent event2 = new TableEvent() {
+        TableActionEvent event2 = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
                 if(tbHoaDonLuuTam.isEditing()){
@@ -49,8 +51,8 @@ public class LapHoaDon extends javax.swing.JPanel {
                 System.out.println("Bảng lưu hoá đơn tạm. Xoá hàng ngang theo mảng: "+row);
             }
         };
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableCellRenderer());
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableCellEditor(event2));
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event2));
         new LapHoaDonController(this);
         txtTimKiemSanPham.addKeyListener(new LapHoaDonController(this));
         menuProduct.add(panel2);
