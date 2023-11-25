@@ -23,12 +23,24 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+
+
+
+
+
+
+
         TrangChu t = new TrangChu();
         pnBody.add(t);
         menuDashBoard.setEvent(new MenuEvent() {
             @Override
             public void selected(int index, int subIndex) {
+
+
                 long startTime = System.currentTimeMillis();
+
+
+
                 if (index == 0) {//trang chủ
                     showForm(t);
                     System.out.println("Form : " + index + " " + subIndex);
@@ -87,9 +99,12 @@ public class Main extends javax.swing.JFrame {
                     System.exit(0);
                     System.out.println("Form : " + index + " " + subIndex);
                 }
+
+                // tính toán thời gian load
                 long endTime = System.currentTimeMillis();
                 long executionTime = endTime - startTime;
                 System.out.println("Thời gian load cho Form " + index + " " + subIndex + ": " + executionTime + "ms");
+
 
             }
         });
@@ -101,6 +116,8 @@ public class Main extends javax.swing.JFrame {
         pnBody.repaint();
         pnBody.revalidate();
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
