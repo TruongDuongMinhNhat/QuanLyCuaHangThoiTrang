@@ -691,14 +691,12 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtTienKhachDua" max="32767" attributes="0"/>
+                                  <Component id="txtTienKhachDua" pref="262" max="32767" attributes="0"/>
                                   <Component id="txtThue" max="32767" attributes="0"/>
-                                  <Component id="txtChietKhau" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtTongTIen" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -718,15 +716,11 @@
                                   <Component id="jLabel7" pref="40" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtChietKhau" max="32767" attributes="0"/>
-                                  <Component id="jLabel8" pref="40" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="txtTongTIen" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" pref="40" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel9" pref="40" max="32767" attributes="0"/>
-                                  <Component id="txtTongTIen" max="32767" attributes="0"/>
-                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -748,14 +742,6 @@
                         <Property name="text" type="java.lang.String" value="Thu&#x1ebf;:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel8">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Segoe UI" size="18" style="1"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Chi&#x1ebf;t kh&#x1ea5;u:"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel9">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -770,11 +756,6 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtThue">
-                      <Properties>
-                        <Property name="enabled" type="boolean" value="false"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="txtChietKhau">
                       <Properties>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>

@@ -104,11 +104,9 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnTHongTinHoaDon = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtTienKhachDua = new javax.swing.JTextField();
         txtThue = new javax.swing.JTextField();
-        txtChietKhau = new javax.swing.JTextField();
         txtTongTIen = new javax.swing.JTextField();
         btnLapHoaDon = new javax.swing.JButton();
         btnLuuTam = new javax.swing.JButton();
@@ -379,7 +377,6 @@ public class LapHoaDon extends javax.swing.JPanel {
                             .addGroup(pnThonhTinNhanVienLayout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                                 .addGap(9, 9, 9)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnThonhTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSoDienTHoaiNv)
                             .addComponent(txtTenNhanVien))))
@@ -409,17 +406,12 @@ public class LapHoaDon extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("Thuế:");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setText("Chiết khấu:");
-
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("Tổng tiền:");
 
         txtTienKhachDua.setEnabled(false);
 
         txtThue.setEnabled(false);
-
-        txtChietKhau.setEnabled(false);
 
         txtTongTIen.setEnabled(false);
 
@@ -432,13 +424,11 @@ public class LapHoaDon extends javax.swing.JPanel {
                 .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTienKhachDua)
+                    .addComponent(txtTienKhachDua, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                     .addComponent(txtThue)
-                    .addComponent(txtChietKhau)
                     .addComponent(txtTongTIen))
                 .addContainerGap())
         );
@@ -453,13 +443,10 @@ public class LapHoaDon extends javax.swing.JPanel {
                     .addComponent(txtThue)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtChietKhau)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(txtTongTIen)))
+                .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtTongTIen, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnLapHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -604,7 +591,6 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbMaNhanVien;
@@ -626,7 +612,6 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane spHoaDonLuuTam;
     private javax.swing.JTable tbDanhSachCacSanPhamTrongGioHang;
     private javax.swing.JTable tbHoaDonLuuTam;
-    private javax.swing.JTextField txtChietKhau;
     private javax.swing.JTextField txtMaNhanVien;
     private javax.swing.JTextField txtSoDienTHoaiNv;
     private javax.swing.JTextField txtSoDienThoaiKh;
