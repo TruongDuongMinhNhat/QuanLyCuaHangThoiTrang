@@ -16,12 +16,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="cmdDuyet" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="cmdDuyet" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -29,9 +29,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cmdDuyet" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -39,13 +39,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1" name="cmdDuyet">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/img/imgIconQuanLyNhapHang/duyet.png"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1" name="cmdHuy">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -55,6 +48,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdHuyActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="cmdDuyet">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Duy&#x1ec7;t"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -45,10 +45,8 @@ public class PanelAction1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdDuyet = new dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1();
         cmdHuy = new dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1();
-
-        cmdDuyet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconQuanLyNhapHang/duyet.png"))); // NOI18N
+        cmdDuyet = new javax.swing.JButton();
 
         cmdHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconQuanLyNhapHang/huy.png"))); // NOI18N
         cmdHuy.addActionListener(new java.awt.event.ActionListener() {
@@ -57,24 +55,26 @@ public class PanelAction1 extends javax.swing.JPanel {
             }
         });
 
+        cmdDuyet.setText("Duyệt");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cmdDuyet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmdDuyet)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cmdHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cmdHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdDuyet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmdDuyet)
+                    .addComponent(cmdHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -85,7 +85,7 @@ public class PanelAction1 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1 cmdDuyet;
+    private javax.swing.JButton cmdDuyet;
     private dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.ActionButton1 cmdHuy;
     // End of variables declaration//GEN-END:variables
 }
