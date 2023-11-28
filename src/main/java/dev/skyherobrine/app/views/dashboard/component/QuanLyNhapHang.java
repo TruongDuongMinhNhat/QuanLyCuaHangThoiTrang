@@ -51,6 +51,11 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel) tbDanhSachSpTrongGioHang.getModel();
                 model.removeRow(row);
             }
+
+            @Override
+            public void onDuyet(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
         };
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellEditor(event1));

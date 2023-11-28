@@ -38,6 +38,11 @@ public class LapHoaDon extends javax.swing.JPanel {
                 model.removeRow(row);
                 System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
             }
+
+            @Override
+            public void onDuyet(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
         };
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRender());
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(event1));
@@ -51,6 +56,12 @@ public class LapHoaDon extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel)tbHoaDonLuuTam.getModel();
                 model.removeRow(row);
                 System.out.println("Bảng lưu hoá đơn tạm. Xoá hàng ngang theo mảng: "+row);
+                
+            }
+
+            @Override
+            public void onDuyet(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         };
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
@@ -92,6 +103,8 @@ public class LapHoaDon extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtTenKhachHang = new javax.swing.JTextField();
         txtSoDienThoaiKh = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         pnThonhTinNhanVien = new javax.swing.JPanel();
         lbMaNhanVien = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -107,7 +120,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         txtThue = new javax.swing.JTextField();
         txtTongTIen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooserNgayLapHoaDonKh = new com.toedter.calendar.JDateChooser();
+        txtNgayLapHoaDon = new javax.swing.JTextField();
         btnLapHoaDon = new javax.swing.JButton();
         btnLuuTam = new javax.swing.JButton();
 
@@ -303,6 +316,12 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         txtTenKhachHang.setEnabled(false);
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setText("Khách vãng lai:");
+
+        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jCheckBox1.setText("Tin chuẩn chưa");
+
         javax.swing.GroupLayout pnThongTInKhachHangLayout = new javax.swing.GroupLayout(pnThongTInKhachHang);
         pnThongTInKhachHang.setLayout(pnThongTInKhachHangLayout);
         pnThongTInKhachHangLayout.setHorizontalGroup(
@@ -311,11 +330,15 @@ public class LapHoaDon extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(pnThongTInKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
                 .addGap(21, 21, 21)
                 .addGroup(pnThongTInKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSoDienThoaiKh)
-                    .addComponent(txtTenKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
+                    .addComponent(txtTenKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                    .addGroup(pnThongTInKhachHangLayout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnThongTInKhachHangLayout.setVerticalGroup(
@@ -329,6 +352,10 @@ public class LapHoaDon extends javax.swing.JPanel {
                 .addGroup(pnThongTInKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSoDienThoaiKh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnThongTInKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -407,8 +434,6 @@ public class LapHoaDon extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Ngày lập hoá đơn:");
 
-        jDateChooserNgayLapHoaDonKh.setEnabled(false);
-
         javax.swing.GroupLayout pnTHongTinHoaDonLayout = new javax.swing.GroupLayout(pnTHongTinHoaDon);
         pnTHongTinHoaDon.setLayout(pnTHongTinHoaDonLayout);
         pnTHongTinHoaDonLayout.setHorizontalGroup(
@@ -425,26 +450,23 @@ public class LapHoaDon extends javax.swing.JPanel {
                             .addComponent(jLabel6))
                         .addGap(32, 32, 32)
                         .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTongTIen, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTongTIen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
                             .addComponent(txtThue)
                             .addComponent(txtTienKhachDua)))
                     .addGroup(pnTHongTinHoaDonLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooserNgayLapHoaDonKh, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)))
+                        .addComponent(txtNgayLapHoaDon)))
                 .addContainerGap())
         );
         pnTHongTinHoaDonLayout.setVerticalGroup(
             pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTHongTinHoaDonLayout.createSequentialGroup()
                 .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnTHongTinHoaDonLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))
-                    .addGroup(pnTHongTinHoaDonLayout.createSequentialGroup()
-                        .addComponent(jDateChooserNgayLapHoaDonKh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(txtNgayLapHoaDon))
+                .addGap(18, 18, 18)
                 .addGroup(pnTHongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtThue)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
@@ -592,7 +614,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLapHoaDon;
     private javax.swing.JButton btnLuuTam;
-    private com.toedter.calendar.JDateChooser jDateChooserNgayLapHoaDonKh;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -600,6 +622,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbMaNhanVien;
@@ -622,6 +645,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JTable tbDanhSachCacSanPhamTrongGioHang;
     private javax.swing.JTable tbHoaDonLuuTam;
     private javax.swing.JTextField txtMaNhanVien;
+    private javax.swing.JTextField txtNgayLapHoaDon;
     private javax.swing.JTextField txtSoDienTHoaiNv;
     private javax.swing.JTextField txtSoDienThoaiKh;
     private javax.swing.JTextField txtTenKhachHang;

@@ -495,11 +495,16 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtSoDienThoaiKh" max="32767" attributes="0"/>
                                   <Component id="txtTenKhachHang" pref="242" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -517,6 +522,11 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="txtSoDienThoaiKh" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel8" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox1" alignment="3" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -546,6 +556,22 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtSoDienThoaiKh">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel8">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Segoe UI" size="18" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Kh&#xe1;ch v&#xe3;ng lai:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Segoe UI" size="18" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Tin chu&#x1ea9;n ch&#x1b0;a"/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -681,7 +707,7 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txtTongTIen" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="txtTongTIen" alignment="1" pref="242" max="32767" attributes="0"/>
                                           <Component id="txtThue" max="32767" attributes="0"/>
                                           <Component id="txtTienKhachDua" max="32767" attributes="0"/>
                                       </Group>
@@ -690,7 +716,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jDateChooserNgayLapHoaDonKh" pref="242" max="32767" attributes="0"/>
+                                      <Component id="txtNgayLapHoaDon" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -701,15 +727,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel4" max="32767" attributes="0"/>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jDateChooserNgayLapHoaDonKh" min="-2" pref="40" max="-2" attributes="0"/>
-                                      <EmptySpace pref="18" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel4" pref="40" max="32767" attributes="0"/>
+                                  <Component id="txtNgayLapHoaDon" max="32767" attributes="0"/>
                               </Group>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="txtThue" max="32767" attributes="0"/>
                                   <Component id="jLabel7" pref="40" max="32767" attributes="0"/>
@@ -776,10 +797,7 @@
                         <Property name="text" type="java.lang.String" value="Ng&#xe0;y l&#x1ead;p ho&#xe1; &#x111;&#x1a1;n:"/>
                       </Properties>
                     </Component>
-                    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserNgayLapHoaDonKh">
-                      <Properties>
-                        <Property name="enabled" type="boolean" value="false"/>
-                      </Properties>
+                    <Component class="javax.swing.JTextField" name="txtNgayLapHoaDon">
                     </Component>
                   </SubComponents>
                 </Container>

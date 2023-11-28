@@ -11,4 +11,6 @@ package dev.skyherobrine.app.views.dashboard.component.lapHoaDon;
 public interface TableActionEvent {
     public void onDelete(int row);
     
+    public void onDuyet(int row);
+    
 }
