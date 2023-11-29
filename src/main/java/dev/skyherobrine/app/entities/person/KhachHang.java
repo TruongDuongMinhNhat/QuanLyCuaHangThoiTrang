@@ -45,7 +45,7 @@ public class KhachHang {
      */
     public void setHoTen(String hoTen) throws Exception {
         if(!(hoTen.equalsIgnoreCase("")))
-            if(!(hoTen.matches("([\\w]+ ){1,}[\\w]+$")))
+            if(!(hoTen.matches(".+\\D[ ]{1,}.+\\D$")))
                 throw new Exception("Họ và tên không được chứa ký tự số và ký tự đặc biệt!");
             else
                 this.hoTen = hoTen;
@@ -100,5 +100,10 @@ public class KhachHang {
 
     public void setDiemTichLuy(float diemTichLuy) {
         this.diemTichLuy = diemTichLuy;
+    }
+
+    public String layBaSoCuoiDienThoai() {
+        int getLength = soDienThoai.toCharArray().length;
+        return soDienThoai.toCharArray()[getLength - 3] + "" + soDienThoai.toCharArray()[getLength - 2] + soDienThoai.toCharArray()[getLength - 1];
     }
 }

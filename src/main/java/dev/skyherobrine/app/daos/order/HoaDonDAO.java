@@ -24,7 +24,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
     @Override
     public boolean them(HoaDon hoaDon) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("?, ?, ?, ?, ?, ?");
+                ("Insert HoaDon values (?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, hoaDon.getMaHD());
         preparedStatement.setString(2, hoaDon.getNhanVienLap().getMaNV());
         preparedStatement.setString(3, hoaDon.getKhachHang().getMaKH());
@@ -71,7 +71,31 @@ public class HoaDonDAO implements IDAO<HoaDon> {
 
     @Override
     public List<HoaDon> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from HoaDon hd where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("hd." + column + " LIKE '" + value + "'") +"ORDER BY NgayLap ASC");
+            isNeedAnd.set(true);
+        });
+
+        List<HoaDon> hoaDons = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            HoaDon hoaDon = new HoaDon(
+                    resultSet.getString("MaHD"),
+                    resultSet.getDate("NgayLap").toLocalDate().atStartOfDay(),
+                    new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
+                    new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
+                    resultSet.getBigDecimal("SoTienKHTra"),
+                    resultSet.getString("GhiChu")
+            );
+            hoaDons.add(hoaDon);
+
+        }
+        return hoaDons;
     }
 
     @Override
@@ -98,7 +122,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         String query = "select * from HoaDon where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaHD like '%" + listID[i] + "%'");
+            query += ("MaHD = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
@@ -138,7 +162,6 @@ public class HoaDonDAO implements IDAO<HoaDon> {
             canAnd.set(true);
         });
 
-        System.out.println(query);
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

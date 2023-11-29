@@ -22,7 +22,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
     @Override
     public boolean them(ChiTietPhienBanSanPham chiTietPhienBanSanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert ChiTietPhienBanSanPham value(?, ?, ?, ?, ?, ?)");
+                ("Insert PhienBanSanPham value(?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, chiTietPhienBanSanPham.getMaPhienBanSP());
         preparedStatement.setString(2, chiTietPhienBanSanPham.getSanPham().getMaSP());
         preparedStatement.setString(3, chiTietPhienBanSanPham.getMauSac().toString());
@@ -50,7 +50,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
     @Override
     public List<ChiTietPhienBanSanPham> timKiem() throws Exception {
-        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select * from ChiTietPhienBanSanPham");
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select * from PhienBanSanPham");
         List<ChiTietPhienBanSanPham> chiTietPhienBanSanPhams = new ArrayList<>();
         while(resultSet.next()) {
             ChiTietPhienBanSanPham chiTietPhienBanSanPham = new ChiTietPhienBanSanPham(
@@ -70,7 +70,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
     @Override
     public List<ChiTietPhienBanSanPham> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from ChiTietPhienBanSanPham t where ");
+                ("select * from PhienBanSanPham t where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
@@ -98,7 +98,16 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
     @Override
     public Optional<ChiTietPhienBanSanPham> timKiem(String id) throws Exception {
-        return Optional.empty();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from PhienBanSanPham where MaPhienBanSP = ?");
+        preparedStatement.setString(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietPhienBanSanPham(resultSet.getString("MaPhienBanSP"), new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    MauSac.layGiaTri(resultSet.getString("MauSac")), resultSet.getString("KichThuoc"), resultSet.getInt("SoLuong"), resultSet.getString("HinhAnh")));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -108,7 +117,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
     public Optional<ChiTietPhienBanSanPham> timKiem(String maSP, MauSac mauSac, String kichThuoc) throws Exception{
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietPhienBanSanPham where MaSP = ? and MauSac = ? and KichThuoc = ?");
+                ("select * from PhienBanSanPham where MaSP = ? and MauSac = ? and KichThuoc = ?");
         preparedStatement.setString(1, maSP);
         preparedStatement.setString(2, mauSac.toString());
         preparedStatement.setString(3, kichThuoc);
@@ -133,14 +142,13 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
             canPhay.set(true);
         });
 
-        query.set(query.get() + " from ChiTietPhienBanSanPham where ");
+        query.set(query.get() + " from PhienBanSanPham where ");
 
         conditions.forEach((column, value) -> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
 
-        System.out.println(query);
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

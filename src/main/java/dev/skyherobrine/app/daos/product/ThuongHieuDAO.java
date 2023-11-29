@@ -3,7 +3,7 @@ package dev.skyherobrine.app.daos.product;
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
-import dev.skyherobrine.app.entities.product.DanhMucSanPham;
+import dev.skyherobrine.app.entities.product.LoaiSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
 import dev.skyherobrine.app.entities.system.LichSuDangNhap;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
@@ -60,22 +60,22 @@ public class ThuongHieuDAO implements IDAO<ThuongHieu> {
     @Override
     public List<ThuongHieu> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from ThuongHieu t where ");
+                ("select * from ThuongHieu th where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("th." + column + " = N'" + value + "'"));
             isNeedAnd.set(true);
         });
 
         List<ThuongHieu> thuongHieus = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        ResultSet result = preparedStatement.executeQuery();
-        while(result.next()) {
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
             ThuongHieu thuongHieu = new ThuongHieu(
-                    result.getString("MaTH"),
-                    result.getString("TenTH"),
-                    TinhTrangThuongHieu.layGiaTri(result.getString("TinhTrang"))
+                    resultSet.getString("MaTH"),
+                    resultSet.getString("TenTH"),
+                    TinhTrangThuongHieu.layGiaTri(resultSet.getString("TinhTrang"))
             );
             thuongHieus.add(thuongHieu);
         }
@@ -101,7 +101,7 @@ public class ThuongHieuDAO implements IDAO<ThuongHieu> {
         String query = "select * from ThuongHieu where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaTH like '%" + listID[i] + "%'");
+            query += ("MaHoatDong = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

@@ -38,6 +38,7 @@ public enum MauSac {
             case "XAM" -> { return XAM; }
             case "NAU" -> { return NAU; }
             case "TIM" -> { return TIM; }
+            case "XANH" -> { return XANH_DUONG;}
             default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
         }
     }

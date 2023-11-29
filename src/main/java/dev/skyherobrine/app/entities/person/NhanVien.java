@@ -33,9 +33,10 @@ public class NhanVien {
     private CaLamViec caLamViec;
     private String tenTaiKhoan;
     private String matKhau;
+    private String hinhAnh;
     private TinhTrangNhanVien tinhTrang;
 
-    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, TinhTrangNhanVien tinhTrang) throws Exception {
+    public NhanVien(String maNV, String hoTen, String soDienThoai, boolean gioiTinh, LocalDate ngaySinh, String email, String diaChi, ChucVu chucVu, CaLamViec caLamViec, String tenTaiKhoan, String matKhau, String hinhAnh, TinhTrangNhanVien tinhTrang) throws Exception {
         this.setMaNV(maNV);
         this.setHoTen(hoTen);
         this.setSoDienThoai(soDienThoai);
@@ -46,7 +47,8 @@ public class NhanVien {
         this.setChucVu(chucVu);
         this.setCaLamViec(caLamViec);
         this.setTenTaiKhoan(tenTaiKhoan);
-        this.setMaNV(matKhau);
+        this.setMatKhau(matKhau);
+        this.setHinhAnh(hinhAnh);
         this.setTinhTrang(tinhTrang);
     }
 
@@ -68,7 +70,7 @@ public class NhanVien {
      */
     public void setHoTen(String hoTen) throws Exception {
         if(!(hoTen.equalsIgnoreCase("")))
-            if(!(hoTen.matches("([\\w]+ ){1,}[\\w]+$")))
+            if(!(hoTen.matches(".+\\D[ ]{1,}.+\\D$")))
                 throw new Exception("Họ và tên không được chứa ký tự số và ký tự đặc biệt");
             else
                 this.hoTen = hoTen;
@@ -111,10 +113,15 @@ public class NhanVien {
      * Nếu ngày sinh - ngày hiện tại <18 thì xuất ra exception "Số tuổi của nhân viên phải lớn hơn 18!"
      */
     public void setNgaySinh(LocalDate ngaySinh) throws Exception {
-        if(Period.between(ngaySinh, LocalDate.now()).getYears()>=18)
-            this.ngaySinh = ngaySinh;
-        else
-            throw new Exception("Số tuổi của nhân viên phải lớn hơn 18!");
+        try{
+            if(Period.between(ngaySinh, LocalDate.now()).getYears()>=18)
+                this.ngaySinh = ngaySinh;
+            else
+                throw new Exception("Số tuổi của nhân viên phải lớn hơn 18!");
+        } catch (Exception e){
+            throw new Exception("Ngày sinh không được rỗng!");
+        }
+
     }
 
     public String getEmail() {
@@ -141,8 +148,11 @@ public class NhanVien {
         return diaChi;
     }
 
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
+    public void setDiaChi(String diaChi) throws Exception {
+        if(!(diaChi.equalsIgnoreCase("")))
+            this.diaChi = diaChi;
+        else
+            throw new Exception("Địa chỉ không được rỗng!");
     }
 
     public ChucVu getChucVu() {
@@ -186,6 +196,14 @@ public class NhanVien {
         }
         else
             throw new Exception("Mật khẩu không được rỗng!");
+    }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 
     public TinhTrangNhanVien getTinhTrang() {

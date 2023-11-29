@@ -61,7 +61,27 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
 
     @Override
     public List<ChiTietPhieuNhapHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ChiTietPhieuNhap ctpn where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctpn." + column + "= '" + value +"'"));
+            isNeedAnd.set(true);
+        });
+        List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(
+                    new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    100,
+                    resultSet.getDouble("GiaNhap"));
+
+            chiTietPhieuNhapHangs.add(chiTietPhieuNhapHang);
+        }
+        return chiTietPhieuNhapHangs;
     }
 
     @Override
@@ -122,7 +142,6 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
             canAnd.set(true);
         });
 
-        System.out.println(query);
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

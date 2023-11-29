@@ -50,7 +50,12 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update NhaCungCap set TinhTrang = ? where MaNCC = ?");
+        preparedStatement.setString(1, "CHAM_DUT");
+        preparedStatement.setString(2, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
@@ -149,12 +154,10 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
         });
 
         query.set(query.get() + " from NhaCungCap where ");
-
         conditions.forEach((column, value) -> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
-
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();
