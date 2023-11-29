@@ -328,7 +328,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
         lblTieuDeLocTheoNgay.setText("Lọc theo ngày(từ ngày .. đến ngày ..)");
 
         cbThangLoc.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cbThangLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", " " }));
+        cbThangLoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Select--", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
         cbThangLoc.setEnabled(false);
 
         javax.swing.GroupLayout pnLocDanhSachXuatFileLayout = new javax.swing.GroupLayout(pnLocDanhSachXuatFile);

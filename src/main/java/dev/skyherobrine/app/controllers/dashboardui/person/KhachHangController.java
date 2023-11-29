@@ -341,9 +341,8 @@ public class KhachHangController implements MouseListener, ActionListener, Prope
                     List<Map<String, Object>> kh;
                     try {
                         kh = khachHangDAO.timKiem(conditions1, false, col);
-                        System.out.println(kh.get(0).get("MaKH"));
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                     DefaultTableModel clearTable = (DefaultTableModel) khachHangUI.getTbDanhSachKhachHang().getModel();
                     clearTable.setRowCount(0);
