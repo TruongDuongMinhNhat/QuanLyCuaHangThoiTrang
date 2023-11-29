@@ -13,6 +13,7 @@ import dev.skyherobrine.app.daos.person.KhachHangDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.order.HoaDon;
 import dev.skyherobrine.app.entities.person.KhachHang;
@@ -20,6 +21,7 @@ import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
+import groovy.ui.view.MacOSXDefaults;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -32,6 +34,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -109,12 +112,20 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             }
         }else if(e.getKeyCode()==KeyEvent.VK_ENTER) {
             if (e.getSource().equals(lapHoaDon.getListProduct())) {
-                if(themSP(lapHoaDon.getListProduct().getSelectedValue().toString())){
+                String row = lapHoaDon.getListProduct().getSelectedValue().toString();
+
+                if(themSP(row)){
                     lapHoaDon.getTxtTimKiemSanPham().setText("");
                     lapHoaDon.getTxtTimKiemSanPham().requestFocus(true);
                     lapHoaDon.getMenuProduct().setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(lapHoaDon, "Sản phẩm đã hết hàng");
+                    lapHoaDon.getTxtTimKiemSanPham().requestFocus(true);
+                }
+            }else if(e.getSource().equals(lapHoaDon.getTxtTienKhachDua())){
+                if(Double.parseDouble(lapHoaDon.getTxtTienKhachDua().getText().toString())-Double.parseDouble(lapHoaDon.getTxtTongTIen().getText().toString())>0){
+                    lapHoaDon.getTxtTienDu().setText((Double.parseDouble(lapHoaDon.getTxtTienKhachDua().getText().toString())-Double.parseDouble(lapHoaDon.getTxtTongTIen().getText().toString()))+"");
+                }else{
+                    JOptionPane.showMessageDialog(lapHoaDon, "Số tiền khách đưa không đủ");
                 }
             }else{
                 loadTTKH(lapHoaDon.getListKhachHang().getSelectedValue().toString());
@@ -169,6 +180,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 lapHoaDon.getTxtSoDienThoaiKh().setText(khachHang.get(0).getSoDienThoai());
                 lapHoaDon.getTxtTenKhachHang().setText(khachHang.get(0).getHoTen());
                 lapHoaDon.getMenuKhachHang().setVisible(false);
+                loadHD();
                 return true;
             }
         } catch (Exception e) {
@@ -185,13 +197,25 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         listModel.removeAllElements();
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("MaPhienBanSP", textSP);
+        String []colNames= {"MaPhienBanSP", "KichThuoc", "SoLuong"};
+        DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+        Map<String, Object> dsSP = new HashMap<>();
+        for(int i = 0; i < tmGioHang.getRowCount(); i++){
+            dsSP.put(tmGioHang.getValueAt(i, 1).toString(), tmGioHang.getValueAt(i, 4));
+        }
         try {
-            List<Map<String, Object>> listCTPBSP = chiTietPhienBanSanPhamDAO.timKiem(conditions, false, "MaPhienBanSP");
+            List<Map<String, Object>> listCTPBSP = chiTietPhienBanSanPhamDAO.timKiem(conditions, false, colNames);
             if (listCTPBSP.size() == 0) {
                 lapHoaDon.getMenuProduct().setVisible(false);
             } else {
+                int soLuong = 0;
                 for (int i = 0; i < listCTPBSP.size(); i++) {
-                    listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString() + "-" + listCTPBSP.get(i).get("SoLuong").toString());
+                    if(dsSP.containsKey(listCTPBSP.get(i).get("MaPhienBanSP").toString())){
+                        soLuong = Integer.parseInt(listCTPBSP.get(i).get("SoLuong").toString()) - Integer.parseInt(dsSP.get(listCTPBSP.get(i).get("MaPhienBanSP").toString()).toString());
+                        listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString()+" Số lượng:"+ soLuong+"");
+                    }else{
+                        listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString()+" Số lượng:"+listCTPBSP.get(i).get("SoLuong").toString());
+                    }
                 }
                 lapHoaDon.getMenuProduct().show(lapHoaDon.getTxtTimKiemSanPham(), 0, lapHoaDon.getTxtTimKiemSanPham().getHeight());
             }
@@ -224,18 +248,21 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         String nl = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         maHD = maHD+nl+"-";
         String SDT = lapHoaDon.getTxtSoDienThoaiKh().getText().trim();
-        SDT = SDT.substring(SDT.length()-3);
+        if(SDT.equalsIgnoreCase("") && lapHoaDon.getjCheckBox1().isSelected()){
+            SDT = "KVL";
+        }else{
+            SDT = SDT.substring(SDT.length()-3);
+        }
         maHD = maHD + SDT + "-";
         maHD = maHD + formatNumber(laySoHoaDon());
-//        lapHoaDon.setText(maHD);
+        lapHoaDon.getTxtMaHoaDon().setText(maHD);
         LocalDateTime local = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//        lapHoaDon.getTxtNgayLap().setText(local.format(dateTimeFormatter));
+        lapHoaDon.getTxtNgayLapHoaDon().setText(local.format(dateTimeFormatter));
     }
 //    public void loadTTHD(){
 //        LocalDateTime local = LocalDateTime.now();
 //        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//        lapHoaDon.getNgayLapHoaDonKh().setDate();
 //    }
     public int laySoHoaDon(){
         String nlap = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
@@ -255,6 +282,37 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         int soHD = Integer.parseInt(hd.getMaHD().substring(hd.getMaHD().length()-3));
         return soHD+1;
     }
+    public void LapHoaDon(){
+        DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+        if(tmGioHang.getRowCount()==0){
+            JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng thêm sản phẩm vào giỏ hàng");
+        }else {
+            if (checkSDT(lapHoaDon.getTxtSoDienThoaiKh().getText().trim())) {
+                String maHD = lapHoaDon.getTxtMaHoaDon().getText().trim();
+                String maNV = lapHoaDon.getTxtMaNhanVien().getText().trim();
+                String ngayLap = lapHoaDon.getTxtNgayLapHoaDon().getText().trim();
+                LocalDateTime nl = LocalDateTime.parse(ngayLap, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                String tienKHTra = lapHoaDon.getTxtTienKhachDua().getText().trim();
+
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("SoDienThoai", lapHoaDon.getTxtSoDienThoaiKh().getText().trim());
+                try {
+                    List<KhachHang> khachHangs = khachHangDAO.timKiem(conditions);
+                    HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(0), new BigDecimal(tienKHTra), null);
+                    hoaDonDAO.them(hd);
+                    int sl = 0;
+                    Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
+                    for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                        pbsp = chiTietPhienBanSanPhamDAO.timKiem(tmGioHang.getValueAt(i, 1).toString());
+                        sl = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString());
+//                        ChiTietHoaDon cthd = new ChiTietHoaDon(hd, pbsp.get(), sl);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
     public String formatNumber(int number) {
         if(number < 10)
             return String.format("00%d", number);
@@ -266,6 +324,8 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     public boolean themSP(String maPBSP){
         Optional<ChiTietPhienBanSanPham> pbsp = null;
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+        String SL = maPBSP.substring(maPBSP.indexOf(":")+1);
+        maPBSP = maPBSP.substring(0, maPBSP.indexOf(" "));
         try {
             pbsp = chiTietPhienBanSanPhamDAO.timKiem(maPBSP);
             int index = maPBSP.indexOf("-");
@@ -275,18 +335,25 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             conditions.put("MaSP", maSP);
             sp.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditions));
             int stt = tmGioHang.getRowCount() + 1;
+//            String pbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
             for(int i = 0; i < tmGioHang.getRowCount(); i++){
                 if(tmGioHang.getValueAt(i, 1).toString().equalsIgnoreCase(pbsp.get().getMaPhienBanSP())){
-                    int soLuong = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString());
-                    tmGioHang.setValueAt((soLuong+1)*Double.parseDouble(tmGioHang.getValueAt(i, 5).toString()), i,6);
-                    tmGioHang.setValueAt(soLuong+1, i, 4);
-                    lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
-                    return true;
+                    int soLuong = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString())+1;
+                    if(Integer.parseInt(SL)>0){
+                        tmGioHang.setValueAt((soLuong*Double.parseDouble(tmGioHang.getValueAt(i, 5).toString())), i,6);
+                        tmGioHang.setValueAt(soLuong, i, 4);
+                        lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
+                        return true;
+                    }else{
+                        JOptionPane.showMessageDialog(lapHoaDon, "Sản phẩm không đủ số lượng");
+                        return false;
+                    }
                 }
             }
             int sl = 1;
+            DecimalFormat format = new DecimalFormat("0.00");
             double dongia = sp.get().giaBan();
-            String []rows = {stt+"", maPBSP, sp.get().getTenSP(), pbsp.get().getKichThuoc(), sl+"", dongia+"", sl*dongia+"", "1"};
+            String []rows = {stt+"", maPBSP, sp.get().getTenSP(), pbsp.get().getKichThuoc(), sl+"", format.format(dongia), format.format(sl*dongia), null};
             tmGioHang.addRow(rows);
             lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
             return true;
@@ -307,6 +374,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         for(int i = 0; i < tmGioHang.getRowCount(); i++){
             tt+=(Double.parseDouble(tmGioHang.getValueAt(i, 6).toString())*1.08);
         }
+
         return tt;
     }
     @Override
@@ -395,14 +463,28 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 }
             }
         }
+        if(e.getSource().equals(lapHoaDon.getjCheckBox1())){
+            if(lapHoaDon.getjCheckBox1().isSelected()){
+                lapHoaDon.getTxtSoDienThoaiKh().setEnabled(false);
+                lapHoaDon.getTxtTenKhachHang().setText("Khách vãng lai");
+                lapHoaDon.getTxtTenKhachHang().setEnabled(false);
+                loadHD();
+            }else{
+                lapHoaDon.getTxtSoDienThoaiKh().setText("");
+                lapHoaDon.getTxtSoDienThoaiKh().setEnabled(true);
+                lapHoaDon.getTxtTenKhachHang().setText("");
+                lapHoaDon.getTxtMaHoaDon().setText("");
+                lapHoaDon.getTxtNgayLapHoaDon().setText("");
+            }
+        }
     }
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        if(e.getColumn()==3){
+        if(e.getColumn()==4){
             DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
             int row = e.getFirstRow();
-            int count = Integer.parseInt(tmGioHang.getValueAt(row, 3).toString());
+            int count = Integer.parseInt(tmGioHang.getValueAt(row, 4).toString());
             ChiTietPhienBanSanPham pbsp = null;
             double tta = 0;
             try {
@@ -412,13 +494,14 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             }
             String ptThue = lapHoaDon.getTxtThue().getText();
             int index = ptThue.indexOf(" ");
-            double thue = Double.parseDouble(ptThue.substring(0, index));
             if(count<0) {
-                tmGioHang.setValueAt("1", row, 3);
+                tmGioHang.setValueAt("1", row, 4);
             } else if (count > pbsp.getSoLuong()){
                 JOptionPane.showMessageDialog(null, "Số lượng không đủ để thực hiện giao dịch");
+                tmGioHang.setValueAt("1", row, 4);
+                return;
             }
-
+            tmGioHang.setValueAt(count*Double.parseDouble(tmGioHang.getValueAt(row, 5).toString()), row, 6);
             double tt = tinhTT();
             lapHoaDon.getTxtTongTIen().setText(tt+"");
         }

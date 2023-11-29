@@ -64,6 +64,11 @@ public class LapHoaDon extends javax.swing.JPanel {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         };
+        txtMaHoaDon.setEnabled(false);
+        txtNgayLapHoaDon.setEnabled(false);
+        txtGiamGia.setEnabled(false);
+        txtTienDu.setEnabled(false);
+        txtTienKhachDua.setEnabled(true);
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event2));
         new LapHoaDonController(this);
@@ -75,6 +80,8 @@ public class LapHoaDon extends javax.swing.JPanel {
         menuKhachHang.add(pnTTKH);
         tbDanhSachCacSanPhamTrongGioHang.getModel().addTableModelListener(new LapHoaDonController(this));
         btnLuuTam.addActionListener(new LapHoaDonController(this));
+        jCheckBox1.addActionListener(new LapHoaDonController(this));
+        txtTienKhachDua.addKeyListener(new LapHoaDonController(this));
     }
 
     /**
@@ -724,6 +731,21 @@ public class LapHoaDon extends javax.swing.JPanel {
     }
     public JTextField getTxtTienKhachDua(){
         return txtTienKhachDua;
+    }
+    public JTextField getTxtTienDu(){
+        return txtTienDu;
+    }
+    public JTextField getTxtGiamGia(){
+        return txtGiamGia;
+    }
+    public JTextField getTxtMaHoaDon(){
+        return txtMaHoaDon;
+    }
+    public JTextField getTxtNgayLapHoaDon(){
+        return txtNgayLapHoaDon;
+    }
+    public JCheckBox getjCheckBox1(){
+        return jCheckBox1;
     }
 
     private javax.swing.JButton btnLapHoaDon;
