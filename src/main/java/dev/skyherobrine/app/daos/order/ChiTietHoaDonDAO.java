@@ -77,7 +77,7 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         while(resultSet.next()) {
             ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon
                     (new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
-                            new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                            new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                             resultSet.getInt("SoLuongMua"));
 
             chiTietHoaDons.add(chiTietHoaDon);
