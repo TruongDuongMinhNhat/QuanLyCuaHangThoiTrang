@@ -23,11 +23,24 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+
+
+
+
+
+
+
         TrangChu t = new TrangChu();
         pnBody.add(t);
         menuDashBoard.setEvent(new MenuEvent() {
             @Override
             public void selected(int index, int subIndex) {
+
+
+                long startTime = System.currentTimeMillis();
+
+
+
                 if (index == 0) {//trang chủ
                     showForm(t);
                     System.out.println("Form : " + index + " " + subIndex);
@@ -67,13 +80,13 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("Form : " + index + " " + subIndex);
                 }
                 else if (index==5 ) {//nhà cung cấp
-                    showForm(new NhaCungCap());
+                    showForm(new FrmNhaCungCap());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==6 ) {//khách hàng
-                    showForm(new KhachHang());
+                    showForm(new FrmKhachHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==7) {//nhân viên
-                    showForm(new NhanVien());
+                    showForm(new FrmNhanVien());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==8 ) {// báo cáo cửa hàng
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
@@ -87,6 +100,12 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("Form : " + index + " " + subIndex);
                 }
 
+                // tính toán thời gian load
+                long endTime = System.currentTimeMillis();
+                long executionTime = endTime - startTime;
+                System.out.println("Thời gian load cho Form " + index + " " + subIndex + ": " + executionTime + "ms");
+
+
             }
         });
     }
@@ -97,6 +116,8 @@ public class Main extends javax.swing.JFrame {
         pnBody.repaint();
         pnBody.revalidate();
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.

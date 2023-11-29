@@ -4,6 +4,7 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
+import dev.skyherobrine.app.entities.person.KhachHang;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,34 +61,37 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
 
     @Override
     public List<ChiTietHoaDon> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ChiTietHoaDon cthd where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("cthd." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+
+        List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon
+                    (new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
+                            new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                            resultSet.getInt("SoLuongMua"));
+
+            chiTietHoaDons.add(chiTietHoaDon);
+        }
+        return chiTietHoaDons;
     }
 
     @Override
-    @Deprecated
     public Optional<ChiTietHoaDon> timKiem(String id) throws Exception {
-        throw new Exception("Phương thức này không được sử dụng");
+        return Optional.empty();
     }
 
     @Override
     public List<ChiTietHoaDon> timKiem(String... ids) throws Exception {
         return null;
-    }
-
-    public Optional<ChiTietHoaDon> timKiem(String maHD, String maSP) throws Exception{
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietHoaDon where MaSP = ? and MaHD = ?");
-        preparedStatement.setString(1, maSP);
-        preparedStatement.setString(2, maHD);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()) {
-            return Optional.of(new ChiTietHoaDon(new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    resultSet.getInt("SoLuongMua")));
-        } else {
-            return Optional.empty();
-        }
     }
 
     @Override

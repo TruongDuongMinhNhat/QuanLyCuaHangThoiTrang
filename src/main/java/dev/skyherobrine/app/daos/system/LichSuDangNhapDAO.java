@@ -51,8 +51,8 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         while(result.next()) {
             LichSuDangNhap lichSuDangNhap = new LichSuDangNhap
                     (result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                            result.getDate("NgayDangNhap").toLocalDate().atStartOfDay(), result.getDate("NgayDangXuat").toLocalDate().atStartOfDay());
-
+                            result.getTimestamp("NgayDangNhap").toLocalDateTime(),
+                            result.getTimestamp("NgayDangXuat").toLocalDateTime());
             lichSuDangNhaps.add(lichSuDangNhap);
         }
         return lichSuDangNhaps;
@@ -70,8 +70,10 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         preparedStatement.setLong(1, Long.parseLong(id));
         ResultSet result = preparedStatement.executeQuery();
         if(result.next()) {
-            return Optional.of(new LichSuDangNhap(result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                    result.getTimestamp("NgayDangNhap").toLocalDateTime(), result.getTimestamp("NgayDangXuat").toLocalDateTime()));
+            return Optional.of(new LichSuDangNhap(result.getLong("MaDangNhap"),
+                    new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
+                    result.getTimestamp("NgayDangNhap").toLocalDateTime(),
+                    result.getTimestamp("NgayDangXuat").toLocalDateTime()));
         } else {
             return Optional.empty();
         }
@@ -82,7 +84,7 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         String query = "select * from LichSuDangNhap where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaHoatDong like '%" + listID[i] + "%'");
+            query += ("MaHoatDong = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }
@@ -91,9 +93,10 @@ public class LichSuDangNhapDAO implements IDAO<LichSuDangNhap> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query);
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
-            LichSuDangNhap lichSuHoatDong = new LichSuDangNhap(result.getLong("MaDangNhap"), new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
-                    result.getTimestamp("NgayDangNhap").toLocalDateTime(), result.getTimestamp("NgayDangXuat").toLocalDateTime());
-
+            LichSuDangNhap lichSuHoatDong = new LichSuDangNhap(result.getLong("MaDangNhap"),
+                    new NhanVienDAO().timKiem(result.getString("MaNV")).get(),
+                    result.getTimestamp("NgayDangNhap").toLocalDateTime(),
+                    result.getTimestamp("NgayDangXuat").toLocalDateTime());
             lichSuDangNhaps.add(lichSuHoatDong);
         }
         return lichSuDangNhaps;

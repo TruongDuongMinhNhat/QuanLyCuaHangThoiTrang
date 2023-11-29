@@ -6,6 +6,7 @@ import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuTraKhachHang;
 import dev.skyherobrine.app.entities.order.PhieuTraKhachHang;
+import dev.skyherobrine.app.entities.person.KhachHang;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,36 +65,49 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
 
     @Override
     public List<ChiTietPhieuTraKhachHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from ChiTietPhieuTraKhachHang ctptkh where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+        List<ChiTietPhieuTraKhachHang> chiTietPhieuTraKhachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctptkh." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+        while(resultSet.next()) {
+            ChiTietPhieuTraKhachHang chiTietPhieuTraKhachHang = new ChiTietPhieuTraKhachHang(
+                    new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getInt("SoLuongTra"),
+                    resultSet.getString("NoiDungTra")
+            );
+
+            chiTietPhieuTraKhachHangs.add(chiTietPhieuTraKhachHang);
+        }
+        return chiTietPhieuTraKhachHangs;
     }
 
     @Override
-    @Deprecated
     public Optional<ChiTietPhieuTraKhachHang> timKiem(String id) throws Exception {
-        throw new Exception("Phương thức này không được sử dụng");
-    }
-
-    @Override
-
-    public List<ChiTietPhieuTraKhachHang> timKiem(String... ids) throws Exception {
-        return null;
-    }
-
-    public Optional<ChiTietPhieuTraKhachHang> timKiem(String maPhieuTraKH, String maSP) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ? and MaSP = ?");
-        preparedStatement.setString(1, maPhieuTraKH);
-        preparedStatement.setString(2, maSP);
+                ("select * from ChiTietPhieuTraKhachHang where MaPhieuTraKH = ?");
+        preparedStatement.setString(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return Optional.of(new ChiTietPhieuTraKhachHang(new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
                     new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
-                    resultSet.getString("NoiDungTra")));
-        } else {
-            return Optional.empty();
+                    resultSet.getString("NoiDungTra")
+            ));
         }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<ChiTietPhieuTraKhachHang> timKiem(String... ids) throws Exception {
+        return null;
     }
 
     @Override

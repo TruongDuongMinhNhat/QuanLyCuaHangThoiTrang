@@ -2,10 +2,12 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
-import dev.skyherobrine.app.entities.person.NhaCungCap;
+import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
-import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
+import dev.skyherobrine.app.enums.CaLamViec;
+import dev.skyherobrine.app.enums.ChucVu;
+import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
 import java.sql.PreparedStatement;
@@ -58,11 +60,11 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
     @Override
     public List<DanhMucSanPham> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from DanhMucSanPham t where ");
+                ("select * from DanhMucSanPham dm where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("dm." + column + " = N'" + value + "'"));
             isNeedAnd.set(true);
         });
 
@@ -70,10 +72,9 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
-            DanhMucSanPham danhMucSanPham =new DanhMucSanPham(
+            DanhMucSanPham danhMucSanPham = new DanhMucSanPham(
                     result.getString("MaDM"),
-                    result.getString("TenDM")
-            );
+                    result.getString("TenDM"));
             danhMucSanPhams.add(danhMucSanPham);
         }
         return danhMucSanPhams;
@@ -98,7 +99,7 @@ public class DanhMucSanPhamDAO implements IDAO<DanhMucSanPham> {
         String query = "select * from DanhMucSanPham where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaDM like '%" + listID[i] + "%'");
+            query += ("MaDM = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

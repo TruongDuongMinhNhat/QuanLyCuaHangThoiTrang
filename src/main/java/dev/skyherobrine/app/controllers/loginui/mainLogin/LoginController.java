@@ -3,8 +3,11 @@ package dev.skyherobrine.app.controllers.loginui.mainLogin;
 
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.person.NhanVien;
+import dev.skyherobrine.app.views.dashboard.org.main.Main;
+import dev.skyherobrine.app.views.loginui.mainLogin.FormQuenMatKhau;
 import dev.virtue.loginui.mainLogin.LoginUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,7 +15,7 @@ import java.awt.event.KeyListener;
 import java.util.List;
 
 public class LoginController implements ActionListener, KeyListener {
-    private LoginUI loginUI;
+    private static LoginUI loginUI;
 
     private NhanVienDAO nhanVienDAO;
     public LoginController(LoginUI loginUI) {
@@ -31,6 +34,8 @@ public class LoginController implements ActionListener, KeyListener {
         try {
             if (o.equals(loginUI.getLoginButton())) {
                 checkLogin();
+            } else if(o.equals(loginUI.getBtnQuenMatKhau())) {
+                new FormQuenMatKhau().setVisible(true);
             }
         } catch (Exception a) {
             throw new RuntimeException(a);
@@ -71,14 +76,17 @@ public class LoginController implements ActionListener, KeyListener {
                 }
             }
             if(count == 1){
-                System.out.println("Login success");
+                new Main().setVisible(true);
+                loginUI.dispose();
             }else {
-                System.out.println("Login failed");
+                JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu");
             }
         } catch (Exception e) {
             throw new Exception(e);
         }
-
+    }
+    public static String luuTkNhanVien(){
+        return loginUI.getUsernameField().toString();
     }
 }
 

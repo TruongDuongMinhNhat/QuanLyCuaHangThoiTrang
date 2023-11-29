@@ -65,7 +65,27 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
 
     @Override
     public List<PhieuTraKhachHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from PhieuTraKhachHang ptkh where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ptkh." + column + " like '%" + value + "%'"));
+            isNeedAnd.set(true);
+        });
+        List<PhieuTraKhachHang> phieuTraKhachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
+            PhieuTraKhachHang phieuTraKhachHang = new PhieuTraKhachHang(
+                    resultSet.getString("MaPhieuTraKH"),
+                    resultSet.getTimestamp("NgayLap").toLocalDateTime(),
+                    new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get()
+            );
+
+            phieuTraKhachHangs.add(phieuTraKhachHang);
+        }
+        return phieuTraKhachHangs;
     }
 
     @Override
@@ -90,7 +110,7 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
         String query = "select * from PhieuTraKhachHang where ";
         String[] listID = (String[]) Arrays.stream(ids).toArray();
         for(int i = 0; i < listID.length; ++i) {
-            query += ("MaPhieuTraKH like '%" + listID[i] + "%'");
+            query += ("MaPhieuTraKH = '" + listID[i] + "'");
             if((i + 1) >= listID.length) break;
             else query += ", ";
         }

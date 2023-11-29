@@ -21,11 +21,14 @@ public class LoginUI extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
         setResizable(false);
+        setLocationRelativeTo(null);
         buttonLogin1.addActionListener(new LoginController(this));
         setFocusable(true);
         requestFocus();
         addKeyListener(new LoginController(this));
         passwordUser1.addKeyListener(new LoginController(this));
+        txtUser.setText("tamtu123");
+        passwordUser1.setText("tamtu123");
 
 //        btnQuenMatKhau.setFont(btnQuenMatKhau.getFont().deriveFont(Font.PLAIN));
 //        Shape nutTronThoat = new Ellipse2D.Float(0,0,btnThoatLogin.getWidth(),btnThoatLogin.getHeight());
@@ -34,6 +37,10 @@ public class LoginUI extends javax.swing.JFrame {
 //        btnThoatLogin.setContentAreaFilled(false);
 //        btnThoatLogin.setForeground(Color.WHITE);
 //        btnThoatLogin.setBackground(Color.RED);
+    }
+    private void btnGuiActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        
+        
     }
     
 
@@ -91,6 +98,7 @@ public class LoginUI extends javax.swing.JFrame {
         btnQuenMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnQuenMatKhau.setFocusPainted(false);
         btnQuenMatKhau.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQuenMatKhau.addActionListener(new LoginController(this));
 
         btnThoatLogin.setBackground(new java.awt.Color(255, 51, 51));
         btnThoatLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -257,6 +265,9 @@ public class LoginUI extends javax.swing.JFrame {
         return password;
     }
 
+    public JButton getBtnQuenMatKhau() {
+        return btnQuenMatKhau;
+    }
 
     // End of variables declaration//GEN-END:variables
 }
