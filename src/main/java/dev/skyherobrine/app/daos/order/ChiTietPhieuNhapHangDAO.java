@@ -21,9 +21,9 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
     public boolean them(ChiTietPhieuNhapHang chiTietPhieuNhapHang) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("Insert ChiTietPhieuNhap values(?, ?, ?, ?)");
-        preparedStatement.setString(1, chiTietPhieuNhapHang.getPhieuNhapHang().getMaPhieuNhap());
+        preparedStatement.setString(1, chiTietPhieuNhapHang.getMaChiTietPhieuNhap());
         preparedStatement.setString(2, chiTietPhieuNhapHang.getSanPham().getMaSP());
-        preparedStatement.setInt(3, chiTietPhieuNhapHang.getSoLuong());
+        preparedStatement.setString(3, chiTietPhieuNhapHang.getPhieuNhapHang().getMaPhieuNhap());
         preparedStatement.setDouble(4, chiTietPhieuNhapHang.getGiaNhap());
 
         return preparedStatement.executeUpdate() > 0;
@@ -49,10 +49,9 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select * from ChiTietPhieuNhap");
         List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs = new ArrayList<>();
         while (resultSet.next()) {
-            ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(
+            ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(resultSet.getString("MaChiTietPhieuNhap"),
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    resultSet.getInt("SoLuong"),
                     resultSet.getDouble("GiaNhap"));
 
             chiTietPhieuNhapHangs.add(chiTietPhieuNhapHang);
@@ -88,7 +87,19 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
     @Override
     @Deprecated
     public Optional<ChiTietPhieuNhapHang> timKiem(String id) throws Exception {
-        throw new Exception("Phương thức này không đươợc sử dụng");
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from HoaDon where ChiTietPhieuNhap = ?");
+        preparedStatement.setString(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return Optional.of(new ChiTietPhieuNhapHang(
+                    resultSet.getString("MaChiTietPhieuNhap"),
+                    new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getDouble("GiaNhap")
+            ));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -104,9 +115,10 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
 
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new ChiTietPhieuNhapHang(new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
+            return Optional.of(new ChiTietPhieuNhapHang(resultSet.getString("MaChiTietPhieuNhap"),
+                    new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    resultSet.getInt("SoLuong"), resultSet.getDouble("GiaNhap")));
+                    resultSet.getDouble("GiaNhap")));
         } else {
             return Optional.empty();
         }

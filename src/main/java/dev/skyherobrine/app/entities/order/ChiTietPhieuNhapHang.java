@@ -9,15 +9,15 @@ import dev.skyherobrine.app.entities.product.SanPham;
  * @version 1.0
  */
 public class ChiTietPhieuNhapHang {
+    private String maChiTietPhieuNhap;
     private PhieuNhapHang phieuNhapHang;
     private SanPham sanPham;
-    private int soLuong;
     private double giaNhap;
 
-    public ChiTietPhieuNhapHang(PhieuNhapHang phieuNhapHang, SanPham sanPham, int soLuong, double giaNhap) throws Exception{
+    public ChiTietPhieuNhapHang(String maChiTietPhieuNhap, PhieuNhapHang phieuNhapHang, SanPham sanPham, double giaNhap) throws Exception{
+        this.setMaChiTietPhieuNhap(maChiTietPhieuNhap);
         this.setPhieuNhapHang(phieuNhapHang);
         this.setSanPham(sanPham);
-        this.setSoLuong(soLuong);
         this.setGiaNhap(giaNhap);
     }
 
@@ -37,19 +37,7 @@ public class ChiTietPhieuNhapHang {
         this.sanPham = sanPham;
     }
 
-    public int getSoLuong() {
-        return soLuong;
-    }
-    /**
-     * Set số lượng nhập phải lớn hơn 0 <br></br>
-     * Nếu số lượng nhập lớn hơn thì sẽ xuất ra exception "Số lượng nhập lớn hơn 0"
-     */
-    public void setSoLuong(int soLuong) throws Exception {
-        if(soLuong>0)
-            this.soLuong = soLuong;
-        else
-            throw new Exception("Số lượng nhập phải lớn hơn 0!");
-    }
+
 
     public double getGiaNhap() {
         return giaNhap;
@@ -65,21 +53,27 @@ public class ChiTietPhieuNhapHang {
             throw new Exception("Giá nhập phải lớn hơn 0!");
     }
 
+    public String getMaChiTietPhieuNhap() {
+        return maChiTietPhieuNhap;
+    }
+
+    public void setMaChiTietPhieuNhap(String maChiTietPhieuNhap) {
+        this.maChiTietPhieuNhap = maChiTietPhieuNhap;
+    }
+
     /**
      * Tính tiền nhập hàng. Công thức tính: <b>Giá Nhập * Số Lượng Nhập = Giá Tiền Trả</b>
      * @return {@link double} trả về số thực là số tiền nhập ứng với sản phẩm này.
      */
-    public double tinhTien() {
-        return giaNhap * soLuong;
-    }
 
     @Override
     public String toString() {
-        return "ChiTietPhieuNhap{" +
-                "phieuNhapHang=" + phieuNhapHang +
+        return "ChiTietPhieuNhapHang{" +
+                "maChiTietPhieuNhap='" + maChiTietPhieuNhap +
+                ", phieuNhapHang=" + phieuNhapHang +
                 ", sanPham=" + sanPham +
-                ", soLuong=" + soLuong +
                 ", giaNhap=" + giaNhap +
                 '}';
     }
+
 }

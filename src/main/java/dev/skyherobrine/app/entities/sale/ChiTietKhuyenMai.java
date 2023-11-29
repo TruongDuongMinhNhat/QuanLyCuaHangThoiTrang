@@ -1,6 +1,6 @@
 package dev.skyherobrine.app.entities.sale;
 
-import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.entities.order.HoaDon;
 
 /**
  * Thực thể "Chi Tiết Khuyến Mãi", thực thể này dùng để hiển thị chi tiết sản phẩm đó sẽ được áp dụng chương
@@ -9,22 +9,22 @@ import dev.skyherobrine.app.entities.product.SanPham;
  * @version 1.0
  */
 public class ChiTietKhuyenMai {
-    private SanPham sanPham;
+    private HoaDon hoaDon;
     private KhuyenMai khuyenMai;
     private float tiLe;
 
-    public ChiTietKhuyenMai(SanPham sanPham, KhuyenMai khuyenMai, float tiLe) throws Exception {
-        this.setSanPham(sanPham);
+    public ChiTietKhuyenMai(HoaDon hoaDon, KhuyenMai khuyenMai, float tiLe) throws Exception {
+        this.sethoaDon(hoaDon);
         this.setKhuyenMai(khuyenMai);
         this.setTiLe(tiLe);
     }
 
-    public SanPham getSanPham() {
-        return sanPham;
+    public HoaDon gethoaDon() {
+        return hoaDon;
     }
 
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
+    public void sethoaDon(HoaDon hoaDon) {
+        this.hoaDon = hoaDon;
     }
 
     public KhuyenMai getKhuyenMai() {
@@ -52,7 +52,7 @@ public class ChiTietKhuyenMai {
     @Override
     public String toString() {
         return "ChiTietKhuyenMai{" +
-                "sanPham=" + sanPham +
+                "hoaDon=" + hoaDon +
                 ", khuyenMai=" + khuyenMai +
                 ", tiLe=" + tiLe +
                 '}';
