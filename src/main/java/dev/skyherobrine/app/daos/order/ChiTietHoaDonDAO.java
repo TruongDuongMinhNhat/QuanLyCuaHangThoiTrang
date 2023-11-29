@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.order;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.person.KhachHang;
@@ -22,7 +23,7 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("Insert ChiTietHoaDon values(?, ?, ?)");
         preparedStatement.setString(1, chiTietHoaDon.getHoaDon().getMaHD());
-        preparedStatement.setString(2, chiTietHoaDon.getSanPham().getMaSP());
+        preparedStatement.setString(2, chiTietHoaDon.getChiTietPhienBanSanPham().getMaPhienBanSP());
         preparedStatement.setInt(3, chiTietHoaDon.getSoLuongMua());
 
         return preparedStatement.executeUpdate() > 0;
@@ -51,7 +52,7 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         while(resultSet.next()) {
             ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon
                     (new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
-                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                     new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                      resultSet.getInt("SoLuongMua"));
 
             chiTietHoaDons.add(chiTietHoaDon);
@@ -94,6 +95,21 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         return null;
     }
 
+    public Optional<ChiTietHoaDon> timKiem(String maHD, String maSP) throws Exception{
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select * from ChiTietHoaDon where MaSP = ? and MaHD = ?");
+        preparedStatement.setString(1, maSP);
+        preparedStatement.setString(2, maHD);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return Optional.of(new ChiTietHoaDon(new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
+                    resultSet.getInt("SoLuongMua")));
+        } else {
+            return Optional.empty();
+        }
+    }
     @Override
     public List<Map<String, Object>> timKiem(Map<String, Object> conditions, boolean isDuplicateResult, String... colNames) throws Exception {
         AtomicReference<String> query = new AtomicReference<>("select " + (isDuplicateResult ? "distinct " : ""));
