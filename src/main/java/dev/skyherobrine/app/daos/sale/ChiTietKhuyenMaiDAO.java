@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.sale;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.daos.order.HoaDonDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.product.DanhMucSanPham;
 import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
@@ -23,7 +24,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
     public boolean them(ChiTietKhuyenMai chiTietKhuyenMai) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("Insert ChiTietKhuyenMai values(?, ?, ?)");
-        preparedStatement.setString(1, chiTietKhuyenMai.getSanPham().getMaSP());
+        preparedStatement.setString(1, chiTietKhuyenMai.gethoaDon().getMaHD());
         preparedStatement.setString(2, chiTietKhuyenMai.getKhuyenMai().getMaKM());
         preparedStatement.setFloat(3, chiTietKhuyenMai.getTiLe());
 
@@ -51,7 +52,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         List<ChiTietKhuyenMai> chiTietKhuyenMais = new ArrayList<>();
         while (resultSet.next()) {
             ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai(
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
                     new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
                     resultSet.getFloat("TiLe"));
 
@@ -76,7 +77,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
             ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai(
-                    new SanPhamDAO().timKiem(result.getString("MaSP")).get(),
+                    new HoaDonDAO().timKiem(result.getString("MaHD")).get(),
                     new KhuyenMaiDAO().timKiem(result.getString("MaKM")).get(),
                     result.getFloat("TiLe")
             );
@@ -102,7 +103,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         preparedStatement.setString(2, maSP);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new ChiTietKhuyenMai(new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+            return Optional.of(new ChiTietKhuyenMai(new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
                     new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(), resultSet.getFloat("TiLe")));
         } else {
             return Optional.empty();

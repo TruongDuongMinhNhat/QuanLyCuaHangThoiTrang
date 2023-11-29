@@ -191,7 +191,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 lapHoaDon.getMenuProduct().setVisible(false);
             } else {
                 for (int i = 0; i < listCTPBSP.size(); i++) {
-                    listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString());
+                    listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString() + "-" + listCTPBSP.get(i).get("SoLuong").toString());
                 }
                 lapHoaDon.getMenuProduct().show(lapHoaDon.getTxtTimKiemSanPham(), 0, lapHoaDon.getTxtTimKiemSanPham().getHeight());
             }

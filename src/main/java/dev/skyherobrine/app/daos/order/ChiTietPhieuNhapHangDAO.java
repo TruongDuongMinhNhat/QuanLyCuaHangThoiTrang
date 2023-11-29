@@ -73,10 +73,9 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(
+            ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(resultSet.getString("MaChiTietPhieuNhap"),
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    100,
                     resultSet.getDouble("GiaNhap"));
 
             chiTietPhieuNhapHangs.add(chiTietPhieuNhapHang);

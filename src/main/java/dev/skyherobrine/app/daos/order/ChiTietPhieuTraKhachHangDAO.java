@@ -78,7 +78,7 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
         while(resultSet.next()) {
             ChiTietPhieuTraKhachHang chiTietPhieuTraKhachHang = new ChiTietPhieuTraKhachHang(
                     new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
                     resultSet.getString("NoiDungTra")
             );
