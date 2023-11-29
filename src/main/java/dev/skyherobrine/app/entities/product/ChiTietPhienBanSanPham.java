@@ -3,18 +3,28 @@ package dev.skyherobrine.app.entities.product;
 import dev.skyherobrine.app.enums.MauSac;
 
 public class ChiTietPhienBanSanPham {
+    private String maPhienBanSP;
     private SanPham sanPham;
     private MauSac mauSac;
     private String kichThuoc;
     private int soLuong;
     private String hinhAnh;
 
-    public ChiTietPhienBanSanPham(SanPham sanPham, MauSac mauSac, String kichThuoc, int soLuong, String hinhAnh) {
+    public ChiTietPhienBanSanPham(String maPhienBanSP, SanPham sanPham, MauSac mauSac, String kichThuoc, int soLuong, String hinhAnh) {
+        setMaPhienBanSP(maPhienBanSP);
         setSanPham(sanPham);
         setMauSac(mauSac);
         setKichThuoc(kichThuoc);
         setSoLuong(soLuong);
         setHinhAnh(hinhAnh);
+    }
+
+    public String getMaPhienBanSP() {
+        return maPhienBanSP;
+    }
+
+    public void setMaPhienBanSP(String maPhienBanSP) {
+        this.maPhienBanSP = maPhienBanSP;
     }
 
     public SanPham getSanPham() {
@@ -60,7 +70,8 @@ public class ChiTietPhienBanSanPham {
     @Override
     public String toString() {
         return "ChiTietPhienBanSanPham{" +
-                "sanPham=" + sanPham +
+                "maPhienBanSP='" + maPhienBanSP + '\'' +
+                ", sanPham=" + sanPham +
                 ", mauSac=" + mauSac +
                 ", kichThuoc='" + kichThuoc + '\'' +
                 ", soLuong=" + soLuong +

@@ -22,12 +22,13 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
     @Override
     public boolean them(ChiTietPhienBanSanPham chiTietPhienBanSanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert ChiTietPhienBanSanPham value(?, ?, ?, ?, ?)");
-        preparedStatement.setString(1, chiTietPhienBanSanPham.getSanPham().getMaSP());
-        preparedStatement.setString(2, chiTietPhienBanSanPham.getMauSac().toString());
-        preparedStatement.setString(3, chiTietPhienBanSanPham.getKichThuoc());
-        preparedStatement.setInt(4, chiTietPhienBanSanPham.getSoLuong());
-        preparedStatement.setString(5, chiTietPhienBanSanPham.getHinhAnh());
+                ("Insert ChiTietPhienBanSanPham value(?, ?, ?, ?, ?, ?)");
+        preparedStatement.setString(1, chiTietPhienBanSanPham.getMaPhienBanSP());
+        preparedStatement.setString(2, chiTietPhienBanSanPham.getSanPham().getMaSP());
+        preparedStatement.setString(3, chiTietPhienBanSanPham.getMauSac().toString());
+        preparedStatement.setString(4, chiTietPhienBanSanPham.getKichThuoc());
+        preparedStatement.setInt(5, chiTietPhienBanSanPham.getSoLuong());
+        preparedStatement.setString(6, chiTietPhienBanSanPham.getHinhAnh());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -53,7 +54,8 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
         List<ChiTietPhienBanSanPham> chiTietPhienBanSanPhams = new ArrayList<>();
         while(resultSet.next()) {
             ChiTietPhienBanSanPham chiTietPhienBanSanPham = new ChiTietPhienBanSanPham(
-                new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    resultSet.getString("MaPhienBanSP"),
+                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
                     MauSac.layGiaTri(resultSet.getString("MauSac")),
                     resultSet.getString("KichThuoc"),
                     resultSet.getInt("SoLuong"),
@@ -81,6 +83,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
             ChiTietPhienBanSanPham chiTietPhienBanSanPham = new ChiTietPhienBanSanPham(
+                    resultSet.getString("MaPhienBanSP"),
                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
                     MauSac.layGiaTri(resultSet.getString("MauSac")),
                     resultSet.getString("KichThuoc"),
@@ -112,7 +115,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new ChiTietPhienBanSanPham(new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+            return Optional.of(new ChiTietPhienBanSanPham(resultSet.getString("MaPhienBanSP"), new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
                     MauSac.layGiaTri(resultSet.getString("MauSac")), resultSet.getString("KichThuoc"), resultSet.getInt("SoLuong"), resultSet.getString("HinhAnh")));
         } else {
             return Optional.empty();

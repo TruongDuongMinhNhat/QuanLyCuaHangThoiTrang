@@ -1,5 +1,6 @@
 package dev.skyherobrine.app.entities.order;
 
+import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 
 /**
@@ -10,13 +11,13 @@ import dev.skyherobrine.app.entities.product.SanPham;
  */
 public class ChiTietPhieuTraKhachHang {
     private PhieuTraKhachHang phieuTra;
-    private SanPham sanPham;
+    private ChiTietPhienBanSanPham phienBanSanPham;
     private int soLuongTra;
     private String noiDungTra;
 
-    public ChiTietPhieuTraKhachHang(PhieuTraKhachHang phieuTra, SanPham sanPham, int soLuongTra, String noiDungTra) throws Exception{
+    public ChiTietPhieuTraKhachHang(PhieuTraKhachHang phieuTra, ChiTietPhienBanSanPham phienBanSanPham, int soLuongTra, String noiDungTra) throws Exception{
         this.setPhieuTra(phieuTra);
-        this.setSanPham(sanPham);
+        this.setChiTietPhienBanSanPham(phienBanSanPham);
         this.setSoLuongTra(soLuongTra);
         this.setNoiDungTra(noiDungTra);
     }
@@ -29,12 +30,12 @@ public class ChiTietPhieuTraKhachHang {
         this.phieuTra = phieuTra;
     }
 
-    public SanPham getSanPham() {
-        return sanPham;
+    public ChiTietPhienBanSanPham getChiTietPhienBanSanPham() {
+        return phienBanSanPham;
     }
 
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
+    public void setChiTietPhienBanSanPham(ChiTietPhienBanSanPham phienBanSanPham) {
+        this.phienBanSanPham = phienBanSanPham;
     }
 
     public int getSoLuongTra() {
@@ -63,7 +64,7 @@ public class ChiTietPhieuTraKhachHang {
     public String toString() {
         return "ChiTietPhieuTraKhachHang{" +
                 "phieuTra=" + phieuTra +
-                ", sanPham=" + sanPham +
+                ", phienBanSanPham=" + phienBanSanPham +
                 ", soLuongTra=" + soLuongTra +
                 ", noiDungTra='" + noiDungTra + '\'' +
                 '}';

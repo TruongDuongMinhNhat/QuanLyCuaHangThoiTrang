@@ -53,7 +53,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
                 ("select * from KhuyenMai");
         List<KhuyenMai> khuyenMais = new ArrayList<>();
         while(resultSet.next()) {
-            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"),
+            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"), resultSet.getString("TenKM"),
                     resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate());
             khuyenMais.add(khuyenMai);
         }
@@ -76,7 +76,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
             KhuyenMai khuyenMai = new KhuyenMai(
-                    result.getString("MaKM"),
+                    result.getString("MaKM"), result.getString("TenKM"),
                     result.getDate("NgayApDung").toLocalDate(),
                     result.getDate("NgayHetHan").toLocalDate()
             );
@@ -92,7 +92,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new KhuyenMai(resultSet.getString("MaKM"),
+            return Optional.of(new KhuyenMai(resultSet.getString("MaKM"), resultSet.getString("TenKM"),
                     resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate()));
         } else {
             return Optional.empty();
@@ -113,7 +113,7 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
-            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"),
+            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"), resultSet.getString("TenKM"),
                     resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate());
             khuyenMais.add(khuyenMai);
         }

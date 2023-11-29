@@ -10,11 +10,13 @@ import java.time.LocalDate;
  */
 public class KhuyenMai {
     private String maKM;
+    private String tenKM;
     private LocalDate ngayApDung;
     private LocalDate ngayHetHan;
 
-    public KhuyenMai(String maKM, LocalDate ngayApDung, LocalDate ngayHetHan) throws Exception {
+    public KhuyenMai(String maKM, String tenKM, LocalDate ngayApDung, LocalDate ngayHetHan) throws Exception {
         this.setMaKM(maKM);
+        this.setTenKM(tenKM);
         this.setNgayApDung(ngayApDung);
         this.setNgayHetHan(ngayHetHan);
     }
@@ -25,6 +27,14 @@ public class KhuyenMai {
 
     public void setMaKM(String maKM) {
         this.maKM = maKM;
+    }
+
+    public String getTenKM() {
+        return tenKM;
+    }
+
+    public void setTenKM(String tenKM) {
+        this.tenKM = tenKM;
     }
 
     public LocalDate getNgayApDung() {
@@ -53,6 +63,7 @@ public class KhuyenMai {
     public String toString() {
         return "KhuyenMai{" +
                 "maKM='" + maKM + '\'' +
+                ", tenKM='" + tenKM +
                 ", ngayApDung=" + ngayApDung +
                 ", ngayHetHan=" + ngayHetHan +
                 '}';
