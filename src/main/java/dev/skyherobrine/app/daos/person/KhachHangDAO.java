@@ -151,7 +151,7 @@ public class KhachHangDAO implements IDAO<KhachHang> {
             query.set(query.get() + (canPhay.get() ? "," : "") + column);
             canPhay.set(true);
         });
-
+        System.out.println(query.get());
         query.set(query.get() + " from KhachHang where ");
 
         conditions.forEach((column, value) -> {
