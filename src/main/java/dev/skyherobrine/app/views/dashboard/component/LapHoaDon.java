@@ -56,7 +56,7 @@ public class LapHoaDon extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel)tbHoaDonLuuTam.getModel();
                 model.removeRow(row);
                 System.out.println("Bảng lưu hoá đơn tạm. Xoá hàng ngang theo mảng: "+row);
-                
+
             }
 
             @Override
@@ -67,8 +67,14 @@ public class LapHoaDon extends javax.swing.JPanel {
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event2));
         new LapHoaDonController(this);
+        listProduct.addKeyListener(new LapHoaDonController(this));
+        listKhachHang.addKeyListener(new LapHoaDonController(this));
+        txtSoDienThoaiKh.addKeyListener(new LapHoaDonController(this));
         txtTimKiemSanPham.addKeyListener(new LapHoaDonController(this));
         menuProduct.add(panel2);
+        menuKhachHang.add(pnTTKH);
+        tbDanhSachCacSanPhamTrongGioHang.getModel().addTableModelListener(new LapHoaDonController(this));
+        btnLuuTam.addActionListener(new LapHoaDonController(this));
     }
 
     /**
@@ -81,8 +87,13 @@ public class LapHoaDon extends javax.swing.JPanel {
     private void initComponents() {
 
         panel2 = new java.awt.Panel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         listProduct = new javax.swing.JList<>();
         menuProduct = new javax.swing.JPopupMenu();
+        pnTTKH = new java.awt.Panel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listKhachHang = new javax.swing.JList<>();
+        menuKhachHang = new javax.swing.JPopupMenu();
         pnBGLapHoaDon = new javax.swing.JPanel();
         pnTraiLapHoaDon = new javax.swing.JPanel();
         pnPhaiTrenLapHoaDon = new javax.swing.JPanel();
@@ -115,9 +126,11 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnTHongTinHoaDon = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtTienKhachDua = new javax.swing.JTextField();
         txtThue = new javax.swing.JTextField();
+        txtChietKhau = new javax.swing.JTextField();
         txtTongTIen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtNgayLapHoaDon = new javax.swing.JTextField();
@@ -133,19 +146,40 @@ public class LapHoaDon extends javax.swing.JPanel {
         panel2.setPreferredSize(new java.awt.Dimension(390, 100));
 
         listProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jScrollPane1.setViewportView(listProduct);
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(listProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(listProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         menuProduct.setFocusable(false);
+
+        pnTTKH.setPreferredSize(new java.awt.Dimension(242, 100));
+
+        listKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jScrollPane2.setViewportView(listKhachHang);
+
+        javax.swing.GroupLayout pnTTKHLayout = new javax.swing.GroupLayout(pnTTKH);
+        pnTTKH.setLayout(pnTTKHLayout);
+        pnTTKHLayout.setHorizontalGroup(
+            pnTTKHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnTTKHLayout.setVerticalGroup(
+            pnTTKHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        menuKhachHang.setFocusable(false);
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -157,7 +191,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiTrenLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTimKiemSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemSanPham.setText("Tìm kiếm sản phẩm");
+        txtTimKiemSanPham.setText("");
         txtTimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemSanPhamActionPerformed(evt);
@@ -171,10 +205,6 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbDanhSachCacSanPhamTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành tiền", ""
@@ -238,10 +268,6 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbHoaDonLuuTam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Tên khách hàng", "Số điện thoại", ""
@@ -634,17 +660,31 @@ public class LapHoaDon extends javax.swing.JPanel {
 
     private void btnLuuTamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuTamActionPerformed
         // TODO add your handling code here:
-        System.out.println("Đã lưu bản nháp hoá đơm");
+//        System.out.println("Đã lưu bản nháp hoá đơm");
     }//GEN-LAST:event_btnLuuTamActionPerformed
+
+    private void txtSoDienThoaiKhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSoDienThoaiKhActionPerformed
 
    public JTextField getTxtTimKiemSanPham(){
         return txtTimKiemSanPham;
     }
-
+    public JTable getTbDanhSachCacSanPhamTrongGioHang(){
+        return tbDanhSachCacSanPhamTrongGioHang;
+    }
     public JTextField getTxtTimKiemHoaDonLuuTam(){
         return txtTimKiemHoaDonLuuTam;
     }
-
+    public JPopupMenu getMenuKhachHang(){
+        return menuKhachHang;
+    }
+    public JList getListKhachHang(){
+        return listKhachHang;
+    }
+    public JTextField getTxtSoDienThoaiKh(){
+        return txtSoDienThoaiKh;
+    }
     public JPopupMenu getMenuProduct(){
         return menuProduct;
     }
@@ -654,7 +694,38 @@ public class LapHoaDon extends javax.swing.JPanel {
     public JPanel getPnCamera(){
         return pnCamera;
     }
+    public JTextField getTxtTenNhanVien(){
+        return txtTenNhanVien;
+    }
+    public JTextField getTxtMaNhanVien(){
+        return txtMaNhanVien;
+    }
+    public JTextField getTxtSoDienTHoaiNv(){
+        return txtSoDienTHoaiNv;
+    }
+    public JTextField getTxtTenKhachHang(){
+        return txtTenKhachHang;
+    }
+    public JButton getBtnLapHoaDon(){
+        return btnLapHoaDon;
+    }
+    public JButton getBtnLuuTam(){
+        return btnLuuTam;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public JTable getTbHoaDonLuuTam(){
+        return tbHoaDonLuuTam;
+    }
+    public JTextField getTxtThue(){
+        return txtThue;
+    }
+    public JTextField getTxtTongTIen(){
+        return txtTongTIen;
+    }
+    public JTextField getTxtTienKhachDua(){
+        return txtTienKhachDua;
+    }
+
     private javax.swing.JButton btnLapHoaDon;
     private javax.swing.JButton btnLuuTam;
     private javax.swing.JCheckBox jCheckBox1;
@@ -671,8 +742,12 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbMaNhanVien;
+    private javax.swing.JList<String> listKhachHang;
     private javax.swing.JList<String> listProduct;
+    private javax.swing.JPopupMenu menuKhachHang;
     private javax.swing.JPopupMenu menuProduct;
     private java.awt.Panel panel2;
     private javax.swing.JPanel pnBGLapHoaDon;
@@ -682,6 +757,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel pnPhaiLapHoaDon;
     private javax.swing.JPanel pnPhaiTrenLapHoaDon;
     private javax.swing.JPanel pnTHongTinHoaDon;
+    private java.awt.Panel pnTTKH;
     private javax.swing.JPanel pnThongTInKhachHang;
     private javax.swing.JPanel pnThongTinHoaDon;
     private javax.swing.JPanel pnThonhTinNhanVien;
@@ -690,6 +766,7 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane spHoaDonLuuTam;
     private javax.swing.JTable tbDanhSachCacSanPhamTrongGioHang;
     private javax.swing.JTable tbHoaDonLuuTam;
+    private javax.swing.JTextField txtChietKhau;
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaNhanVien;

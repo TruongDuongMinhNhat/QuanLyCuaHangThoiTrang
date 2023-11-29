@@ -86,7 +86,6 @@ public class KhachHangDAO implements IDAO<KhachHang> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + "= '" + value +"'"));
             isNeedAnd.set(true);
         });
-
         List<KhachHang> khachHangs = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();
