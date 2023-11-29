@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.order;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuTraKhachHang;
 import dev.skyherobrine.app.entities.order.PhieuTraKhachHang;
@@ -22,7 +23,7 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("Insert ChiTietPhieuTraKhachHang values(?, ?, ?, ?)");
         preparedStatement.setString(1, chiTietPhieuTraKhachHang.getPhieuTra().getMaPhieuTraKhachHang());
-        preparedStatement.setString(2, chiTietPhieuTraKhachHang.getSanPham().getMaSP());
+        preparedStatement.setString(2, chiTietPhieuTraKhachHang.getChiTietPhienBanSanPham().getMaPhienBanSP());
         preparedStatement.setInt(3, chiTietPhieuTraKhachHang.getSoLuongTra());
         preparedStatement.setString(4, chiTietPhieuTraKhachHang.getNoiDungTra());
 
@@ -51,7 +52,7 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
         while(resultSet.next()) {
             ChiTietPhieuTraKhachHang chiTietPhieuTraKhachHang = new ChiTietPhieuTraKhachHang(
                     new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
                     resultSet.getString("NoiDungTra")
             );
@@ -87,7 +88,7 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return Optional.of(new ChiTietPhieuTraKhachHang(new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
                     resultSet.getString("NoiDungTra")));
         } else {
