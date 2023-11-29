@@ -1,5 +1,6 @@
 package dev.skyherobrine.app.entities.order;
 
+import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 
 import java.util.List;
@@ -12,12 +13,12 @@ import java.util.List;
  */
 public class ChiTietHoaDon {
     private HoaDon hoaDon;
-    private SanPham sanPham;
+    private ChiTietPhienBanSanPham phienBanSanPham;
     private int soLuongMua;
 
-    public ChiTietHoaDon(HoaDon hoaDon, SanPham sanPham, int soLuongMua) throws Exception {
+    public ChiTietHoaDon(HoaDon hoaDon, ChiTietPhienBanSanPham phienBanSanPham, int soLuongMua) throws Exception {
         this.setHoaDon(hoaDon);
-        this.setSanPham(sanPham);
+        this.setPhienBanSanPham(phienBanSanPham);
         this.setSoLuongMua(soLuongMua);
     }
 
@@ -29,12 +30,12 @@ public class ChiTietHoaDon {
         this.hoaDon = hoaDon;
     }
 
-    public SanPham getSanPham() {
-        return sanPham;
+    public ChiTietPhienBanSanPham getChiTietPhienBanSanPham() {
+        return phienBanSanPham;
     }
 
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
+    public void setPhienBanSanPham(ChiTietPhienBanSanPham getChiTietPhienBanSanPham) {
+        this.phienBanSanPham = phienBanSanPham;
     }
 
     public int getSoLuongMua() {
@@ -53,14 +54,14 @@ public class ChiTietHoaDon {
     }
 
     public double giaTienSanPham() {
-        return soLuongMua * sanPham.giaBan();
+        return soLuongMua * phienBanSanPham.getSanPham().giaBan();
     }
 
     @Override
     public String toString() {
         return "ChiTietHoaDon{" +
                 "hoaDon=" + hoaDon +
-                ", sanPham=" + sanPham +
+                ", phienBanSanPham=" + phienBanSanPham +
                 ", soLuongMua=" + soLuongMua +
                 '}';
     }
