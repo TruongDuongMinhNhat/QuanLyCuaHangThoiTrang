@@ -75,7 +75,7 @@ public class NhapHangController implements MouseListener {
             String date = String.valueOf(pnHienThuc.get().getNgayHenGiao());
             Date ngayHenGiao = null;
             try {
-                ngayHenGiao = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+                ngayHenGiao = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);
             }
