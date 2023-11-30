@@ -205,19 +205,25 @@
                     <Component class="javax.swing.JTable" name="tbDanhSachSpTrongGioHang">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="8" rowCount="4">
+                          <Table columnCount="9" rowCount="4">
                             <Column editable="true" title="S&#x1ed1; th&#x1ee9; t&#x1ef1;" type="java.lang.Object"/>
                             <Column editable="true" title="M&#xe3; s&#x1ea3;n ph&#x1ea9;m" type="java.lang.Object"/>
                             <Column editable="true" title="T&#xea;n s&#x1ea3;n ph&#x1ea9;m" type="java.lang.Object"/>
                             <Column editable="true" title="K&#xed;ch th&#x1b0;&#x1edb;c" type="java.lang.Object"/>
+                            <Column editable="true" title="M&#xe0;u s&#x1eaf;c" type="java.lang.Object"/>
                             <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Object"/>
                             <Column editable="true" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.Object"/>
                             <Column editable="true" title="Th&#xe0;nh ti&#x1ec1;n" type="java.lang.Object"/>
-                            <Column editable="true" title="" type="java.lang.Object"/>
+                            <Column editable="true" title="null" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -771,8 +777,8 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtTinhTrangNhaCungCap" max="32767" attributes="0"/>
                               <Component id="txtTongTienSanPham" max="32767" attributes="0"/>
-                              <Component id="jDateChooserNgayHenGiao" max="32767" attributes="0"/>
-                              <Component id="jDateChooserNgayLapNhaCungCap" pref="156" max="32767" attributes="0"/>
+                              <Component id="jDateChooserNgayHenGiao" pref="156" max="32767" attributes="0"/>
+                              <Component id="txtNgayLap" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -783,15 +789,10 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jLabel9" max="32767" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jDateChooserNgayLapNhaCungCap" min="-2" pref="40" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel9" pref="40" max="32767" attributes="0"/>
+                              <Component id="txtNgayLap" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="jDateChooserNgayHenGiao" min="-2" pref="40" max="-2" attributes="0"/>
@@ -824,8 +825,6 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Ng&#xe0;y l&#x1ead;p:"/>
                   </Properties>
-                </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserNgayLapNhaCungCap">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel10">
                   <Properties>
@@ -866,6 +865,8 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng:"/>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtNgayLap">
                 </Component>
               </SubComponents>
             </Container>
