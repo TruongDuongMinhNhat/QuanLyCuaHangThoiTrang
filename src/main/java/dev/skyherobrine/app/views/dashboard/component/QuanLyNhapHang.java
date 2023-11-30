@@ -6,7 +6,8 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 
 
-//import dev.skyherobrine.app.controllers.dashboardui.order.NhapHangController;
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.order.NhapHangController;
 import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent;
 import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellEditor1;
 import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellRender1;
@@ -26,7 +27,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     public QuanLyNhapHang() {
         initComponents();
 
-//        new NhapHangController(this).loadPhieuNhap();
+        new NhapHangController(this).loadPhieuNhap();
+        tbDanhSachPheiNhap.addMouseListener(new NhapHangController(this));
+
         TableActionEvent1 event = new TableActionEvent1() {
             @Override
             public void onDuyet(int row) {
@@ -42,8 +45,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 model.removeRow(row);
             }
         };
-        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender1());
-        tbDanhSachPheiNhap.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor1(event));
+        tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
+        tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event));
         
         dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent event1 = new TableActionEvent() {
             @Override
@@ -181,7 +184,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Đơn giá", "Thành tiền", "null"
+                "STT", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Đơn giá", "Thành tiền", ""
             }
         ));
         tbDanhSachSpTrongGioHang.setRowHeight(40);
@@ -223,13 +226,10 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         tbDanhSachPheiNhap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Mã phiếu", "Nhà cung cấp", "Ngày lập", "Ngày gia hạn", "Duyệt/Huỷ"
+                "Mã phiếu", "Nhà cung cấp", "Ngày lập", "Ngày gia hạn", "Tình trạng", ""
             }
         ));
         tbDanhSachPheiNhap.setRowHeight(40);
@@ -316,12 +316,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Email:");
 
-        txtDienThoaiCuaHang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        txtEmailCUaHang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        txtDiaChiCuaHang.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         javax.swing.GroupLayout pnThongTinCuaHangLayout = new javax.swing.GroupLayout(pnThongTinCuaHang);
         pnThongTinCuaHang.setLayout(pnThongTinCuaHangLayout);
         pnThongTinCuaHangLayout.setHorizontalGroup(
@@ -369,8 +363,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Email:");
 
-        txtNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         javax.swing.GroupLayout pnTHongTinNhaCungCapLayout = new javax.swing.GroupLayout(pnTHongTinNhaCungCap);
         pnTHongTinNhaCungCap.setLayout(pnTHongTinNhaCungCapLayout);
         pnTHongTinNhaCungCapLayout.setHorizontalGroup(
@@ -415,12 +407,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Ngày hẹn giao");
 
-        txtTongTienSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setText("Tổng tiền sản phẩm:");
-
-        txtTinhTrangNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setText("Tình trạng:");
@@ -585,7 +573,15 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtTongTienSanPham;
     // End of variables declaration//GEN-END:variables
 
-    public JTable getTbDanhSachPheiNhap() {
-        return tbDanhSachPheiNhap;
-    }
+    public JTextField getTxtMaPhieuNhap(){return txtMaPhieu;}
+    public JTable getTbDanhSachPheiNhap() {return tbDanhSachPheiNhap;}
+    public JTable getTbDanhSachSpTrongGioHang(){return  tbDanhSachSpTrongGioHang;}
+    public JTextField getTxtNhaCungCap(){return txtNhaCungCap;}
+    public JTextField getTxtDiaChi(){return txtDiaChi;}
+    public JTextField getTxtEmailNhaCungCap(){return txtEmailNhaCungCap;}
+    public JTextField getTxtNgayLapPhieu(){return txtNgayLap;}
+    public JDateChooser getjDateChooserNgayHenGiao(){return jDateChooserNgayHenGiao;}
+    public JTextField getTxtTongTienSanPham(){return txtTongTienSanPham;}
+    public JTextField getTxtTinhTrangNhaCungCap(){return txtTinhTrangNhaCungCap;}
+
 }
