@@ -8,10 +8,10 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.order.NhapHangController;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent;
-import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellEditor1;
-import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionCellRender1;
-import dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1;
+import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1;
+import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,7 +48,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event));
         
-        dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent event1 = new TableActionEvent() {
+        dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent event1 = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
                 if (tbDanhSachSpTrongGioHang.isEditing()) {
@@ -57,14 +57,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 DefaultTableModel model = (DefaultTableModel) tbDanhSachSpTrongGioHang.getModel();
                 model.removeRow(row);
             }
-
-            @Override
-            public void onDuyet(int row) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
         };
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellEditor(event1));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender());
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor(event1));
         
         
         

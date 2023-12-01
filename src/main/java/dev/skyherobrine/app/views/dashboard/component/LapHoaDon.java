@@ -5,9 +5,10 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.LapHoaDonController;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellEditor;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionCellRender;
-import dev.skyherobrine.app.views.dashboard.component.lapHoaDon.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor;
+import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender;
+import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
 
 
 
@@ -38,39 +39,38 @@ public class LapHoaDon extends javax.swing.JPanel {
                 model.removeRow(row);
                 System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
             }
-
-            @Override
-            public void onDuyet(int row) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
         };
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRender());
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(event1));
 
-        TableActionEvent event2 = new TableActionEvent() {
+        dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1 event2 = new TableActionEvent1() {
             @Override
-            public void onDelete(int row) {
+            public void onDuyet(int row) {
+                
+                }
+
+            @Override
+            public void onHuy(int row) {
                 if(tbHoaDonLuuTam.isEditing()){
                     tbHoaDonLuuTam.getCellEditor().stopCellEditing();
                 }
                 DefaultTableModel model = (DefaultTableModel)tbHoaDonLuuTam.getModel();
                 model.removeRow(row);
-                System.out.println("Bảng lưu hoá đơn tạm. Xoá hàng ngang theo mảng: "+row);
-
-            }
-
-            @Override
-            public void onDuyet(int row) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
             }
         };
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1(event2));
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1());
+        
+        
+        
+        
+        
         txtMaHoaDon.setEnabled(false);
         txtNgayLapHoaDon.setEnabled(false);
         txtGiamGia.setEnabled(false);
         txtTienDu.setEnabled(false);
         txtTienKhachDua.setEnabled(true);
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event2));
         new LapHoaDonController(this);
         listProduct.addKeyListener(new LapHoaDonController(this));
         listKhachHang.addKeyListener(new LapHoaDonController(this));
