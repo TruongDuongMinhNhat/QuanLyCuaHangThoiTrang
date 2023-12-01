@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package dev.skyherobrine.app.views.dashboard.component.lapHoaDon;
+package dev.skyherobrine.app.views.dashboard.component.haiNut;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,26 +11,26 @@ import java.awt.event.ActionListener;
  *
  * @author Virtue Nguyen
  */
-public class PanelAction extends javax.swing.JPanel {
+public class PanelAction1 extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelAction
      */
-    public PanelAction() {
+    public PanelAction1() {
         initComponents();
     }
-    public void initEvent(TableActionEvent event, int row) {
-        
-        cmdDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                event.onDelete(row);
-            }
-        });
+    
+    public void initEvent(TableActionEvent1 event, int row) {
         cmdDuyet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 event.onDuyet(row);
+            }
+        });
+        cmdHuy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                event.onHuy(row);
             }
         });
         
@@ -45,10 +45,15 @@ public class PanelAction extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdDelete = new dev.skyherobrine.app.views.dashboard.component.lapHoaDon.ActionButton();
+        cmdHuy = new dev.skyherobrine.app.views.dashboard.component.haiNut.ActionButton1();
         cmdDuyet = new javax.swing.JButton();
 
-        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconLapHoaDon/delete.png"))); // NOI18N
+        cmdHuy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconQuanLyNhapHang/huy.png"))); // NOI18N
+        cmdHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdHuyActionPerformed(evt);
+            }
+        });
 
         cmdDuyet.setText("Duyệt");
 
@@ -56,27 +61,31 @@ public class PanelAction extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cmdDuyet)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmdHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmdDuyet)
-                    .addComponent(cmdDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmdHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmdHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdHuyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmdHuyActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private dev.skyherobrine.app.views.dashboard.component.lapHoaDon.ActionButton cmdDelete;
     private javax.swing.JButton cmdDuyet;
+    private dev.skyherobrine.app.views.dashboard.component.haiNut.ActionButton1 cmdHuy;
     // End of variables declaration//GEN-END:variables
 }

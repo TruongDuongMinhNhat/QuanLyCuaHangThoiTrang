@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dev.skyherobrine.app.views.dashboard.component.quanLyNhapHang;
+package dev.skyherobrine.app.views.dashboard.component.motNut;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,11 +18,11 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Virtue Nguyen
  */
-public class ActionButton1 extends JButton {
+public class ActionButton extends JButton {
 
     private boolean mousePress;
 
-    public ActionButton1() {
+    public ActionButton() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(3, 3, 3, 3));
         addMouseListener(new MouseAdapter() {
