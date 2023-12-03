@@ -7,6 +7,8 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import dev.skyherobrine.app.controllers.loginui.mainLogin.LoginController;
+import dev.skyherobrine.app.daos.ConnectDB;
+import dev.skyherobrine.app.daos.order.ChiTietHoaDonDAO;
 import dev.skyherobrine.app.daos.order.ChiTietPhieuNhapHangDAO;
 import dev.skyherobrine.app.daos.order.HoaDonDAO;
 import dev.skyherobrine.app.daos.person.KhachHangDAO;
@@ -14,19 +16,25 @@ import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
-import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.order.HoaDon;
 import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
-import groovy.ui.view.MacOSXDefaults;
+import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
+
+import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,8 +51,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory, ActionListener, TableModelListener {
+import static java.lang.Math.abs;
+
+public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory, ActionListener, TableModelListener, TableActionEvent1, TableActionEvent {
     private LapHoaDon lapHoaDon;
+    private ChiTietHoaDonDAO chiTietHoaDonDAO;
     private DefaultListModel<String> listModel;
     private ChiTietPhienBanSanPhamDAO chiTietPhienBanSanPhamDAO;
     private WebcamPanel pnCam = null;
@@ -56,11 +67,12 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     private HoaDonDAO hoaDonDAO;
     private DefaultListModel<String> listModelKH;
     private ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
+    private ConnectDB connectDB;
     private static Map<String, Object> dsSPTAM = new HashMap<>();
+    private static Map<String, Integer> dsSPLuuTam = new HashMap<>();
     private static int count = 0;
     public LapHoaDonController(LapHoaDon lapHoaDon) {
         this.lapHoaDon = lapHoaDon;
-
         try {
             this.chiTietPhienBanSanPhamDAO = new ChiTietPhienBanSanPhamDAO();
             this.chiTietPhieuNhapHangDAO = new ChiTietPhieuNhapHangDAO();
@@ -68,38 +80,37 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             this.nhanVienDAO = new NhanVienDAO();
             this.khachHangDAO = new KhachHangDAO();
             this.hoaDonDAO = new HoaDonDAO();
+            this.chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+            this.connectDB = new ConnectDB();
             loadTTNV();
+            setCamera();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-        if(count == 0){
-//            setCamera();
-            count++;
         }
     }
     public void setCamera(){
         Dimension size = WebcamResolution.QVGA.getSize();
         webcam = Webcam.getWebcams().get(0);
+        if(webcam.isOpen()){
+            webcam.close();
+        }
         webcam.setViewSize(size);
 
         pnCam = new WebcamPanel(webcam);
         pnCam.setPreferredSize(size);
         pnCam.setFPSDisplayed(true);
-//        pnCam.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5) );
+//       pnCam.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5) );
         pnCam.setSize(new Dimension(463,350));
         pnCam.setLocation(30, 60);
-
-//        lapHoaDon.getPnCamera().add(avb);
+//       lapHoaDon.getPnCamera().add(avb);
         lapHoaDon.getPnCamera().add(pnCam);
         executor.execute(this);
     }
-
-
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode()==KeyEvent.VK_DOWN){
@@ -132,7 +143,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             }
         }
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         String textSP = lapHoaDon.getTxtTimKiemSanPham().getText().trim();
@@ -144,7 +154,12 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                }else{
                    lapHoaDon.getMenuProduct().setVisible(false);
                }
-           }else{
+           }else if(e.getSource().equals(lapHoaDon.getTxtTimKiemHoaDonLuuTam())){
+               TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>((DefaultTableModel) lapHoaDon.getTbHoaDonLuuTam().getModel());
+               lapHoaDon.getTbHoaDonLuuTam().setRowSorter(sorter);
+               sorter.setRowFilter(RowFilter.regexFilter(lapHoaDon.getTxtTimKiemHoaDonLuuTam().getText().toLowerCase()));
+           }
+           else{
                if(!textKH.equalsIgnoreCase("")){
                    searchSuggestKH(textKH);
                    if(textKH.length()>=10&& !loadTTKH(textKH)){
@@ -210,11 +225,15 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             } else {
                 int soLuong = 0;
                 for (int i = 0; i < listCTPBSP.size(); i++) {
+                    soLuong = Integer.parseInt(listCTPBSP.get(i).get("SoLuong").toString());
+                    if(dsSPLuuTam.containsKey(listCTPBSP.get(i).get("MaPhienBanSP").toString())) {
+                        soLuong = soLuong - Integer.parseInt(dsSPLuuTam.get(listCTPBSP.get(i).get("MaPhienBanSP").toString()).toString());
+                    }
                     if(dsSP.containsKey(listCTPBSP.get(i).get("MaPhienBanSP").toString())){
-                        soLuong = Integer.parseInt(listCTPBSP.get(i).get("SoLuong").toString()) - Integer.parseInt(dsSP.get(listCTPBSP.get(i).get("MaPhienBanSP").toString()).toString());
+                        soLuong = soLuong - Integer.parseInt(dsSP.get(listCTPBSP.get(i).get("MaPhienBanSP").toString()).toString());
                         listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString()+" Số lượng:"+ soLuong+"");
                     }else{
-                        listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString()+" Số lượng:"+listCTPBSP.get(i).get("SoLuong").toString());
+                        listModel.addElement(listCTPBSP.get(i).get("MaPhienBanSP").toString()+" Số lượng:"+soLuong+"");
                     }
                 }
                 lapHoaDon.getMenuProduct().show(lapHoaDon.getTxtTimKiemSanPham(), 0, lapHoaDon.getTxtTimKiemSanPham().getHeight());
@@ -291,7 +310,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 String maHD = lapHoaDon.getTxtMaHoaDon().getText().trim();
                 String maNV = lapHoaDon.getTxtMaNhanVien().getText().trim();
                 String ngayLap = lapHoaDon.getTxtNgayLapHoaDon().getText().trim();
-                LocalDateTime nl = LocalDateTime.parse(ngayLap, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                LocalDateTime nl = LocalDateTime.parse(ngayLap, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
                 String tienKHTra = lapHoaDon.getTxtTienKhachDua().getText().trim();
 
                 Map<String, Object> conditions = new HashMap<>();
@@ -305,12 +324,42 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     for(int i = 0; i < tmGioHang.getRowCount(); i++){
                         pbsp = chiTietPhienBanSanPhamDAO.timKiem(tmGioHang.getValueAt(i, 1).toString());
                         sl = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString());
-//                        ChiTietHoaDon cthd = new ChiTietHoaDon(hd, pbsp.get(), sl);
+                        ChiTietHoaDon cthd = new ChiTietHoaDon(hd, pbsp.get(), sl);
+                        System.out.println(cthd);
+                        chiTietHoaDonDAO.them(cthd);
+                        pbsp.get().setSoLuong(pbsp.get().getSoLuong()-sl);
+                        chiTietPhienBanSanPhamDAO.capNhat(pbsp.get());
                     }
+                    xuatPDF();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
+        }
+    }
+    public void xuatPDF(){
+        try {
+            DefaultTableModel tmHoaDon = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+            JasperDesign jd = JRXmlLoader.load("src/main/resources/HoaDon/hoadon.jrxml");
+            Map<String, Object> data= new HashMap<>();
+            JasperReport report = JasperCompileManager.compileReport(jd);
+            for(int i = 0; i < tmHoaDon.getRowCount(); i++){
+                data.put("ThanhTien", tmHoaDon.getValueAt(i, 5).toString());
+
+            }
+            double tienTT = Double.parseDouble(lapHoaDon.getTxtTongTIen().getText());
+            double tienKhachDua = Double.parseDouble(lapHoaDon.getTxtTienKhachDua().getText());
+            String maHD = lapHoaDon.getTxtMaHoaDon().getText();
+            data.put("maHD", maHD);
+            data.put("TongTien", tienTT);
+            data.put("tienKhachDua", tienKhachDua);
+            data.put("tienThua", abs(tienTT - tienKhachDua));
+            JasperPrint print = JasperFillManager.fillReport(report, data, connectDB.getConnection());
+            JasperViewer.viewReport(print, false);
+            JasperExportManager.exportReportToPdfFile(print, "src/main/resources/HoaDon/DanhSachHoaDon/"+ lapHoaDon.getTxtMaHoaDon().getText() +".pdf");
+
+        } catch (JRException e) {
+            throw new RuntimeException(e);
         }
     }
     public String formatNumber(int number) {
@@ -324,8 +373,11 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     public boolean themSP(String maPBSP){
         Optional<ChiTietPhienBanSanPham> pbsp = null;
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
-        String SL = maPBSP.substring(maPBSP.indexOf(":")+1);
-        maPBSP = maPBSP.substring(0, maPBSP.indexOf(" "));
+        String SL = "1";
+        if(maPBSP.contains(" ")){
+            SL = maPBSP.substring(maPBSP.indexOf(":")+1);
+            maPBSP = maPBSP.substring(0, maPBSP.indexOf(" "));
+        }
         try {
             pbsp = chiTietPhienBanSanPhamDAO.timKiem(maPBSP);
             int index = maPBSP.indexOf("-");
@@ -361,10 +413,20 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             throw new RuntimeException(e);
         }
     }
-    public boolean checkSDT(String tenKH){
-        if(tenKH.equalsIgnoreCase("")){
-            JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số điện thoại khách hàng");
-            return false;
+    public boolean checkSDT(String sdtKH){
+        if(sdtKH.equalsIgnoreCase("")){
+            if(!lapHoaDon.getjCheckBox1().isSelected()){
+                JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số điện thoại khách hàng!");
+                return false;
+            }else{
+                JOptionPane.showMessageDialog(lapHoaDon, "Không thể lưu tạm khách hàng chưa có thông tin!");
+                return false;
+            }
+        }else{
+            if(dsSPTAM.containsKey(sdtKH)) {
+                JOptionPane.showMessageDialog(null, "Khách hàng này đã tồn tại hóa đơn lưu tạm");
+                return false;
+            }
         }
         return true;
     }
@@ -393,7 +455,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 if ((image = webcam.getImage()) == null) {
                     continue;
                 }
-
             }
             LuminanceSource source = null;
             source = new BufferedImageLuminanceSource(image);
@@ -412,8 +473,13 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     }
     public void xoaTrang(){
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+        lapHoaDon.getTxtMaHoaDon().setText("");
+        lapHoaDon.getTxtNgayLapHoaDon().setText("");
         lapHoaDon.getTxtTenKhachHang().setText("");
         lapHoaDon.getTxtSoDienThoaiKh().setText("");
+        lapHoaDon.getTxtTienKhachDua().setText("");
+        lapHoaDon.getTxtTienDu().setText("");
+        lapHoaDon.getTxtTongTIen().setText("");
         tmGioHang.setRowCount(0);
     }
     public void loadTbTam(){
@@ -445,16 +511,21 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 if(tmGioHang.getRowCount()==0){
                     JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng thêm sản phẩm vào giỏ hàng");
                 }else{
-                    for(int i = 0; i < tmGioHang.getRowCount(); i++){
-                        pbsp.put(tmGioHang.getValueAt(i, 1).toString(), Integer.parseInt(tmGioHang.getValueAt(i, 4).toString()));
+                    int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn lưu tạm hóa đơn này không?", "Lưu tạm hóa đơn", JOptionPane.YES_NO_OPTION);
+                    if(result == JOptionPane.YES_OPTION){
+                        for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                            pbsp.put(tmGioHang.getValueAt(i, 1).toString(), Integer.parseInt(tmGioHang.getValueAt(i, 4).toString()));
+                            dsSPLuuTam.put(tmGioHang.getValueAt(i, 1).toString(), Integer.parseInt(tmGioHang.getValueAt(i, 4).toString()));
+                        }
+                        dsSPTAM.put(lapHoaDon.getTxtSoDienThoaiKh().getText().trim(), pbsp);
+                        loadTbTam();
+                        xoaTrang();
                     }
-                    dsSPTAM.put(lapHoaDon.getTxtSoDienThoaiKh().getText().trim(), pbsp);
 //                    Map<String, Integer> tam = (Map<String, Integer>) dsSPTAM.get(lapHoaDon.getTxtSoDienThoaiKh().getText().trim());
 //                    for(Map.Entry<String, Integer> entry : tam.entrySet()){
 //                        System.out.println(entry.getKey() + " " + entry.getValue());
 //                    }
-                    loadTbTam();
-                    xoaTrang();
+
                 }
                 try {
 
@@ -462,12 +533,12 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     throw new RuntimeException(ex);
                 }
             }
-        }
-        if(e.getSource().equals(lapHoaDon.getjCheckBox1())){
+        }else if(e.getSource().equals(lapHoaDon.getjCheckBox1())){
             if(lapHoaDon.getjCheckBox1().isSelected()){
                 lapHoaDon.getTxtSoDienThoaiKh().setEnabled(false);
                 lapHoaDon.getTxtTenKhachHang().setText("Khách vãng lai");
                 lapHoaDon.getTxtTenKhachHang().setEnabled(false);
+                lapHoaDon.getTxtSoDienThoaiKh().setText("");
                 loadHD();
             }else{
                 lapHoaDon.getTxtSoDienThoaiKh().setText("");
@@ -476,9 +547,15 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 lapHoaDon.getTxtMaHoaDon().setText("");
                 lapHoaDon.getTxtNgayLapHoaDon().setText("");
             }
+        }else if(e.getSource().equals(lapHoaDon.getBtnLapHoaDon())){
+            System.out.println("LapHoaDon");
+            int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn lập hóa đơn này không?", "Lập hóa đơn", JOptionPane.YES_NO_OPTION);
+            if(result == JOptionPane.YES_OPTION){
+                LapHoaDon();
+                xoaTrang();
+            }
         }
     }
-
     @Override
     public void tableChanged(TableModelEvent e) {
         if(e.getColumn()==4){
@@ -505,5 +582,62 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             double tt = tinhTT();
             lapHoaDon.getTxtTongTIen().setText(tt+"");
         }
+    }
+    @Override
+    public void onDuyet(int row) {
+        if(!(lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getRowCount()==0)){
+            JOptionPane.showMessageDialog(null, "Hiện tại còn hóa đơn chưa được xử lý chưa thể duyệt hóa đơn này");
+        }else{
+            DefaultTableModel tmTam = (DefaultTableModel) lapHoaDon.getTbHoaDonLuuTam().getModel();
+            DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+            String soDT = tmTam.getValueAt(row, 2).toString();
+            loadTTKH(soDT);
+            Map<String, Integer> tam = (Map<String, Integer>) dsSPTAM.get(soDT);
+            String maPBSP = "";
+            int i = 0;
+            for(Map.Entry<String, Integer> entry : tam.entrySet()){
+                maPBSP = entry.getKey();
+                themSP(maPBSP);
+                tmGioHang.setValueAt(entry.getValue(), i, 4);
+                i++;
+            }
+            dsSPTAM.remove(soDT);
+            tmTam.removeRow(row);
+        }
+
+    }
+    @Override
+    public void onHuy(int row) {
+        int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn hủy hóa đơn này không?", "Hủy hóa đơn", JOptionPane.YES_NO_OPTION);
+        if(result == JOptionPane.YES_OPTION){
+            if(lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().isEditing()){
+                lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getCellEditor().stopCellEditing();
+            }
+            DefaultTableModel tmTam = (DefaultTableModel) lapHoaDon.getTbHoaDonLuuTam().getModel();
+            String soDT = tmTam.getValueAt(row, 2).toString();
+            Map<String, Integer> tam = (Map<String, Integer>) dsSPTAM.get(soDT);
+            for(Map.Entry<String, Integer> entry : tam.entrySet()){
+                if(dsSPLuuTam.containsKey(entry.getKey())) {
+                    dsSPLuuTam.remove(entry.getKey());
+                }
+            }
+            dsSPTAM.remove(soDT);
+            tmTam.removeRow(row);
+            for(int i = 0; i < tmTam.getRowCount(); i++){
+                tmTam.setValueAt((i+1), i, 0);
+            }
+        }
+    }
+    @Override
+    public void onDelete(int row) {
+        if(lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().isEditing()){
+            lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getCellEditor().stopCellEditing();
+        }
+        DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
+        tmGioHang.removeRow(row);
+        for(int i = 0; i < tmGioHang.getRowCount(); i++){
+            tmGioHang.setValueAt((i+1), i, 0);
+        }
+        lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
     }
 }

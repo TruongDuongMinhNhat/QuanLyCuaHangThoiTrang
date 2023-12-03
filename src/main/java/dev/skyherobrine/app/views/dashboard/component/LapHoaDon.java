@@ -29,59 +29,28 @@ public class LapHoaDon extends javax.swing.JPanel {
      */
     public LapHoaDon() {
         initComponents();
-        TableActionEvent event1 = new TableActionEvent() {
-            @Override
-            public void onDelete(int row) {
-                if(tbDanhSachCacSanPhamTrongGioHang.isEditing()){
-                    tbDanhSachCacSanPhamTrongGioHang.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel model = (DefaultTableModel)tbDanhSachCacSanPhamTrongGioHang.getModel();
-                model.removeRow(row);
-                System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
-            }
-        };
+        LapHoaDonController controller = new LapHoaDonController(this);
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRender());
-        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(event1));
-
-        dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1 event2 = new TableActionEvent1() {
-            @Override
-            public void onDuyet(int row) {
-                
-                }
-
-            @Override
-            public void onHuy(int row) {
-                if(tbHoaDonLuuTam.isEditing()){
-                    tbHoaDonLuuTam.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel model = (DefaultTableModel)tbHoaDonLuuTam.getModel();
-                model.removeRow(row);
-                System.out.println("Bảng danh sách sản phẩm giỏ hàng. Xoá hàng ngang theo mảng: "+row);
-            }
-        };
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1(event2));
+        tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(controller));
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1(controller));
         tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1());
-        
-        
-        
-        
-        
         txtMaHoaDon.setEnabled(false);
         txtNgayLapHoaDon.setEnabled(false);
         txtGiamGia.setEnabled(false);
         txtTienDu.setEnabled(false);
         txtTienKhachDua.setEnabled(true);
-        new LapHoaDonController(this);
-        listProduct.addKeyListener(new LapHoaDonController(this));
-        listKhachHang.addKeyListener(new LapHoaDonController(this));
-        txtSoDienThoaiKh.addKeyListener(new LapHoaDonController(this));
-        txtTimKiemSanPham.addKeyListener(new LapHoaDonController(this));
+        listProduct.addKeyListener(controller);
+        listKhachHang.addKeyListener(controller);
+        txtSoDienThoaiKh.addKeyListener(controller);
+        txtTimKiemSanPham.addKeyListener(controller);
         menuProduct.add(panel2);
         menuKhachHang.add(pnTTKH);
-        tbDanhSachCacSanPhamTrongGioHang.getModel().addTableModelListener(new LapHoaDonController(this));
-        btnLuuTam.addActionListener(new LapHoaDonController(this));
-        jCheckBox1.addActionListener(new LapHoaDonController(this));
-        txtTienKhachDua.addKeyListener(new LapHoaDonController(this));
+        tbDanhSachCacSanPhamTrongGioHang.getModel().addTableModelListener(controller);
+        btnLuuTam.addActionListener(controller);
+        jCheckBox1.addActionListener(controller);
+        txtTienKhachDua.addKeyListener(controller);
+        btnLapHoaDon.addActionListener(controller);
+        txtTimKiemHoaDonLuuTam.addKeyListener(controller);
     }
 
     /**
@@ -297,7 +266,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         );
 
         txtTimKiemHoaDonLuuTam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemHoaDonLuuTam.setText("Tìm kiếm hoá đơn lưu tạm");
+        txtTimKiemHoaDonLuuTam.setText("");
         txtTimKiemHoaDonLuuTam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemHoaDonLuuTamActionPerformed(evt);
@@ -662,7 +631,6 @@ public class LapHoaDon extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemSanPhamActionPerformed
 
     private void btnLapHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLapHoaDonActionPerformed
-        System.out.println("Đã Lập hoá đơn");
     }//GEN-LAST:event_btnLapHoaDonActionPerformed
 
     private void btnLuuTamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuTamActionPerformed

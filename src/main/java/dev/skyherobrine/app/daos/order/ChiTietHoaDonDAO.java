@@ -95,10 +95,10 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         return null;
     }
 
-    public Optional<ChiTietHoaDon> timKiem(String maHD, String maSP) throws Exception{
+    public Optional<ChiTietHoaDon> timKiem(String maHD, String maPhienBanSP) throws Exception{
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from ChiTietHoaDon where MaSP = ? and MaHD = ?");
-        preparedStatement.setString(1, maSP);
+                ("select * from ChiTietHoaDon where MaPhienBanSP = ? and MaHD = ?");
+        preparedStatement.setString(1, maPhienBanSP);
         preparedStatement.setString(2, maHD);
 
         ResultSet resultSet = preparedStatement.executeQuery();

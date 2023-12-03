@@ -11,13 +11,13 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-  Select TenSP, hd.MaHD, NgayLap, kichthuoc, kh.HoTen as khTen, nv.HoTen, giaNhap*1.1 as GiaSanPHam, GhiChu, SoLuongMua from HoaDon hd 
+		<![CDATA[  Select TenSP, hd.MaHD, NgayLap, kichthuoc, kh.HoTen as khTen, nv.HoTen, giaNhap*1.1 as GiaSanPHam, GhiChu, SoLuongMua from HoaDon hd 
                     join ChiTietHoaDon on hd.maHD = ChiTietHoaDon.maHD  
-                    join SanPham sp on ChiTietHoaDon.MaSP = sp.MaSP 
+         join PhienBanSanPham pbsp on ChiTietHoaDon.MaPhienBanSP = pbsp.MaPhienBanSP 
+		join SanPham sp on pbsp.MaSP = sp.MaSP
                     join KhachHang kh on hd.maKH = kh.MaKH 
                     join NhanVien nv on hd.MaNV = nv.MaNV 
-                    join ChiTietPhieuNhap ctnp on ctnp.MaSP = ChiTietHoaDon.MaSP WHERE hd.maHD = $P{maHD}]]>
+                    join ChiTietPhieuNhap ctnp on ctnp.MaSP = pbsp.MaSP WHERE hd.maHD = $P{maHD}]]>
 	</queryString>
 	<field name="TenSP" class="java.lang.String"/>
 	<field name="MaHD" class="java.lang.String"/>

@@ -34,7 +34,7 @@ public class ChiTietHoaDon {
         return phienBanSanPham;
     }
 
-    public void setPhienBanSanPham(ChiTietPhienBanSanPham getChiTietPhienBanSanPham) {
+    public void setPhienBanSanPham(ChiTietPhienBanSanPham phienBanSanPham) {
         this.phienBanSanPham = phienBanSanPham;
     }
 
