@@ -123,6 +123,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         txtNgayLap = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtMaPhieu = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtGhiChu = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -178,7 +180,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Đơn giá", "Thành tiền", ""
+                "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Đơn giá", "Thành tiền", "null"
             }
         ));
         tbDanhSachSpTrongGioHang.setRowHeight(40);
@@ -226,7 +228,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Mã phiếu", "Nhà cung cấp", "Ngày lập", "Ngày gia hạn", "Tình trạng", ""
+                "Mã phiếu", "Nhà cung cấp", "Ngày lập", "Ngày gia hạn", "Duyệt/Huỷ"
             }
         ));
         tbDanhSachPheiNhap.setRowHeight(40);
@@ -372,9 +374,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnTHongTinNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                    .addComponent(txtDiaChi)
                     .addComponent(txtNhaCungCap, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtEmailNhaCungCap))
+                    .addComponent(txtEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         pnTHongTinNhaCungCapLayout.setVerticalGroup(
@@ -413,6 +415,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel13.setText("Mã phiếu:");
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setText("Ghi chú:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -424,14 +429,16 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel7))
+                .addGap(48, 48, 48)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtGhiChu)
                     .addComponent(txtMaPhieu)
-                    .addComponent(txtTinhTrangNhaCungCap, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(txtTinhTrangNhaCungCap)
                     .addComponent(txtTongTienSanPham)
                     .addComponent(jDateChooserNgayHenGiao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNgayLap, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(txtNgayLap))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -457,7 +464,11 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(txtGhiChu))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -476,10 +487,10 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(pnThongTinCuaHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnTHongTinNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(210, 210, 210))
+                .addComponent(pnTHongTinNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnBGThongTinCaNhanLayout = new javax.swing.GroupLayout(pnBGThongTinCaNhan);
@@ -538,6 +549,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -562,6 +574,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtDienThoaiCuaHang;
     private javax.swing.JTextField txtEmailCUaHang;
     private javax.swing.JTextField txtEmailNhaCungCap;
+    private javax.swing.JTextField txtGhiChu;
     private javax.swing.JTextField txtMaPhieu;
     private javax.swing.JTextField txtNgayLap;
     private javax.swing.JTextField txtNhaCungCap;
