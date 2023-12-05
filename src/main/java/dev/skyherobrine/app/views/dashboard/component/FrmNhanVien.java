@@ -21,21 +21,22 @@ public class FrmNhanVien extends javax.swing.JPanel {
      */
     public FrmNhanVien() {
         initComponents();
-        new NhanVienController(this).loadDsNhanVien();
-        new NhanVienController(this).loadComboBoxPhanThongTinNV();
-        new NhanVienController(this).loadComboBoxPhanTimKiem();
-        tbDanhSachNhanVien.addMouseListener(new NhanVienController(this));
-        btnThemNhanVien.addActionListener(new NhanVienController(this));
-        btnSuaNhanVien.addActionListener(new NhanVienController(this));
-        btnXoaNhanVien.addActionListener(new NhanVienController(this));
+        NhanVienController nhanVienController = new NhanVienController(this);
+        nhanVienController.loadDsNhanVien();
+        nhanVienController.loadComboBoxPhanThongTinNV();
+        nhanVienController.loadComboBoxPhanTimKiem();
+        tbDanhSachNhanVien.addMouseListener(nhanVienController);
+        btnThemNhanVien.addActionListener(nhanVienController);
+        btnSuaNhanVien.addActionListener(nhanVienController);
+        btnXoaNhanVien.addActionListener(nhanVienController);
 
-        cbTkGioiTinhNv.addActionListener(new NhanVienController(this));
-        cbTkCaLamViecNv.addActionListener(new NhanVienController(this));
-        cbTkChucVuNv.addActionListener(new NhanVienController(this));
-        cbTkTinhTrangNv.addActionListener(new NhanVienController(this));
+        cbTkGioiTinhNv.addActionListener(nhanVienController);
+        cbTkCaLamViecNv.addActionListener(nhanVienController);
+        cbTkChucVuNv.addActionListener(nhanVienController);
+        cbTkTinhTrangNv.addActionListener(nhanVienController);
 
-        txtTuKhoaTimKiem.addKeyListener(new NhanVienController(this));
-        btnThemAnhNhanVien.addActionListener(new NhanVienController(this));
+        txtTuKhoaTimKiem.addKeyListener(nhanVienController);
+        btnThemAnhNhanVien.addActionListener(nhanVienController);
     }
 
     /**
