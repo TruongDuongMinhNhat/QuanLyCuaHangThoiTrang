@@ -507,8 +507,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnTHongTinNhaCungCap" min="-2" pref="224" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -711,7 +711,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -719,9 +719,11 @@
                               <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel10" alignment="0" min="-2" pref="146" max="-2" attributes="0"/>
                               <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtGhiChu" max="32767" attributes="0"/>
                               <Component id="txtMaPhieu" max="32767" attributes="0"/>
                               <Component id="txtTinhTrangNhaCungCap" max="32767" attributes="0"/>
                               <Component id="txtTongTienSanPham" max="32767" attributes="0"/>
@@ -760,7 +762,12 @@
                               <Component id="jLabel12" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="txtTinhTrangNhaCungCap" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="36" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabel7" pref="40" max="32767" attributes="0"/>
+                              <Component id="txtGhiChu" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="27" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -815,6 +822,16 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMaPhieu">
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel7">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="18" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Ghi ch&#xfa;:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtGhiChu">
                 </Component>
               </SubComponents>
             </Container>
