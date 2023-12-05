@@ -1,6 +1,6 @@
 package dev.skyherobrine.app.entities.order;
 
-import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 
 /**
  * Thực thể "Chi Tiết Phiếu Trả Nhà Cung Cấp", thực thể này dùng để lưu trữ dữ liệu chi tiết thông tin về
@@ -10,11 +10,11 @@ import dev.skyherobrine.app.entities.product.SanPham;
  */
 public class ChiTietPhieuTraNhaCungCap {
     private PhieuTraNhaCungCap phieuTra;
-    private SanPham sanPham;
+    private ChiTietPhienBanSanPham sanPham;
     private int soLuongTra;
     private String liDoTra;
 
-    public ChiTietPhieuTraNhaCungCap(PhieuTraNhaCungCap phieuTra, SanPham sanPham, int soLuongTra, String liDoTra) throws Exception {
+    public ChiTietPhieuTraNhaCungCap(PhieuTraNhaCungCap phieuTra, ChiTietPhienBanSanPham sanPham, int soLuongTra, String liDoTra) throws Exception {
         this.setPhieuTra(phieuTra);
         this.setSanPham(sanPham);
         this.setSoLuongTra(soLuongTra);
@@ -29,11 +29,11 @@ public class ChiTietPhieuTraNhaCungCap {
         this.phieuTra = phieuTra;
     }
 
-    public SanPham getSanPham() {
+    public ChiTietPhienBanSanPham getSanPham() {
         return sanPham;
     }
 
-    public void setSanPham(SanPham sanPham) {
+    public void setSanPham(ChiTietPhienBanSanPham sanPham) {
         this.sanPham = sanPham;
     }
 

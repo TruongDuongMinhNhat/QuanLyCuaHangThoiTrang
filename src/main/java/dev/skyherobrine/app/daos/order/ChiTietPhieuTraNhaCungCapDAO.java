@@ -2,9 +2,11 @@ package dev.skyherobrine.app.daos.order;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuTraNhaCungCap;
 import dev.skyherobrine.app.entities.order.PhieuTraNhaCungCap;
+import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 
 import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
@@ -23,7 +25,7 @@ public class ChiTietPhieuTraNhaCungCapDAO implements IDAO<ChiTietPhieuTraNhaCung
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("insert ChiTietPhieuTraNhaCungCap values(?, ?, ?, ?)");
         preparedStatement.setString(1, chiTietPhieuTraNhaCungCap.getPhieuTra().getMaPhieuTra());
-        preparedStatement.setString(2, chiTietPhieuTraNhaCungCap.getSanPham().getMaSP());
+        preparedStatement.setString(2, chiTietPhieuTraNhaCungCap.getSanPham().getMaPhienBanSP());
         preparedStatement.setInt(3, chiTietPhieuTraNhaCungCap.getSoLuongTra());
         preparedStatement.setString(4, chiTietPhieuTraNhaCungCap.getLiDoTra());
 
@@ -53,7 +55,7 @@ public class ChiTietPhieuTraNhaCungCapDAO implements IDAO<ChiTietPhieuTraNhaCung
         while (resultSet.next()) {
             ChiTietPhieuTraNhaCungCap chiTietPhieuTraNhaCungCap = new ChiTietPhieuTraNhaCungCap
                     (new PhieuTraNhaCungCapDAO().timKiem(resultSet.getString("MaPhieuTra")).get(),
-                            new SanPhamDAO().timKiem("MaSP").get(),
+                            new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                             resultSet.getInt("SoLuongTra"),
                             resultSet.getString("LiDoTra"));
 
@@ -87,7 +89,7 @@ public class ChiTietPhieuTraNhaCungCapDAO implements IDAO<ChiTietPhieuTraNhaCung
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return Optional.of(new ChiTietPhieuTraNhaCungCap(new PhieuTraNhaCungCapDAO().timKiem(resultSet.getString("MaPhieuTra")).get(),
-                    new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
                     resultSet.getString("LiDoTra")));
         } else {
