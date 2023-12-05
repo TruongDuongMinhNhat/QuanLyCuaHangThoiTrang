@@ -4,6 +4,7 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
+import dev.skyherobrine.app.entities.product.SanPham;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,9 +75,9 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             ChiTietPhieuNhapHang chiTietPhieuNhapHang = new ChiTietPhieuNhapHang(
+                    resultSet.getString("MaChiTietPhieuNhap"),
                     new PhieuNhapHangDAO().timKiem(resultSet.getString("MaPhieuNhap")).get(),
                     new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),
-                    100,
                     resultSet.getDouble("GiaNhap"));
 
             chiTietPhieuNhapHangs.add(chiTietPhieuNhapHang);
