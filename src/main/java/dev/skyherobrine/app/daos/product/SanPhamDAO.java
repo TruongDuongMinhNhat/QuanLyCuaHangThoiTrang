@@ -2,6 +2,7 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
+import dev.skyherobrine.app.daos.sale.ThueDAO;
 import dev.skyherobrine.app.entities.product.LoaiSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
@@ -22,7 +23,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
     @Override
     public boolean them(SanPham sanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, sanPham.getMaSP());
         preparedStatement.setString(2, sanPham.getTenSP());
         preparedStatement.setString(3, sanPham.getLoaiSanPham().getMaLoai());
@@ -33,14 +34,15 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setDouble(8, sanPham.getPhanTramLoi());
         preparedStatement.setString(9, sanPham.getMauSac().toString());
         preparedStatement.setDate(10, Date.valueOf(sanPham.getNgaySanXuat()));
-        preparedStatement.setString(11, sanPham.getTinhTrang().toString());
+        preparedStatement.setString(11, sanPham.getMaThue().getMaThue());
+        preparedStatement.setString(12, sanPham.getTinhTrang().toString());
         return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
     public boolean capNhat(SanPham target) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, NgaySanXuat = ?, TinhTrang = ? where MaSP = ?");
+                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, NgaySanXuat = ?, Thue = ?, TinhTrang = ? where MaSP = ?");
         preparedStatement.setString(1, target.getTenSP());
         preparedStatement.setString(2, target.getLoaiSanPham().getMaLoai());
         preparedStatement.setString(3, target.getPhongCachMac().toString());
@@ -49,8 +51,9 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setString(6, target.getThuongHieu().getMaTH());
         preparedStatement.setDouble(7, target.getPhanTramLoi());
         preparedStatement.setDate(8, Date.valueOf(target.getNgaySanXuat()));
-        preparedStatement.setString(9, target.getTinhTrang().toString());
-        preparedStatement.setString(10, target.getMaSP());
+        preparedStatement.setString(9, target.getMaThue().getMaThue());
+        preparedStatement.setString(10, target.getTinhTrang().toString());
+        preparedStatement.setString(11, target.getMaSP());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -84,6 +87,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
+                    new ThueDAO().timKiem(resultSet.getString("MaThue")).get(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
             sanPhams.add(sanPham);
@@ -115,6 +119,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
+                    new ThueDAO().timKiem(resultSet.getString("MaThue")).get(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
             sanPhams.add(sanPham);
         }
@@ -137,6 +142,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
+                    new ThueDAO().timKiem(resultSet.getString("MaThue")).get(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
             return Optional.of(sanPham);
@@ -167,6 +173,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
                     new ThuongHieuDAO().timKiem(resultSet.getString("MaTH")).get(),
                     resultSet.getFloat("PhanTramLoi"),
                     resultSet.getDate("NgaySanXuat").toLocalDate(),
+                    new ThueDAO().timKiem(resultSet.getString("MaThue")).get(),
                     TinhTrangSanPham.layGiaTri(resultSet.getString("TinhTrang")));
 
             sanPhams.add(sanPham);

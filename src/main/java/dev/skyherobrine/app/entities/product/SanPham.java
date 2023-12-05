@@ -4,6 +4,7 @@ import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
 import dev.skyherobrine.app.entities.sale.KhuyenMai;
+import dev.skyherobrine.app.entities.sale.Thue;
 import dev.skyherobrine.app.enums.DoTuoi;
 import dev.skyherobrine.app.enums.MauSac;
 import dev.skyherobrine.app.enums.PhongCachMac;
@@ -30,11 +31,12 @@ public class SanPham {
     private float phanTramLoi;
     private MauSac mauSac;
     private LocalDate ngaySanXuat;
+    private Thue thue;
     private TinhTrangSanPham tinhTrang;
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs;
     private List<ChiTietKhuyenMai> chiTietKhuyenMais;
 
-    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
+    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, LocalDate ngaySanXuat, Thue thue, TinhTrangSanPham tinhTrang) throws Exception{
         this.setMaSP(maSP);
         this.setTenSP(tenSP);
         this.setLoaiSanPham(loaiSanPham);
@@ -44,6 +46,7 @@ public class SanPham {
         this.setThuongHieu(thuongHieu);
         this.setPhanTramLoi(phanTramLoi);
         this.setNgaySanXuat(ngaySanXuat);
+        this.setThue(thue);
         this.setTinhTrang(tinhTrang);
     }
 
@@ -137,6 +140,14 @@ public class SanPham {
 
     public void setNgaySanXuat(LocalDate ngaySanXuat) {
         this.ngaySanXuat = ngaySanXuat;
+    }
+
+    public Thue getMaThue() {
+        return thue;
+    }
+
+    public void setThue(Thue thue) {
+        this.thue = thue;
     }
 
     public TinhTrangSanPham getTinhTrang() {
