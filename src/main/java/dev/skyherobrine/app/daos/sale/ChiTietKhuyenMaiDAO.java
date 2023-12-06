@@ -52,7 +52,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         List<ChiTietKhuyenMai> chiTietKhuyenMais = new ArrayList<>();
         while (resultSet.next()) {
             ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai(
-                    new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
+                    new HoaDonDAO().timKiem("MaHD").get(),
                     new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
                     resultSet.getFloat("TiLe"));
 
@@ -77,7 +77,7 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         ResultSet result = preparedStatement.executeQuery();
         while(result.next()) {
             ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai(
-                    new HoaDonDAO().timKiem(result.getString("MaHD")).get(),
+                    new HoaDonDAO().timKiem("MaHD").get(),
                     new KhuyenMaiDAO().timKiem(result.getString("MaKM")).get(),
                     result.getFloat("TiLe")
             );
@@ -103,7 +103,8 @@ public class ChiTietKhuyenMaiDAO implements IDAO<ChiTietKhuyenMai> {
         preparedStatement.setString(2, maSP);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new ChiTietKhuyenMai(new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
+            return Optional.of(new ChiTietKhuyenMai(
+                    new HoaDonDAO().timKiem(resultSet.getString("MaHD")).get(),
                     new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(), resultSet.getFloat("TiLe")));
         } else {
             return Optional.empty();
