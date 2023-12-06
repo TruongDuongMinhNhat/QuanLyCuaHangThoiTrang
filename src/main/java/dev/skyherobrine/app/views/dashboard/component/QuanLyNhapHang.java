@@ -677,5 +677,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     public JTextField getTxtDienThoaiCuaHang(){return txtDienThoaiCuaHang;}
     public JTextField getTxtEmailCUaHang(){return txtEmailCUaHang;}
     public JTextField getTxtTinhTrangPhieuNhap(){return txtTinhTrangPhieuNhap;}
+    public JTextField getTxtGhiChu(){return txtGhiChu;}
 
 }

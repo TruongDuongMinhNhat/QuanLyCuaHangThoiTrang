@@ -4,6 +4,7 @@ import dev.skyherobrine.app.daos.order.PhieuNhapHangDAO;
 import dev.skyherobrine.app.daos.person.NhaCungCapDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHangPhienBanSP;
 import dev.skyherobrine.app.entities.order.PhieuNhapHang;
 import dev.skyherobrine.app.entities.person.KhachHang;
@@ -204,7 +205,6 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         String []colNames= {"MaPhienBanSP", "KichThuoc", "SoLuong"};
         try {
             List<Map<String, Object>> listSP = chiTietPhienBanSanPhamDAO.timKiem(conditions, false, colNames);
-            System.out.println(listSP);
             if(listSP.size()==0){
                 nhapHangUI.getMenuSPNhap().setVisible(false);
             }else{
@@ -349,30 +349,12 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 xoaTrangAll();
                 nhapHangUI.getTxtMaPhieuNhap().setEnabled(false);
             }
-            // Thực hiện chức năng nghiệp vụ thêm nhân viên và duyệt
-//            else if(trangThaiNutThemPN==1) {
-//                PhieuNhapHang pn = layDataPhieuNhap();
-//                ChiTietPhienBanSanPham pbsp = layDataPBSP();
-//                ChiTietPhieuNhapHangPhienBanSP ctNhapHangPBSP = layDataCTNHPBSP();
-//                if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm nhân viên mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
-//                    try {
-//                        if(nhanVienDAO.them(nv)){
-//                            loadDsNhanVien();
-//                            xoaTrangAll();
-//                            JOptionPane.showMessageDialog(null, "Thêm thành công!");
-//                            trangThaiNutThemPN = 1;
-//                            trangThaiNutXuatFilePN = 1;
-//                        }else{
-//                            JOptionPane.showMessageDialog(null, "Thêm thất bại!");
-//                        }
-//                    } catch (Exception ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-//                }
-//
-//            }
+            // Thực hiện chức năng nghiệp vụ thêm phiếu nhập và duyệt
+            else if(trangThaiNutThemPN==1) {
+
+            }
             //Thực hiện chức năng nghiệp vụ sửa nhân viên
-//            else if(trangThaiNutThemPN==2){
+            else if(trangThaiNutThemPN==2){
 //                if (nhapHangUI.getTxtMaNhanVien().getText().equals("")) {
 //                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa!");
 //                }else {
@@ -393,7 +375,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 //                    }
 //                }
 //                trangThaiNutXuatFilePN = 1;
-//            }
+            }
         }
 
         /*NÚT SỬA*/
@@ -416,11 +398,11 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 //                xoaTrangSua();
 //            }
 //        }
-//
-//        /*NÚT XÓA*/
-//        if (op.equals(nhapHangUI.getBtnXuatFile())) {
-//            // Thực hiện chức năng nghiệp vụ xóa nhân viên
-//            if (trangThaiNutXuatFilePN==0) {
+
+        /*NÚT XÓA*/
+        if (op.equals(nhapHangUI.getBtnXuatFile())) {
+            // Thực hiện chức năng nghiệp vụ xóa nhân viên
+            if (trangThaiNutXuatFilePN==0) {
 //                if (nhapHangUI.getTxtMatKhauNhanVien().getText().equals("")) {
 //                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa!");
 //                } else {
@@ -441,22 +423,22 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 //                        }
 //                    }
 //                }
-//            }
-//            // Thực hiện trả các nút về giao diện quản lý nhân viên
-//            else if(trangThaiNutXuatFilePN==1) {
-//                tuongTac(false);
-//                tuongTacTimKiem(true);
-//                xoaTrangAll();
-//                nhapHangUI.getBtnThemPhieuNhap().setText("Thêm nhân viên");
-//                nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa nhân viên");
-//                nhapHangUI.getBtnXuatFile().setText("Xóa nhân viên");
-//                trangThaiNutXuatFilePN = 0;
-//                trangThaiNutThemPN = 0;
-//                trangThaiNutSuaPN = 0;
-//            }
-//        }
-//
-//        /*LỌC SẢN PHẨM*/
+            }
+            // Thực hiện trả các nút về giao diện quản lý nhân viên
+            else if(trangThaiNutXuatFilePN==1) {
+                tuongTac(false);
+                tuongTacTimKiem(true);
+                xoaTrangAll();
+                nhapHangUI.getBtnThemPhieuNhap().setText("Thêm và duyệt");
+                nhapHangUI.getBtnSuaPhieuNhap().setText("Thêm phiếu nhập");
+                nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                trangThaiNutXuatFilePN = 0;
+                trangThaiNutThemPN = 0;
+                trangThaiNutSuaPN = 0;
+            }
+        }
+
+        /*LỌC SẢN PHẨM*/
 //        if(op.equals(nhapHangUI.getCbTkGioiTinh()) || op.equals(nhapHangUI.getCbTkChucVu()) || op.equals(nhapHangUI.getCbTkTinhTrang()) || op.equals(nhapHangUI.getCbTkCaLamViec())){
 //            if(!nhapHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
 //                Map<String, Object> conditions = new HashMap<>();
@@ -668,7 +650,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         }
         LocalDateTime ngayLapPhieu = LocalDateTime.parse(nhapHangUI.getTxtNgayLapPhieu().getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDateTime ngayHenGiao = LocalDateTime.of((nhapHangUI.getjDateChooserNgayHenGiao().getDate()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalTime.of(0, 0, 0));
-        String ghiChu = "";
+        String ghiChu = nhapHangUI.getTxtGhiChu().getText();
         TinhTrangNhapHang tt = TinhTrangNhapHang.layGiaTri(nhapHangUI.getTxtTinhTrangPhieuNhap().getText());
         phieuNhapHang = new PhieuNhapHang(mapn,nhaCC.get(0),ngayLapPhieu,ngayHenGiao,ghiChu,tt);
         return phieuNhapHang;
@@ -677,6 +659,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 //
 //    }
 //
-//    private ChiTietPhienBanSanPham layDataPBSP() {
+//    private ChiTietPhieuNhapHang layDataChiTietPhieuNhap() {
+//
 //    }
 }
