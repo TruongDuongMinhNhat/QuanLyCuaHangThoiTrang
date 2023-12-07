@@ -78,11 +78,19 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 model.removeRow(row);
             }
         };
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(8).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor(event1));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender());
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor(event1));
         
         
-        
+        dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent event2 = new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent() {
+            @Override
+            public void onChon(int row) {
+                System.out.println(".onChon()");
+                }
+        };
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(event2));
+
         
     }
     
@@ -234,13 +242,13 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         tbDanhSachSpTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Màu sắc", "Số lượng", "Đơn giá", "Thành tiền", ""
+                "STT", "Mã sản phẩm", "Tên sản phẩm", "PBSP", "Số lượng", "Đơn giá", "Thành tiền", ""
             }
         ));
         tbDanhSachSpTrongGioHang.setRowHeight(40);
