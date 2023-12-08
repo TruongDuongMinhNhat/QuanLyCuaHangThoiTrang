@@ -2,9 +2,7 @@ package dev.skyherobrine.app.daos.product;
 
 import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
-import dev.skyherobrine.app.daos.sale.KhuyenMaiDAO;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
-import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
 import dev.skyherobrine.app.enums.MauSac;
 
 import java.sql.PreparedStatement;
