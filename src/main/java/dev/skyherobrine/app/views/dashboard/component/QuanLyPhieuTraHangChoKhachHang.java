@@ -5,9 +5,11 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.PhieuTraKHController;
 //import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.PhieuTraHangKHController;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -20,12 +22,23 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
      */
     public QuanLyPhieuTraHangChoKhachHang() {
         initComponents();
-//        try{
-//            new PhieuTraHangKHController(this).loadComboBoxPhanTimKiem();
-////            new PhieuTraHangKHController(this).loa();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        PhieuTraKHController controller = new PhieuTraKHController(this);
+        menuSuggestHD.add(pnSuggestHD);
+        txtTimKiemHoaDon.addKeyListener(controller);
+        listSuggestHD.addKeyListener(controller);
+        tbDanhSachSanPhamTrongHoaDon.getModel().addTableModelListener(controller);
+        txtMaHoaDon.setEnabled(false);
+        txtNgayLapPhieu.setEnabled(false);
+        txtGiamGia.setEnabled(false);
+        txtTongTienHang.setEnabled(false);
+        txtTongTienTraLai.setEnabled(false);
+        jDateChooserNgayLapPhieu.setEnabled(false);
+        jDateChooserTkTuNgay.addPropertyChangeListener("date", controller);
+        jDateChooserTkDenNgay.addPropertyChangeListener("date", controller);
+        btnTraHang.addActionListener(controller);
+        txtTuKhoaTimKiem.addKeyListener(controller);
+        jDateChooserTkDenNgay.setEnabled(false);
+        tbDanhSachPhieuTraHangChoKhachHang.addMouseListener(controller);
     }
 
     /**
@@ -37,6 +50,10 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnSuggestHD = new java.awt.Panel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listSuggestHD = new javax.swing.JList<>();
+        menuSuggestHD = new javax.swing.JPopupMenu();
         pnBGThongTinCaNhan = new javax.swing.JPanel();
         pnThongTInPhieuTraHang = new javax.swing.JPanel();
         lbMaPhieuTra = new javax.swing.JLabel();
@@ -75,6 +92,28 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         txtTongTienTraLai = new javax.swing.JTextField();
         txtGhiChu = new javax.swing.JTextField();
         btnTraHang = new javax.swing.JButton();
+
+        pnSuggestHD.setPreferredSize(new java.awt.Dimension(347, 96));
+
+        listSuggestHD.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(listSuggestHD);
+
+        javax.swing.GroupLayout pnSuggestHDLayout = new javax.swing.GroupLayout(pnSuggestHD);
+        pnSuggestHD.setLayout(pnSuggestHDLayout);
+        pnSuggestHDLayout.setHorizontalGroup(
+            pnSuggestHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+        );
+        pnSuggestHDLayout.setVerticalGroup(
+            pnSuggestHDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+        );
+
+        menuSuggestHD.setFocusable(false);
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -159,13 +198,9 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
 
         tbDanhSachPhieuTraHangChoKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Số thứ tự", "Mã phiếu trả", "Ngày lập", "Mã hóa đơn trả", "Khách hàng trả", "Tổng mặt hàng trả"
             }
         ));
         spDanhSachPhieuTraHangChoKhachHang.setViewportView(tbDanhSachPhieuTraHangChoKhachHang);
@@ -232,10 +267,7 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
 
         tbDanhSachSanPhamTrongHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
@@ -401,23 +433,12 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
     public JTextField getTxtMaPhieuTra() {
         return txtMaPhieuTra;
     }
-
-//    public JButton getBtnInPhieu() {
-//        return btnInPhieu;
-//    }
-//
-//    public JButton getBtnThemPhieu() {
-//        return btnThemPhieu;
-//    }
-
-//    public JDateChooser getjDateChooserNgayHenLay() {
-//        return jDateChooserNgayHenLay;
-//    }
-
     public JDateChooser getjDateChooserTkNgayHenLay() {
         return jDateChooserTkDenNgay;
     }
-
+    public JDateChooser getjDateChooserTkNgayLap() {
+        return jDateChooserTkTuNgay;
+    }
     public JTextField getTxtLyDoTraHang() {
         return txtLyDoTraHang;
     }
@@ -445,7 +466,42 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
     public JTable getTbDanhSachPhieuTraHangChoKhachHang() {
         return tbDanhSachPhieuTraHangChoKhachHang;
     }
-
+    public JTable getTbDanhSachSanPhamTrongHoaDon() {
+        return tbDanhSachSanPhamTrongHoaDon;
+    }
+    public JTextField getTxtGhiChu() {
+        return txtGhiChu;
+    }
+    public JTextField getTxtGiamGia() {
+        return txtGiamGia;
+    }
+    public JTextField getTxtMaHoaDon() {
+        return txtMaHoaDon;
+    }
+    public JTextField getTxtNgayLapPhieu() {
+        return txtNgayLapPhieu;
+    }
+    public JTextField getTxtTongTienHang() {
+        return txtTongTienHang;
+    }
+    public JTextField getTxtTongTienTraLai() {
+        return txtTongTienTraLai;
+    }
+    public JButton getBtnTraHang() {
+        return btnTraHang;
+    }
+    public JTextField getTxtTimKiemHoaDon() {
+        return txtTimKiemHoaDon;
+    }
+    public JList<String> getListSuggestHD() {
+        return listSuggestHD;
+    }
+    public JPopupMenu getMenuSuggestHD() {
+        return menuSuggestHD;
+    }
+    public JDateChooser getjDateChooserNgayLap(){
+        return jDateChooserNgayLapPhieu;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTraHang;
     private com.toedter.calendar.JDateChooser jDateChooserNgayLapPhieu;
@@ -462,13 +518,17 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbMaPhieuNhap;
     private javax.swing.JLabel lbMaPhieuTra;
     private javax.swing.JLabel lbNgayLapPhieu;
     private javax.swing.JLabel lbXuatXuQuanLySanPham;
+    private javax.swing.JList<String> listSuggestHD;
+    private javax.swing.JPopupMenu menuSuggestHD;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachCacSanPhamTrongHoaDon;
     private javax.swing.JPanel pnDanhSachPhieuTraHang;
+    private java.awt.Panel pnSuggestHD;
     private javax.swing.JPanel pnThongTInPhieuTraHang;
     private javax.swing.JPanel pnTimKiemPhieuTraHang;
     private javax.swing.JScrollPane spDanhSachPhieuTraHangChoKhachHang;

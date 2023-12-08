@@ -65,7 +65,6 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
         AtomicReference<String> query = new AtomicReference<>
                 ("select * from ChiTietPhieuNhap ctpn where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
-
         conditions.forEach((column, value) -> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctpn." + column + "= '" + value +"'"));
             isNeedAnd.set(true);
