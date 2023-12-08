@@ -25,5 +25,4 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
         }
         return action;
     }
-    
 }
