@@ -133,7 +133,7 @@ public class ThueDAO implements IDAO<Thue> {
 
     @Override
     public Optional<Thue> timKiem(String id) throws Exception {
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement("select * from Thue where MaThue = ?1");
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement("select * from Thue where MaThue = ?");
         preparedStatement.setString(1, id);
 
         ResultSet resultSet = preparedStatement.executeQuery();

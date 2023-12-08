@@ -84,7 +84,7 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like N'%" + value + "%'"));
             isNeedAnd.set(true);
         });
 
