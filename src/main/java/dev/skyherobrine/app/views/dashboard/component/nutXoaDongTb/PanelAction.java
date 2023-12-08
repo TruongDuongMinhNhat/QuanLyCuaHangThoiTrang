@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package dev.skyherobrine.app.views.dashboard.component.motNut;
+package dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +39,7 @@ public class PanelAction extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdDelete = new dev.skyherobrine.app.views.dashboard.component.motNut.ActionButton();
+        cmdDelete = new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.ActionButton();
 
         cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconLapHoaDon/delete.png"))); // NOI18N
 
@@ -63,6 +63,6 @@ public class PanelAction extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private dev.skyherobrine.app.views.dashboard.component.motNut.ActionButton cmdDelete;
+    private dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.ActionButton cmdDelete;
     // End of variables declaration//GEN-END:variables
 }

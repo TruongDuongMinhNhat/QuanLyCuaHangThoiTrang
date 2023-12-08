@@ -34,7 +34,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="dev.skyherobrine.app.views.dashboard.component.motNut.ActionButton" name="cmdDelete">
+    <Component class="dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.ActionButton" name="cmdDelete">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/img/imgIconLapHoaDon/delete.png"/>
