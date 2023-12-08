@@ -1,9 +1,7 @@
 package dev.skyherobrine.app.entities.product;
 
-import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
-import dev.skyherobrine.app.entities.sale.ChiTietKhuyenMai;
-import dev.skyherobrine.app.entities.sale.KhuyenMai;
+import dev.skyherobrine.app.entities.sale.Thue;
 import dev.skyherobrine.app.enums.DoTuoi;
 import dev.skyherobrine.app.enums.MauSac;
 import dev.skyherobrine.app.enums.PhongCachMac;
@@ -30,11 +28,11 @@ public class SanPham {
     private float phanTramLoi;
     private MauSac mauSac;
     private LocalDate ngaySanXuat;
+    private Thue thue;
     private TinhTrangSanPham tinhTrang;
     private List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs;
-    private List<ChiTietKhuyenMai> chiTietKhuyenMais;
 
-    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, LocalDate ngaySanXuat, TinhTrangSanPham tinhTrang) throws Exception{
+    public SanPham(String maSP, String tenSP, LoaiSanPham loaiSanPham, PhongCachMac phongCachMac, DoTuoi doTuoi, String xuatXu, ThuongHieu thuongHieu, float phanTramLoi, LocalDate ngaySanXuat, Thue thue, TinhTrangSanPham tinhTrang) throws Exception{
         this.setMaSP(maSP);
         this.setTenSP(tenSP);
         this.setLoaiSanPham(loaiSanPham);
@@ -44,6 +42,7 @@ public class SanPham {
         this.setThuongHieu(thuongHieu);
         this.setPhanTramLoi(phanTramLoi);
         this.setNgaySanXuat(ngaySanXuat);
+        this.thue = thue;
         this.setTinhTrang(tinhTrang);
     }
 
@@ -139,6 +138,14 @@ public class SanPham {
         this.ngaySanXuat = ngaySanXuat;
     }
 
+    public Thue getThue() {
+        return thue;
+    }
+
+    public void setThue(Thue thue) {
+        this.thue = thue;
+    }
+
     public TinhTrangSanPham getTinhTrang() {
         return tinhTrang;
     }
@@ -155,19 +162,8 @@ public class SanPham {
         this.chiTietPhieuNhapHangs = chiTietPhieuNhapHangs;
     }
 
-    public List<ChiTietKhuyenMai> getChiTietKhuyenMais() {
-        return chiTietKhuyenMais;
-    }
-
-    public void setChiTietKhuyenMais(List<ChiTietKhuyenMai> chiTietKhuyenMais) {
-        this.chiTietKhuyenMais = chiTietKhuyenMais;
-    }
-
     public double giaBan() {
-        double giaBanGanNhat = giaNhapGanNhat();
-        double tongTienChuaKM = giaBanGanNhat + (giaBanGanNhat * (phanTramLoi / 100));
-        double khuyenMaiGanNhat = layKhuyenMaiGanNhat();
-        return tongTienChuaKM - (tongTienChuaKM * khuyenMaiGanNhat);
+        return giaNhapGanNhat() * phanTramLoi * (1 + thue.getGiaTri() / 100);
     }
 
     public double giaNhapGanNhat() {
@@ -185,16 +181,6 @@ public class SanPham {
         return giaBan;
     }
 
-    public double layKhuyenMaiGanNhat() {
-        if(chiTietKhuyenMais == null) return 0;
-        for(ChiTietKhuyenMai chiTietKhuyenMai : chiTietKhuyenMais) {
-            if(chiTietKhuyenMai.getKhuyenMai().getNgayApDung().isBefore(LocalDate.now()) &&
-            chiTietKhuyenMai.getKhuyenMai().getNgayHetHan().isAfter(LocalDate.now())) {
-                return chiTietKhuyenMai.getTiLe();
-            }
-        }
-        return 0;
-    }
 
     @Override
     public String toString() {

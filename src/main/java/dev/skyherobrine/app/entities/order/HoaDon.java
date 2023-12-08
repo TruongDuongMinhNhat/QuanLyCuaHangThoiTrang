@@ -89,10 +89,11 @@ public class HoaDon {
 
     public double tongTien() {
         double tongTien = 0;
-        for(ChiTietHoaDon chiTietHoaDon : chiTietHoaDons) {
+        for (ChiTietHoaDon chiTietHoaDon : chiTietHoaDons) {
             tongTien += chiTietHoaDon.giaTienSanPham();
         }
         return tongTien;
+
     }
 
     @Override
