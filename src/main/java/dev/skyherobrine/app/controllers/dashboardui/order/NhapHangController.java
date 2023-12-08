@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -277,10 +278,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
         String mapbsp = "";
         mapbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
-//        System.out.println(mapbsp);
         String maSP = "";
         maSP = mapbsp.substring(0, mapbsp.indexOf("-"));
-//        System.out.println(maSP);
         Optional<SanPham> sp  = null;
         try {
             sp = sanPhamDAO.timKiem(maSP);
@@ -496,7 +495,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 }
                 if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
                     for (int i=0; i<dsLoc.size(); i++){
-                        if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).equals(dsLoc.get(i).getNgayLapPhieu())){
+                        if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
                             dsTam.add(dsLoc.get(i));
                         }
                     }
@@ -520,8 +519,54 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                             dsTam = new ArrayList<>();
                         }
                     }
+                    else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
                 }
-                else if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
+                else{
+                    if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+            }
+            else if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null) {
+                Map<String,Object> conditions = new HashMap<>();
+                conditions.put("NgayLapPhieu", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()));
+                try {
+                    dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
                     for (int i=0; i<dsLoc.size(); i++){
                         if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
                             dsTam.add(dsLoc.get(i));
@@ -538,6 +583,14 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         dsLoc = dsTam;
                         dsTam = new ArrayList<>();
                     }
+                }else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                    for (int i=0; i<dsLoc.size(); i++){
+                        if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
                 }
             }
 
@@ -571,7 +624,42 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             String dateChooserName = dateChooser.getName();
 
             if ("NgayLapTK".equals(dateChooserName) || "NgayHenTK".equals(dateChooserName)) {
-                if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--") && nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                    if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                        Map<String, Object> conditions = new HashMap<>();
+                        conditions.put("NgayHenGiao", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()));
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        Map<String, Object> conditions = new HashMap<>();
+                        conditions.put("NgayLapPhieu", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()));
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
                     List<NhaCungCap> ncc;
                     Map<String, Object> conditions = new HashMap<>();
                     conditions.put("TenNCC", nhapHangUI.getCbTkNhaCungCap().getSelectedItem().toString());
@@ -595,71 +683,26 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         }
                         dsLoc = dsTam;
                         dsTam = new ArrayList<>();
-                        if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
                             for(int i=0; i<dsLoc.size(); i++){
-                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).equals(dsLoc.get(i).getNgayLapPhieu())){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
                                     dsTam.add(dsLoc.get(i));
                                 }
                             }
                             dsLoc = dsTam;
                             dsTam = new ArrayList<>();
-                        }
-                        if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
-                            for (int i=0; i<dsLoc.size(); i++){
-                                if(dsLoc.get(i).getNgayLapPhieu().equals(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()))){
-                                    dsTam.add(dsLoc.get(i));
-                                }
-                            }
-                            dsLoc = dsTam;
-                            dsTam = new ArrayList<>();
-                            if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null);{
+                            if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
                                 for (int i=0; i<dsLoc.size(); i++){
-                                    if(dsLoc.get(i).getNgayHenGiao().equals(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()))){
+                                    if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
                                         dsTam.add(dsLoc.get(i));
                                     }
                                 }
                                 dsLoc = dsTam;
                                 dsTam = new ArrayList<>();
                             }
-                        }
-                    }
-
-
-                }else if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
-                    Map<String, Object> conditions = new HashMap<>();
-                    conditions.put("TinhTrang", nhapHangUI.getCbTkTinhTrang().getSelectedItem().toString());
-                    try {
-                        dsLoc = phieuNhapHangDAO.timKiem(conditions);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    for(int i=0; i<dsLoc.size(); i++){
-                        if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-                            dsTam.add(dsLoc.get(i));
-                        }
-                    }
-                    dsLoc = dsTam;
-                    dsTam = new ArrayList<>();
-                    if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
-                        for(int i=0; i<dsLoc.size(); i++){
-                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).equals(dsLoc.get(i).getNgayLapPhieu())){
-                                dsTam.add(dsLoc.get(i));
-                            }
-                        }
-                        dsLoc = dsTam;
-                        dsTam = new ArrayList<>();
-                    }
-                    if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
-                        for (int i=0; i<dsLoc.size(); i++){
-                            if(dsLoc.get(i).getNgayLapPhieu().equals(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()))){
-                                dsTam.add(dsLoc.get(i));
-                            }
-                        }
-                        dsLoc = dsTam;
-                        dsTam = new ArrayList<>();
-                        if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null);{
+                        }else if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
                             for (int i=0; i<dsLoc.size(); i++){
-                                if(dsLoc.get(i).getNgayHenGiao().equals(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()))){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
                                     dsTam.add(dsLoc.get(i));
                                 }
                             }
@@ -667,13 +710,68 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                             dsTam = new ArrayList<>();
                         }
                     }
-                }else if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                    else if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+                else if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
                     Map<String, Object> conditions = new HashMap<>();
-                    conditions.put("NgayLapPhieu", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()));
+                    conditions.put("TinhTrang", nhapHangUI.getCbTkTinhTrang().getSelectedItem().toString());
                     try {
                         dsLoc = phieuNhapHangDAO.timKiem(conditions);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
                     }
                 }
 
