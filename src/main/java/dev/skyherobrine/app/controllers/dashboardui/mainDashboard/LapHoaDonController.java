@@ -325,7 +325,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                         pbsp = chiTietPhienBanSanPhamDAO.timKiem(tmGioHang.getValueAt(i, 1).toString());
                         sl = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString());
                         ChiTietHoaDon cthd = new ChiTietHoaDon(hd, pbsp.get(), sl);
-                        System.out.println(cthd);
                         chiTietHoaDonDAO.them(cthd);
                         pbsp.get().setSoLuong(pbsp.get().getSoLuong()-sl);
                         chiTietPhienBanSanPhamDAO.capNhat(pbsp.get());
@@ -433,10 +432,24 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     public double tinhTT(){
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
         double tt = 0;
+        double thue = 0;
+        double tyLeThue = 1;
+        double thanhtien = 0;
+        Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
         for(int i = 0; i < tmGioHang.getRowCount(); i++){
-            tt+=(Double.parseDouble(tmGioHang.getValueAt(i, 6).toString())*1.08);
+            thanhtien = (Double.parseDouble(tmGioHang.getValueAt(i, 6).toString()));
+            try {
+                pbsp = chiTietPhienBanSanPhamDAO.timKiem(tmGioHang.getValueAt(i, 1).toString());
+                tyLeThue = (1+pbsp.get().getSanPham().getThue().getGiaTri()/100);
+                System.out.println(tyLeThue);
+                thue += (thanhtien -((Double.parseDouble(tmGioHang.getValueAt(i, 5).toString())*Double.parseDouble(tmGioHang.getValueAt(i,4).toString()))/tyLeThue));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            tt+=thanhtien;
         }
-
+        DecimalFormat format = new DecimalFormat("0.0");
+        lapHoaDon.getTxtThue().setText(format.format(thue));
         return tt;
     }
     @Override

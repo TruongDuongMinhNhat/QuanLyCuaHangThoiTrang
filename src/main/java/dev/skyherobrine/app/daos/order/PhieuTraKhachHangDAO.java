@@ -66,11 +66,11 @@ public class PhieuTraKhachHangDAO implements IDAO<PhieuTraKhachHang> {
     @Override
     public List<PhieuTraKhachHang> timKiem(Map<String, Object> conditions) throws Exception {
         AtomicReference<String> query = new AtomicReference<>
-                ("select * from PhieuTraKhachHang ptkh where ");
+                ("select * from PhieuTraKhachHang where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ptkh." + column + " like '%" + value + "%'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + (column + " like '%" + value + "%'"));
             isNeedAnd.set(true);
         });
         List<PhieuTraKhachHang> phieuTraKhachHangs = new ArrayList<>();

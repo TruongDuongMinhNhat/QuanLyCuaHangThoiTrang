@@ -5,6 +5,7 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
 //import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
 
 import javax.swing.*;
@@ -20,12 +21,12 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
      */
     public QuanLyHoaDon() {
         initComponents();
-//        new HoaDonController(this).loadDsHoaDon();
-//        HoaDonController.loadCbMucTien();
-//        tbDanhSachHoaDon.addMouseListener(new HoaDonController(this));
-//        btnInHoaDon.addActionListener(new HoaDonController(this));
-//        btnXuatHoaDon.addActionListener(new HoaDonController(this));
-//        txtTuKhoaTimKiem.addKeyListener(new HoaDonController(this));
+        HoaDonController controller = new HoaDonController(this);
+        tbDanhSachHoaDon.addMouseListener(controller);
+        btnInHoaDon.addActionListener(controller);
+        btnXuatHoaDon.addActionListener(controller);
+        txtTuKhoaTimKiem.addKeyListener(controller);
+        jDateChooserNgayLapHoaDon.addPropertyChangeListener("date", controller);
     }
 
     /**
@@ -207,7 +208,6 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
     public JButton getBtnXuatHoaDon() {
         return btnXuatHoaDon;
     }
-
     public JComboBox<String> getCbTkCaLamViec() {
         return cbTkCaLamViec;
     }

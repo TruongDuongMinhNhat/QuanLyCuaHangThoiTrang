@@ -29,12 +29,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,7 +48,7 @@ import java.util.List;
 
 import static java.lang.Math.abs;
 
-public class HoaDonController implements MouseListener, ActionListener, KeyListener {
+public class HoaDonController implements MouseListener, ActionListener, KeyListener, PropertyChangeListener {
     private static QuanLyHoaDon hoaDonUI;
     private static List<HoaDon> dsHoaDon;
     private static HoaDonDAO hoaDonDAO;
@@ -56,23 +59,23 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
     private static ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
     public HoaDonController(QuanLyHoaDon hoaDonUI) {
         try {
+            this.hoaDonUI = hoaDonUI;
             hoaDonDAO = new HoaDonDAO();
             this.connectDB = new ConnectDB();
             chiTietHoaDonDAO = new ChiTietHoaDonDAO();
             sanPhamDAO = new SanPhamDAO();
             chiTietPhieuNhapHangDAO = new ChiTietPhieuNhapHangDAO();
+            loadDsHoaDon();
+            loadCbMucTien();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        this.hoaDonUI = hoaDonUI;
     }
     public void loadDsHoaDon() {
-        DefaultTableModel clearTable = (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
-        clearTable.setRowCount(0);
-        hoaDonUI.getTbDanhSachHoaDon().setModel(clearTable);
+        DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
+        tmHoaDon.setRowCount(0);
         try {
             dsHoaDon = hoaDonDAO.timKiem();
-            DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
             double tongTien = 0;
             for(HoaDon hd : dsHoaDon){
                 tongTien = tinhTongTien(hd.getMaHD());
@@ -98,13 +101,13 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
 
             List<ChiTietHoaDon> chiTietHoaDons = chiTietHoaDonDAO.timKiem(conditions);
             double tongTien = 0;
-//            for(ChiTietHoaDon chiTietHoaDon : chiTietHoaDons){
-//                Map<String, Object> conditionsSP = new HashMap<>();
-//                conditionsSP.put("MaPhienBanSP", chiTietHoaDon.getChiTietPhienBanSanPham().getMaPhienBanSP());
-//                Optional<SanPham> sanPham = sanPhamDAO.timKiem(chiTietHoaDon.getSanPham().getMaSP());
-//                sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
-//                tongTien += chiTietHoaDon.getSoLuongMua() * sanPham.get().giaBan();
-//            }
+            for(ChiTietHoaDon chiTietHoaDon : chiTietHoaDons){
+                Map<String, Object> conditionsSP = new HashMap<>();
+                conditionsSP.put("MaSP", chiTietHoaDon.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                Optional<SanPham> sanPham = sanPhamDAO.timKiem(chiTietHoaDon.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
+                tongTien += chiTietHoaDon.getSoLuongMua() * sanPham.get().giaBan();
+            }
             return tongTien;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -124,16 +127,17 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
         conditions.put("MaHD", maHD);
         List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
         BigDecimal tienKhachDua = null;
+        DecimalFormat format = new DecimalFormat("0.00");
         try {
             chiTietHoaDons = chiTietHoaDonDAO.timKiem(conditions);
             tienKhachDua = hoaDonDAO.timKiem(maHD).get().getSoTienKHTra();
-//            for(ChiTietHoaDon cthd : chiTietHoaDons){
-//                Map<String, Object> conditionsSP = new HashMap<>();
-//                conditionsSP.put("MaSP", cthd.getSanPham().getMaSP());
-//                Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getSanPham().getMaSP());
-//                sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
-//                data.put("ThanhTien", cthd.getSoLuongMua() * sanPham.get().giaBan());
-//            }
+            for(ChiTietHoaDon cthd : chiTietHoaDons){
+                Map<String, Object> conditionsSP = new HashMap<>();
+                conditionsSP.put("MaSP", cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
+                data.put("ThanhTien", format.format(cthd.getSoLuongMua() * sanPham.get().giaBan()));
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -171,13 +175,13 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
                 try {
                     chiTietHoaDons = chiTietHoaDonDAO.timKiem(conditions);
                     tienKhachDua = hoaDonDAO.timKiem(maHD).get().getSoTienKHTra();
-//                    for(ChiTietHoaDon cthd : chiTietHoaDons){
-//                        Map<String, Object> conditionsSP = new HashMap<>();
-//                        conditionsSP.put("MaSP", cthd.getSanPham().getMaSP());
-//                        Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getSanPham().getMaSP());
-//                        sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
-//                        data.put("ThanhTien", cthd.getSoLuongMua() * sanPham.get().giaBan());
-//                    }
+                    for(ChiTietHoaDon cthd : chiTietHoaDons){
+                        Map<String, Object> conditionsSP = new HashMap<>();
+                        conditionsSP.put("MaSP", cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                        Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                        sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
+                        data.put("ThanhTien", cthd.getSoLuongMua() * sanPham.get().giaBan());
+                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -260,7 +264,6 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
     @Override
     public void mouseClicked(MouseEvent e) {
         xemHoaDon();
-
     }
 
     @Override
@@ -270,15 +273,7 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Date selectedDate = hoaDonUI.getjDateChooserNgayLapHoaDon().getDate();
-        LocalDate localDate = dateToLocalDate(selectedDate);
-        if (selectedDate != null) {
-            String nlap = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel());
-            hoaDonUI.getTbDanhSachHoaDon().setRowSorter(sorter);
-            sorter.setRowFilter(RowFilter.regexFilter(nlap));
-        }
     }
     public LocalDate dateToLocalDate(Date date) {
         Instant instant = date.toInstant();
@@ -318,5 +313,20 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel());
         hoaDonUI.getTbDanhSachHoaDon().setRowSorter(sorter);
         sorter.setRowFilter(RowFilter.regexFilter(hoaDonUI.getTxtTuKhoaTimKiem().getText()));
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getSource().toString().equalsIgnoreCase(hoaDonUI.getjDateChooserNgayLapHoaDon().toString())){
+            Date selectedDate = hoaDonUI.getjDateChooserNgayLapHoaDon().getDate();
+            LocalDate localDate = dateToLocalDate(selectedDate);
+            if (selectedDate != null) {
+                String nlap = localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>((DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel());
+                hoaDonUI.getTbDanhSachHoaDon().setRowSorter(sorter);
+                sorter.setRowFilter(RowFilter.regexFilter(nlap));
+            }
+        }
     }
 }
