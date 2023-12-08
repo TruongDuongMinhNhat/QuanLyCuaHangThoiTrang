@@ -4,7 +4,9 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.NhaCungCapDAO;
 import dev.skyherobrine.app.entities.order.PhieuNhapHang;
+import dev.skyherobrine.app.entities.person.NhaCungCap;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
+import dev.skyherobrine.app.enums.TinhTrangNhaCungCap;
 import dev.skyherobrine.app.enums.TinhTrangNhapHang;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
@@ -70,7 +72,29 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
 
     @Override
     public List<PhieuNhapHang> timKiem(Map<String, Object> conditions) throws Exception {
-        return null;
+        AtomicReference<String> query = new AtomicReference<>
+                ("select * from PhieuNhapHang t where ");
+        AtomicBoolean isNeedAnd = new AtomicBoolean(false);
+
+        conditions.forEach((column, value) -> {
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " = '" + value + "'"));
+            isNeedAnd.set(true);
+        });
+
+        List<PhieuNhapHang> phieuNhapHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet result = preparedStatement.executeQuery();
+        while(result.next()) {
+            PhieuNhapHang phieuNhapHang = new PhieuNhapHang(result.getString("MaPhieuNhap"),
+                    new NhaCungCapDAO().timKiem(result.getString("MaNCC")).get(),
+                    result.getTimestamp("NgayLapPhieu").toLocalDateTime(),
+                    result.getTimestamp("NgayHenGiao").toLocalDateTime(),
+                    result.getString("GhiChu"),
+                    TinhTrangNhapHang.layGiaTri(result.getString("TinhTrang")));
+
+            phieuNhapHangs.add(phieuNhapHang);
+        }
+        return phieuNhapHangs;
     }
 
     @Override
