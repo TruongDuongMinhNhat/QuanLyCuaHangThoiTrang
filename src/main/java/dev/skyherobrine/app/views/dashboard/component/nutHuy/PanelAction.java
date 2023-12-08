@@ -20,7 +20,7 @@ public class PanelAction extends javax.swing.JPanel {
         initComponents();
     }
     public void initEvent(TableActionEvent event,int row){
-        cmdHuy.addActionListener(new ActionListener() {
+        chkTichChon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 event.onHuy(row);
@@ -37,9 +37,13 @@ public class PanelAction extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmdHuy = new javax.swing.JButton();
+        chkTichChon = new javax.swing.JCheckBox();
 
-        cmdHuy.setText("Huỷ");
+        chkTichChon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTichChonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -47,20 +51,24 @@ public class PanelAction extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cmdHuy)
+                .addComponent(chkTichChon)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cmdHuy)
+                .addComponent(chkTichChon)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkTichChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTichChonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkTichChonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdHuy;
+    private javax.swing.JCheckBox chkTichChon;
     // End of variables declaration//GEN-END:variables
 }

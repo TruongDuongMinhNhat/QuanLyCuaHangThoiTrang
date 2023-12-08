@@ -220,6 +220,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         fmPBSP.setAutoRequestFocus(false);
         fmPBSP.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         fmPBSP.setSize(new java.awt.Dimension(600, 400));
+        fmPBSP.setLocationRelativeTo(null);
 
         pnChonPBSP.setFocusable(false);
         pnChonPBSP.setRequestFocusEnabled(false);

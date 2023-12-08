@@ -18,7 +18,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
+              <Component id="chkTichChon" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -27,17 +27,17 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="cmdHuy" min="-2" max="-2" attributes="0"/>
+              <Component id="chkTichChon" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="cmdHuy">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Hu&#x1ef7;"/>
-      </Properties>
+    <Component class="javax.swing.JCheckBox" name="chkTichChon">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkTichChonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
