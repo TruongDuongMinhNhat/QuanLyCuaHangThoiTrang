@@ -22,9 +22,9 @@ import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
 
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;

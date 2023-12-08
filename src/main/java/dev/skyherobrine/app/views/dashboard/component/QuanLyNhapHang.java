@@ -8,10 +8,10 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.order.NhapHangController;
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellEditor1;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellRender1;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -76,7 +76,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event));
         
-        dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent event1 = new TableActionEvent() {
+        dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent event1 = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
                 if (tbDanhSachSpTrongGioHang.isEditing()) {
@@ -86,8 +86,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 model.removeRow(row);
             }
         };
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor(event1));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender());
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(event1));
         
         
         dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent event2 = new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent() {
@@ -99,7 +99,14 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(event2));
 
-        
+        dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionEvent event3 = new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionEvent() {
+            @Override
+            public void onHuy(int row) {
+                System.out.println(".onHuy()");
+            }
+        };
+        tbChonPBSP.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionCellRender());
+        tbChonPBSP.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionCellEditor(event3));
     }
     
     /**
@@ -212,7 +219,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         fmPBSP.setAutoRequestFocus(false);
         fmPBSP.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        fmPBSP.setPreferredSize(new java.awt.Dimension(600, 400));
         fmPBSP.setSize(new java.awt.Dimension(600, 400));
 
         pnChonPBSP.setFocusable(false);
@@ -236,6 +242,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 "Màu sắc", "Kích thước", "Số lượng", ""
             }
         ));
+        tbChonPBSP.setRowHeight(40);
         jScrollPane3.setViewportView(tbChonPBSP);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -244,7 +251,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -293,14 +300,14 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnChonXongPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(184, 184, 184))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout fmPBSPLayout = new javax.swing.GroupLayout(fmPBSP.getContentPane());
         fmPBSP.getContentPane().setLayout(fmPBSPLayout);
         fmPBSPLayout.setHorizontalGroup(
             fmPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 716, Short.MAX_VALUE)
+            .addGap(0, 928, Short.MAX_VALUE)
             .addGroup(fmPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(fmPBSPLayout.createSequentialGroup()
                     .addContainerGap()
@@ -313,8 +320,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
             .addGroup(fmPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(fmPBSPLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(pnChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(39, Short.MAX_VALUE)))
+                    .addComponent(pnChonPBSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
