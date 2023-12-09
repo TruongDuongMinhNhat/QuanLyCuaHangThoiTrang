@@ -8,10 +8,10 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.order.NhapHangController;
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellEditor1;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellRender1;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -31,6 +31,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         NhapHangController controller = new NhapHangController(this);
 
         controller.loadPhieuNhap();
+        controller.loadComboBoxPhanTimKiem();
         tbDanhSachPheiNhap.addMouseListener(controller);
 
         menuSPNhap.add(pnTimSPNhap);
@@ -47,6 +48,15 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         txtNhaCungCap.addKeyListener(controller);
 
         tbDanhSachSpTrongGioHang.getModel().addTableModelListener(controller);
+
+        cbTkNhaCungCap.addActionListener(controller);
+        cbTkTinhTrang.addActionListener(controller);
+        jDateChooserTkNgayLapPhieu.addPropertyChangeListener(controller);
+        jDateChooserTkNgayHenGiao.addPropertyChangeListener(controller);
+
+        btnChonXongPBSP.addActionListener(controller);
+
+
 
 
 
@@ -68,7 +78,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event));
         
-        dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent event1 = new TableActionEvent() {
+        dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent event1 = new TableActionEvent() {
             @Override
             public void onDelete(int row) {
                 if (tbDanhSachSpTrongGioHang.isEditing()) {
@@ -78,8 +88,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 model.removeRow(row);
             }
         };
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor(event1));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender());
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(event1));
         
         
         dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent event2 = new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent() {
@@ -90,8 +100,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         };
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(event2));
-
-        
     }
     
     /**
@@ -111,6 +119,14 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         listNCCNhap = new javax.swing.JList<>();
         menuNCCNhap = new javax.swing.JPopupMenu();
+        winPBSP = new javax.swing.JDialog();
+        pnChonPBSP = new javax.swing.JPanel();
+        lblSanPhamFrmChonPBSP = new javax.swing.JLabel();
+        txtMaSPBangChonPBSP = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblChonPBSP = new javax.swing.JTable();
+        btnChonXongPBSP = new javax.swing.JButton();
         pnBGThongTinCaNhan = new javax.swing.JPanel();
         pnThongTinNhapHang = new javax.swing.JPanel();
         pnButton = new javax.swing.JPanel();
@@ -194,6 +210,123 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
         );
 
+        menuNCCNhap.setFocusable(false);
+
+        winPBSP.setModal(true);
+        winPBSP.setSize(new java.awt.Dimension(600, 400));
+
+        pnChonPBSP.setFocusable(false);
+        pnChonPBSP.setRequestFocusEnabled(false);
+
+        lblSanPhamFrmChonPBSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSanPhamFrmChonPBSP.setText("Sản phẩm:");
+
+        txtMaSPBangChonPBSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaSPBangChonPBSP.setEnabled(false);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Các phiên bản sản phẩm", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+
+        tblChonPBSP.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "MaPBSP", "Màu sắc", "Kích thước", "Số lượng", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblChonPBSP.setRowHeight(40);
+        jScrollPane3.setViewportView(tblChonPBSP);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnChonXongPBSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnChonXongPBSP.setText("Xong");
+        btnChonXongPBSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonXongPBSPActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnChonPBSPLayout = new javax.swing.GroupLayout(pnChonPBSP);
+        pnChonPBSP.setLayout(pnChonPBSPLayout);
+        pnChonPBSPLayout.setHorizontalGroup(
+            pnChonPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnChonPBSPLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(pnChonPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnChonPBSPLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(lblSanPhamFrmChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMaSPBangChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnChonPBSPLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnChonXongPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+        pnChonPBSPLayout.setVerticalGroup(
+            pnChonPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnChonPBSPLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(pnChonPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSanPhamFrmChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaSPBangChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnChonXongPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout winPBSPLayout = new javax.swing.GroupLayout(winPBSP.getContentPane());
+        winPBSP.getContentPane().setLayout(winPBSPLayout);
+        winPBSPLayout.setHorizontalGroup(
+            winPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 933, Short.MAX_VALUE)
+            .addGroup(winPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(winPBSPLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnChonPBSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        winPBSPLayout.setVerticalGroup(
+            winPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 377, Short.MAX_VALUE)
+            .addGroup(winPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(winPBSPLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pnChonPBSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
         pnBGThongTinCaNhan.setBackground(new java.awt.Color(255, 255, 255));
@@ -253,6 +386,20 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         ));
         tbDanhSachSpTrongGioHang.setRowHeight(40);
         spDanhSachSpTrongGioHang.setViewportView(tbDanhSachSpTrongGioHang);
+        if (tbDanhSachSpTrongGioHang.getColumnModel().getColumnCount() > 0) {
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(0).setMaxWidth(40);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(1).setPreferredWidth(160);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(1).setMaxWidth(160);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(2).setPreferredWidth(320);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(2).setMaxWidth(320);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setMaxWidth(120);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(4).setMaxWidth(80);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setPreferredWidth(60);
+            tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setMaxWidth(60);
+        }
 
         javax.swing.GroupLayout pnDanhSachLayout = new javax.swing.GroupLayout(pnDanhSach);
         pnDanhSach.setLayout(pnDanhSachLayout);
@@ -598,7 +745,12 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnChonXongPBSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonXongPBSPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChonXongPBSPActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonXongPBSP;
     private javax.swing.JButton btnSuaPhieuNhap;
     private javax.swing.JButton btnThemPhieuNhap;
     private javax.swing.JButton btnXuatFile;
@@ -622,16 +774,20 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbDiaChiCuaHang;
     private javax.swing.JLabel lbDienThoaiCuaHang;
+    private javax.swing.JLabel lblSanPhamFrmChonPBSP;
     private javax.swing.JList<String> listNCCNhap;
     private javax.swing.JList<String> listSPNhap;
     private javax.swing.JPopupMenu menuNCCNhap;
     private javax.swing.JPopupMenu menuSPNhap;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnButton;
+    private javax.swing.JPanel pnChonPBSP;
     private javax.swing.JPanel pnDanhSach;
     private javax.swing.JPanel pnDanhSachPhieuNhap;
     private javax.swing.JPanel pnNCCNhap;
@@ -644,6 +800,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane spDanhSachSpTrongGioHang;
     private javax.swing.JTable tbDanhSachPheiNhap;
     private javax.swing.JTable tbDanhSachSpTrongGioHang;
+    private javax.swing.JTable tblChonPBSP;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtDiaChiCuaHang;
     private javax.swing.JTextField txtDienThoaiCuaHang;
@@ -651,12 +808,14 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtGhiChu;
     private javax.swing.JTextField txtMaPhieu;
+    private javax.swing.JTextField txtMaSPBangChonPBSP;
     private javax.swing.JTextField txtNgayLap;
     private javax.swing.JTextField txtNhaCungCap;
     private javax.swing.JTextField txtTimKiemSanPhamNhap;
     private javax.swing.JTextField txtTinhTrangPhieuNhap;
     private javax.swing.JTextField txtTkPhieuNhap;
     private javax.swing.JTextField txtTongTienSanPham;
+    private javax.swing.JDialog winPBSP;
     // End of variables declaration//GEN-END:variables
 
     public JTextField getTxtMaPhieuNhap(){return txtMaPhieu;}
@@ -686,5 +845,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     public JTextField getTxtEmailCUaHang(){return txtEmailCUaHang;}
     public JTextField getTxtTinhTrangPhieuNhap(){return txtTinhTrangPhieuNhap;}
     public JTextField getTxtGhiChu(){return txtGhiChu;}
-
+    public JDialog getWinPBSP(){return winPBSP;}
+    public JTextField getTxtMaSPBangChonPBSP(){return txtMaSPBangChonPBSP;}
+    public JTable getTblChonPBSP(){return tblChonPBSP;}
+    public JButton getBtnChonXongPBSP(){return btnChonXongPBSP;}
 }

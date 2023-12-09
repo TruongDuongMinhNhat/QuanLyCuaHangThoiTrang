@@ -5,10 +5,10 @@
 package dev.skyherobrine.app.views.dashboard.component;
 
 import dev.skyherobrine.app.controllers.dashboardui.mainDashboard.LapHoaDonController;
-import dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionEvent1;
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellEditor;
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionCellRender;
-import dev.skyherobrine.app.views.dashboard.component.motNut.TableActionEvent;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
 
 
 
@@ -32,8 +32,8 @@ public class LapHoaDon extends javax.swing.JPanel {
         LapHoaDonController controller = new LapHoaDonController(this);
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRender());
         tbDanhSachCacSanPhamTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new TableActionCellEditor(controller));
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellEditor1(controller));
-        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.haiNut.TableActionCellRender1());
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellEditor1(controller));
+        tbHoaDonLuuTam.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionCellRender1());
         txtMaHoaDon.setEnabled(false);
         txtNgayLapHoaDon.setEnabled(false);
         txtGiamGia.setEnabled(false);

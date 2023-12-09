@@ -68,17 +68,18 @@ public class ChiTietPhieuTraKhachHangDAO implements IDAO<ChiTietPhieuTraKhachHan
         AtomicReference<String> query = new AtomicReference<>
                 ("select * from ChiTietPhieuTraKhachHang ctptkh where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
-        List<ChiTietPhieuTraKhachHang> chiTietPhieuTraKhachHangs = new ArrayList<>();
-        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        ResultSet resultSet = preparedStatement.executeQuery();
+        System.out.println(query.get().toString());
         conditions.forEach((column, value) -> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctptkh." + column + " like '%" + value + "%'"));
             isNeedAnd.set(true);
         });
+        List<ChiTietPhieuTraKhachHang> chiTietPhieuTraKhachHangs = new ArrayList<>();
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
+        ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
             ChiTietPhieuTraKhachHang chiTietPhieuTraKhachHang = new ChiTietPhieuTraKhachHang(
                     new PhieuTraKhachHangDAO().timKiem(resultSet.getString("MaPhieuTraKH")).get(),
-                    new ChiTietPhienBanSanPhamDAO().timKiem("MaPhienBanSP").get(),
+                    new ChiTietPhienBanSanPhamDAO().timKiem(resultSet.getString("MaPhienBanSP")).get(),
                     resultSet.getInt("SoLuongTra"),
                     resultSet.getString("NoiDungTra")
             );

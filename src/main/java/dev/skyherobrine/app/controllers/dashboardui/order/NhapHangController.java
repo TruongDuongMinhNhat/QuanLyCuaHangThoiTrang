@@ -1,5 +1,7 @@
 package dev.skyherobrine.app.controllers.dashboardui.order;
 
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JYearChooser;
 import dev.skyherobrine.app.daos.order.PhieuNhapHangDAO;
 import dev.skyherobrine.app.daos.person.NhaCungCapDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
@@ -12,6 +14,7 @@ import dev.skyherobrine.app.entities.person.NhaCungCap;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 import dev.skyherobrine.app.enums.TinhTrangNhapHang;
 import dev.skyherobrine.app.views.dashboard.component.QuanLyNhapHang;
 
@@ -21,16 +24,17 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class NhapHangController implements MouseListener, KeyListener, TableModelListener, ActionListener {
+public class NhapHangController implements MouseListener, KeyListener, TableModelListener, ActionListener, PropertyChangeListener {
     private QuanLyNhapHang nhapHangUI;
     private PhieuNhapHangDAO phieuNhapHangDAO;
     private List<PhieuNhapHang> dsPhieuNhap;
@@ -44,6 +48,9 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
     private static int trangThaiNutXuatFilePN = 0;
     private static int trangThaiNutThemPN = 0;
     private static int trangThaiNutSuaPN = 0;
+
+    private static List<PhieuNhapHang> dsLoc;
+    private List<PhieuNhapHang> dsTam = new ArrayList<>();
 
     public NhapHangController(QuanLyNhapHang nhapHangUI) {
         try {
@@ -161,6 +168,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             if (e.getSource().equals(nhapHangUI.getListSPNhap())) {
                 String sp = nhapHangUI.getListSPNhap().getSelectedValue().toString();
                 if(themSP(sp)){
+                    nhapHangUI.getFmPBSP().setVisible(true);
                     nhapHangUI.getTxtTimKiemSanPhamNhap().setText("");
                     nhapHangUI.getTxtTimKiemSanPhamNhap().requestFocus(true);
                     nhapHangUI.getMenuSPNhap().setVisible(false);
@@ -270,15 +278,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
         String mapbsp = "";
         mapbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
-//        System.out.println(mapbsp);
-        try {
-            pbsp = chiTietPhienBanSanPhamDAO.timKiem(mapbsp);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
         String maSP = "";
         maSP = mapbsp.substring(0, mapbsp.indexOf("-"));
-//        System.out.println(maSP);
         Optional<SanPham> sp  = null;
         try {
             sp = sanPhamDAO.timKiem(maSP);
@@ -288,7 +289,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         int stt = tmGioHang.getRowCount() + 1;
         int sl = 10;
         double gia = 0;
-        String []row = {stt+"", maSP, sp.get().getTenSP(), pbsp.get().getKichThuoc(), pbsp.get().getMauSac()+"", sl+"", gia+"", thanhTien(sl, gia)+"", null};
+        String []row = {stt+"", maSP, sp.get().getTenSP(),null, sl+"", gia+"", thanhTien(sl, gia)+"", null};
         tmGioHang.addRow(row);
         nhapHangUI.getTxtTongTienSanPham().setText(tinhTT()+"");
         return true;
@@ -313,15 +314,15 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        if(e.getColumn()==5 || e.getColumn()==6){
+        if(e.getColumn()==5){
             DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
             int row = e.getFirstRow();
-            int sl = Integer.parseInt(tmGioHang.getValueAt(row, 5).toString());
-            double gia = Double.parseDouble(tmGioHang.getValueAt(row, 6).toString());
-            tmGioHang.setValueAt(sl*gia, row, 7);
+            int sl = Integer.parseInt(tmGioHang.getValueAt(row, 4).toString());
+            double gia = Double.parseDouble(tmGioHang.getValueAt(row, 5).toString());
+            tmGioHang.setValueAt(sl*gia, row, 6);
             double tt = 0;
             for(int i = 0; i < tmGioHang.getRowCount(); i++){
-                tt += Double.parseDouble(tmGioHang.getValueAt(i, 7).toString());
+                tt += Double.parseDouble(tmGioHang.getValueAt(i, 6).toString());
             }
             nhapHangUI.getTxtTongTienSanPham().setText(tt+"");
         }
@@ -429,8 +430,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 tuongTac(false);
                 tuongTacTimKiem(true);
                 xoaTrangAll();
-                nhapHangUI.getBtnThemPhieuNhap().setText("Thêm và duyệt");
-                nhapHangUI.getBtnSuaPhieuNhap().setText("Thêm phiếu nhập");
+                nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
+                nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
                 nhapHangUI.getBtnXuatFile().setText("Xuất file");
                 trangThaiNutXuatFilePN = 0;
                 trangThaiNutThemPN = 0;
@@ -438,164 +439,361 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             }
         }
 
-        /*LỌC SẢN PHẨM*/
-//        if(op.equals(nhapHangUI.getCbTkGioiTinh()) || op.equals(nhapHangUI.getCbTkChucVu()) || op.equals(nhapHangUI.getCbTkTinhTrang()) || op.equals(nhapHangUI.getCbTkCaLamViec())){
-//            if(!nhapHangUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
-//                Map<String, Object> conditions = new HashMap<>();
-//                conditions.put("GioiTinh", nhapHangUI.getCbTkGioiTinh().getSelectedItem().equals("NAM")? 1:0);
-//                try {
-//                    dsLoc = nhanVienDAO.timKiem(conditions);
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//                if(!nhapHangUI.getCbTkChucVu().getSelectedItem().equals("--Chức vụ--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkChucVu().getSelectedItem().equals(dsLoc.get(i).getChucVu().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                    if(!nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals("--Ca làm việc--")){
-//                        for(int i=0; i<dsLoc.size(); i++){
-//                            if(nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals(dsLoc.get(i).getCaLamViec().toString())){
-//                                dsTam.add(dsLoc.get(i));
-//                            }
-//                        }
-//                        dsLoc = dsTam;
-//                        dsTam = new ArrayList<>();
-//                        if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                            for(int i=0; i<dsLoc.size(); i++){
-//                                if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                                    dsTam.add(dsLoc.get(i));
-//                                }
-//                            }
-//                            dsLoc = dsTam;
-//                            dsTam = new ArrayList<>();
-//                        }
-//                    }
-//                    else if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                        for(int i=0; i<dsLoc.size(); i++){
-//                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                                dsTam.add(dsLoc.get(i));
-//                            }
-//                        }
-//                        dsLoc = dsTam;
-//                        dsTam = new ArrayList<>();
-//                    }
-//                }
-//                else if(!nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals("--Ca làm việc--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals(dsLoc.get(i).getCaLamViec().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                    if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                        for(int i=0; i<dsLoc.size(); i++){
-//                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                                dsTam.add(dsLoc.get(i));
-//                            }
-//                        }
-//                        dsLoc = dsTam;
-//                        dsTam = new ArrayList<>();
-//                    }
-//                }
-//                else if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                }
-//            }
-//            else if (!nhapHangUI.getCbTkChucVu().getSelectedItem().equals("--Chức vụ--")) {
-//                Map<String, Object> conditions = new HashMap<>();
-//                conditions.put("ChucVu", nhapHangUI.getCbTkChucVu().getSelectedItem().toString());
-//                try {
-//                    dsLoc = nhanVienDAO.timKiem(conditions);
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//                if(!nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals("--Ca làm việc--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals(dsLoc.get(i).getCaLamViec().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                    if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                        for(int i=0; i<dsLoc.size(); i++){
-//                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                                dsTam.add(dsLoc.get(i));
-//                            }
-//                        }
-//                        dsLoc = dsTam;
-//                        dsTam = new ArrayList<>();
-//                    }
-//                }
-//                else if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                }
-//            }
-//            else if(!nhapHangUI.getCbTkCaLamViec().getSelectedItem().equals("--Ca làm việc--")){
-//                Map<String, Object> conditions = new HashMap<>();
-//                conditions.put("CaLamViec", nhapHangUI.getCbTkCaLamViec().getSelectedItem().toString());
-//                try {
-//                    dsLoc = nhanVienDAO.timKiem(conditions);
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//                if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                    for(int i=0; i<dsLoc.size(); i++){
-//                        if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
-//                            dsTam.add(dsLoc.get(i));
-//                        }
-//                    }
-//                    dsLoc = dsTam;
-//                    dsTam = new ArrayList<>();
-//                }
-//            }
-//            else if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
-//                Map<String, Object> conditions = new HashMap<>();
-//                conditions.put("TinhTrang", nhapHangUI.getCbTkTinhTrang().getSelectedItem().toString());
-//                try {
-//                    dsLoc = nhanVienDAO.timKiem(conditions);
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//            else {
-//                try {
-//                    dsLoc = nhanVienDAO.timKiem();
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//            DefaultTableModel clearTable = (DefaultTableModel) nhapHangUI.getTbDanhSachNhanVien().getModel();
-//            clearTable.setRowCount(0);
-//            nhapHangUI.getTbDanhSachNhanVien().setModel(clearTable);
-//            try {
-//                DefaultTableModel tmNhanVien = (DefaultTableModel) nhapHangUI.getTbDanhSachNhanVien().getModel();
-//                for(NhanVien nv : dsLoc){
-//                    String row[] = {nv.getMaNV(), nv.getHoTen(), nv.getSoDienThoai(), nv.isGioiTinh() ? "NAM" : "NỮ", nv.getNgaySinh()+"", nv.getEmail(), nv.getDiaChi(), nv.getChucVu()+"", nv.getCaLamViec()+"", nv.getTenTaiKhoan(), nv.getMatKhau(), nv.getTinhTrang()+""};
-//                    tmNhanVien.addRow(row);
-//                }
-//            } catch (Exception ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        }
+        /*LỌC PHIẾU NHẬP*/
+        if(op.equals(nhapHangUI.getCbTkNhaCungCap()) || op.equals(nhapHangUI.getCbTkTinhTrang())){
+            if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() == null && nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() == null){
+                if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                    List<NhaCungCap> ncc;
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("TenNCC", nhapHangUI.getCbTkNhaCungCap().getSelectedItem().toString());
+                    try {
+                        ncc = nhaCungCapDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Map<String, Object> conditions1 = new HashMap<>();
+                    conditions1.put("MaNCC", ncc.get(0).getMaNCC());
+                    try {
+                        dsLoc = phieuNhapHangDAO.timKiem(conditions1);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+                else if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("TinhTrang", nhapHangUI.getCbTkTinhTrang().getSelectedItem().toString());
+                    try {
+                        dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    try {
+                        dsLoc = phieuNhapHangDAO.timKiem();
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+            else if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null) {
+                Map<String,Object> conditions = new HashMap<>();
+                conditions.put("NgayHenGiao", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()));
+                try {
+                    dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                    for (int i=0; i<dsLoc.size(); i++){
+                        if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
+                    if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+                else{
+                    if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+            }
+            else if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null) {
+                Map<String,Object> conditions = new HashMap<>();
+                conditions.put("NgayLapPhieu", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()));
+                try {
+                    dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")) {
+                    for (int i=0; i<dsLoc.size(); i++){
+                        if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
+                    if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                    for (int i=0; i<dsLoc.size(); i++){
+                        if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals(dsLoc.get(i).getNhaCungCap().getTenNCC())){
+                            dsTam.add(dsLoc.get(i));
+                        }
+                    }
+                    dsLoc = dsTam;
+                    dsTam = new ArrayList<>();
+                }
+            }
 
+            DefaultTableModel clearTable = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+            clearTable.setRowCount(0);
+            nhapHangUI.getTbDanhSachPheiNhap().setModel(clearTable);
+            try {
+                DefaultTableModel tmKhachHang = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                for(PhieuNhapHang pn : dsLoc){
+                    String row[] = {pn.getMaPhieuNhap(), pn.getNhaCungCap().getTenNCC(), pn.getNgayLapPhieu().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), pn.getNgayHenGiao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), pn.getTinhTrang().toString()};
+                    tmKhachHang.addRow(row);
+                }
+            } catch (Exception ee) {
+                throw new RuntimeException(ee);
+            }
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        handlePropertyChange(evt);
+    }
+
+    private void handlePropertyChange(PropertyChangeEvent evt) {
+        Object source = evt.getSource();
+        String propertyName = evt.getPropertyName();
+        nhapHangUI.getjDateChooserTkNgayLapPhieu().setName("NgayLapTK");
+        nhapHangUI.getjDateChooserTkNgayHenGiao().setName("NgayHenTK");
+        if ("date".equals(propertyName) && source instanceof JDateChooser) {
+            JDateChooser dateChooser = (JDateChooser) source;
+            String dateChooserName = dateChooser.getName();
+
+            if ("NgayLapTK".equals(dateChooserName) || "NgayHenTK".equals(dateChooserName)) {
+                if(nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--") && nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                    if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                        Map<String, Object> conditions = new HashMap<>();
+                        conditions.put("NgayHenGiao", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()));
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        Map<String, Object> conditions = new HashMap<>();
+                        conditions.put("NgayLapPhieu", dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()));
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        try {
+                            dsLoc = phieuNhapHangDAO.timKiem();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                else if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")) {
+                    List<NhaCungCap> ncc;
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("TenNCC", nhapHangUI.getCbTkNhaCungCap().getSelectedItem().toString());
+                    try {
+                        ncc = nhaCungCapDAO.timKiem(conditions);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Map<String, Object> conditions1 = new HashMap<>();
+                    conditions1.put("MaNCC", ncc.get(0).getMaNCC());
+                    try {
+                        dsLoc = phieuNhapHangDAO.timKiem(conditions1);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    if(!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals(dsLoc.get(i).getTinhTrang().toString())){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                            for(int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                            if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                                for (int i=0; i<dsLoc.size(); i++){
+                                    if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                        dsTam.add(dsLoc.get(i));
+                                    }
+                                }
+                                dsLoc = dsTam;
+                                dsTam = new ArrayList<>();
+                            }
+                        }else if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+                else if (!nhapHangUI.getCbTkTinhTrang().getSelectedItem().equals("--Tình trạng--")){
+                    Map<String, Object> conditions = new HashMap<>();
+                    conditions.put("TinhTrang", nhapHangUI.getCbTkTinhTrang().getSelectedItem().toString());
+                    try {
+                        dsLoc = phieuNhapHangDAO.timKiem(conditions);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() != null){
+                        for(int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayLapPhieu()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                        if(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null){
+                            for (int i=0; i<dsLoc.size(); i++){
+                                if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                    dsTam.add(dsLoc.get(i));
+                                }
+                            }
+                            dsLoc = dsTam;
+                            dsTam = new ArrayList<>();
+                        }
+                    }
+                    else if (nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() != null) {
+                        for (int i=0; i<dsLoc.size(); i++){
+                            if(dateToLocalDate(nhapHangUI.getjDateChooserTkNgayHenGiao().getDate()).isEqual(ChronoLocalDate.from(dsLoc.get(i).getNgayHenGiao()))){
+                                dsTam.add(dsLoc.get(i));
+                            }
+                        }
+                        dsLoc = dsTam;
+                        dsTam = new ArrayList<>();
+                    }
+                }
+
+                DefaultTableModel clearTable = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                clearTable.setRowCount(0);
+                nhapHangUI.getTbDanhSachPheiNhap().setModel(clearTable);
+                try {
+                    DefaultTableModel tmKhachHang = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                    for(PhieuNhapHang pn : dsLoc){
+                        String row[] = {pn.getMaPhieuNhap(), pn.getNhaCungCap().getTenNCC(), pn.getNgayLapPhieu().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), pn.getNgayHenGiao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), pn.getTinhTrang().toString()};
+                        tmKhachHang.addRow(row);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public LocalDate dateToLocalDate(Date date) {
+        Instant instant = date.toInstant();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     private void tuongTacTimKiem(boolean b) {
@@ -635,6 +833,33 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         clearTable.setRowCount(0);
         nhapHangUI.getTbDanhSachSpTrongGioHang().setModel(clearTable);
     }
+    //Load combobox tìm kiếm
+    public void loadComboBoxPhanTimKiem(){
+        //Tình trạng
+        TinhTrangNhapHang[] dsTinhTrang = TinhTrangNhapHang.values();
+        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
+        itemsTinhTrang[0] = "--Tình trạng--";
+        for (int i = 0; i < dsTinhTrang.length; i++) {
+            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
+        }
+        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
+        nhapHangUI.getCbTkTinhTrang().setModel(tinhTrangCb);
+
+        //Nhà cung cấp
+        List<NhaCungCap> ncc;
+        try {
+            ncc = nhaCungCapDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] itemsNCC = new String[ncc.size() + 1];
+        itemsNCC[0] = "--Nhà cung cấp--";
+        for(int i=0; i<ncc.size(); i++){
+            itemsNCC[i+1] = ncc.get(i).getTenNCC().toString();
+        }
+        DefaultComboBoxModel<String> nccCb = new DefaultComboBoxModel<>(itemsNCC);
+        nhapHangUI.getCbTkNhaCungCap().setModel(nccCb);
+    }
 
     //Lấy data để thêm
     private PhieuNhapHang layDataPhieuNhap() {
@@ -655,6 +880,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         phieuNhapHang = new PhieuNhapHang(mapn,nhaCC.get(0),ngayLapPhieu,ngayHenGiao,ghiChu,tt);
         return phieuNhapHang;
     }
+
+
 //    private ChiTietPhieuNhapHangPhienBanSP layDataCTNHPBSP() {
 //
 //    }

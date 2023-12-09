@@ -74,7 +74,7 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
                 //load sẵn mã nhà cung cấp
-                frmNhaCungCap.getTxtMaNhaCungCap().setText(laymaKH());
+                frmNhaCungCap.getTxtMaNhaCungCap().setText(laymaNCC());
                 frmNhaCungCap.getTxtMaNhaCungCap().setEnabled(false);
             }
             // Thực hiện chức năng nghiệp vụ thêm nhà cung cấp
@@ -312,13 +312,14 @@ public class NhaCungCapController implements MouseListener, ActionListener, KeyL
     }
 
     //Hàm sinh mã nhà cung cấp
-    private String laymaKH() {
+    private String laymaNCC() {
         String ma = "NCC-";
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
         ma = ma+nThem;
         ma = ma+"-"+formatNumber(laysoDuoiMaKH());
         return ma;
     }
+
     //Hàm lấy số đuôi
     public int laysoDuoiMaKH(){
         String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();

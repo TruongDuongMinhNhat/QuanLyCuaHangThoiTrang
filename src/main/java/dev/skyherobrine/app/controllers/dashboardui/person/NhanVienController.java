@@ -194,7 +194,7 @@ public class NhanVienController implements ActionListener, MouseListener, KeyLis
             }
         }
 
-        /*LỌC SẢN PHẨM*/
+        /*LỌC NHÂN VIÊN*/
         if(op.equals(nhanVienUI.getCbTkGioiTinh()) || op.equals(nhanVienUI.getCbTkChucVu()) || op.equals(nhanVienUI.getCbTkTinhTrang()) || op.equals(nhanVienUI.getCbTkCaLamViec())){
             if(!nhanVienUI.getCbTkGioiTinh().getSelectedItem().equals("--Giới tính--")){
                 Map<String, Object> conditions = new HashMap<>();

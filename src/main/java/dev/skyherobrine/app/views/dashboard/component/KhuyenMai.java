@@ -31,10 +31,12 @@ public class KhuyenMai extends javax.swing.JPanel {
         spDanhSachCacKhuyenMaiCuaSanPham = new javax.swing.JScrollPane();
         tbDanhSachCacKhuyenMaiCuaSanPham = new javax.swing.JTable();
         pnTimKiemKhuyenMai = new javax.swing.JPanel();
-        cbTkNgayApDung = new javax.swing.JComboBox<>();
         txtTuKhoaTimKiem = new javax.swing.JTextField();
-        cbTimKiemNgayHetHan = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        jDateChooserNgayApDung = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jDateChooserNgayHetHan = new com.toedter.calendar.JDateChooser();
         pnThongTInKhuyenMai = new javax.swing.JPanel();
         lbMaKhuyenMai = new javax.swing.JLabel();
         lbTile = new javax.swing.JLabel();
@@ -86,9 +88,6 @@ public class KhuyenMai extends javax.swing.JPanel {
         pnTimKiemKhuyenMai.setBackground(new java.awt.Color(255, 255, 255));
         pnTimKiemKhuyenMai.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm khuyến mãi", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        cbTkNgayApDung.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTkNgayApDung.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày áp dụng", " ", " ", " ", " " }));
-
         txtTuKhoaTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTuKhoaTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,11 +95,14 @@ public class KhuyenMai extends javax.swing.JPanel {
             }
         });
 
-        cbTimKiemNgayHetHan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTimKiemNgayHetHan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ngày hết hạn", " ", " ", " ", " ", " " }));
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Từ khoá tìm kiếm:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Ngày áp dụng:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Ngày hết hạn:");
 
         javax.swing.GroupLayout pnTimKiemKhuyenMaiLayout = new javax.swing.GroupLayout(pnTimKiemKhuyenMai);
         pnTimKiemKhuyenMai.setLayout(pnTimKiemKhuyenMaiLayout);
@@ -108,10 +110,14 @@ public class KhuyenMai extends javax.swing.JPanel {
             pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTimKiemKhuyenMaiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbTkNgayApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooserNgayApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cbTimKiemNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(323, 323, 323)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooserNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(298, 298, 298)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtTuKhoaTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,11 +127,20 @@ public class KhuyenMai extends javax.swing.JPanel {
             pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnTimKiemKhuyenMaiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTkNgayApDung, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTimKiemNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTuKhoaTimKiem)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)))
+                .addGroup(pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTuKhoaTimKiem)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addGroup(pnTimKiemKhuyenMaiLayout.createSequentialGroup()
+                            .addGroup(pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jDateChooserNgayApDung, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addContainerGap()))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnTimKiemKhuyenMaiLayout.createSequentialGroup()
+                        .addGroup(pnTimKiemKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateChooserNgayHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(8, 8, 8))))
         );
 
         pnThongTInKhuyenMai.setBackground(new java.awt.Color(255, 255, 255));
@@ -219,12 +234,13 @@ public class KhuyenMai extends javax.swing.JPanel {
                     .addComponent(txtMaKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNgayApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnThongTInKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbTile, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTile, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnThongTInKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnThongTInKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbTile, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNgayHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTile, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pnThongTInKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTenSanPhamApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,10 +297,12 @@ public class KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JButton btnSuaKhuyenMai;
     private javax.swing.JButton btnThemKhuyenMai;
     private javax.swing.JButton btnXoaKhuyenMai;
-    private javax.swing.JComboBox<String> cbTimKiemNgayHetHan;
-    private javax.swing.JComboBox<String> cbTkNgayApDung;
+    private com.toedter.calendar.JDateChooser jDateChooserNgayApDung;
+    private com.toedter.calendar.JDateChooser jDateChooserNgayHetHan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lbMaKhuyenMai;
     private javax.swing.JLabel lbNgayApDung;
     private javax.swing.JLabel lbNgayHetHan;

@@ -163,7 +163,7 @@ public class SanPham {
     }
 
     public double giaBan() {
-        return giaNhapGanNhat() * phanTramLoi * (1 + thue.getGiaTri() / 100);
+        return giaNhapGanNhat() * (1 + phanTramLoi / 100) * (1 + thue.getGiaTri() / 100);
     }
 
     public double giaNhapGanNhat() {
