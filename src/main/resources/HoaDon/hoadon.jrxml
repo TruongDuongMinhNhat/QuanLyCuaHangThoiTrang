@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="297" pageHeight="421" columnWidth="257" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f49a56e9-fea4-4ab4-b58a-f47455974dec">
 	<property name="ireport.zoom" value="1.7715610000000017"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="56"/>
 	<parameter name="ThanhTien" class="java.lang.String"/>
 	<parameter name="tienKhachDua" class="java.lang.String"/>
 	<parameter name="TongTien" class="java.lang.String"/>
@@ -171,7 +171,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="68" splitType="Stretch">
+		<band height="222" splitType="Stretch">
 			<textField>
 				<reportElement x="3" y="0" width="90" height="38" uuid="87ac3a12-5a24-45d2-958f-d58fc32d2e2c"/>
 				<textElement>
