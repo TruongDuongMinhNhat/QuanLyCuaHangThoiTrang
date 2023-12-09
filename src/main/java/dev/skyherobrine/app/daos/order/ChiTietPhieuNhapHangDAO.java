@@ -85,7 +85,6 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
     }
 
     @Override
-    @Deprecated
     public Optional<ChiTietPhieuNhapHang> timKiem(String id) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("select * from HoaDon where ChiTietPhieuNhap = ?");
