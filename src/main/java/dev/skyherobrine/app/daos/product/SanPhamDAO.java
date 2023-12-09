@@ -34,7 +34,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setDouble(8, sanPham.getPhanTramLoi());
         preparedStatement.setString(9, sanPham.getMauSac().toString());
         preparedStatement.setDate(10, Date.valueOf(sanPham.getNgaySanXuat()));
-        preparedStatement.setString(11, sanPham.getMaThue().getMaThue());
+        preparedStatement.setString(11, sanPham.getThue().getMaThue());
         preparedStatement.setString(12, sanPham.getTinhTrang().toString());
         return preparedStatement.executeUpdate() > 0;
     }
@@ -51,7 +51,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setString(6, target.getThuongHieu().getMaTH());
         preparedStatement.setDouble(7, target.getPhanTramLoi());
         preparedStatement.setDate(8, Date.valueOf(target.getNgaySanXuat()));
-        preparedStatement.setString(9, target.getMaThue().getMaThue());
+        preparedStatement.setString(9, target.getThue().getMaThue());
         preparedStatement.setString(10, target.getTinhTrang().toString());
         preparedStatement.setString(11, target.getMaSP());
 

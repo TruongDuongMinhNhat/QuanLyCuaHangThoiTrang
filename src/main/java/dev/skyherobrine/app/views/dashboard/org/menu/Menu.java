@@ -32,6 +32,7 @@ public class Menu extends JComponent {
             {"Trang chủ"},
             {"Thông tin cá nhân"},
             {"Hoá đơn","Lập hoá đơn","Quản lý hoá đơn"},
+            {"Thuế"},
             {"Sản phẩm","Quản lý sản phẩm","Quản lý nhập hàng","Quản lý trả hàng của nhà cung cấp","Quản lý trả hàng của khách hàng"},
             {"Khuyến mãi"},
             {"Nhà cung cấp"},

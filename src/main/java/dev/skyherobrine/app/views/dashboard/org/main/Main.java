@@ -53,48 +53,51 @@ public class Main extends javax.swing.JFrame {
                 } else if (index==2 && subIndex==2) {//Quản lý hoá đơn
                     showForm(new QuanLyHoaDon());
                     System.out.println("Form : " + index + " " + subIndex);
-                } else if (index==3 && subIndex==1) {// quản lý sản phẩm
+                } else if(index == 3) {//Thuế
+
+                    System.out.println("Form: " + index + " " + subIndex);
+                } else if (index==4 && subIndex==1) {// quản lý sản phẩm
                     showForm(new QuanLySanPham());
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==3 && subIndex==2) {//Quản lý Nhập hàng
+                }else if (index==4 && subIndex==2) {//Quản lý Nhập hàng
                     showForm(new QuanLyNhapHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }
-                else if (index==3 && subIndex==3) {//Quản lý trả hành nhà cung cấp
+                else if (index==4 && subIndex==3) {//Quản lý trả hành nhà cung cấp
                     showForm(new QuanLyPhieuTraHangChoNhaCungCap());
                     System.out.println("Form : " + index + " " + subIndex);
                 }
-                else if (index==3 && subIndex==4) {//quản lý trả hàng của khách hàng
+                else if (index==4 && subIndex==4) {//quản lý trả hàng của khách hàng
                     showForm(new QuanLyPhieuTraHangChoKhachHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }
-                else if (index==3 && subIndex==5) {// xoá
+                else if (index==4 && subIndex==5) {// xoá
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.out.println("Form : " + index + " " + subIndex);
                 }
-                else if (index==3 && subIndex==6) {// xoá
+                else if (index==4 && subIndex==6) {// xoá
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.out.println("Form : " + index + " " + subIndex);
-                } else if (index==4 ) {//khuyến mãi
+                } else if (index==5 ) {//khuyến mãi
                     showForm(new KhuyenMai());
                     System.out.println("Form : " + index + " " + subIndex);
                 }
-                else if (index==5 ) {//nhà cung cấp
+                else if (index==6 ) {//nhà cung cấp
                     showForm(new FrmNhaCungCap());
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==6 ) {//khách hàng
+                }else if (index==7 ) {//khách hàng
                     showForm(new FrmKhachHang());
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==7) {//nhân viên
+                }else if (index==8) {//nhân viên
                     showForm(new FrmNhanVien());
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==8 ) {// báo cáo cửa hàng
+                }else if (index==9 ) {// báo cáo cửa hàng
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==9 ) {// trợ giúp
+                }else if (index==10 ) {// trợ giúp
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==10 ) {// đăng xuất
+                }else if (index==11 ) {// đăng xuất
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.exit(0);
                     System.out.println("Form : " + index + " " + subIndex);
