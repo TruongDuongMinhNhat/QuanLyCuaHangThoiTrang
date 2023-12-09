@@ -54,6 +54,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         jDateChooserTkNgayLapPhieu.addPropertyChangeListener(controller);
         jDateChooserTkNgayHenGiao.addPropertyChangeListener(controller);
 
+        btnChonXongPBSP.addActionListener(controller);
+
 
 
 
@@ -98,15 +100,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         };
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(event2));
-
-        dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionEvent event3 = new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionEvent() {
-            @Override
-            public void onHuy(int row) {
-                System.out.println(".onHuy()");
-            }
-        };
-        tbChonPBSP.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionCellRender());
-        tbChonPBSP.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutHuy.TableActionCellEditor(event3));
     }
     
     /**
@@ -129,10 +122,10 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         winPBSP = new javax.swing.JDialog();
         pnChonPBSP = new javax.swing.JPanel();
         lblSanPhamFrmChonPBSP = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMaSPBangChonPBSP = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tbChonPBSP = new javax.swing.JTable();
+        tblChonPBSP = new javax.swing.JTable();
         btnChonXongPBSP = new javax.swing.JButton();
         pnBGThongTinCaNhan = new javax.swing.JPanel();
         pnThongTinNhapHang = new javax.swing.JPanel();
@@ -217,6 +210,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
         );
 
+        menuNCCNhap.setFocusable(false);
+
         winPBSP.setModal(true);
         winPBSP.setSize(new java.awt.Dimension(600, 400));
 
@@ -226,24 +221,32 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         lblSanPhamFrmChonPBSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblSanPhamFrmChonPBSP.setText("Sản phẩm:");
 
-        jTextField1.setText("jTextField1");
+        txtMaSPBangChonPBSP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaSPBangChonPBSP.setEnabled(false);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Các phiên bản sản phẩm", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        tbChonPBSP.setModel(new javax.swing.table.DefaultTableModel(
+        tblChonPBSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Màu sắc", "Kích thước", "Số lượng", ""
+                "MaPBSP", "Màu sắc", "Kích thước", "Số lượng", ""
             }
-        ));
-        tbChonPBSP.setRowHeight(40);
-        jScrollPane3.setViewportView(tbChonPBSP);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblChonPBSP.setRowHeight(40);
+        jScrollPane3.setViewportView(tblChonPBSP);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -282,7 +285,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(lblSanPhamFrmChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMaSPBangChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnChonPBSPLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -295,8 +298,8 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(pnChonPBSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSanPhamFrmChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addComponent(txtMaSPBangChonPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnChonXongPBSP, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -775,7 +778,6 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbDiaChiCuaHang;
     private javax.swing.JLabel lbDienThoaiCuaHang;
     private javax.swing.JLabel lblSanPhamFrmChonPBSP;
@@ -796,9 +798,9 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JPanel pnTimSPNhap;
     private javax.swing.JScrollPane spDanhSachPhieuNhap;
     private javax.swing.JScrollPane spDanhSachSpTrongGioHang;
-    private javax.swing.JTable tbChonPBSP;
     private javax.swing.JTable tbDanhSachPheiNhap;
     private javax.swing.JTable tbDanhSachSpTrongGioHang;
+    private javax.swing.JTable tblChonPBSP;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtDiaChiCuaHang;
     private javax.swing.JTextField txtDienThoaiCuaHang;
@@ -806,6 +808,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtGhiChu;
     private javax.swing.JTextField txtMaPhieu;
+    private javax.swing.JTextField txtMaSPBangChonPBSP;
     private javax.swing.JTextField txtNgayLap;
     private javax.swing.JTextField txtNhaCungCap;
     private javax.swing.JTextField txtTimKiemSanPhamNhap;
@@ -843,5 +846,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
     public JTextField getTxtTinhTrangPhieuNhap(){return txtTinhTrangPhieuNhap;}
     public JTextField getTxtGhiChu(){return txtGhiChu;}
     public JDialog getWinPBSP(){return winPBSP;}
-
+    public JTextField getTxtMaSPBangChonPBSP(){return txtMaSPBangChonPBSP;}
+    public JTable getTblChonPBSP(){return tblChonPBSP;}
+    public JButton getBtnChonXongPBSP(){return btnChonXongPBSP;}
 }
