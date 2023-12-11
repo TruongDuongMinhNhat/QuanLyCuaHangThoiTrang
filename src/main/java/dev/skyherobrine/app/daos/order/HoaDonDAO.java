@@ -55,12 +55,12 @@ public class HoaDonDAO implements IDAO<HoaDon> {
     @Override
     public List<HoaDon> timKiem() throws Exception {
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery
-                ("select * from HoaDon");
+                ("select * from HoaDon ORDER BY NgayLap ASC");
         List<HoaDon> hoaDons = new ArrayList<>();
         while (resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
+                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -82,14 +82,14 @@ public class HoaDonDAO implements IDAO<HoaDon> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("hd." + column + " LIKE '" + value + "'") +"ORDER BY NgayLap ASC");
             isNeedAnd.set(true);
         });
-
+        System.out.println(query.get());
         List<HoaDon> hoaDons = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
+                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -111,7 +111,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         if (resultSet.next()) {
             return Optional.of(new HoaDon(
                     resultSet.getString("MaHD"),
-                    new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
+                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -167,7 +167,7 @@ public class HoaDonDAO implements IDAO<HoaDon> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
-
+        System.out.println(query.get());
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

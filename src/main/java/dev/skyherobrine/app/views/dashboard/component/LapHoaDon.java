@@ -51,6 +51,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         txtTienKhachDua.addKeyListener(controller);
         btnLapHoaDon.addActionListener(controller);
         txtTimKiemHoaDonLuuTam.addKeyListener(controller);
+        txtTienKhachDua.setEnabled(false);
     }
 
     /**
@@ -690,6 +691,9 @@ public class LapHoaDon extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public JTable getTbHoaDonLuuTam(){
         return tbHoaDonLuuTam;
+    }
+    public JTextField getTxtChietKhau(){
+        return txtChietKhau;
     }
     public JTextField getTxtThue(){
         return txtThue;

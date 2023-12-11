@@ -190,8 +190,10 @@ public class PhieuTraKHController implements KeyListener, TableModelListener, Ac
             listModelHD = new DefaultListModel<>();
             quanLyPhieuTraHangChoKhachHang.getListSuggestHD().setModel(listModelHD);
             listModelHD.removeAllElements();
+            LocalDate localDate = LocalDate.now();
             Map<String, Object> conditions = new HashMap<>();
-            conditions.put("MaHD", text);
+            conditions.put(" NgayLap >= DATEADD(DAY, -7, GETDATE()) AND MaHD", text);
+
             String colNames[] = {"MaHD", "NgayLap"};
             String nMua;
             LocalDate nlapHD;
@@ -204,11 +206,9 @@ public class PhieuTraKHController implements KeyListener, TableModelListener, Ac
                         nMua = listHD.get(i).get("NgayLap").toString();
                         nMua = nMua.substring(0, nMua.indexOf(' '));
                         nlapHD = LocalDate.parse(nMua, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                        if(Period.between(nlapHD, LocalDate.now()).getDays()>=7){
-                            quanLyPhieuTraHangChoKhachHang.getMenuSuggestHD().setVisible(false);
-                            continue;
+                        if(Period.between(nlapHD, LocalDate.now()).getDays()<7){
+                            listModelHD.addElement(listHD.get(i).get("MaHD").toString());
                         }
-                        listModelHD.addElement(listHD.get(i).get("MaHD").toString());
                     }
                     if(!listModelHD.isEmpty()) {
                         quanLyPhieuTraHangChoKhachHang.getMenuSuggestHD().show(quanLyPhieuTraHangChoKhachHang.getTxtTimKiemHoaDon(), 0, quanLyPhieuTraHangChoKhachHang.getTxtTimKiemHoaDon().getHeight());

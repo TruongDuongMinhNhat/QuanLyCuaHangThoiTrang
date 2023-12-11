@@ -15,12 +15,14 @@ import dev.skyherobrine.app.daos.person.KhachHangDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.daos.sale.KhuyenMaiDAO;
 import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.order.HoaDon;
 import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.entities.sale.KhuyenMai;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
 import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
 
@@ -68,6 +70,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     private HoaDonDAO hoaDonDAO;
     private DefaultListModel<String> listModelKH;
     private ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
+    private KhuyenMaiDAO khuyenMaiDAO;
     private ConnectDB connectDB;
     private static Map<String, Object> dsSPTAM = new HashMap<>();
     private static Map<String, Integer> dsSPLuuTam = new HashMap<>();
@@ -82,6 +85,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             this.khachHangDAO = new KhachHangDAO();
             this.hoaDonDAO = new HoaDonDAO();
             this.chiTietHoaDonDAO = new ChiTietHoaDonDAO();
+            this.khuyenMaiDAO = new KhuyenMaiDAO();
             this.connectDB = new ConnectDB();
             loadTTNV();
             setCamera();
@@ -161,11 +165,13 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                lapHoaDon.getTbHoaDonLuuTam().setRowSorter(sorter);
                sorter.setRowFilter(RowFilter.regexFilter(lapHoaDon.getTxtTimKiemHoaDonLuuTam().getText().toLowerCase()));
            }
-           else{
+           else if(e.getSource().equals(lapHoaDon.getTxtSoDienThoaiKh())){
                if(!textKH.equalsIgnoreCase("")){
-                   if(!textKH.matches("^[0]")){
+                   if(!textKH.matches("^[0]\\d{0,9}")){
                           JOptionPane.showMessageDialog(lapHoaDon, "Số điện thoại không hợp lệ. SĐT phải bắt đầu bằng số 0 và có 10 số");
                           xoaTTKH();
+                          lapHoaDon.getTxtMaHoaDon().setText("");
+                          lapHoaDon.getTxtNgayLapHoaDon().setText("");
                    }else{
                        searchSuggestKH(textKH);
                        if(textKH.length()>=10&& !loadTTKH(textKH)){
@@ -174,6 +180,8 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                        }
                        if(textKH.length()<10){
                            xoaTTKH();
+                           lapHoaDon.getTxtMaHoaDon().setText("");
+                           lapHoaDon.getTxtNgayLapHoaDon().setText("");
                        }
                    }
 
@@ -283,11 +291,22 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             SDT = SDT.substring(SDT.length()-3);
         }
         maHD = maHD + SDT + "-";
-        maHD = maHD + formatNumber(laySoHoaDon());
+        maHD = maHD + laySoHoaDon();
         lapHoaDon.getTxtMaHoaDon().setText(maHD);
         LocalDateTime local = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         lapHoaDon.getTxtNgayLapHoaDon().setText(local.format(dateTimeFormatter));
+        List<KhuyenMai> khuyenMais = null;
+        try {
+            khuyenMais = khuyenMaiDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        for(KhuyenMai km : khuyenMais){
+            if(km.getNgayApDung().isBefore(LocalDate.now()) && km.getNgayHetHan().isAfter(LocalDate.now())){
+                lapHoaDon.getTxtChietKhau().setText(5+"");
+            }
+        }
     }
 //    public void loadTTHD(){
 //        LocalDateTime local = LocalDateTime.now();
@@ -307,9 +326,19 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         if(hoaDons.size()==0){
             return 1;
         }
-        HoaDon hd = hoaDons.get(hoaDons.size()-1);
-        int soHD = Integer.parseInt(hd.getMaHD().substring(hd.getMaHD().length()-3));
-        return soHD+1;
+        ArrayList<Integer> soHD = new ArrayList<Integer>();
+        for (int i = 0; i < hoaDons.size(); i++){
+            int index = hoaDons.get(i).getMaHD().lastIndexOf("-");
+            soHD.add(Integer.parseInt(hoaDons.get(i).getMaHD().substring(index+1)));
+            System.out.println(hoaDons.get(i).getMaHD().substring(index+1));
+        }
+        int max = 0;
+        for(int number : soHD){
+            if(number >= max){
+                max = number;
+            }
+        }
+        return max+1;
     }
     public void LapHoaDon(){
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
@@ -322,12 +351,12 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             LocalDateTime nl = LocalDateTime.parse(ngayLap, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
             String tienKHTra = lapHoaDon.getTxtTienKhachDua().getText().trim();
             if(!lapHoaDon.getjCheckBox1().isSelected()){
-                if (lapHoaDon.getTxtSoDienThoaiKh().getText().equalsIgnoreCase("")) {
                     Map<String, Object> conditions = new HashMap<>();
                     conditions.put("SoDienThoai", lapHoaDon.getTxtSoDienThoaiKh().getText().trim());
                     try {
                         List<KhachHang> khachHangs = khachHangDAO.timKiem(conditions);
-                        HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(0), new BigDecimal(tienKHTra), null);
+
+                        HoaDon hd = new HoaDon(maHD, null, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(0), new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
@@ -343,14 +372,11 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số điện thoại khách hàng!");
-                }
             }else{
                 try {
                     Optional<KhachHang> khachHangs = khachHangDAO.timKiem("KH-00000000-000");
                     if(khachHangs.isPresent()){
-                        HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(), new BigDecimal(tienKHTra), null);
+                        HoaDon hd = new HoaDon(maHD,null, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(), new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
@@ -365,7 +391,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     }else{
                         KhachHang kh = new KhachHang("KH-00000000-000", "Khách vãng lai", "0000000000", true, LocalDate.now(), 0);
                         khachHangDAO.them(kh);
-                        HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), kh, new BigDecimal(tienKHTra), null);
+                        HoaDon hd = new HoaDon(maHD, null, nl, nhanVienDAO.timKiem(maNV).get(), kh, new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
@@ -459,6 +485,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             String []rows = {stt+"", maPBSP, sp.get().getTenSP(), pbsp.get().getKichThuoc(), sl+"", format.format(dongia), format.format(sl*dongia), null};
             tmGioHang.addRow(rows);
             lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
+            lapHoaDon.getTxtTienKhachDua().setEnabled(true);
             return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -493,7 +520,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             try {
                 pbsp = chiTietPhienBanSanPhamDAO.timKiem(tmGioHang.getValueAt(i, 1).toString());
                 tyLeThue = (1+pbsp.get().getSanPham().getThue().getGiaTri()/100);
-                System.out.println(tyLeThue);
                 thue += (thanhtien -((Double.parseDouble(tmGioHang.getValueAt(i, 5).toString())*Double.parseDouble(tmGioHang.getValueAt(i,4).toString()))/tyLeThue));
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -617,26 +643,25 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             if(!lapHoaDon.getjCheckBox1().isSelected()){
                 if(lapHoaDon.getTxtSoDienThoaiKh().getText().equalsIgnoreCase("")){
                     JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số điện thoại khách hàng!");
+                    return;
                 }
+            }
+            if(lapHoaDon.getTxtTienKhachDua().getText().equalsIgnoreCase("")){
+                JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số tiền khách đưa!");
             }else{
-                if(lapHoaDon.getTxtTienKhachDua().getText().equalsIgnoreCase("")){
-                    JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số tiền khách đưa!");
+                Format format = new DecimalFormat("0.0");
+                double tienKhachDua = Double.parseDouble(lapHoaDon.getTxtTienKhachDua().getText());
+                double tongTien = Double.parseDouble(lapHoaDon.getTxtTongTIen().getText());
+                if(tienKhachDua<tongTien) {
+                    JOptionPane.showMessageDialog(lapHoaDon, "Số tiền khách đưa không đủ!");
                 }else{
-                    Format format = new DecimalFormat("0.0");
-                    double tienKhachDua = Double.parseDouble(lapHoaDon.getTxtTienKhachDua().getText());
-                    double tongTien = Double.parseDouble(lapHoaDon.getTxtTongTIen().getText());
-                    if(tienKhachDua<tongTien) {
-                        JOptionPane.showMessageDialog(lapHoaDon, "Số tiền khách đưa không đủ!");
-                    }else{
-                        lapHoaDon.getTxtTienDu().setText(format.format(tienKhachDua-tongTien));
-                        int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn lập hóa đơn này không?", "Lập hóa đơn", JOptionPane.YES_NO_OPTION);
-                        if(result == JOptionPane.YES_OPTION){
-                            LapHoaDon();
-                            xoaTrang();
-                        }
+                    lapHoaDon.getTxtTienDu().setText(format.format(tienKhachDua-tongTien));
+                    int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn lập hóa đơn này không?", "Lập hóa đơn", JOptionPane.YES_NO_OPTION);
+                    if(result == JOptionPane.YES_OPTION){
+                        LapHoaDon();
+                        xoaTrang();
                     }
                 }
-
             }
         }
     }
@@ -721,6 +746,9 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         tmGioHang.removeRow(row);
         for(int i = 0; i < tmGioHang.getRowCount(); i++){
             tmGioHang.setValueAt((i+1), i, 0);
+        }
+        if(tmGioHang.getRowCount()==0){
+            lapHoaDon.getTxtTienKhachDua().setEnabled(false);
         }
         lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
     }

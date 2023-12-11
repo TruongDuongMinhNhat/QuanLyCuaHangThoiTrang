@@ -66,7 +66,7 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
             new Object [][] {
             },
             new String [] {
-                "Mã hóa đơn", "Ngày lập", "Nhân viên", "Khách hàng", "Tổng tiền"
+                "Mã hóa đơn", "Ngày lập", "Nhân viên", "Khách hàng"
             }
         ));
         spDanhSachHoaDon.setViewportView(tbDanhSachHoaDon);

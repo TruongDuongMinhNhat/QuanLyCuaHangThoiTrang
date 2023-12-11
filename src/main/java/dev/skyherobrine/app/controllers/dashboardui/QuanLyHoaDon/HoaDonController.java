@@ -74,12 +74,13 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
     public void loadDsHoaDon() {
         DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
         tmHoaDon.setRowCount(0);
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("NgayLap >= DATEADD(DAY, -3, GETDATE()) AND MaHD", "%%");
         try {
-            dsHoaDon = hoaDonDAO.timKiem();
+            dsHoaDon = hoaDonDAO.timKiem(conditions);
             double tongTien = 0;
             for(HoaDon hd : dsHoaDon){
-                tongTien = tinhTongTien(hd.getMaHD());
-                String row[] = {hd.getMaHD(), hd.getNgayLap()+"", hd.getNhanVienLap().getHoTen(), hd.getKhachHang().getHoTen(), tongTien+""};
+                String row[] = {hd.getMaHD(), hd.getNgayLap()+"", hd.getNhanVienLap().getHoTen(), hd.getKhachHang().getHoTen()};
                 tmHoaDon.addRow(row);
             }
         } catch (Exception e) {
