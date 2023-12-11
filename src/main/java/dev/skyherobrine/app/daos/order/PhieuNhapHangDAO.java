@@ -77,10 +77,9 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
 
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " = '" + value + "'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like '" + value + "'"));
             isNeedAnd.set(true);
         });
-
         List<PhieuNhapHang> phieuNhapHangs = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();
@@ -158,8 +157,6 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
             query.set(query.get() + (canAnd.get() ? " AND " : "") + column + " like '%" + value + "%'");
             canAnd.set(true);
         });
-
-        System.out.println(query);
         ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery(query.get());
 
         List<Map<String, Object>> listResult = new ArrayList<>();

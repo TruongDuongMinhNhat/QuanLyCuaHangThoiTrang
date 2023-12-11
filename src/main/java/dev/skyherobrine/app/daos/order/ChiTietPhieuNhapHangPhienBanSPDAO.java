@@ -103,7 +103,6 @@ public class ChiTietPhieuNhapHangPhienBanSPDAO implements IDAO<ChiTietPhieuNhapH
         });
         List<ChiTietPhieuNhapHangPhienBanSP> result = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        System.out.println(query.get().toString());
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
             ChiTietPhieuNhapHangPhienBanSP chiTietPhieuNhapHangPhienBanSP = new ChiTietPhieuNhapHangPhienBanSP

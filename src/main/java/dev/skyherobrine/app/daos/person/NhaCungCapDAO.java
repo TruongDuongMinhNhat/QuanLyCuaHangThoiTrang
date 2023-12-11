@@ -87,7 +87,6 @@ public class NhaCungCapDAO implements IDAO<NhaCungCap> {
             query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("t." + column + " like N'%" + value + "%'"));
             isNeedAnd.set(true);
         });
-
         List<NhaCungCap> nhaCungCaps = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet result = preparedStatement.executeQuery();

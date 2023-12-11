@@ -65,9 +65,10 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
                 ("select * from ChiTietPhieuNhap ctpn where ");
         AtomicBoolean isNeedAnd = new AtomicBoolean(false);
         conditions.forEach((column, value) -> {
-            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctpn." + column + "= '" + value +"'"));
+            query.set(query.get() + (isNeedAnd.get() ? " and " : "") + ("ctpn." + column + " like '" + value +"'"));
             isNeedAnd.set(true);
         });
+
         List<ChiTietPhieuNhapHang> chiTietPhieuNhapHangs = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
         ResultSet resultSet = preparedStatement.executeQuery();
