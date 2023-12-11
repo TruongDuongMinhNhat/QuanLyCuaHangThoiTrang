@@ -19,10 +19,11 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
     @Override
     public boolean them(KhuyenMai khuyenMai) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert KhuyenMai values(?, ?, ?)");
+                ("Insert KhuyenMai values(?, ?, ?, ?)");
         preparedStatement.setString(1, khuyenMai.getMaKM());
-        preparedStatement.setDate(2, Date.valueOf(khuyenMai.getNgayApDung()));
-        preparedStatement.setDate(3, Date.valueOf(khuyenMai.getNgayHetHan()));
+        preparedStatement.setFloat(2, khuyenMai.getTiLe());
+        preparedStatement.setDate(3, Date.valueOf(khuyenMai.getNgayApDung()));
+        preparedStatement.setDate(4, Date.valueOf(khuyenMai.getNgayHetHan()));
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -30,9 +31,11 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
     @Override
     public boolean capNhat(KhuyenMai target) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update KhuyenMai set NgayApDung = ?, NgayHetHan = ? where MaKM = ?");
-        preparedStatement.setDate(1, Date.valueOf(target.getNgayApDung()));
-        preparedStatement.setDate(2, Date.valueOf(target.getNgayHetHan()));
+                ("Update KhuyenMai set TiLe = ?, NgayApDung = ?, NgayHetHan = ? where MaKM = ?");
+        preparedStatement.setFloat(1, target.getTiLe());
+        preparedStatement.setDate(2, Date.valueOf(target.getNgayApDung()));
+        preparedStatement.setDate(3, Date.valueOf(target.getNgayHetHan()));
+        preparedStatement.setString(4, target.getMaKM());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -53,8 +56,12 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
                 ("select * from KhuyenMai");
         List<KhuyenMai> khuyenMais = new ArrayList<>();
         while(resultSet.next()) {
-            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"), resultSet.getString("TenKM"),
-                    resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate());
+            KhuyenMai khuyenMai = new KhuyenMai(
+                    resultSet.getString( "MaKM"),
+                    resultSet.getString("TenKM"),
+                    resultSet.getFloat("TiLe"),
+                    resultSet.getDate("NgayApDung").toLocalDate(),
+                    resultSet.getDate("NgayHetHan").toLocalDate());
             khuyenMais.add(khuyenMai);
         }
         return khuyenMais;
@@ -73,12 +80,14 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
 
         List<KhuyenMai> khuyenMais = new ArrayList<>();
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query.get());
-        ResultSet result = preparedStatement.executeQuery();
-        while(result.next()) {
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()) {
             KhuyenMai khuyenMai = new KhuyenMai(
-                    result.getString("MaKM"), result.getString("TenKM"),
-                    result.getDate("NgayApDung").toLocalDate(),
-                    result.getDate("NgayHetHan").toLocalDate()
+                    resultSet.getString( "MaKM"),
+                    resultSet.getString("TenKM"),
+                    resultSet.getFloat("TiLe"),
+                    resultSet.getDate("NgayApDung").toLocalDate(),
+                    resultSet.getDate("NgayHetHan").toLocalDate()
             );
             khuyenMais.add(khuyenMai);
         }
@@ -92,8 +101,12 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return Optional.of(new KhuyenMai(resultSet.getString("MaKM"), resultSet.getString("TenKM"),
-                    resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate()));
+            return Optional.of(
+                    new KhuyenMai(resultSet.getString( "MaKM"),
+                            resultSet.getString("TenKM"),
+                            resultSet.getFloat("TiLe"),
+                            resultSet.getDate("NgayApDung").toLocalDate(),
+                            resultSet.getDate("NgayHetHan").toLocalDate()));
         } else {
             return Optional.empty();
         }
@@ -113,8 +126,11 @@ public class KhuyenMaiDAO implements IDAO<KhuyenMai> {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
-            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"), resultSet.getString("TenKM"),
-                    resultSet.getDate("NgayApDung").toLocalDate(), resultSet.getDate("NgayHetHan").toLocalDate());
+            KhuyenMai khuyenMai = new KhuyenMai(resultSet.getString( "MaKM"),
+                    resultSet.getString("TenKM"),
+                    resultSet.getFloat("TiLe"),
+                    resultSet.getDate("NgayApDung").toLocalDate(),
+                    resultSet.getDate("NgayHetHan").toLocalDate());
             khuyenMais.add(khuyenMai);
         }
         return khuyenMais;
