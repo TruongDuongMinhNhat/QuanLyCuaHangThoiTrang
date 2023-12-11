@@ -33,6 +33,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         controller.loadPhieuNhap();
         controller.loadComboBoxPhanTimKiem();
         tbDanhSachPheiNhap.addMouseListener(controller);
+        tbDanhSachSpTrongGioHang.addMouseListener(controller);
 
         menuSPNhap.add(pnTimSPNhap);
         menuNCCNhap.add(pnNCCNhap);
@@ -57,49 +58,16 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
         btnChonXongPBSP.addActionListener(controller);
 
 
-
-
-
-        TableActionEvent1 event = new TableActionEvent1() {
-            @Override
-            public void onDuyet(int row) {
-                    System.out.println(".onDuyet");
-                }
-
-            @Override
-            public void onHuy(int row) {
-                if (tbDanhSachPheiNhap.isEditing()) {
-                    tbDanhSachPheiNhap.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel model = (DefaultTableModel) tbDanhSachPheiNhap.getModel();
-                model.removeRow(row);
-            }
-        };
         tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender1());
-        tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(event));
+        tbDanhSachPheiNhap.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor1(controller));
         
-        dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent event1 = new TableActionEvent() {
-            @Override
-            public void onDelete(int row) {
-                if (tbDanhSachSpTrongGioHang.isEditing()) {
-                    tbDanhSachSpTrongGioHang.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel model = (DefaultTableModel) tbDanhSachSpTrongGioHang.getModel();
-                model.removeRow(row);
-            }
-        };
+
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(event1));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(controller));
         
-        
-        dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent event2 = new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent() {
-            @Override
-            public void onChon(int row) {
-                System.out.println(".onChon()");
-                }
-        };
+
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
-        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(event2));
+        tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(controller));
     }
     
     /**
@@ -228,10 +196,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         tblChonPBSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "MaPBSP", "Màu sắc", "Kích thước", "Số lượng", ""
@@ -375,10 +340,7 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         tbDanhSachSpTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã sản phẩm", "Tên sản phẩm", "PBSP", "Số lượng", "Đơn giá", "Thành tiền", ""

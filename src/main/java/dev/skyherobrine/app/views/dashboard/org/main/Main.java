@@ -24,12 +24,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
 
-
-
-
-
-
-
         TrangChu t = new TrangChu();
         pnBody.add(t);
         menuDashBoard.setEvent(new MenuEvent() {
@@ -240,7 +234,7 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variablesa
     private Header header1;
     private Menu menuDashBoard;
     private javax.swing.JPanel pnBackGroungDashBoard;

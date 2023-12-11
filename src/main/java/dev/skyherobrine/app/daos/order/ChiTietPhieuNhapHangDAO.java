@@ -4,7 +4,6 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
-import dev.skyherobrine.app.entities.product.SanPham;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,7 +86,7 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
     @Override
     public Optional<ChiTietPhieuNhapHang> timKiem(String id) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("select * from HoaDon where ChiTietPhieuNhap = ?");
+                ("select * from ChiTietPhieuNhap where MaChiTietPhieuNhap = ?");
         preparedStatement.setString(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {

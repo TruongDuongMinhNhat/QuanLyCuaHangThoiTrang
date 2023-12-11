@@ -1,7 +1,8 @@
 package dev.skyherobrine.app.controllers.dashboardui.order;
 
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JYearChooser;
+import dev.skyherobrine.app.daos.order.ChiTietPhieuNhapHangDAO;
+import dev.skyherobrine.app.daos.order.ChiTietPhieuNhapHangPhienBanSPDAO;
 import dev.skyherobrine.app.daos.order.PhieuNhapHangDAO;
 import dev.skyherobrine.app.daos.person.NhaCungCapDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
@@ -9,20 +10,18 @@ import dev.skyherobrine.app.daos.product.SanPhamDAO;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHang;
 import dev.skyherobrine.app.entities.order.ChiTietPhieuNhapHangPhienBanSP;
 import dev.skyherobrine.app.entities.order.PhieuNhapHang;
-import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhaCungCap;
-import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
-import dev.skyherobrine.app.enums.TinhTrangNhanVien;
 import dev.skyherobrine.app.enums.TinhTrangNhapHang;
 import dev.skyherobrine.app.views.dashboard.component.QuanLyNhapHang;
+import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
+import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,7 +33,7 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class NhapHangController implements MouseListener, KeyListener, TableModelListener, ActionListener, PropertyChangeListener {
+public class NhapHangController implements MouseListener, KeyListener, TableModelListener, ActionListener, PropertyChangeListener, TableActionEvent, TableActionEvent1, dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionEvent {
     private QuanLyNhapHang nhapHangUI;
     private PhieuNhapHangDAO phieuNhapHangDAO;
     private List<PhieuNhapHang> dsPhieuNhap;
@@ -42,6 +41,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
     private DefaultListModel<String> modelNCC;
     private ChiTietPhienBanSanPhamDAO chiTietPhienBanSanPhamDAO;
     private SanPhamDAO sanPhamDAO;
+    private ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
+    private ChiTietPhieuNhapHangPhienBanSPDAO chiTietPhieuNhapHangPhienBanSPDAO;
 
 
     private static Map<String, Integer> dsSPLuuTam = new HashMap<>();
@@ -51,14 +52,20 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 
     private static List<PhieuNhapHang> dsLoc;
     private List<PhieuNhapHang> dsTam = new ArrayList<>();
+    private List<ChiTietPhieuNhapHang> dsCTPNH;
+    private Map<String, Object> listSPDaChon = new HashMap<>();
+    private List<ChiTietPhieuNhapHangPhienBanSP> dsCTPNHPBSP;
+    private ChiTietPhieuNhapHang ctPNHTam;
 
     public NhapHangController(QuanLyNhapHang nhapHangUI) {
+
         try {
             phieuNhapHangDAO = new PhieuNhapHangDAO();
             chiTietPhienBanSanPhamDAO = new ChiTietPhienBanSanPhamDAO();
             nhaCungCapDAO = new NhaCungCapDAO();
             sanPhamDAO = new SanPhamDAO();
-
+            chiTietPhieuNhapHangDAO = new ChiTietPhieuNhapHangDAO();
+            chiTietPhieuNhapHangPhienBanSPDAO = new ChiTietPhieuNhapHangPhienBanSPDAO();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -86,36 +93,72 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
     //Su kien click tren table phieu nhap
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(trangThaiNutThemPN==1){
-            JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
-        }else {
-            int row = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
-            String ma = nhapHangUI.getTbDanhSachPheiNhap().getValueAt(row, 0).toString();
-            Optional<PhieuNhapHang> pnHienThuc = null;
-            try {
-                pnHienThuc = phieuNhapHangDAO.timKiem(ma);
-            } catch (Exception event) {
-                throw new RuntimeException(event);
-            }
+        Object ob = e.getSource();
+        //Table phiếu nhập
+        if(ob.equals(nhapHangUI.getTbDanhSachPheiNhap())){
+            if(trangThaiNutThemPN==1){
+                JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
+            }else {
+                int row = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
+                String ma = nhapHangUI.getTbDanhSachPheiNhap().getValueAt(row, 0).toString();
+                Optional<PhieuNhapHang> pnHienThuc = null;
+                try {
+                    pnHienThuc = phieuNhapHangDAO.timKiem(ma);
+                } catch (Exception event) {
+                    throw new RuntimeException(event);
+                }
 
-            nhapHangUI.getTxtMaPhieuNhap().setText(pnHienThuc.get().getMaPhieuNhap());
-            nhapHangUI.getTxtNhaCungCap().setText(pnHienThuc.get().getNhaCungCap().getTenNCC());
-            nhapHangUI.getTxtDiaChi().setText(pnHienThuc.get().getNhaCungCap().getDiaChiNCC());
-            nhapHangUI.getTxtDiaChi().setCaretPosition(0);
-            nhapHangUI.getTxtEmailNhaCungCap().setText(pnHienThuc.get().getNhaCungCap().getEmail());
-            nhapHangUI.getTxtNgayLapPhieu().setText(pnHienThuc.get().getNgayLapPhieu().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                nhapHangUI.getTxtMaPhieuNhap().setText(pnHienThuc.get().getMaPhieuNhap());
+                nhapHangUI.getTxtNhaCungCap().setText(pnHienThuc.get().getNhaCungCap().getTenNCC());
+                nhapHangUI.getTxtDiaChi().setText(pnHienThuc.get().getNhaCungCap().getDiaChiNCC());
+                nhapHangUI.getTxtDiaChi().setCaretPosition(0);
+                nhapHangUI.getTxtEmailNhaCungCap().setText(pnHienThuc.get().getNhaCungCap().getEmail());
+                nhapHangUI.getTxtNgayLapPhieu().setText(pnHienThuc.get().getNgayLapPhieu().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
-            //Xử lý ngày
-            String date = String.valueOf(pnHienThuc.get().getNgayHenGiao());
-            Date ngayHenGiao = null;
-            try {
-                ngayHenGiao = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            } catch (ParseException ex) {
-                throw new RuntimeException(ex);
+                //Xử lý ngày
+                String date = String.valueOf(pnHienThuc.get().getNgayHenGiao());
+                Date ngayHenGiao = null;
+                try {
+                    ngayHenGiao = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
+                nhapHangUI.getjDateChooserNgayHenGiao().setDate(ngayHenGiao);
+
+                List<ChiTietPhieuNhapHang> ct;
+                List<ChiTietPhieuNhapHangPhienBanSP> ctPNHPBSP;
+                Map<String,Object> conditions = new HashMap<>();
+                conditions.put("MaPhieuNhap", pnHienThuc.get().getMaPhieuNhap());
+                try {
+                    ct = chiTietPhieuNhapHangDAO.timKiem(conditions);
+
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                DefaultTableModel clear = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+                clear.setRowCount(0);
+                nhapHangUI.getTbDanhSachSpTrongGioHang().setModel(clear);
+                for(int i=0; i<ct.size(); i++){
+                    Map<String , Object> conditions1 = new HashMap<>();
+                    conditions1.put("MaChiTietPhieuNhap", ct.get(i).getMaChiTietPhieuNhap());
+                    try {
+                        ctPNHPBSP = chiTietPhieuNhapHangPhienBanSPDAO.timKiem(conditions1);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    int sl = 0;
+                    for(int j=0; j<ctPNHPBSP.size(); j++){
+                        sl+=ctPNHPBSP.get(j).getSoLuongNhap();
+                    }
+                    String row1[] = {(i+1)+"", ct.get(i).getSanPham().getMaSP(), ct.get(i).getSanPham().getTenSP(), null, sl+"", ct.get(i).getGiaNhap()+"", thanhTien(sl,ct.get(i).getGiaNhap())+"", null};
+                    clear.addRow(row1);
+                }
+
+                nhapHangUI.getTxtTongTienSanPham().setText(String.valueOf(tongTienSanPhamNhap()));
             }
-            nhapHangUI.getjDateChooserNgayHenGiao().setDate(ngayHenGiao);
-            nhapHangUI.getTxtTongTienSanPham().setText(String.valueOf(tongTienSanPhamNhap()));
         }
+
     }
 
     @Override
@@ -138,16 +181,6 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 
     }
 
-    //Ham tinh tong tien san pham
-    private double tongTienSanPhamNhap() {
-        DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
-        double tongTien = 0;
-        for(int i = 0; i < tmGioHang.getRowCount(); i++){
-            tongTien+=(Double.parseDouble(tmGioHang.getValueAt(i, 6).toString())*1.08);
-        }
-        return tongTien;
-    }
-
     //Tim kiem san pham de nhap
     @Override
     public void keyTyped(KeyEvent e) {
@@ -168,7 +201,6 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             if (e.getSource().equals(nhapHangUI.getListSPNhap())) {
                 String sp = nhapHangUI.getListSPNhap().getSelectedValue().toString();
                 if(themSP(sp)){
-                    nhapHangUI.getFmPBSP().setVisible(true);
                     nhapHangUI.getTxtTimKiemSanPhamNhap().setText("");
                     nhapHangUI.getTxtTimKiemSanPhamNhap().requestFocus(true);
                     nhapHangUI.getMenuSPNhap().setVisible(false);
@@ -209,17 +241,15 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         nhapHangUI.getListSPNhap().setModel(listModelSP);
         listModelSP.removeAllElements();
         Map<String, Object> conditions = new HashMap<>();
-        conditions.put("MaPhienBanSP", textSP);
-        String []colNames= {"MaPhienBanSP", "KichThuoc", "SoLuong"};
+        conditions.put("MaSP", textSP);
+        String []colNames= {"MaSP", "TenSP"};
         try {
-            List<Map<String, Object>> listSP = chiTietPhienBanSanPhamDAO.timKiem(conditions, false, colNames);
+            List<Map<String, Object>> listSP = sanPhamDAO.timKiem(conditions, false, colNames);
             if(listSP.size()==0){
                 nhapHangUI.getMenuSPNhap().setVisible(false);
             }else{
-                int soLuong = 0;
                 for(int i = 0; i < listSP.size(); i++){
-                    soLuong = Integer.parseInt(listSP.get(i).get("SoLuong").toString());
-                    listModelSP.addElement(listSP.get(i).get("MaPhienBanSP").toString()+"   ||   Số lượng: "+soLuong);
+                    listModelSP.addElement(listSP.get(i).get("MaSP").toString()+" || "+listSP.get(i).get("TenSP").toString());
                 }
                 nhapHangUI.getMenuSPNhap().show(nhapHangUI.getTxtTimKiemSanPhamNhap(), 0, nhapHangUI.getTxtTimKiemSanPhamNhap().getHeight());
             }
@@ -273,33 +303,40 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
     }
 
     //Thêm sản phẩm vào giỏ hàng
-    public boolean themSP(String maPBSP){
-        Optional<ChiTietPhienBanSanPham> pbsp = null;
+    public boolean themSP(String maSP){
         DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
-        String mapbsp = "";
-        mapbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
-        String maSP = "";
-        maSP = mapbsp.substring(0, mapbsp.indexOf("-"));
+        String maSanPham = "";
+        maSanPham = maSP.substring(0, maSP.indexOf(" || "));
         Optional<SanPham> sp  = null;
         try {
-            sp = sanPhamDAO.timKiem(maSP);
+            sp = sanPhamDAO.timKiem(maSanPham);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         int stt = tmGioHang.getRowCount() + 1;
-        int sl = 10;
+        int sl = 0;
         double gia = 0;
-        String []row = {stt+"", maSP, sp.get().getTenSP(),null, sl+"", gia+"", thanhTien(sl, gia)+"", null};
+        String []row = {stt+"", maSanPham, sp.get().getTenSP(),null, sl+"", gia+"", thanhTien(sl, gia)+"", null};
         tmGioHang.addRow(row);
         nhapHangUI.getTxtTongTienSanPham().setText(tinhTT()+"");
         return true;
     }
 
     //Tính thành tiền
-    private double thanhTien(int sl, Double gia) {
+    private String thanhTien(int sl, Double gia) {
         double tt = 0;
         tt = sl*gia;
-        return tt;
+        return new DecimalFormat("0.00").format(tt);
+    }
+
+    //Ham tinh tong tien san pham
+    private String tongTienSanPhamNhap() {
+        DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+        double tongTien = 0;
+        for(int i = 0; i < tmGioHang.getRowCount(); i++){
+            tongTien+=(Double.parseDouble(tmGioHang.getValueAt(i, 6).toString()));
+        }
+        return new DecimalFormat("0.00").format(tongTien);
     }
 
     //Tính tổng tiền sản phẩm
@@ -312,6 +349,38 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         return tt;
     }
 
+    //Load các PBSP vào bảng chọn
+    private void loadPBSP(String maSP) {
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("MaSP" , maSP);
+        List<ChiTietPhienBanSanPham> pbsp;
+        DefaultTableModel clearTable = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+        clearTable.setRowCount(0);
+        nhapHangUI.getTblChonPBSP().setModel(clearTable);
+        try {
+            pbsp = chiTietPhienBanSanPhamDAO.timKiem(conditions);
+            DefaultTableModel tmPBSP = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+            for(ChiTietPhienBanSanPham pp : pbsp){
+                Object row[] = {pp.getMaPhienBanSP(), pp.getMauSac()+"", pp.getKichThuoc(), "", false};
+                tmPBSP.addRow(row);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Map<String, String> listSPDaCo = new HashMap<>();
+        DefaultTableModel tmPBSP = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+        if(listSPDaChon.containsKey(maSP)){
+            listSPDaCo = (Map<String, String>) listSPDaChon.get(maSP);
+            for(int i = 0; i < tmPBSP.getRowCount(); i++){
+                if(listSPDaCo.containsKey(tmPBSP.getValueAt(i,0).toString())){
+                    tmPBSP.setValueAt(listSPDaCo.get(tmPBSP.getValueAt(i,0).toString()), i, 3);
+                    tmPBSP.setValueAt(true, i,4);
+                }
+            }
+        }
+    }
+
+    //Bắt sự kiện cho table khi nhập giá để tính thành tiền và tổng tiền
     @Override
     public void tableChanged(TableModelEvent e) {
         if(e.getColumn()==5){
@@ -349,10 +418,11 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
                 nhapHangUI.getTxtMaPhieuNhap().setEnabled(false);
+                nhapHangUI.getTxtMaPhieuNhap().setText(layMaPN());
             }
             // Thực hiện chức năng nghiệp vụ thêm phiếu nhập và duyệt
             else if(trangThaiNutThemPN==1) {
-
+                
             }
             //Thực hiện chức năng nghiệp vụ sửa nhân viên
             else if(trangThaiNutThemPN==2){
@@ -377,6 +447,26 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 //                }
 //                trangThaiNutXuatFilePN = 1;
             }
+        } else if (op.equals(nhapHangUI.getBtnChonXongPBSP())) {
+            if(nhapHangUI.getTblChonPBSP().isEditing()){
+                nhapHangUI.getTblChonPBSP().getCellEditor().stopCellEditing();
+            }
+            String maSP = nhapHangUI.getTxtMaSPBangChonPBSP().getText();
+            DefaultTableModel tmPBSP = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+            DefaultTableModel tmSP = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+            int row = nhapHangUI.getTbDanhSachSpTrongGioHang().getSelectedRow();
+            nhapHangUI.getTblChonPBSP().setFocusable(false);
+            Map<String, String> listCTPBSPChon = new HashMap<>();
+            int tong = 0;
+            for(int i = 0; i < tmPBSP.getRowCount(); i++){
+                if(tmPBSP.getValueAt(i,4).toString().equalsIgnoreCase("true")){
+                    listCTPBSPChon.put(tmPBSP.getValueAt(i, 0).toString(), tmPBSP.getValueAt(i, 3).toString());
+                    tong += Integer.parseInt(tmPBSP.getValueAt(i,3).toString());
+                }
+            }
+            listSPDaChon.put(maSP, listCTPBSPChon);
+            tmSP.setValueAt(tong, row, 4);
+            anHienWinPBSP(false);
         }
 
         /*NÚT SỬA*/
@@ -440,6 +530,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         }
 
         /*LỌC PHIẾU NHẬP*/
+        //Lọc phiếu nhập từ ComboBox
         if(op.equals(nhapHangUI.getCbTkNhaCungCap()) || op.equals(nhapHangUI.getCbTkTinhTrang())){
             if(nhapHangUI.getjDateChooserTkNgayLapPhieu().getDate() == null && nhapHangUI.getjDateChooserTkNgayHenGiao().getDate() == null){
                 if(!nhapHangUI.getCbTkNhaCungCap().getSelectedItem().equals("--Nhà cung cấp--")){
@@ -607,8 +698,82 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 throw new RuntimeException(ee);
             }
         }
+
+        /*XÁC NHẬP THÊM PBSP*/
+        if(op.equals(nhapHangUI.getBtnChonXongPBSP())){
+
+//            layDataCTNHPBSP(nhapHangUI.getTblChonPBSP().getModel(), );
+        }
     }
 
+    //Phát sinh mã phiếu nhập
+    private String layMaPN() {
+        String ma = "PN-";
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        ma = ma+nThem;
+        ma = ma+"-"+formatNumber(laysoDuoiMaPN());
+        return ma;
+    }
+
+    //Hàm lấy số đuôi
+    public int laysoDuoiMaPN(){
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("MaPN", "%"+nThem+"%");
+        List<PhieuNhapHang> phieuNhapHangs;
+        try {
+            phieuNhapHangs = phieuNhapHangDAO.timKiem(conditions);
+        } catch (Exception e) {
+            return 1;
+        }
+        if(phieuNhapHangs.size()==0){
+            return 1;
+        }
+        PhieuNhapHang pnh = phieuNhapHangs.get(phieuNhapHangs.size()-1);
+        int soPN = Integer.parseInt(pnh.getMaPhieuNhap().substring(pnh.getMaPhieuNhap().length()-3));
+        return soPN+1;
+    }
+
+    //Hàm gán thêm số ví dụ 001
+    public static String formatNumber(int number) {
+        if(number < 10)
+            return String.format("00%d", number);
+        else if((number >= 10) && (number < 100))
+            return String.format("0%d", number);
+        else
+            return String.format("%d", number);
+    }
+
+    //Phát sinh mã ChiTietPhieuNhap
+    public String maCTPN(){
+        String ma = "CTPN-";
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        ma = ma+nThem;
+        ma = ma+"-"+formatNumber(laysoDuoiMaCTPN());
+        return ma;
+    }
+
+    //Hàm lấy số đuôi
+    public int laysoDuoiMaCTPN(){
+        String nThem = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("MaChiTietPhieuNhap", "%"+nThem+"%");
+        List<ChiTietPhieuNhapHang> ctpnh;
+        try {
+            ctpnh = chiTietPhieuNhapHangDAO.timKiem(conditions);
+        } catch (Exception e) {
+            return 1;
+        }
+        if(ctpnh.size()==0){
+            return 1;
+        }
+        ChiTietPhieuNhapHang ctPNH = ctpnh.get(ctpnh.size()-1);
+        int soPN = Integer.parseInt(ctPNH.getMaChiTietPhieuNhap().substring(ctPNH.getMaChiTietPhieuNhap().length()-3));
+        return soPN+1;
+    }
+
+
+    //Lọc phiếu nhập từ JDateChooser
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         handlePropertyChange(evt);
@@ -791,11 +956,13 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         }
     }
 
+    //Chuyển đổi kiểu Date thành LocalDate
     public LocalDate dateToLocalDate(Date date) {
         Instant instant = date.toInstant();
         return instant.atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
+    //Đóng hoặc mở các tương tác với phần tìm kiếm
     private void tuongTacTimKiem(boolean b) {
         nhapHangUI.getCbTkNhaCungCap().setEnabled(b);
         nhapHangUI.getCbTkTinhTrang().setEnabled(b);
@@ -804,6 +971,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         nhapHangUI.getTxtTkPhieuNhap().setEnabled(b);
     }
 
+    //Đóng hoặc mở tương tác với phần thông tin
     private void tuongTac(boolean b) {
         nhapHangUI.getTxtDiaChiCuaHang().setEnabled(b);
         nhapHangUI.getTxtDienThoaiCuaHang().setEnabled(b);
@@ -819,7 +987,12 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         nhapHangUI.getTxtTimKiemSanPhamNhap().setEnabled(b);
     }
 
-    //Ham xoa trang
+    private void anHienWinPBSP(boolean o){
+        nhapHangUI.getWinPBSP().setLocationRelativeTo(null);
+        nhapHangUI.getWinPBSP().setVisible(o);
+    }
+
+    //Ham xoa trang dữ liệu
     public void xoaTrangAll(){
         nhapHangUI.getTxtNhaCungCap().setText("");
         nhapHangUI.getTxtDiaChi().setText("");
@@ -833,6 +1006,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         clearTable.setRowCount(0);
         nhapHangUI.getTbDanhSachSpTrongGioHang().setModel(clearTable);
     }
+
     //Load combobox tìm kiếm
     public void loadComboBoxPhanTimKiem(){
         //Tình trạng
@@ -881,12 +1055,97 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         return phieuNhapHang;
     }
 
+    //Lấy data ChiTietPhieuNhapHangPhienBanSP
+    private List<ChiTietPhieuNhapHangPhienBanSP> layDataCTNHPBSP(DefaultTableModel model, ChiTietPhieuNhapHang ctpnh) {
+        List<ChiTietPhieuNhapHangPhienBanSP> list = new ArrayList<>();
+        List<ChiTietPhienBanSanPham> pbsp;
 
-//    private ChiTietPhieuNhapHangPhienBanSP layDataCTNHPBSP() {
-//
-//    }
-//
+        for (int row = 0; row < model.getRowCount(); row++) {
+            String maPBSP = model.getValueAt(row, 0).toString();
+            try {
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("MaPBSP", maPBSP);
+                pbsp = chiTietPhienBanSanPhamDAO.timKiem(conditions);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            int sl = Integer.parseInt(model.getValueAt(row, 3).toString());
+
+            ChiTietPhieuNhapHangPhienBanSP ctpbsp;
+            try {
+                ctpbsp = new ChiTietPhieuNhapHangPhienBanSP(ctpnh, pbsp.get(0), sl);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            list.add(ctpbsp);
+        }
+
+        return list;
+    }
+
+    //Lấy data ChiTietPhieuNhapHang
 //    private ChiTietPhieuNhapHang layDataChiTietPhieuNhap() {
 //
 //    }
+
+    @Override
+    public void onDelete(int row) {
+        System.out.println("Djt me may");
+    }
+
+    @Override
+    public void onDuyet(int row) {
+
+    }
+
+    @Override
+    public void onHuy(int row) {
+
+    }
+
+    @Override
+    public void onChon(int row) {
+        if(nhapHangUI.getTbDanhSachSpTrongGioHang().isEditing()){
+            nhapHangUI.getTbDanhSachSpTrongGioHang().getCellEditor().stopCellEditing();
+        }
+        String maSP = nhapHangUI.getTbDanhSachSpTrongGioHang().getModel().getValueAt(row, 1).toString();
+
+            if(trangThaiNutThemPN==0){
+                nhapHangUI.getTxtMaPhieuNhap().getText();
+                DefaultTableModel tmPNH = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                int rowSelected = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
+                String maPN = tmPNH.getValueAt(rowSelected, 0).toString();
+                Optional<ChiTietPhieuNhapHang> ctpnh;
+                try {
+                    ctpnh = chiTietPhieuNhapHangDAO.timKiem(maPN, maSP);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                List<ChiTietPhieuNhapHangPhienBanSP> ct;
+                Map<String, Object> conditons = new HashMap<>();
+                conditons.put("MaChiTietPhieuNhap", ctpnh.get().getMaChiTietPhieuNhap());
+                try {
+                    ct = chiTietPhieuNhapHangPhienBanSPDAO.timKiem(conditons);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                DefaultTableModel tmPBSP = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+                tmPBSP.setRowCount(0);
+                nhapHangUI.getTblChonPBSP().setModel(tmPBSP);
+                for(ChiTietPhieuNhapHangPhienBanSP ctPNHPhienBanSP : ct){
+                    tmPBSP.addRow(new Object[]{ctPNHPhienBanSP.getChiTietPhienBanSanPham().getMaPhienBanSP(), ctPNHPhienBanSP.getChiTietPhienBanSanPham().getMauSac(), ctPNHPhienBanSP.getChiTietPhienBanSanPham().getKichThuoc(), ctPNHPhienBanSP.getSoLuongNhap(), true});
+                }
+                nhapHangUI.getTxtMaSPBangChonPBSP().setText(maSP);
+                nhapHangUI.getTblChonPBSP().setEnabled(false);
+                anHienWinPBSP(true);
+
+            }
+            else if(trangThaiNutThemPN == 1){
+                nhapHangUI.getTxtMaSPBangChonPBSP().setText(maSP);
+                loadPBSP(maSP);
+                nhapHangUI.getTblChonPBSP().setEnabled(true);
+                anHienWinPBSP(true);
+            }
+
+    }
 }

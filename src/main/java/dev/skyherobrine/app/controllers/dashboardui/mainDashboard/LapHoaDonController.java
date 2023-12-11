@@ -455,6 +455,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             SL = maPBSP.substring(maPBSP.indexOf(":")+1);
             maPBSP = maPBSP.substring(0, maPBSP.indexOf(" "));
         }
+        System.out.println(maPBSP);
         try {
             pbsp = chiTietPhienBanSanPhamDAO.timKiem(maPBSP);
             int index = maPBSP.indexOf("-");
@@ -534,7 +535,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     public void run() {
         do{
             try{
-                Thread.sleep(100);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -558,10 +559,11 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             }
 
             if(result!=null){
-                System.out.println(result);
+                themSP(result.toString().trim());
             }
         }while(true);
     }
+
     public void xoaTrang(){
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
         lapHoaDon.getTxtMaHoaDon().setText("");
