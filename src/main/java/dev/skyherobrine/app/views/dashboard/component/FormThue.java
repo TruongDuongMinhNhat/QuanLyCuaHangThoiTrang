@@ -168,13 +168,18 @@ public class FormThue extends javax.swing.JPanel {
         txtTenThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnThemThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnThemThue.setText("Thêm khuyến mãi");
+        btnThemThue.setText("Thêm Thuế");
+        btnThemThue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemThueActionPerformed(evt);
+            }
+        });
 
         btnSuaThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnSuaThue.setText("Sửa khuyến mãi");
+        btnSuaThue.setText("Sửa thuế");
 
         btnXoaThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnXoaThue.setText("Xoá khuyến mãi");
+        btnXoaThue.setText("Xoá thuế");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("%");
@@ -184,41 +189,43 @@ public class FormThue extends javax.swing.JPanel {
         pnThongTInThueLayout.setHorizontalGroup(
             pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnThongTInThueLayout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                        .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTile)
-                            .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                                .addComponent(lbMaKhuyenMai)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMaThue, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(317, 317, 317)
-                        .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNgayHetHan)
-                            .addComponent(lbNgayApDung)))
+                        .addGap(272, 272, 272)
+                        .addComponent(btnThemThue, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(304, 304, 304)
+                        .addComponent(btnSuaThue, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnXoaThue, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27))
                     .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                        .addComponent(lbTenSanPhamApDung)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(169, 169, 169)
                         .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                                .addComponent(txtThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbTile)
+                                    .addGroup(pnThongTInThueLayout.createSequentialGroup()
+                                        .addComponent(lbMaKhuyenMai)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtMaThue, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(317, 317, 317)
+                                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbNgayHetHan)
+                                    .addComponent(lbNgayApDung)))
+                            .addGroup(pnThongTInThueLayout.createSequentialGroup()
+                                .addComponent(lbTenSanPhamApDung)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2))
-                            .addComponent(txtTenThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooserNgayApDungThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(jDateChooserNgayHetHanjThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnThongTInThueLayout.createSequentialGroup()
+                                        .addComponent(txtThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2))
+                                    .addComponent(txtTenThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                        .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jDateChooserNgayApDungThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                            .addComponent(jDateChooserNgayHetHanjThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(245, 245, 245))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnThongTInThueLayout.createSequentialGroup()
-                .addGap(272, 272, 272)
-                .addComponent(btnThemThue)
-                .addGap(274, 274, 274)
-                .addComponent(btnSuaThue)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnXoaThue)
-                .addGap(265, 265, 265))
         );
         pnThongTInThueLayout.setVerticalGroup(
             pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,6 +295,10 @@ public class FormThue extends javax.swing.JPanel {
     private void txtTuKhoaTimKiemThueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTuKhoaTimKiemThueActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTuKhoaTimKiemThueActionPerformed
+
+    private void btnThemThueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemThueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnThemThueActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
