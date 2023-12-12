@@ -31,7 +31,16 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
 
     @Override
     public boolean capNhat(ChiTietPhieuNhapHang target) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update ChiTietPhieuNhap set MaChiTietPhieuNhap = ?, MaSP = ?, MaPhieuNhap = ?, GiaNhap = ? where MaChiTietPhieuNhap = ? AND MaSP = ?");
+        preparedStatement.setString(1, target.getMaChiTietPhieuNhap());
+        preparedStatement.setString(2, target.getSanPham().getMaSP());
+        preparedStatement.setString(3, target.getPhieuNhapHang().getMaPhieuNhap());
+        preparedStatement.setDouble(4, target.getGiaNhap());
+        preparedStatement.setString(5, target.getMaChiTietPhieuNhap());
+        preparedStatement.setString(6, target.getSanPham().getMaSP());
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
@@ -111,7 +120,6 @@ public class ChiTietPhieuNhapHangDAO implements IDAO<ChiTietPhieuNhapHang> {
                 ("select * from ChiTietPhieuNhap where MaPhieuNhap = ? and MaSP = ?");
         preparedStatement.setString(1, maPhieuNhap);
         preparedStatement.setString(2, maSP);
-
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return Optional.of(new ChiTietPhieuNhapHang(resultSet.getString("MaChiTietPhieuNhap"),

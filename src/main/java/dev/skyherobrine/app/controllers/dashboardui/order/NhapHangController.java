@@ -65,9 +65,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
     private PanelAction1 pnA1;
 
     public NhapHangController(QuanLyNhapHang nhapHangUI) {
-        nhapHangUI.getTxtDiaChiCuaHang().setText("12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chi Minh");
-        nhapHangUI.getTxtDienThoaiCuaHang().setText("0273629111");
-        nhapHangUI.getTxtEmailCUaHang().setText("thoitrangNTTT08@gmail.com");
+
         try {
             phieuNhapHangDAO = new PhieuNhapHangDAO();
             chiTietPhienBanSanPhamDAO = new ChiTietPhienBanSanPhamDAO();
@@ -110,6 +108,9 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
             }else {
                 //Mặc định do hiện tại chỉ có một cửa hàng nên không luu trữ dữ liệu cửa hàng vào phiếu nhập
+                nhapHangUI.getTxtDiaChiCuaHang().setText("12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chi Minh");
+                nhapHangUI.getTxtDienThoaiCuaHang().setText("0273629111");
+                nhapHangUI.getTxtEmailCUaHang().setText("thoitrangNTTT08@gmail.com");
 
                 int row = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
                 String ma = nhapHangUI.getTbDanhSachPheiNhap().getValueAt(row, 0).toString();
@@ -483,6 +484,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         /*NÚT THÊM*/
         if(op.equals(nhapHangUI.getBtnThemPhieuNhap())){
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm phieu nhap
+
             if (trangThaiNutThemPN==0) {
                 nhapHangUI.getTbDanhSachPheiNhap().clearSelection();
                 nhapHangUI.getBtnThemPhieuNhap().setText("Thêm và duyệt");
@@ -497,6 +499,9 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 tuongTacTimKiem(false);
                 //Xóa trắng dữ liệu
                 xoaTrangAll();
+                nhapHangUI.getTxtDiaChiCuaHang().setText("12 Nguyễn Văn Bảo, Gò Vấp, Hồ Chi Minh");
+                nhapHangUI.getTxtDienThoaiCuaHang().setText("0273629111");
+                nhapHangUI.getTxtEmailCUaHang().setText("thoitrangNTTT08@gmail.com");
                 nhapHangUI.getTxtMaPhieuNhap().setEnabled(false);
                 nhapHangUI.getTxtMaPhieuNhap().setText(layMaPN());
                 nhapHangUI.getTxtNgayLapPhieu().setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString());
@@ -539,6 +544,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                             }
                         }
                         JOptionPane.showMessageDialog(null, "Thêm phiếu nhập và duyệt phiếu thành công!");
+                        listMaCTPN = new HashMap<>();
+                        listSPDaChon = new HashMap<>();
                         loadPhieuNhap();
                         nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                         nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
@@ -558,26 +565,54 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             }
             //Thực hiện chức năng nghiệp vụ sửa phiếu nhập
             else if(trangThaiNutThemPN==2){
-//                if (nhapHangUI.getTxtMaNhanVien().getText().equals("")) {
-//                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần sửa!");
-//                }else {
-//                    NhanVien nvSua = layDataSua();
-//                    if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa nhân viên có mã " +nvSua.getMaNV()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
-//                        try {
-//                            if(nhanVienDAO.capNhat(nvSua)){
-//                                loadDsNhanVien();
-//                                xoaTrangAll();
-//                                JOptionPane.showMessageDialog(null, "Sửa thành công!");
-//                                trangThaiNutThemPN = 2;
-//                            }else{
-//                                JOptionPane.showMessageDialog(null, "Sửa thất bại!");
-//                            }
-//                        } catch (Exception ex) {
-//                            throw new RuntimeException(ex);
-//                        }
-//                    }
-//                }
-//                trangThaiNutXuatFilePN = 1;
+                PhieuNhapHang phieuNhapHang = layDataPhieuNhap("CHO_DUYET");
+                Map<String, String> listPBSP = new HashMap<>();
+                Map<String, Object> listPBSPDaCo = new HashMap<>();
+                DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+                double gia = 0;
+                try {
+                    if(phieuNhapHangDAO.capNhat(phieuNhapHang)){
+
+                        System.out.println(listMaCTPNXem);
+                        for(Map.Entry<String, String> entry : listMaCTPNXem.entrySet()){
+                            listPBSP = (Map<String, String>) listSPDaChon.get(entry.getValue());
+                            Optional<ChiTietPhieuNhapHang> ctpnh = chiTietPhieuNhapHangDAO.timKiem(phieuNhapHang.getMaPhieuNhap(), entry.getValue());
+                            for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                                if(tmGioHang.getValueAt(i, 1).toString().equalsIgnoreCase(entry.getValue())){
+                                    gia = Double.parseDouble(tmGioHang.getValueAt(i, 5).toString());
+                                }
+                            }
+                            ctpnh.get().setGiaNhap(gia);
+                            chiTietPhieuNhapHangDAO.capNhat(ctpnh.get());
+                            if(listSPDaChon.get(entry.getValue())!=null){
+                                for(Map.Entry<String, String> entry1 : listPBSP.entrySet()){
+                                    listPBSPDaCo.put("MaChiTietPhieuNhap", entry.getKey());
+                                    listPBSPDaCo.put("MaPhienBanSP", entry1.getKey());
+                                    List<ChiTietPhieuNhapHangPhienBanSP> ctpnhPBSP = chiTietPhieuNhapHangPhienBanSPDAO.timKiem(listPBSPDaCo);
+                                    System.out.println(ctpnhPBSP.get(0));
+                                    ctpnhPBSP.get(0).setSoLuongNhap(Integer.parseInt(entry1.getValue()));
+                                    chiTietPhieuNhapHangPhienBanSPDAO.capNhat(ctpnhPBSP.get(0));
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "Sửa phiếu nhập thành công!");
+                        listMaCTPN = new HashMap<>();
+                        listSPDaChon = new HashMap<>();
+                        loadPhieuNhap();
+                        xoaTrangAll();
+                        nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
+                        nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
+                        nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                        trangThaiNutXuatFilePN = 0;
+                        trangThaiNutThemPN = 0;
+                        trangThaiNutSuaPN = 0;
+                        tuongTac(false);
+                        tuongTacTimKiem(true);
+                        tmGioHang.setRowCount(0);
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
 
@@ -586,15 +621,29 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa nhân viên
             if (trangThaiNutSuaPN==0) {
                 //Mở tương tác với thông tin
-//                tuongTac(true);
-//
-//                nhapHangUI.getBtnThemPhieuNhap().setText("Xác nhận sửa");
-//                nhapHangUI.getBtnSuaPhieuNhap().setText("Xóa trắng");
-//                nhapHangUI.getBtnXuatFile().setText("Thoát sửa");
-//                trangThaiNutThemPN = 2;
-//                trangThaiNutSuaPN = 1;
-//                trangThaiNutXuatFilePN = 1;
-//                nhapHangUI.getTxtMaNhanVien().setEnabled(false);
+                DefaultTableModel tmPhieu = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                int row = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
+                if(row == -1){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập cần sửa", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                    String tinhTrang = tmPhieu.getValueAt(row, 4).toString();
+                    if(!tinhTrang.equalsIgnoreCase("CHO_DUYET")){
+                        JOptionPane.showMessageDialog(null, "Phiếu nhập đã nhận không thể sửa", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+                tuongTac(false);
+                tuongTacTimKiem(false);
+                nhapHangUI.getTxtNhaCungCap().setEnabled(true);
+                nhapHangUI.getjDateChooserNgayHenGiao().setEnabled(true);
+                nhapHangUI.getTxtGhiChu().setEnabled(true);
+                nhapHangUI.getBtnThemPhieuNhap().setText("Xác nhận sửa");
+                nhapHangUI.getBtnSuaPhieuNhap().setText("Xóa trắng");
+                nhapHangUI.getBtnXuatFile().setText("Thoát sửa");
+                trangThaiNutThemPN = 2;
+                trangThaiNutSuaPN = 1;
+                trangThaiNutXuatFilePN = 1;
             }
             // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín nhân viên
             else if(trangThaiNutSuaPN==1) {
@@ -640,6 +689,8 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         }
                         JOptionPane.showMessageDialog(null, "Thêm phiếu nhập và duyệt phiếu thành công!");
                         loadPhieuNhap();
+                        listMaCTPN = new HashMap<>();
+                        listSPDaChon = new HashMap<>();
                         nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                         nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
                         nhapHangUI.getBtnXuatFile().setText("Xuất file");
@@ -1248,6 +1299,9 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
 
     //Ham xoa trang dữ liệu
     public void xoaTrangAll(){
+        nhapHangUI.getTxtEmailCUaHang().setText("");
+        nhapHangUI.getTxtDienThoaiCuaHang().setText("");
+        nhapHangUI.getTxtDiaChiCuaHang().setText("");
         nhapHangUI.getBtnTrangThaiPhieu().setVisible(false);
         nhapHangUI.getTxtNhaCungCap().setText("");
         nhapHangUI.getTxtGhiChu().setText("");
@@ -1258,6 +1312,9 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         nhapHangUI.getjDateChooserNgayHenGiao().setDate(null);
         nhapHangUI.getTxtTongTienSanPham().setText("");
         nhapHangUI.getTxtTinhTrangPhieuNhap().setText("");
+        nhapHangUI.getCbkDangLayHang().setSelected(false);
+        nhapHangUI.getCbkDuyet().setSelected(false);
+        nhapHangUI.getCbkHoanThanh().setSelected(false);
         DefaultTableModel clearTable = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
         clearTable.setRowCount(0);
         nhapHangUI.getTbDanhSachSpTrongGioHang().setModel(clearTable);
@@ -1320,12 +1377,32 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
         if(nhapHangUI.getTbDanhSachSpTrongGioHang().isEditing()){
             nhapHangUI.getTbDanhSachSpTrongGioHang().getCellEditor().stopCellEditing();
         }
-        DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
-        tmGioHang.removeRow(row);
-        for(int i = 0; i < tmGioHang.getRowCount(); i++){
-            tmGioHang.setValueAt((i+1), i, 0);
+        if(!(trangThaiNutThemPN==0)){
+            if(trangThaiNutThemPN==2){
+                DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+                if(tmGioHang.getRowCount()>1){
+                    tmGioHang.removeRow(row);
+                    for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                        tmGioHang.setValueAt((i+1), i, 0);
+                    }
+                    nhapHangUI.getTxtTongTienSanPham().setText(tongTienSanPhamNhap());
+                }else {
+                    JOptionPane.showMessageDialog(nhapHangUI, "Bạn không thể xóa sản phẩm cuối cùng trong phiếu nhập");
+                }
+            }else{
+                DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+                tmGioHang.removeRow(row);
+                for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                    tmGioHang.setValueAt((i+1), i, 0);
+                }
+                nhapHangUI.getTxtTongTienSanPham().setText(tongTienSanPhamNhap());
+            }
+
+        } else{
+            JOptionPane.showMessageDialog(nhapHangUI, "Bạn không thể xóa sản phẩm trong chế độ xem");
+
         }
-        nhapHangUI.getTxtTongTienSanPham().setText(tongTienSanPhamNhap());
+
     }
 
     @Override
@@ -1392,6 +1469,35 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             else if(trangThaiNutThemPN == 1){
                 nhapHangUI.getTxtMaSPBangChonPBSP().setText(maSP);
                 loadPBSP(maSP);
+                nhapHangUI.getTblChonPBSP().setEnabled(true);
+                anHienWinPBSP(true);
+            }else if(trangThaiNutThemPN==2){
+                nhapHangUI.getTxtMaPhieuNhap().getText();
+                DefaultTableModel tmPNH = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                int rowSelected = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
+                String maPN = tmPNH.getValueAt(rowSelected, 0).toString();
+                Optional<ChiTietPhieuNhapHang> ctpnh;
+                try {
+                    ctpnh = chiTietPhieuNhapHangDAO.timKiem(maPN, maSP);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                List<ChiTietPhieuNhapHangPhienBanSP> ct;
+                Map<String, Object> conditons = new HashMap<>();
+                conditons.put("MaChiTietPhieuNhap", ctpnh.get().getMaChiTietPhieuNhap());
+                try {
+                    ct = chiTietPhieuNhapHangPhienBanSPDAO.timKiem(conditons);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                DefaultTableModel tmPBSP = (DefaultTableModel) nhapHangUI.getTblChonPBSP().getModel();
+                tmPBSP.setRowCount(0);
+                nhapHangUI.getTblChonPBSP().setModel(tmPBSP);
+                for(ChiTietPhieuNhapHangPhienBanSP ctPNHPhienBanSP : ct){
+                    tmPBSP.addRow(new Object[]{ctPNHPhienBanSP.getChiTietPhienBanSanPham().getMaPhienBanSP(), ctPNHPhienBanSP.getChiTietPhienBanSanPham().getMauSac(), ctPNHPhienBanSP.getChiTietPhienBanSanPham().getKichThuoc(), ctPNHPhienBanSP.getSoLuongNhap(), true});
+                }
+                nhapHangUI.getTxtMaSPBangChonPBSP().setText(maSP);
                 nhapHangUI.getTblChonPBSP().setEnabled(true);
                 anHienWinPBSP(true);
             }
