@@ -48,7 +48,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(new QuanLyHoaDon());
                     System.out.println("Form : " + index + " " + subIndex);
                 } else if(index == 3) {//Thuế
-
+                    showForm(new FormThue());
                     System.out.println("Form: " + index + " " + subIndex);
                 } else if (index==4 && subIndex==1) {// quản lý sản phẩm
                     showForm(new QuanLySanPham());
