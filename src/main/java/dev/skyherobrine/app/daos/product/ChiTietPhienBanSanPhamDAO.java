@@ -33,7 +33,17 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
     @Override
     public boolean capNhat(ChiTietPhienBanSanPham target) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update PhienBanSanPham set MaPhienBanSP = ?, MaSP = ?, MauSac = ?, KichThuoc = ?, SoLuong = ?, HinhAnh = ? where MaPhienBanSP = ?");
+        preparedStatement.setString(1, target.getMaPhienBanSP());
+        preparedStatement.setString(2, target.getSanPham().getMaSP());
+        preparedStatement.setString(3, target.getMauSac().toString());
+        preparedStatement.setString(4, target.getKichThuoc());
+        preparedStatement.setInt(5, target.getSoLuong());
+        preparedStatement.setString(6, target.getHinhAnh());
+        preparedStatement.setString(7, target.getMaPhienBanSP());
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override

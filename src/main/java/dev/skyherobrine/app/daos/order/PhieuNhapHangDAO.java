@@ -39,7 +39,16 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
 
     @Override
     public boolean capNhat(PhieuNhapHang target) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Update PhieuNhapHang set MaPhieuNhap = ?, MaNCC = ?, NgayHenGiao = ?, NgayLapPhieu = ?, GhiChu = ?, TinhTrang = ? where MaPhieuNhap = ?");
+        preparedStatement.setString(1, target.getMaPhieuNhap());
+        preparedStatement.setString(2, target.getNhaCungCap().getMaNCC());
+        preparedStatement.setTimestamp(3, Timestamp.valueOf(target.getNgayHenGiao()));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(target.getNgayLapPhieu()));
+        preparedStatement.setString(5, target.getGhiChu());
+        preparedStatement.setString(6, target.getTinhTrang().toString());
+        preparedStatement.setString(7, target.getMaPhieuNhap());
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override

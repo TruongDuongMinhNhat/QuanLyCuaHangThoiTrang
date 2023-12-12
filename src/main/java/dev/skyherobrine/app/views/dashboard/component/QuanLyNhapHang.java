@@ -58,14 +58,30 @@ public class QuanLyNhapHang extends javax.swing.JPanel {
 
         btnChonXongPBSP.addActionListener(controller);
 
+
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(7).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(controller));
         
 
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellRender());
         tbDanhSachSpTrongGioHang.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutChon.TableActionCellEditor(controller));
-
+        if(tbDanhSachSpTrongGioHang.isEditing()){
+            tbDanhSachSpTrongGioHang.getCellEditor().stopCellEditing();
+        }
         btnTrangThaiPhieu.addActionListener(controller);
+        btnTrangThaiPhieu.setVisible(false);
+        cbkDangLayHang.setEnabled(false);
+        cbkDuyet.setEnabled(false);
+        cbkHoanThanh.setEnabled(false);
+        txtDiaChiCuaHang.setEnabled(false);
+        txtDienThoaiCuaHang.setEnabled(false);
+        txtEmailCUaHang.setEnabled(false);
+        txtDiaChi.setEnabled(false);
+        txtEmailNhaCungCap.setEnabled(false);
+        txtNgayLap.setEnabled(false);
+        txtTinhTrangPhieuNhap.setEnabled(false);
+        txtTongTienSanPham.setEnabled(false);
+        txtGhiChu.setEnabled(false);
     }
     
     /**
