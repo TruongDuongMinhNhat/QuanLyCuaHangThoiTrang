@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Virtue Nguyen
@@ -23,5 +25,4 @@ public class TableActionCellRender1 extends DefaultTableCellRenderer {
         }
         return action;
     }
-    
 }

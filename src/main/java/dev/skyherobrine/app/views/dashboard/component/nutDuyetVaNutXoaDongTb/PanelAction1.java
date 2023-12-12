@@ -4,6 +4,7 @@
  */
 package dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,6 +46,7 @@ public class PanelAction1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+
         cmdHuy = new dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.ActionButton1();
         cmdDuyet = new javax.swing.JButton();
 
@@ -56,6 +58,7 @@ public class PanelAction1 extends javax.swing.JPanel {
         });
 
         cmdDuyet.setText("Duyệt");
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -83,9 +86,12 @@ public class PanelAction1 extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdHuyActionPerformed
 
+    public JButton getCmdDuyet(){return cmdDuyet;}
+    public JButton getCmdHuy(){return cmdHuy;}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdDuyet;
     private dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.ActionButton1 cmdHuy;
     // End of variables declaration//GEN-END:variables
+
 }
