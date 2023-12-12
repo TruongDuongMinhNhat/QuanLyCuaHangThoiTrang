@@ -27,6 +27,8 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         btnXuatHoaDon.addActionListener(controller);
         txtTuKhoaTimKiem.addKeyListener(controller);
         jDateChooserNgayLapHoaDon.addPropertyChangeListener("date", controller);
+
+        setDoubleBuffered(true);
     }
 
     /**

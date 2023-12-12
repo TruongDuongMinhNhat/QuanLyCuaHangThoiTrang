@@ -451,9 +451,21 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         Optional<ChiTietPhienBanSanPham> pbsp = null;
         DefaultTableModel tmGioHang = (DefaultTableModel) lapHoaDon.getTbDanhSachCacSanPhamTrongGioHang().getModel();
         String SL = "1";
-        if(maPBSP.contains(" ")){
-            SL = maPBSP.substring(maPBSP.indexOf(":")+1);
+        String kQ = "1";
+
+        if(maPBSP.contains(" ")) {
+            SL = maPBSP.substring(maPBSP.indexOf(":") + 1);
             maPBSP = maPBSP.substring(0, maPBSP.indexOf(" "));
+            kQ = JOptionPane.showInputDialog(lapHoaDon, "Nhập số lượng sản phẩm", "Nhập số lượng", JOptionPane.INFORMATION_MESSAGE);
+
+            while (!kQ.matches("\\d+")) {
+                JOptionPane.showMessageDialog(lapHoaDon, "Vui lòng nhập số lượng là số nguyên");
+                kQ = JOptionPane.showInputDialog(lapHoaDon, "Nhập số lượng sản phẩm", "Nhập số lượng", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if (Integer.parseInt(kQ) > Integer.parseInt(SL)) {
+                JOptionPane.showMessageDialog(lapHoaDon, "Số lượng sản phẩm không đủ");
+                return false;
+            }
         }
         System.out.println(maPBSP);
         try {
@@ -468,8 +480,8 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
 //            String pbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
             for(int i = 0; i < tmGioHang.getRowCount(); i++){
                 if(tmGioHang.getValueAt(i, 1).toString().equalsIgnoreCase(pbsp.get().getMaPhienBanSP())){
-                    int soLuong = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString())+1;
-                    if(Integer.parseInt(SL)>0){
+                    int soLuong = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString())+Integer.parseInt(kQ);
+                    if(Integer.parseInt(SL)>pbsp.get().getSoLuong()){
                         tmGioHang.setValueAt((soLuong*Double.parseDouble(tmGioHang.getValueAt(i, 5).toString())), i,6);
                         tmGioHang.setValueAt(soLuong, i, 4);
                         lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
@@ -480,7 +492,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     }
                 }
             }
-            int sl = 1;
+            int sl = Integer.parseInt(kQ);
             DecimalFormat format = new DecimalFormat("0.00");
             double dongia = sp.get().giaBan();
             String []rows = {stt+"", maPBSP, sp.get().getTenSP(), pbsp.get().getKichThuoc(), sl+"", format.format(dongia), format.format(sl*dongia), null};

@@ -71,22 +71,26 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
             throw new RuntimeException(e);
         }
     }
-    public void loadDsHoaDon() {
-        DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
-        tmHoaDon.setRowCount(0);
-        Map<String, Object> conditions = new HashMap<>();
-        conditions.put("NgayLap >= DATEADD(DAY, -3, GETDATE()) AND MaHD", "%%");
-        try {
-            dsHoaDon = hoaDonDAO.timKiem(conditions);
-            double tongTien = 0;
-            for(HoaDon hd : dsHoaDon){
-                String row[] = {hd.getMaHD(), hd.getNgayLap()+"", hd.getNhanVienLap().getHoTen(), hd.getKhachHang().getHoTen()};
-                tmHoaDon.addRow(row);
+    public void loadDsHoaDon() throws Exception{
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
+                tmHoaDon.setRowCount(0);
+                Map<String, Object> conditions = new HashMap<>();
+                conditions.put("NgayLap >= DATEADD(DAY, -3, GETDATE()) AND MaHD", "%%");
+                try {
+                    dsHoaDon = hoaDonDAO.timKiem(conditions);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                double tongTien = 0;
+                for(HoaDon hd : dsHoaDon){
+                    String row[] = {hd.getMaHD(), hd.getNgayLap()+"", hd.getNhanVienLap().getHoTen(), hd.getKhachHang().getHoTen()};
+                    tmHoaDon.addRow(row);
+                }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        }).start();
     }
     public static void loadCbMucTien(){
         hoaDonUI.getCbTkCaLamViec().addItem("Tất cả");
@@ -116,47 +120,52 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
 
     }
     public static void xemHoaDon(){
-        int row = hoaDonUI.getTbDanhSachHoaDon().getSelectedRow();
-        DefaultTableModel tmHoaDon = (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
-        String maHD = hoaDonUI.getTbDanhSachHoaDon().getValueAt(row, 0).toString();
-        hoaDonUI.getPnHoaDon().removeAll();
-        hoaDonUI.getPnHoaDon().repaint();
-        hoaDonUI.getPnHoaDon().revalidate();
-        Map<String, Object> data= new HashMap<>();
-        data.put("maHD", maHD);
-        Map<String, Object> conditions= new HashMap<>();
-        conditions.put("MaHD", maHD);
-        List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
-        BigDecimal tienKhachDua = null;
-        DecimalFormat format = new DecimalFormat("0.00");
-        try {
-            chiTietHoaDons = chiTietHoaDonDAO.timKiem(conditions);
-            tienKhachDua = hoaDonDAO.timKiem(maHD).get().getSoTienKHTra();
-            for(ChiTietHoaDon cthd : chiTietHoaDons){
-                Map<String, Object> conditionsSP = new HashMap<>();
-                conditionsSP.put("MaSP", cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
-                Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
-                sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
-                data.put("ThanhTien", format.format(cthd.getSoLuongMua() * sanPham.get().giaBan()));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int row = hoaDonUI.getTbDanhSachHoaDon().getSelectedRow();
+                DefaultTableModel tmHoaDon = (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
+                String maHD = hoaDonUI.getTbDanhSachHoaDon().getValueAt(row, 0).toString();
+                hoaDonUI.getPnHoaDon().removeAll();
+                hoaDonUI.getPnHoaDon().repaint();
+                hoaDonUI.getPnHoaDon().revalidate();
+                Map<String, Object> data= new HashMap<>();
+                data.put("maHD", maHD);
+                Map<String, Object> conditions= new HashMap<>();
+                conditions.put("MaHD", maHD);
+                List<ChiTietHoaDon> chiTietHoaDons = new ArrayList<>();
+                BigDecimal tienKhachDua = null;
+                DecimalFormat format = new DecimalFormat("0.00");
+                try {
+                    chiTietHoaDons = chiTietHoaDonDAO.timKiem(conditions);
+                    tienKhachDua = hoaDonDAO.timKiem(maHD).get().getSoTienKHTra();
+                    for(ChiTietHoaDon cthd : chiTietHoaDons){
+                        Map<String, Object> conditionsSP = new HashMap<>();
+                        conditionsSP.put("MaSP", cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                        Optional<SanPham> sanPham = sanPhamDAO.timKiem(cthd.getChiTietPhienBanSanPham().getSanPham().getMaSP());
+                        sanPham.get().setChiTietPhieuNhapHangs(chiTietPhieuNhapHangDAO.timKiem(conditionsSP));
+                        data.put("ThanhTien", format.format(cthd.getSoLuongMua() * sanPham.get().giaBan()));
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                data.put("TongTien", tmHoaDon.getValueAt(row, 3).toString());
+                data.put("tienKhachDua", tienKhachDua);
+                data.put("tienThua",tienKhachDua.doubleValue());
+
+                try {
+                    JasperDesign jasperDesign = JRXmlLoader.load(new File("src/main/resources/HoaDon/hoadon.jrxml"));
+                    JasperReport jreport = JasperCompileManager.compileReport(jasperDesign);
+                    JasperPrint jprint = JasperFillManager.fillReport(jreport, data, connectDB.getConnection());
+                    JRViewer v = new JRViewer(jprint);
+                    hoaDonUI.getPnHoaDon().setLayout(new BorderLayout());
+                    hoaDonUI.getPnHoaDon().add(v);
+                }catch (Exception ex){
+                    throw new RuntimeException(ex);
+                }
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
-        data.put("TongTien", tmHoaDon.getValueAt(row, 4).toString());
-        data.put("tienKhachDua", tienKhachDua);
-        data.put("tienThua", abs(Double.parseDouble(tmHoaDon.getValueAt(row, 4).toString()) - tienKhachDua.doubleValue()));
-
-        try {
-            JasperDesign jasperDesign = JRXmlLoader.load(new File("src/main/resources/HoaDon/hoadon.jrxml"));
-            JasperReport jreport = JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jprint = JasperFillManager.fillReport(jreport, data, connectDB.getConnection());
-            JRViewer v = new JRViewer(jprint);
-            hoaDonUI.getPnHoaDon().setLayout(new BorderLayout());
-            hoaDonUI.getPnHoaDon().add(v);
-        }catch (Exception ex){
-            throw new RuntimeException(ex);
-        }
+        }).start();
     }
     public static void inHoaDon(){
             int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn in hóa đơn này không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
