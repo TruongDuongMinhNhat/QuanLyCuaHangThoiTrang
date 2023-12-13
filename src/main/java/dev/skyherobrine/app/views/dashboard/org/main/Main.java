@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(t);
                     System.out.println("Form : " + index + " " + subIndex);
                 } else if(index ==1){// thông tin cá nhân
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                    showForm(new FormTHongTinCaNhan());
                     System.out.println("Form : " + index + " " + subIndex);
                 } else if (index==2 && subIndex==1) {//Lập hoá đơn
                     showForm(new LapHoaDon());
