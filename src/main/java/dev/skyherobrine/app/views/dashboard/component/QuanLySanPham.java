@@ -56,7 +56,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
         cbTkLoaiSanPham.addActionListener(controller);
         cbTkTinhTrang.addActionListener(controller);
         cbTkTHuongHieu.addActionListener(controller);
-        cbTkKichThuocSp.addActionListener(controller);
+        cbTkDoTuoi.addActionListener(controller);
         cbTkKieuNguoiMacSp.addActionListener(controller);
 //
         txtTuKhoaTimKiem.addKeyListener(controller);
@@ -163,14 +163,13 @@ public class QuanLySanPham extends javax.swing.JPanel {
         cbTkLoaiSanPham = new javax.swing.JComboBox<>();
         cbTkTinhTrang = new javax.swing.JComboBox<>();
         cbTkTHuongHieu = new javax.swing.JComboBox<>();
-        cbTkKichThuocSp = new javax.swing.JComboBox<>();
+        cbTkDoTuoi = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtTuKhoaTimKiem = new javax.swing.JTextField();
 
         winThemPBSP.setModal(true);
         winThemPBSP.setResizable(false);
         winThemPBSP.setSize(new java.awt.Dimension(660, 800));
-        winThemPBSP.setLocationRelativeTo(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -276,6 +275,10 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         tbDIalogDanhSachCacSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "Màu sắc", "Kích thước", "Số lượng", ""
@@ -558,10 +561,13 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         tbDanhSachSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Danh mục", "Loại sản phẩm", "Phong cách", "Thương hiệu", "Độ tuổi",  "Tình trạng"
+                "Mã sản phẩm", "Tên sản phẩm", "Danh mục", "Loại sản phẩm", "Phong cách", "Thương hiệu", "Độ  tuổi", "Tình trạng"
             }
         ));
         spDanhSachSapnPham.setViewportView(tbDanhSachSanPham);
@@ -595,8 +601,8 @@ public class QuanLySanPham extends javax.swing.JPanel {
         cbTkTHuongHieu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         cbTkTHuongHieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thương hiệu", " " }));
 
-        cbTkKichThuocSp.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        cbTkKichThuocSp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kích thước" }));
+        cbTkDoTuoi.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cbTkDoTuoi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Độ tuổi" }));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Từ khoá tìm kiếm");
@@ -617,7 +623,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(cbTkTHuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cbTkKichThuocSp, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbTkDoTuoi, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cbTkKieuNguoiMacSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -636,7 +642,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
                     .addComponent(cbTkLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbTkTinhTrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbTkTHuongHieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTkKichThuocSp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTkDoTuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(8, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnTimKiemQuanLySanPhamLayout.createSequentialGroup()
@@ -704,7 +710,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbTh;
     private javax.swing.JComboBox<String> cbTinhTrang;
     private javax.swing.JComboBox<String> cbTkDanhMuc;
-    private javax.swing.JComboBox<String> cbTkKichThuocSp;
+    private javax.swing.JComboBox<String> cbTkDoTuoi;
     private javax.swing.JComboBox<String> cbTkKieuNguoiMacSp;
     private javax.swing.JComboBox<String> cbTkLoaiSanPham;
     private javax.swing.JComboBox<String> cbTkTHuongHieu;
@@ -775,7 +781,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
     public JComboBox getCbTkLoaiSanPham(){return cbTkLoaiSanPham;}
     public JComboBox getCbTkTinhTrang(){return cbTkTinhTrang;}
     public JComboBox getCbTkThuongHieu(){return cbTkTHuongHieu;}
-    public JComboBox getCbTkKichThuocSp(){return cbTkKichThuocSp;}
+    public JComboBox getCbTkDoTuoi(){return cbTkDoTuoi;}
     public JComboBox getCbTkPhongCachMac(){return cbTkKieuNguoiMacSp;}
     public JButton getBtnThemPBSP(){return btnThemPBSP;}
     public JComboBox getCbDialogKichThuoc(){return cbDialogKichThuoc;}
