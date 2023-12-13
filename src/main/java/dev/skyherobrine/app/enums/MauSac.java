@@ -1,7 +1,7 @@
 package dev.skyherobrine.app.enums;
 
 public enum MauSac {
-    TRANG(1), DO(2), DEN(3), VANG(4), CAM(5), XANH_DUONG(6), XANH_LA_CAY(7), HONG(8), XAM(9), NAU(10), TIM(11);
+    TRANG(1), DO(2), DEN(3), VANG(4), CAM(5), XANH_DUONG(6), XANH_LA_CAY(7), HONG(8), XAM(9), NAU(10), TIM(11), XANH(12);
     private int value;
     MauSac(int value) { this.value = value; }
     public static MauSac layGiaTri(int value) {
@@ -17,6 +17,7 @@ public enum MauSac {
             case 9 -> { return XAM; }
             case 10 -> { return NAU; }
             case 11 -> { return TIM; }
+            case 12 -> { return XANH; }
             default -> throw new NullPointerException("Không tìm thây màu sắc ứng với giá trị!");
         }
     }
@@ -38,7 +39,7 @@ public enum MauSac {
             case "XAM" -> { return XAM; }
             case "NAU" -> { return NAU; }
             case "TIM" -> { return TIM; }
-            case "XANH" -> { return XANH_DUONG;}
+            case "XANH" -> { return XANH;}
             default -> throw new NullPointerException("Không có giá trị tương ứng để quy đổi");
         }
     }

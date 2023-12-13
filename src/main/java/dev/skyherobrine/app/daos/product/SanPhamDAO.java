@@ -23,7 +23,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
     @Override
     public boolean them(SanPham sanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                ("Insert SanPham values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, sanPham.getMaSP());
         preparedStatement.setString(2, sanPham.getTenSP());
         preparedStatement.setString(3, sanPham.getLoaiSanPham().getMaLoai());
@@ -32,10 +32,9 @@ public class SanPhamDAO implements IDAO<SanPham> {
         preparedStatement.setString(6, sanPham.getXuatXu());
         preparedStatement.setString(7, sanPham.getThuongHieu().getMaTH());
         preparedStatement.setDouble(8, sanPham.getPhanTramLoi());
-        preparedStatement.setString(9, sanPham.getMauSac().toString());
-        preparedStatement.setDate(10, Date.valueOf(sanPham.getNgaySanXuat()));
-        preparedStatement.setString(11, sanPham.getThue().getMaThue());
-        preparedStatement.setString(12, sanPham.getTinhTrang().toString());
+        preparedStatement.setDate(9, Date.valueOf(sanPham.getNgaySanXuat()));
+        preparedStatement.setString(10, sanPham.getThue().getMaThue());
+        preparedStatement.setString(11, sanPham.getTinhTrang().toString());
         return preparedStatement.executeUpdate() > 0;
     }
 
@@ -75,7 +74,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
 
     @Override
     public List<SanPham> timKiem() throws Exception {
-        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select TOP 10 * from SanPham");
+        ResultSet resultSet = connectDB.getConnection().createStatement().executeQuery("select * from SanPham");
         List<SanPham> sanPhams = new ArrayList<>();
         while(resultSet.next()) {
             SanPham sanPham = new SanPham(resultSet.getString("MaSP"),
