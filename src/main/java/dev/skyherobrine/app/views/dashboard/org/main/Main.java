@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(t);
                     System.out.println("Form : " + index + " " + subIndex);
                 } else if(index ==1){// thông tin cá nhân
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                    showForm(new FormTHongTinCaNhan());
                     System.out.println("Form : " + index + " " + subIndex);
                 } else if (index==2 && subIndex==1) {//Lập hoá đơn
                     showForm(new LapHoaDon());
@@ -85,7 +85,10 @@ public class Main extends javax.swing.JFrame {
                 }else if (index==8) {//nhân viên
                     showForm(new FrmNhanVien());
                     System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==9 ) {// báo cáo cửa hàng
+                }else if (index==9 && subIndex ==1 ) {// báo cáo cửa hàng về doanh thu
+                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                    System.out.println("Form : " + index + " " + subIndex);
+                }else if (index==9 && subIndex ==2 ) {// báo cáo cửa hàng v sản phẩm
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==10 ) {// trợ giúp

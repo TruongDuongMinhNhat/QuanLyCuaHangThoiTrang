@@ -38,7 +38,7 @@ public class Menu extends JComponent {
             {"Nhà cung cấp"},
             {"Khách hàng"},
             {"Nhân viên"},
-            {"Báo cáo cửa hàng"},
+            {"Báo cáo cửa hàng","Doanh thu","Sản phẩm"},
             {"Trợ giúp"},
             {"Đăng xuất"}
     };

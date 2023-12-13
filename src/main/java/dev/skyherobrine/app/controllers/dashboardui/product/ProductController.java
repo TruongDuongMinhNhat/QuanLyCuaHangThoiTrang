@@ -498,7 +498,7 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         /*LỌC SẢN PHẨM*/
         if (op.equals(sanPhamUI.getCbTkDanhMuc()) ||
                 op.equals(sanPhamUI.getCbTkLoaiSanPham()) || op.equals(sanPhamUI.getCbTkTinhTrang()) ||
-                op.equals(sanPhamUI.getCbTkThuongHieu()) || op.equals(sanPhamUI.getCbTkKichThuocSp()) ||
+                op.equals(sanPhamUI.getCbTkThuongHieu()) || op.equals(sanPhamUI.getCbTkDoTuoi()) ||
                 op.equals(sanPhamUI.getCbTkPhongCachMac())){
             dsTim = new ArrayList<>();
             List<DanhMucSanPham> dsDanhMucTim;
@@ -555,11 +555,11 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                             }
                             dsTim = dsTam;
                             dsTam = new ArrayList<>();
-                            if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
+                            if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
                                 for(int i=0; i<dsTim.size(); i++){
-//                                    if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                        dsTam.add(dsTim.get(i));
-//                                    }
+                                    if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                        dsTam.add(dsTim.get(i));
+                                    }
                                 }
                                 dsTim = dsTam;
                                 dsTam = new ArrayList<>();
@@ -583,12 +583,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                                 dsTam = new ArrayList<>();
                             }
                         }
-                        else if (!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")) {
-//                            for(int i=0; i<dsTim.size(); i++){
-//                                if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                    dsTam.add(dsTim.get(i));
-//                                }
-//                            }
+                        else if (!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")) {
+                            for(int i=0; i<dsTim.size(); i++){
+                                if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                    dsTam.add(dsTim.get(i));
+                                }
+                            }
                             dsTim = dsTam;
                             dsTam = new ArrayList<>();
                             if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -619,12 +619,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
-                        if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                            for(int i=0; i<dsTim.size(); i++){
-//                                if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                    dsTam.add(dsTim.get(i));
-//                                }
-//                            }
+                        if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                            for(int i=0; i<dsTim.size(); i++){
+                                if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                    dsTam.add(dsTim.get(i));
+                                }
+                            }
                             dsTim = dsTam;
                             dsTam = new ArrayList<>();
                             if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -647,12 +647,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                             dsTam = new ArrayList<>();
                         }
                     }
-                    else if (!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")) {
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    else if (!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")) {
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -691,12 +691,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
-                        if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                            for(int i=0; i<dsTim.size(); i++){
-//                                if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                    dsTam.add(dsTim.get(i));
-//                                }
-//                            }
+                        if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                            for(int i=0; i<dsTim.size(); i++){
+                                if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                    dsTam.add(dsTim.get(i));
+                                }
+                            }
                             dsTim = dsTam;
                             dsTam = new ArrayList<>();
                             if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -710,12 +710,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                             }
                         }
                     }
-                    else if (!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")) {
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    else if (!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")) {
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -746,12 +746,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
-                    if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -774,12 +774,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         dsTam = new ArrayList<>();
                     }
                 }
-                else if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                    for(int i=0; i<dsTim.size(); i++){
-//                        if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                            dsTam.add(dsTim.get(i));
-//                        }
-//                    }
+                else if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                    for(int i=0; i<dsTim.size(); i++){
+                        if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                            dsTam.add(dsTim.get(i));
+                        }
+                    }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
                     if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -836,12 +836,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
-                        if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                            for(int i=0; i<dsTim.size(); i++){
-//                                if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                    dsTam.add(dsTim.get(i));
-//                                }
-//                            }
+                        if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                            for(int i=0; i<dsTim.size(); i++){
+                                if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                    dsTam.add(dsTim.get(i));
+                                }
+                            }
                             dsTim = dsTam;
                             dsTam = new ArrayList<>();
                             if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -864,12 +864,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                             dsTam = new ArrayList<>();
                         }
                     }
-                    else if (!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")) {
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    else if (!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")) {
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -900,12 +900,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
-                    if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -928,12 +928,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         dsTam = new ArrayList<>();
                     }
                 }
-                else if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                    for(int i=0; i<dsTim.size(); i++){
-//                        if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                            dsTam.add(dsTim.get(i));
-//                        }
-//                    }
+                else if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                    for(int i=0; i<dsTim.size(); i++){
+                        if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                            dsTam.add(dsTim.get(i));
+                        }
+                    }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
                     if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -981,12 +981,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
-                    if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                        for(int i=0; i<dsTim.size(); i++){
-//                            if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                                dsTam.add(dsTim.get(i));
-//                            }
-//                        }
+                    if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                        for(int i=0; i<dsTim.size(); i++){
+                            if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                                dsTam.add(dsTim.get(i));
+                            }
+                        }
                         dsTim = dsTam;
                         dsTam = new ArrayList<>();
                         if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -1009,12 +1009,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                         dsTam = new ArrayList<>();
                     }
                 }
-                else if (!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")) {
-//                    for(int i=0; i<dsTim.size(); i++){
-//                        if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                            dsTam.add(dsTim.get(i));
-//                        }
-//                    }
+                else if (!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")) {
+                    for(int i=0; i<dsTim.size(); i++){
+                        if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                            dsTam.add(dsTim.get(i));
+                        }
+                    }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
                     if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -1053,12 +1053,12 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-//                    for(int i=0; i<dsTim.size(); i++){
-//                        if(sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals(dsTim.get(i).getKichThuoc().toString())){
-//                            dsTam.add(dsTim.get(i));
-//                        }
-//                    }
+                if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                    for(int i=0; i<dsTim.size(); i++){
+                        if(sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals(dsTim.get(i).getDoTuoi().toString())){
+                            dsTam.add(dsTim.get(i));
+                        }
+                    }
                     dsTim = dsTam;
                     dsTam = new ArrayList<>();
                     if(!sanPhamUI.getCbTkPhongCachMac().getSelectedItem().toString().equals("--Phong cách--")){
@@ -1081,11 +1081,11 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     dsTam = new ArrayList<>();
                 }
             }
-            else if(!sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString().equals("--Kích thước--")){
-                Map<String, Object> conditionsKichThuoc = new HashMap<>();
-                conditionsKichThuoc.put("KichThuoc", sanPhamUI.getCbTkKichThuocSp().getSelectedItem().toString());
+            else if(!sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString().equals("--Độ tuổi--")){
+                Map<String, Object> conditionsDoTuoi = new HashMap<>();
+                conditionsDoTuoi.put("DoTuoi", sanPhamUI.getCbTkDoTuoi().getSelectedItem().toString());
                 try {
-                    dsTim = sanPhamDAO.timKiem(conditionsKichThuoc);
+                    dsTim = sanPhamDAO.timKiem(conditionsDoTuoi);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -1607,10 +1607,15 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         DefaultComboBoxModel<String> thuongHieuComboBoxModel = new DefaultComboBoxModel<>(itemsThuongHieu);
         sanPhamUI.getCbTkThuongHieu().setModel(thuongHieuComboBoxModel);
 
-        //Lấy kích thước
-        String[] itemsKichThuoc = {"--Kích thước--", "S", "M", "L", "XL", "XXL", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42"};
-        DefaultComboBoxModel<String> kichThuocComboBoxModel = new DefaultComboBoxModel<>(itemsKichThuoc);
-        sanPhamUI.getCbTkKichThuocSp().setModel(kichThuocComboBoxModel);
+        //Lấy Do tuổi
+        DoTuoi[] dsDoTuoi = DoTuoi.values();
+        String[] itemsDoTuoi = new String[dsDoTuoi.length + 1];
+        itemsDoTuoi[0] = "--Độ tuổi--";
+        for (int i = 0; i < dsDoTuoi.length; i++) {
+            itemsDoTuoi[i + 1] = dsDoTuoi[i].toString();
+        }
+        DefaultComboBoxModel<String> doTuoiCb = new DefaultComboBoxModel<>(itemsDoTuoi);
+        sanPhamUI.getCbTkDoTuoi().setModel(doTuoiCb);
 
         //Lấy PhongCachMac
         PhongCachMac[] dsPhongCachMac = PhongCachMac.values();
@@ -1642,7 +1647,7 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         sanPhamUI.getCbTkLoaiSanPham().setEnabled(o);
         sanPhamUI.getCbTkTinhTrang().setEnabled(o);
         sanPhamUI.getCbTkThuongHieu().setEnabled(o);
-        sanPhamUI.getCbTkKichThuocSp().setEnabled(o);
+        sanPhamUI.getCbTkDoTuoi().setEnabled(o);
         sanPhamUI.getCbTkPhongCachMac().setEnabled(o);
         sanPhamUI.getTxtTuKhoaTimKiem().setEnabled(o);
     }
