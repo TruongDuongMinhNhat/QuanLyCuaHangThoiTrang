@@ -498,35 +498,37 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
                               <Component id="btnThemQuanLySanPham" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="261" max="-2" attributes="0"/>
-                              <Component id="btnSuaQuanLySanPham" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="234" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lbPhanTramLoiQuanLySanPham" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbPhongCachMguoiMacQuanLySanPham1" max="32767" attributes="0"/>
-                                  <Component id="lbHhQuanLySanPham" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbXuatXuQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cbTh" alignment="1" pref="277" max="32767" attributes="0"/>
-                                      <Component id="txtPhanTramLoiQuanLySanPham" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="cbKieuNguoiMac" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="txtXuatXuQuanLySanPham" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="cbDanhMuc" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lbPhanTramLoiQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbPhongCachMguoiMacQuanLySanPham1" alignment="1" min="-2" pref="177" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbXuatXuQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbHhQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="txtXuatXuQuanLySanPham" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="cbTh" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="cbDanhMuc" alignment="1" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="txtPhanTramLoiQuanLySanPham" alignment="1" min="-2" pref="277" max="-2" attributes="0"/>
+                                      <Component id="cbKieuNguoiMac" alignment="1" min="-2" pref="277" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="btnThemPBSP" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnSuaQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnXoaQuanLySanPham" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
                           </Group>
