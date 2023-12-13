@@ -166,7 +166,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiTrenLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTimKiemSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemSanPham.setText("Tìm kiếm sản phẩm");
+        txtTimKiemSanPham.setText("");
         txtTimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemSanPhamActionPerformed(evt);
@@ -180,10 +180,7 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbDanhSachCacSanPhamTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành tiền", ""
@@ -247,10 +244,7 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbHoaDonLuuTam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Số thứ tự", "Tên khách hàng", "Số điện thoại", ""
@@ -273,7 +267,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         );
 
         txtTimKiemHoaDonLuuTam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemHoaDonLuuTam.setText("Tìm kiếm hoá đơn lưu tạm");
+        txtTimKiemHoaDonLuuTam.setText("");
         txtTimKiemHoaDonLuuTam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemHoaDonLuuTamActionPerformed(evt);
@@ -699,6 +693,36 @@ public class LapHoaDon extends javax.swing.JPanel {
     }
     public JButton getBtnLuuTam(){
         return btnLuuTam;
+    }
+    public JTextField getTxtMaHoaDon(){
+        return txtMaHoaDon;
+    }
+    public JTextField getTxtNgayLapHoaDon(){
+        return txtNgayLapHoaDon;
+    }
+    public JTextField getTxtThue(){
+        return txtThue;
+    }
+    public JTextField getTxtGiamGia(){
+        return txtGiamGia;
+    }
+    public JTextField getTxtTongTIen(){
+        return txtTongTIen;
+    }
+    public JTextField getTxtTienKhachDua(){
+        return txtTienKhachDua;
+    }
+    public JTextField getTxtTienDu(){
+        return txtTienDu;
+    }
+    public JTable getTbHoaDonLuuTam(){
+        return tbHoaDonLuuTam;
+    }
+    public JCheckBox getjCheckBox1(){
+        return jCheckBox1;
+    }
+    public JTextField getTxtChietKhau(){
+        return txtGiamGia;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLapHoaDon;

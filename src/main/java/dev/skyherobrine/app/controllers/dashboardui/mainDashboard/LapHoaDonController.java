@@ -467,7 +467,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 return false;
             }
         }
-        System.out.println(maPBSP);
         try {
             pbsp = chiTietPhienBanSanPhamDAO.timKiem(maPBSP);
             int index = maPBSP.indexOf("-");
@@ -479,9 +478,10 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             int stt = tmGioHang.getRowCount() + 1;
 //            String pbsp = maPBSP.substring(0, maPBSP.indexOf(" "));
             for(int i = 0; i < tmGioHang.getRowCount(); i++){
+                System.out.println(pbsp.get().getMaPhienBanSP());
                 if(tmGioHang.getValueAt(i, 1).toString().equalsIgnoreCase(pbsp.get().getMaPhienBanSP())){
                     int soLuong = Integer.parseInt(tmGioHang.getValueAt(i, 4).toString())+Integer.parseInt(kQ);
-                    if(Integer.parseInt(SL)>pbsp.get().getSoLuong()){
+                    if(Integer.parseInt(SL)>=Integer.parseInt(kQ)){
                         tmGioHang.setValueAt((soLuong*Double.parseDouble(tmGioHang.getValueAt(i, 5).toString())), i,6);
                         tmGioHang.setValueAt(soLuong, i, 4);
                         lapHoaDon.getTxtTongTIen().setText(tinhTT()+"");
