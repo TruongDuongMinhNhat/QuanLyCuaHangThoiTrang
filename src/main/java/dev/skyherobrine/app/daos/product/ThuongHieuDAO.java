@@ -5,7 +5,7 @@ import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.product.LoaiSanPham;
 import dev.skyherobrine.app.entities.product.ThuongHieu;
-import dev.skyherobrine.app.entities.system.LichSuDangNhap;
+//import dev.skyherobrine.app.entities.system.LichSuDangNhap;
 import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
 import java.sql.PreparedStatement;
