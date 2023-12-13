@@ -20,7 +20,7 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
     @Override
     public boolean them(ChiTietPhienBanSanPham chiTietPhienBanSanPham) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert PhienBanSanPham value(?, ?, ?, ?, ?, ?)");
+                ("Insert into PhienBanSanPham(MaPhienBanSP, MaSP, MauSac, KichThuoc, SoLuong, HinhAnh) values(?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, chiTietPhienBanSanPham.getMaPhienBanSP());
         preparedStatement.setString(2, chiTietPhienBanSanPham.getSanPham().getMaSP());
         preparedStatement.setString(3, chiTietPhienBanSanPham.getMauSac().toString());
@@ -48,7 +48,11 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Delete from PhienBanSanPham where MaPhienBanSP = ?");
+        preparedStatement.setString(1, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override
@@ -129,7 +133,6 @@ public class ChiTietPhienBanSanPhamDAO implements IDAO<ChiTietPhienBanSanPham> {
         preparedStatement.setString(1, maSP);
         preparedStatement.setString(2, mauSac.toString());
         preparedStatement.setString(3, kichThuoc);
-
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return Optional.of(new ChiTietPhienBanSanPham(resultSet.getString("MaPhienBanSP"), new SanPhamDAO().timKiem(resultSet.getString("MaSP")).get(),

@@ -7,6 +7,8 @@ package dev.skyherobrine.app.views.dashboard.component;
 import com.toedter.calendar.JDateChooser;
 //import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
 import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
+import dev.skyherobrine.app.entities.order.PhieuNhapHang;
+import dev.skyherobrine.app.controllers.dashboardui.product.ProductController;
 import dev.skyherobrine.app.enums.MauSac;
 import dev.skyherobrine.app.enums.PhongCachMac;
 import dev.skyherobrine.app.enums.TinhTrangSanPham;
@@ -30,18 +32,19 @@ public class QuanLySanPham extends javax.swing.JPanel {
      */
     public QuanLySanPham() {
         initComponents();
-        TableActionEvent event = new TableActionEvent() {
-            @Override
-            public void onDelete(int row) {
-                if(tbDIalogDanhSachCacSanPham.isEditing()){
-                    tbDIalogDanhSachCacSanPham.getCellEditor().stopCellEditing();
-                }
-                DefaultTableModel defaultTableModel =  (DefaultTableModel) tbDIalogDanhSachCacSanPham.getModel();
-                defaultTableModel.removeRow(row);
-            }
-        };
+//        TableActionEvent event = new TableActionEvent() {
+//            @Override
+//            public void onDelete(int row) {
+//                if(tbDIalogDanhSachCacSanPham.isEditing()){
+//                    tbDIalogDanhSachCacSanPham.getCellEditor().stopCellEditing();
+//                }
+//                DefaultTableModel defaultTableModel =  (DefaultTableModel) tbDIalogDanhSachCacSanPham.getModel();
+//                defaultTableModel.removeRow(row);
+//            }
+//        };
+        ProductController controller = new ProductController(this);
         tbDIalogDanhSachCacSanPham.getColumnModel().getColumn(3).setCellRenderer(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellRender());
-        tbDIalogDanhSachCacSanPham.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(event));
+        tbDIalogDanhSachCacSanPham.getColumnModel().getColumn(3).setCellEditor(new dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionCellEditor(controller));
 //        new ProductController(this).loadDsSanPham();
 //        new ProductController(this).loadComboBoxPhanThongTinSP();
 //        new ProductController(this).loadComboBoxPhanTimKiem();
@@ -49,16 +52,32 @@ public class QuanLySanPham extends javax.swing.JPanel {
 //        btnThemQuanLySanPham.addActionListener(new ProductController(this));
 //        btnSuaQuanLySanPham.addActionListener(new ProductController(this));
 //        btnXoaQuanLySanPham.addActionListener(new ProductController(this));
-//        cbTkDanhMuc.addActionListener(new ProductController(this));
-//        cbTkLoaiSanPham.addActionListener(new ProductController(this));
-//        cbTkTinhTrang.addActionListener(new ProductController(this));
-//        cbTkTHuongHieu.addActionListener(new ProductController(this));
-//        cbTkKichThuocSp.addActionListener(new ProductController(this));
-//        cbTkKieuNguoiMacSp.addActionListener(new ProductController(this));
+        cbTkDanhMuc.addActionListener(controller);
+        cbTkLoaiSanPham.addActionListener(controller);
+        cbTkTinhTrang.addActionListener(controller);
+        cbTkTHuongHieu.addActionListener(controller);
+        cbTkKichThuocSp.addActionListener(controller);
+        cbTkKieuNguoiMacSp.addActionListener(controller);
 //
-//        txtTuKhoaTimKiem.addKeyListener(new ProductController(this));
+        txtTuKhoaTimKiem.addKeyListener(controller);
 //        btnThemAnhSanPham.addActionListener(new ProductController(this));
-        btnThemPBSP.addActionListener(new ProductController(this));
+        btnThemPBSP.addActionListener(controller);
+        tbDanhSachSanPham.addMouseListener(controller);
+        jDateChooserNgaySanXuat.setEnabled(false);
+        cbDoTuoi.setEnabled(false);
+        cbDanhMuc.setEnabled(false);
+        cbKieuNguoiMac.setEnabled(false);
+        cbLoaiSanPham.setEnabled(false);
+        cbTh.setEnabled(false);
+        cbTinhTrang.setEnabled(false);
+        tbDIalogDanhSachCacSanPham.addMouseListener(controller);
+        btnDialogThemXuong.addActionListener(controller);
+        btnDialogAnh.addActionListener(controller);
+        btnThemQuanLySanPham.addActionListener(controller);
+        btnXoaQuanLySanPham.addActionListener(controller);
+        btnSuaQuanLySanPham.addActionListener(controller);
+        cbLoaiSanPham.addActionListener(controller);
+        cbKieuNguoiMac.addActionListener(controller);
     }
 
 //    public void themAnh(String fileAnh){
@@ -257,10 +276,6 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         tbDIalogDanhSachCacSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Màu sắc", "Kích thước", "Số lượng", ""
@@ -543,13 +558,10 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         tbDanhSachSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã sản phẩm", "Tên sản phẩm", "Danh mục", "Loại sản phẩm", "Phong cách", "Thương hiệu", "Độ tuổi",  "Tình trạng"
             }
         ));
         spDanhSachSapnPham.setViewportView(tbDanhSachSanPham);
@@ -735,7 +747,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtXuatXuQuanLySanPham;
     private javax.swing.JDialog winThemPBSP;
     // End of variables declaration//GEN-END:variables
-
+    public JDialog getWinThemPBSP(){return winThemPBSP;}
     public JTable getTbDanhSachSanPham(){
         return tbDanhSachSanPham;
     }
@@ -766,5 +778,13 @@ public class QuanLySanPham extends javax.swing.JPanel {
     public JComboBox getCbTkKichThuocSp(){return cbTkKichThuocSp;}
     public JComboBox getCbTkPhongCachMac(){return cbTkKieuNguoiMacSp;}
     public JButton getBtnThemPBSP(){return btnThemPBSP;}
-    public JDialog getWinThemPBSP(){return winThemPBSP;}
+    public JComboBox getCbDialogKichThuoc(){return cbDialogKichThuoc;}
+    public JComboBox getCbDialogMauSac(){return cbDialogMauSac;}
+    public JTable getTbDialogDanhSachCacSanPham(){return tbDIalogDanhSachCacSanPham;}
+    public JPanel getPnDialogAnh(){return pnDialogAnh;}
+    public JTextField getTxtDialogMaSanPham(){return txtDialogMaSanPham;}
+    public JTextField getTxtDialogSoLuong(){return txtDialogSoLuong;}
+    public JButton getBtnDialogAnh(){return btnDialogAnh;}
+    public JButton getBtnDialogThemXuong(){return btnDialogThemXuong;}
+    public JButton getBtnDialogXong(){return btnDialogXong;}
 }
