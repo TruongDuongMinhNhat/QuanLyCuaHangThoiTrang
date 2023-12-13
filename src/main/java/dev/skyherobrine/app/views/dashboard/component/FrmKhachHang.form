@@ -52,7 +52,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="pnThongTinKhachHang" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnLocDanhSachXuatFile" max="32767" attributes="0"/>
+                  <Component id="pnLocDanhSachXuatFile" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -144,7 +145,7 @@
                               <EmptySpace pref="96" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="btnSuaKhachHang" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnXuatFile" min="-2" max="-2" attributes="0"/>
@@ -180,13 +181,13 @@
                           </Group>
                           <Component id="jDateChooserNgaySinh" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnThemKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSuaKhachHang" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                          <Component id="btnXuatFile" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnThemKhachHang" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="btnXuatFile" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="btnSuaKhachHang" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -286,7 +287,10 @@
             <Component class="javax.swing.JButton" name="btnSuaKhachHang">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/edit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a kh&#xe1;ch h&#xe0;ng"/>
               </Properties>
@@ -294,7 +298,10 @@
             <Component class="javax.swing.JButton" name="btnThemKhachHang">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/plus.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m kh&#xe1;ch h&#xe0;ng"/>
               </Properties>
@@ -302,7 +309,10 @@
             <Component class="javax.swing.JButton" name="btnXuatFile">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/export.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t danh s&#xe1;ch"/>
               </Properties>
@@ -398,7 +408,7 @@
                       <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
                       <Component id="lbTkTenKhachHang" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTuKhoaTimKiem" max="32767" attributes="0"/>
+                      <Component id="txtTuKhoaTimKiem" pref="263" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -515,9 +525,9 @@
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnLocDanhSach" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnLamMoiLoc" min="-2" pref="144" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -612,6 +622,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/magnifying-glass.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="L&#x1ecd;c danh s&#xe1;ch"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -620,6 +633,9 @@
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/cleaning.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
                 <Property name="enabled" type="boolean" value="false"/>

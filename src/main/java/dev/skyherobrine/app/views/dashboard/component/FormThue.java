@@ -167,6 +167,7 @@ public class FormThue extends javax.swing.JPanel {
         txtTenThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnThemThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThemThue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/plus.png"))); // NOI18N
         btnThemThue.setText("Thêm Thuế");
         btnThemThue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +176,7 @@ public class FormThue extends javax.swing.JPanel {
         });
 
         btnXoaTrangThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnXoaTrangThue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/cleaning.png"))); // NOI18N
         btnXoaTrangThue.setText("Xoá trắng");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

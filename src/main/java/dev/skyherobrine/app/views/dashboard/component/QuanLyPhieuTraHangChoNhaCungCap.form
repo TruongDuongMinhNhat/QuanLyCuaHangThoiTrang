@@ -182,7 +182,7 @@
                           <Component id="txtTinhTrang" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="lbDoTuoiQuanLySanPham" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="112" max="32767" attributes="0"/>
+                      <EmptySpace pref="119" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThemPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnInPhieu" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -309,7 +309,10 @@
             <Component class="javax.swing.JButton" name="btnThemPhieu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/plus.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m phi&#x1ebf;u"/>
               </Properties>
@@ -317,7 +320,10 @@
             <Component class="javax.swing.JButton" name="btnInPhieu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/printer.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="In phi&#x1ebf;u"/>
               </Properties>

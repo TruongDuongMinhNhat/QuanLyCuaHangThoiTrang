@@ -118,10 +118,12 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
         lbDoTuoiQuanLySanPham.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbDoTuoiQuanLySanPham.setText("Tình trạng:");
 
-        btnThemPhieu.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        btnThemPhieu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThemPhieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/plus.png"))); // NOI18N
         btnThemPhieu.setText("Thêm phiếu");
 
-        btnInPhieu.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        btnInPhieu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnInPhieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/printer.png"))); // NOI18N
         btnInPhieu.setText("In phiếu");
 
         txtTinhTrang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -211,7 +213,7 @@ public class QuanLyPhieuTraHangChoNhaCungCap extends javax.swing.JPanel {
                 .addGroup(pnThongTInPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTinhTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDoTuoiQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                 .addGroup(pnThongTInPhieuTraHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemPhieu)
                     .addComponent(btnInPhieu))

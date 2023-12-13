@@ -56,16 +56,14 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
         lbTinhTrangNhaCungCap = new javax.swing.JLabel();
         txtMaNhaCungCap = new javax.swing.JTextField();
         txtTenNhaCungCap = new javax.swing.JTextField();
-        txtTenNhaCungCap.setEnabled(false);
         txtDiaChiNhaCungCap = new javax.swing.JTextField();
-        txtDiaChiNhaCungCap.setEnabled(false);
-        cbTinhTrangNhaCungCap = new javax.swing.JComboBox<>();
-        cbTinhTrangNhaCungCap.setEnabled(false);
+        txtTinhTrangNhaCungCap3 = new javax.swing.JTextField();
         txtEmailNhaCungCap = new javax.swing.JTextField();
-        txtEmailNhaCungCap.setEnabled(false);
         btnThemNhaCungCap = new javax.swing.JButton();
         btnSuaNhaCungCap = new javax.swing.JButton();
         btnXoaNhaCungCap = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cbTinhTrangNhaCungCap = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(1651, 1000));
 
@@ -77,10 +75,13 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
 
         tbDanhSachCacNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã nhà cung cấp", "Tên nhà cung cấp", "Địa chỉ", "Email", "Tình trạng"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         spDanhCacNhaCungCap.setViewportView(tbDanhSachCacNhaCungCap);
@@ -159,18 +160,26 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
 
         txtDiaChiNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        cbTinhTrangNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtTinhTrangNhaCungCap3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtEmailNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnThemNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThemNhaCungCap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/plus.png"))); // NOI18N
         btnThemNhaCungCap.setText("Thêm nhà cung cấp");
 
         btnSuaNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSuaNhaCungCap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/edit.png"))); // NOI18N
         btnSuaNhaCungCap.setText("Sửa nhà cung cấp");
 
         btnXoaNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnXoaNhaCungCap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/remove.png"))); // NOI18N
         btnXoaNhaCungCap.setText("Xoá nhà cung cấp");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setText("Tình trạng:");
+
+        cbTinhTrangNhaCungCap.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout pnThongTInNhaCungCapLayout = new javax.swing.GroupLayout(pnThongTInNhaCungCap);
         pnThongTInNhaCungCap.setLayout(pnThongTInNhaCungCapLayout);
@@ -181,7 +190,7 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
                 .addComponent(btnThemNhaCungCap)
                 .addGap(274, 274, 274)
                 .addComponent(btnSuaNhaCungCap)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
                 .addComponent(btnXoaNhaCungCap)
                 .addGap(265, 265, 265))
             .addGroup(pnThongTInNhaCungCapLayout.createSequentialGroup()
@@ -195,18 +204,22 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnThongTInNhaCungCapLayout.createSequentialGroup()
-                        .addComponent(lbDiaChiNhaCungCap)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDiaChiNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnThongTInNhaCungCapLayout.createSequentialGroup()
                         .addComponent(lbTenNhaCungCap)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTenNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTenNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnThongTInNhaCungCapLayout.createSequentialGroup()
+                        .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbDiaChiNhaCungCap)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtDiaChiNhaCungCap, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                            .addComponent(cbTinhTrangNhaCungCap, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(183, 183, 183))
         );
         pnThongTInNhaCungCapLayout.setVerticalGroup(
@@ -225,10 +238,13 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
                     .addComponent(lbEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTinhTrangNhaCungCap))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSuaNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,8 +290,10 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JButton btnSuaNhaCungCap;
     private javax.swing.JButton btnThemNhaCungCap;
     private javax.swing.JButton btnXoaNhaCungCap;
+    private javax.swing.JComboBox<String> cbTinhTrangNhaCungCap;
     private javax.swing.JComboBox<String> cbTkTinhTrangNhaCungCap;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbDiaChiNhaCungCap;
     private javax.swing.JLabel lbEmailNhaCungCap;
     private javax.swing.JLabel lbMaNhaCungCap;
@@ -291,7 +309,7 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtMaNhaCungCap;
     private javax.swing.JTextField txtTenNhaCungCap;
-    private javax.swing.JComboBox cbTinhTrangNhaCungCap;
+    private javax.swing.JTextField txtTinhTrangNhaCungCap3;
     private javax.swing.JTextField txtTuKhoaTimKiem;
     // End of variables declaration//GEN-END:variables
 

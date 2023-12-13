@@ -83,6 +83,7 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
         );
 
         btnSuaAnh.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSuaAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIconUserNPassword/user.png"))); // NOI18N
         btnSuaAnh.setText("Sửa ảnh");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -130,6 +131,7 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
         cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnChinhSuaThongTin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnChinhSuaThongTin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/edit.png"))); // NOI18N
         btnChinhSuaThongTin.setText("Chỉnh sửa thông tin");
 
         javax.swing.GroupLayout pnBGThongTinCaNhanLayout = new javax.swing.GroupLayout(pnBGThongTinCaNhan);
@@ -138,12 +140,6 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
             pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
                 .addGroup(pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
-                        .addGap(682, 682, 682)
-                        .addComponent(pnAnhThongTInNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
-                        .addGap(763, 763, 763)
-                        .addComponent(btnSuaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addGroup(pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -176,7 +172,16 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
                             .addComponent(txtEmail)
                             .addComponent(cbChucVu, 0, 250, Short.MAX_VALUE)
                             .addComponent(cbCaLamViec, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbTinhTrang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cbTinhTrang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
+                        .addGroup(pnBGThongTinCaNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
+                                .addGap(682, 682, 682)
+                                .addComponent(pnAnhThongTInNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
+                                .addGap(763, 763, 763)
+                                .addComponent(btnSuaAnh)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(88, 88, 88))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnBGThongTinCaNhanLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)

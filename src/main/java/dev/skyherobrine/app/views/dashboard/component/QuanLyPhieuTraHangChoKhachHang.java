@@ -198,9 +198,13 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
 
         tbDanhSachPhieuTraHangChoKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Số thứ tự", "Mã phiếu trả", "Ngày lập", "Mã hóa đơn trả", "Khách hàng trả", "Tổng mặt hàng trả"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         spDanhSachPhieuTraHangChoKhachHang.setViewportView(tbDanhSachPhieuTraHangChoKhachHang);
@@ -267,7 +271,10 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
 
         tbDanhSachSanPhamTrongHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
@@ -310,6 +317,7 @@ public class QuanLyPhieuTraHangChoKhachHang extends javax.swing.JPanel {
         jLabel9.setText("Ghi chú:");
 
         btnTraHang.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnTraHang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/icon-tra-hang.png"))); // NOI18N
         btnTraHang.setText("Trả hàng");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

@@ -422,13 +422,13 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="pnThongTinSanPhamQuanLySanPham" max="32767" attributes="0"/>
-                      <Component id="pnTimKiemQuanLySanPham" alignment="0" max="32767" attributes="0"/>
-                      <Component id="PnDanhSachSanPhamQuanLySanPham" alignment="0" max="32767" attributes="0"/>
+              <Component id="PnDanhSachSanPhamQuanLySanPham" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="pnThongTinSanPhamQuanLySanPham" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pnTimKiemQuanLySanPham" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -467,33 +467,42 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lbMaSpQuanLySanPham" min="-2" pref="150" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtMaSpQuanLySanPham" min="-2" pref="277" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lbNgaySanXuatQuanLySanPham" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbTenSpQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbDoTuoiQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbMaLoaiSpQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtTenSpQuanLySanPham" max="32767" attributes="0"/>
-                                  <Component id="cbDoTuoi" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="cbTinhTrang" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jDateChooserNgaySanXuat" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="cbLoaiSanPham" min="-2" pref="277" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="lbMaSpQuanLySanPham" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="txtMaSpQuanLySanPham" min="-2" pref="277" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="lbNgaySanXuatQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbTenSpQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbDoTuoiQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lbMaLoaiSpQuanLySanPham" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="txtTenSpQuanLySanPham" max="32767" attributes="0"/>
+                                          <Component id="cbDoTuoi" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="cbTinhTrang" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="jDateChooserNgaySanXuat" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="cbLoaiSanPham" min="-2" pref="277" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
-                          <Component id="btnThemQuanLySanPham" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="321" max="-2" attributes="0"/>
+                              <Component id="btnThemQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="261" max="-2" attributes="0"/>
+                              <Component id="btnSuaQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="230" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -518,8 +527,6 @@
                               <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="btnSuaQuanLySanPham" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="251" max="-2" attributes="0"/>
                               <Component id="btnXoaQuanLySanPham" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
                           </Group>
@@ -584,12 +591,10 @@
                           <Component id="btnThemPBSP" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnSuaQuanLySanPham" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="btnXoaQuanLySanPham" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="btnThemQuanLySanPham" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnXoaQuanLySanPham" pref="46" max="32767" attributes="0"/>
+                          <Component id="btnSuaQuanLySanPham" max="32767" attributes="0"/>
+                          <Component id="btnThemQuanLySanPham" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -712,7 +717,10 @@
             <Component class="javax.swing.JButton" name="btnSuaQuanLySanPham">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/edit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a s&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
@@ -720,7 +728,10 @@
             <Component class="javax.swing.JButton" name="btnThemQuanLySanPham">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/plus.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m s&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
@@ -728,7 +739,10 @@
             <Component class="javax.swing.JButton" name="btnXoaQuanLySanPham">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="3"/>
+                  <Font name="Segoe UI" size="18" style="1"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/img/iconButtonChungChoCacForm/remove.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Xo&#xe1; s&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
@@ -1005,7 +1019,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTuKhoaTimKiem" max="32767" attributes="0"/>
+                      <Component id="txtTuKhoaTimKiem" pref="298" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
