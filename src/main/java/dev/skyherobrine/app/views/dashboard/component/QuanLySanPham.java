@@ -264,6 +264,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
                 "Màu sắc", "Kích thước", "Số lượng", ""
             }
         ));
+        tbDIalogDanhSachCacSanPham.setRowHeight(40);
         spDialogDanhSachPhienBanSanPham.setViewportView(tbDIalogDanhSachCacSanPham);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
