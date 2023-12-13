@@ -47,7 +47,11 @@ public class ChiTietPhieuNhapHangPhienBanSPDAO implements IDAO<ChiTietPhieuNhapH
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Delete from ChiTietPhieuNhapHangPhienBanSP where MaChiTietPhieuNhap = ?");
+        preparedStatement.setString(1, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override

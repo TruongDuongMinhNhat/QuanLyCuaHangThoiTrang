@@ -53,7 +53,11 @@ public class PhieuNhapHangDAO implements IDAO<PhieuNhapHang> {
 
     @Override
     public boolean xoa(String id) throws Exception {
-        return false;
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("Delete from PhieuNhapHang where MaPhieuNhap = ?");
+        preparedStatement.setString(1, id);
+
+        return preparedStatement.executeUpdate() > 0;
     }
 
     @Override

@@ -549,7 +549,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         loadPhieuNhap();
                         nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                         nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
-                        nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                        nhapHangUI.getBtnXuatFile().setText("Xóa phiếu chờ");
                         trangThaiNutXuatFilePN = 0;
                         trangThaiNutThemPN = 0;
                         trangThaiNutSuaPN = 0;
@@ -602,7 +602,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         xoaTrangAll();
                         nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                         nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
-                        nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                        nhapHangUI.getBtnXuatFile().setText("Xóa phiếu chờ");
                         trangThaiNutXuatFilePN = 0;
                         trangThaiNutThemPN = 0;
                         trangThaiNutSuaPN = 0;
@@ -693,7 +693,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                         listSPDaChon = new HashMap<>();
                         nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                         nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
-                        nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                        nhapHangUI.getBtnXuatFile().setText("Xóa phiếu chờ");
                         trangThaiNutXuatFilePN = 0;
                         trangThaiNutThemPN = 0;
                         trangThaiNutSuaPN = 0;
@@ -709,10 +709,39 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
             }
         }
 
-        /*NÚT XUẤT FILE*/
+        /*NÚT XÓA PHIẾU CHỜ*/
         if (op.equals(nhapHangUI.getBtnXuatFile())) {
             // Thực hiện chức năng nghiệp vụ xóa nhân viên
             if (trangThaiNutXuatFilePN==0) {
+                DefaultTableModel tmPhieuNhap = (DefaultTableModel) nhapHangUI.getTbDanhSachPheiNhap().getModel();
+                DefaultTableModel tmGioHang = (DefaultTableModel) nhapHangUI.getTbDanhSachSpTrongGioHang().getModel();
+                int row = nhapHangUI.getTbDanhSachPheiNhap().getSelectedRow();
+                if(row == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn phiếu nhập cần xóa", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                String tinhTrang = tmPhieuNhap.getValueAt(row, 4).toString();
+                if(!tinhTrang.equalsIgnoreCase("CHO_DUYET")){
+                    JOptionPane.showMessageDialog(null, "Phiếu nhập đã duyệt không thể xóa", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                    String MaPN = tmPhieuNhap.getValueAt(row, 0).toString();
+                    int result = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa phiếu nhập có mã " + MaPN + " không?", "Lựa chọn", JOptionPane.YES_NO_OPTION);
+                    if(result == JOptionPane.YES_OPTION){
+                        try {
+                            for(Map.Entry entry : listMaCTPNXem.entrySet()){
+                                chiTietPhieuNhapHangPhienBanSPDAO.xoa(entry.getKey().toString());
+                            }
+                            chiTietPhieuNhapHangDAO.xoa(MaPN);
+                            phieuNhapHangDAO.xoa(MaPN);
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        JOptionPane.showMessageDialog(null, "Xóa phiếu nhập thành công!");
+                        loadPhieuNhap();
+                        tmGioHang.setRowCount(0);
+                    }
+                }
 //                if (nhapHangUI.getTxtMatKhauNhanVien().getText().equals("")) {
 //                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên cần xóa!");
 //                } else {
@@ -741,7 +770,7 @@ public class NhapHangController implements MouseListener, KeyListener, TableMode
                 xoaTrangAll();
                 nhapHangUI.getBtnThemPhieuNhap().setText("Thêm phiếu nhập");
                 nhapHangUI.getBtnSuaPhieuNhap().setText("Sửa phiếu nhập");
-                nhapHangUI.getBtnXuatFile().setText("Xuất file");
+                nhapHangUI.getBtnXuatFile().setText("Xóa phiếu chờ");
                 trangThaiNutXuatFilePN = 0;
                 trangThaiNutThemPN = 0;
                 trangThaiNutSuaPN = 0;
