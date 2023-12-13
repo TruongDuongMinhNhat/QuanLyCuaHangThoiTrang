@@ -1,111 +1,115 @@
-//package dev.skyherobrine.app.controllers.dashboardui.product;
-//
-//import dev.skyherobrine.app.daos.product.DanhMucSanPhamDAO;
-//import dev.skyherobrine.app.daos.product.LoaiSanPhamDAO;
-//import dev.skyherobrine.app.daos.product.SanPhamDAO;
-//import dev.skyherobrine.app.daos.product.ThuongHieuDAO;
-//import dev.skyherobrine.app.entities.product.DanhMucSanPham;
-//import dev.skyherobrine.app.entities.product.LoaiSanPham;
-//import dev.skyherobrine.app.entities.product.SanPham;
-//import dev.skyherobrine.app.entities.product.ThuongHieu;
-//import dev.skyherobrine.app.enums.DoTuoi;
-//import dev.skyherobrine.app.enums.MauSac;
-//import dev.skyherobrine.app.enums.PhongCachMac;
-//import dev.skyherobrine.app.enums.TinhTrangSanPham;
-//import dev.skyherobrine.app.views.dashboard.component.QuanLySanPham;
-//
-//import javax.swing.*;
-//import javax.swing.filechooser.FileNameExtensionFilter;
-//import javax.swing.table.DefaultTableModel;
-//import java.awt.*;
-//import java.awt.event.*;
-//import java.io.File;
-//import java.net.URL;
-//import java.text.ParseException;
-//import java.text.SimpleDateFormat;
-//import java.time.Instant;
-//import java.time.LocalDate;
-//import java.time.ZoneId;
-//import java.time.format.DateTimeFormatter;
-//import java.util.*;
-//import java.util.List;
-//
-//public class ProductController implements ActionListener, MouseListener, KeyListener {
-//    private QuanLySanPham sanPhamUI;
-//    private  List<SanPham> dsSanPham;
-//    private SanPhamDAO sanPhamDAO;
-//    private List<LoaiSanPham> dsLoaiSanPham;
-//    private LoaiSanPhamDAO loaiSanPhamDAO;
-//    private ThuongHieuDAO thuongHieuDAO;
-//    private List<ThuongHieu> dsThuongHieu;
-//    private List<DanhMucSanPham> dsDanhMucSanPham;
-//    private DanhMucSanPhamDAO danhMucSanPhamDAO;
-//
-//    private static int trangThaiNutXoa = 0;
-//    private static int trangThaiNutThem = 0;
-//    private static int trangThaiNutSua = 0;
-//
-//    private static String fileAnh = "";
-//
-//    public ProductController(QuanLySanPham sanPhamUI) {
-//        try {
-//            sanPhamDAO = new SanPhamDAO();
-//            loaiSanPhamDAO = new LoaiSanPhamDAO();
-//            thuongHieuDAO = new ThuongHieuDAO();
-//            danhMucSanPhamDAO = new DanhMucSanPhamDAO();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        this.sanPhamUI = sanPhamUI;
-//    }
-//
-////  Load data từ CSDL lên table
-//    public void loadDsSanPham() {
-//        DefaultTableModel clearTable = (DefaultTableModel) sanPhamUI.getTbDanhSachSanPham().getModel();
-//        clearTable.setRowCount(0);
-//        sanPhamUI.getTbDanhSachSanPham().setModel(clearTable);
-//        try {
-//            dsSanPham = sanPhamDAO.timKiem();
-//            DefaultTableModel tmSanPham = (DefaultTableModel) sanPhamUI.getTbDanhSachSanPham().getModel();
-//            for(SanPham sp : dsSanPham){
-//                String row[] = {sp.getMaSP(), sp.getTenSP(), sp.getXuatXu(), sp.getThuongHieu().getTenTH()+"", sp.getLoaiSanPham().getDanhMucSanPham().getTenDM()+"", sp.getLoaiSanPham().getTenLoai()+"", sp.getKichThuoc(), sp.getPhongCachMac()+"", sp.getPhanTramLoi()+"%", sp.getTinhTrang()+""};
-//                tmSanPham.addRow(row);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        trangThaiNutThem = 0;
-//        trangThaiNutSua = 0;
-//        trangThaiNutXoa = 0;
-//    }
-//
-//    private List<SanPham> dsTim;
-//    private List<SanPham> dsTam = new ArrayList<>();
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e){
-//        Object op = e.getSource();
-//        /*NÚT THÊM*/
-//        if(op.equals(sanPhamUI.getButtonThem())){
-//            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm sản phẩm
-//            if (trangThaiNutThem==0) {
-//                sanPhamUI.getButtonThem().setText("Xác nhận thêm");
-//                sanPhamUI.getButtonSua().setText("Xóa trắng");
-//                sanPhamUI.getButtonXoa().setText("Thoát thêm");
-//                trangThaiNutXoa = 1;
-//                trangThaiNutThem = 1;
-//                trangThaiNutSua = 1;
-//
-//                //Mở tương tác với thông tin
-//                tuongTac(true);
-//                tuongTacTimKiem(false);
-//
-//                //Xóa trắng dữ liệu
-//                xoaTrangAll();
-//                //load sẵn tình trang còn bán
-//                sanPhamUI.getCbTinhTrang().setSelectedItem("CON_BAN");
-//            }
-//            // Thực hiện chức năng nghiệp vụ thêm sản phẩm
+package dev.skyherobrine.app.controllers.dashboardui.product;
+
+import dev.skyherobrine.app.daos.product.DanhMucSanPhamDAO;
+import dev.skyherobrine.app.daos.product.LoaiSanPhamDAO;
+import dev.skyherobrine.app.daos.product.SanPhamDAO;
+import dev.skyherobrine.app.daos.product.ThuongHieuDAO;
+import dev.skyherobrine.app.entities.product.DanhMucSanPham;
+import dev.skyherobrine.app.entities.product.LoaiSanPham;
+import dev.skyherobrine.app.entities.product.SanPham;
+import dev.skyherobrine.app.entities.product.ThuongHieu;
+import dev.skyherobrine.app.enums.DoTuoi;
+import dev.skyherobrine.app.enums.MauSac;
+import dev.skyherobrine.app.enums.PhongCachMac;
+import dev.skyherobrine.app.enums.TinhTrangSanPham;
+import dev.skyherobrine.app.views.dashboard.component.QuanLySanPham;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.List;
+
+public class ProductController implements ActionListener, MouseListener, KeyListener {
+    private QuanLySanPham sanPhamUI;
+    private  List<SanPham> dsSanPham;
+    private SanPhamDAO sanPhamDAO;
+    private List<LoaiSanPham> dsLoaiSanPham;
+    private LoaiSanPhamDAO loaiSanPhamDAO;
+    private ThuongHieuDAO thuongHieuDAO;
+    private List<ThuongHieu> dsThuongHieu;
+    private List<DanhMucSanPham> dsDanhMucSanPham;
+    private DanhMucSanPhamDAO danhMucSanPhamDAO;
+
+    private static int trangThaiNutXoa = 0;
+    private static int trangThaiNutThem = 0;
+    private static int trangThaiNutSua = 0;
+
+    private static String fileAnh = "";
+
+    public ProductController(QuanLySanPham sanPhamUI) {
+        try {
+            sanPhamDAO = new SanPhamDAO();
+            loaiSanPhamDAO = new LoaiSanPhamDAO();
+            thuongHieuDAO = new ThuongHieuDAO();
+            danhMucSanPhamDAO = new DanhMucSanPhamDAO();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        this.sanPhamUI = sanPhamUI;
+    }
+
+//  Load data từ CSDL lên table
+    public void loadDsSanPham() {
+        DefaultTableModel clearTable = (DefaultTableModel) sanPhamUI.getTbDanhSachSanPham().getModel();
+        clearTable.setRowCount(0);
+        sanPhamUI.getTbDanhSachSanPham().setModel(clearTable);
+        try {
+            dsSanPham = sanPhamDAO.timKiem();
+            DefaultTableModel tmSanPham = (DefaultTableModel) sanPhamUI.getTbDanhSachSanPham().getModel();
+            for(SanPham sp : dsSanPham){
+                String row[] = {sp.getMaSP(), sp.getTenSP(), sp.getXuatXu(), sp.getThuongHieu().getTenTH()+"", sp.getLoaiSanPham().getDanhMucSanPham().getTenDM()+"", sp.getLoaiSanPham().getTenLoai()+"", sp.getPhanTramLoi()+"%", sp.getTinhTrang()+""};
+                tmSanPham.addRow(row);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        trangThaiNutThem = 0;
+        trangThaiNutSua = 0;
+        trangThaiNutXoa = 0;
+    }
+
+    private List<SanPham> dsTim;
+    private List<SanPham> dsTam = new ArrayList<>();
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        Object op = e.getSource();
+        if (op.equals(sanPhamUI.getBtnThemPBSP())){
+            sanPhamUI.getWinThemPBSP().setVisible(true);
+        }
+
+        /*NÚT THÊM*/
+        if(op.equals(sanPhamUI.getButtonThem())){
+            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ thêm sản phẩm
+            if (trangThaiNutThem==0) {
+                sanPhamUI.getButtonThem().setText("Xác nhận thêm");
+                sanPhamUI.getButtonSua().setText("Xóa trắng");
+                sanPhamUI.getButtonXoa().setText("Thoát thêm");
+                trangThaiNutXoa = 1;
+                trangThaiNutThem = 1;
+                trangThaiNutSua = 1;
+
+                //Mở tương tác với thông tin
+                tuongTac(true);
+                tuongTacTimKiem(false);
+
+                //Xóa trắng dữ liệu
+                xoaTrangAll();
+                //load sẵn tình trang còn bán
+                sanPhamUI.getCbTinhTrang().setSelectedItem("CON_BAN");
+            }
+            // Thực hiện chức năng nghiệp vụ thêm sản phẩm
 //            else if(trangThaiNutThem==1) {
 //                SanPham sp = layDataThem();
 //                if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm sản phẩm mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
@@ -125,7 +129,7 @@
 //                }
 //
 //            }
-//            //Thực hiện chức năng nghiệp vụ sửa sản phẩm
+            //Thực hiện chức năng nghiệp vụ sửa sản phẩm
 //            else if(trangThaiNutThem==2){
 //                if (sanPhamUI.getTxtMaSanPham().getText().equals("")) {
 //                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần sửa!");
@@ -148,67 +152,67 @@
 //                }
 //                trangThaiNutXoa = 1;
 //            }
-//        }
-//
-//        /*NÚT SỬA*/
-//        if(op.equals(sanPhamUI.getButtonSua())){
-//            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa sản phẩm
-//            if (trangThaiNutSua==0) {
-//                //Mở tương tác với thông tin
-//                tuongTac(true);
-//
-//                sanPhamUI.getButtonThem().setText("Xác nhận sửa");
-//                sanPhamUI.getButtonSua().setText("Xóa trắng");
-//                sanPhamUI.getButtonXoa().setText("Thoát sửa");
-//                trangThaiNutThem = 2;
-//                trangThaiNutSua = 1;
-//                trangThaiNutXoa = 1;
-//            }
-//            // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín sản phẩm
-//            else if(trangThaiNutSua==1) {
-//                xoaTrangSua();
-//            }
-//        }
-//
-//        /*NÚT XÓA*/
-//        if (op == sanPhamUI.getButtonXoa()) {
-//            // Thực hiện chức năng nghiệp vụ xóa sản phẩm
-//            if (trangThaiNutXoa==0) {
-//                if (sanPhamUI.getTxtMaSanPham().getText().equals("")) {
-//                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần xóa!");
-//                } else {
-//                    String ma = sanPhamUI.getTxtMaSanPham().getText();
-//                    if ((JOptionPane.showConfirmDialog(null,
-//                            "Bạn có chắc muốn ngừng bán sản phẩm có mã " + sanPhamUI.getTxtMaSanPham().getText() + " không?", "Lựa chọn",
-//                            JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
-//                        try {
-//                            if (sanPhamDAO.xoa(ma)){
-//                                loadDsSanPham();
-//                                xoaTrangAll();
-//                                JOptionPane.showMessageDialog(null, "Xóa thành công!");
-//                            }else {
-//                                JOptionPane.showMessageDialog(null, "Xóa thất bại!");
-//                            }
-//                        } catch (Exception e1) {
-//                            e1.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
-//            // Thực hiện trả các nút về giao diện quản lý sản phẩm
-//            else if(trangThaiNutXoa==1) {
-//                tuongTac(false);
-//                tuongTacTimKiem(true);
-//                xoaTrangAll();
-//                sanPhamUI.getButtonThem().setText("Thêm sản phẩm");
-//                sanPhamUI.getButtonSua().setText("Sửa sản phẩm");
-//                sanPhamUI.getButtonXoa().setText("Xóa sản phẩm");
-//                trangThaiNutXoa = 0;
-//                trangThaiNutThem = 0;
-//                trangThaiNutSua = 0;
-//            }
-//        }
-//        /*LỌC SẢN PHẨM*/
+        }
+
+        /*NÚT SỬA*/
+        if(op.equals(sanPhamUI.getButtonSua())){
+            // Thực hiện biến đổi các nút thành nút chức năng của nghiệp vụ sửa sản phẩm
+            if (trangThaiNutSua==0) {
+                //Mở tương tác với thông tin
+                tuongTac(true);
+
+                sanPhamUI.getButtonThem().setText("Xác nhận sửa");
+                sanPhamUI.getButtonSua().setText("Xóa trắng");
+                sanPhamUI.getButtonXoa().setText("Thoát sửa");
+                trangThaiNutThem = 2;
+                trangThaiNutSua = 1;
+                trangThaiNutXoa = 1;
+            }
+            // Thực hiện xóa trắng dữ liệu ở nghiệp vụ sửa thông tín sản phẩm
+            else if(trangThaiNutSua==1) {
+                xoaTrangSua();
+            }
+        }
+
+        /*NÚT XÓA*/
+        if (op == sanPhamUI.getButtonXoa()) {
+            // Thực hiện chức năng nghiệp vụ xóa sản phẩm
+            if (trangThaiNutXoa==0) {
+                if (sanPhamUI.getTxtMaSanPham().getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần xóa!");
+                } else {
+                    String ma = sanPhamUI.getTxtMaSanPham().getText();
+                    if ((JOptionPane.showConfirmDialog(null,
+                            "Bạn có chắc muốn ngừng bán sản phẩm có mã " + sanPhamUI.getTxtMaSanPham().getText() + " không?", "Lựa chọn",
+                            JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION) {
+                        try {
+                            if (sanPhamDAO.xoa(ma)){
+                                loadDsSanPham();
+                                xoaTrangAll();
+                                JOptionPane.showMessageDialog(null, "Xóa thành công!");
+                            }else {
+                                JOptionPane.showMessageDialog(null, "Xóa thất bại!");
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }
+            // Thực hiện trả các nút về giao diện quản lý sản phẩm
+            else if(trangThaiNutXoa==1) {
+                tuongTac(false);
+                tuongTacTimKiem(true);
+                xoaTrangAll();
+                sanPhamUI.getButtonThem().setText("Thêm sản phẩm");
+                sanPhamUI.getButtonSua().setText("Sửa sản phẩm");
+                sanPhamUI.getButtonXoa().setText("Xóa sản phẩm");
+                trangThaiNutXoa = 0;
+                trangThaiNutThem = 0;
+                trangThaiNutSua = 0;
+            }
+        }
+        /*LỌC SẢN PHẨM*/
 //        if (op.equals(sanPhamUI.getCbTkDanhMuc()) ||
 //                op.equals(sanPhamUI.getCbTkLoaiSanPham()) || op.equals(sanPhamUI.getCbTkTinhTrang()) ||
 //                op.equals(sanPhamUI.getCbTkThuongHieu()) || op.equals(sanPhamUI.getCbTkKichThuocSp()) ||
@@ -842,8 +846,8 @@
 //                tmSanPham.addRow(row);
 //            }
 //        }
-//
-//        /*NÚT LẤY ẢNH TỪ MÁY*/
+
+        /*NÚT LẤY ẢNH TỪ MÁY*/
 //        if(op.equals(sanPhamUI.getBtnThemAnhSanPham())){
 //            JFileChooser fileChooser = new JFileChooser();
 //            fileChooser.setFileFilter(new FileNameExtensionFilter("Hình ảnh", "jpg", "jpeg", "png"));
@@ -869,9 +873,9 @@
 //                picLabel.setIcon(icon);
 //            }
 //        }
-//    }
-//
-//    //Hàm lấy sản phẩm từ phần thông tin sản phẩm
+    }
+
+    //Hàm lấy sản phẩm từ phần thông tin sản phẩm
 //    private SanPham layDataThem() {
 //        SanPham sp;
 //        String ten = sanPhamUI.getTxtTenSanPham().getText();
@@ -926,8 +930,8 @@
 //        }
 //        return sp;
 //    }
-//
-//    //Hàm lấy sản phẩm để update
+
+    //Hàm lấy sản phẩm để update
 //    private SanPham layDataSua() {
 //        SanPham sps;
 //        String ten = sanPhamUI.getTxtTenSanPham().getText();
@@ -981,216 +985,216 @@
 //        }
 //        return sps;
 //    }
-//
-//    //Hàm sinh mã sản phẩm
-//    public String laymaSP(){
-//        String maSP = getInitials(sanPhamUI.getTxtTenSanPham().getText())+"-";
-//        String nl = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
-//        maSP = maSP+nl+"-";
+
+    //Hàm sinh mã sản phẩm
+    public String laymaSP(){
+        String maSP = getInitials(sanPhamUI.getTxtTenSanPham().getText())+"-";
+        String nl = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")).toString();
+        maSP = maSP+nl+"-";
 //        String mau = sanPhamUI.getCbMauSac().getSelectedItem().toString();
 //        maSP = maSP + mau + "-";
 //        maSP = maSP + sanPhamUI.getTxtKichThuoc().getText();
-//        return maSP;
-//    }
-//
-//    //Hàm lấy viết tắt của tên
-//    public  String getInitials(String input) {
-//        String[] words = input.split("\\s+"); // Sử dụng "\\s+" để tách các từ dựa trên khoảng trắng
-//
-//        // Lấy chữ cái đầu của từng từ ghép
-//        StringBuilder initials = new StringBuilder();
-//        for (String word : words) {
-//            if (!word.isEmpty()) {
-//                initials.append(word.charAt(0));
-//            }
-//        }
-//
-//        return initials.toString();
-//    }
-//
-//    //Hàm đổi Date thành LocalDate
-//    public LocalDate dateToLocalDate(Date date) {
-//        Instant instant = date.toInstant();
-//        return instant.atZone(ZoneId.systemDefault()).toLocalDate();
-//    }
-//
-//    //Hàm xóa trắng dữ liệu nhập
-//    public void xoaTrangAll(){
-//        loadComboBoxPhanThongTinSP();
-//        sanPhamUI.getTxtMaSanPham().setText("");
-//        sanPhamUI.getTxtTenSanPham().setText("");
-//        sanPhamUI.getJDateChooserNgaySanXuat().setDate(null);
-//        sanPhamUI.getTxtXuatXu().setText("");
+        return maSP;
+    }
+
+    //Hàm lấy viết tắt của tên
+    public  String getInitials(String input) {
+        String[] words = input.split("\\s+"); // Sử dụng "\\s+" để tách các từ dựa trên khoảng trắng
+
+        // Lấy chữ cái đầu của từng từ ghép
+        StringBuilder initials = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                initials.append(word.charAt(0));
+            }
+        }
+
+        return initials.toString();
+    }
+
+    //Hàm đổi Date thành LocalDate
+    public LocalDate dateToLocalDate(Date date) {
+        Instant instant = date.toInstant();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    //Hàm xóa trắng dữ liệu nhập
+    public void xoaTrangAll(){
+        loadComboBoxPhanThongTinSP();
+        sanPhamUI.getTxtMaSanPham().setText("");
+        sanPhamUI.getTxtTenSanPham().setText("");
+        sanPhamUI.getJDateChooserNgaySanXuat().setDate(null);
+        sanPhamUI.getTxtXuatXu().setText("");
 //        sanPhamUI.getTxtKichThuoc().setText("");
-//        sanPhamUI.getTxtPhamTramLoi().setText("");
+        sanPhamUI.getTxtPhamTramLoi().setText("");
 //        sanPhamUI.getTxtSoLuongSanPham().setText("");
 //        sanPhamUI.getPnImgSanPham().removeAll();
 //        sanPhamUI.getPnImgSanPham().revalidate();
 //        sanPhamUI.getPnImgSanPham().repaint();
-//    }
-//
-//    //Xóa trắng khi sửa
-//    public void xoaTrangSua(){
-//        loadComboBoxPhanThongTinSP();
-//        sanPhamUI.getTxtTenSanPham().setText("");
-//        sanPhamUI.getJDateChooserNgaySanXuat().setDate(null);
-//        sanPhamUI.getTxtXuatXu().setText("");
+    }
+
+    //Xóa trắng khi sửa
+    public void xoaTrangSua(){
+        loadComboBoxPhanThongTinSP();
+        sanPhamUI.getTxtTenSanPham().setText("");
+        sanPhamUI.getJDateChooserNgaySanXuat().setDate(null);
+        sanPhamUI.getTxtXuatXu().setText("");
 //        sanPhamUI.getTxtKichThuoc().setText("");
-//        sanPhamUI.getTxtPhamTramLoi().setText("");
+        sanPhamUI.getTxtPhamTramLoi().setText("");
 //        sanPhamUI.getTxtSoLuongSanPham().setText("");
-//    }
-//
-//    //Load các comboBox phần thông tin
-//    public void loadComboBoxPhanThongTinSP(){
-//        //Lấy độ tuổi từ enum
-//        DoTuoi[] dsDoTuoi = DoTuoi.values();
-//        String[] itemsDoTuoi = new String[dsDoTuoi.length + 1];
-//        itemsDoTuoi[0] = "--Select--";
-//        for (int i = 0; i < dsDoTuoi.length; i++) {
-//            itemsDoTuoi[i + 1] = dsDoTuoi[i].toString();
-//        }
-//        DefaultComboBoxModel<String> doTuoiCb = new DefaultComboBoxModel<>(itemsDoTuoi);
-//        sanPhamUI.getCbDoTuoi().setModel(doTuoiCb);
-//
-//        //Lấy tình trạng từ enum
-//        TinhTrangSanPham[] dsTinhTrang = TinhTrangSanPham.values();
-//        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
-//        itemsTinhTrang[0] = "--Select--";
-//        for (int i = 0; i < dsTinhTrang.length; i++) {
-//            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
-//        }
-//        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
-//        sanPhamUI.getCbTinhTrang().setModel(tinhTrangCb);
-//
-//        //Lấy màu sắc từ enum
-//        MauSac[] dsMauSac = MauSac.values();
-//        String[] itemsMauSac = new String[dsMauSac.length + 1];
-//        itemsMauSac[0] = "--Select--";
-//        for (int i = 0; i < dsMauSac.length; i++) {
-//            itemsMauSac[i + 1] = dsMauSac[i].toString();
-//        }
-//        DefaultComboBoxModel<String> mauSacCb = new DefaultComboBoxModel<>(itemsMauSac);
+    }
+
+    //Load các comboBox phần thông tin
+    public void loadComboBoxPhanThongTinSP(){
+        //Lấy độ tuổi từ enum
+        DoTuoi[] dsDoTuoi = DoTuoi.values();
+        String[] itemsDoTuoi = new String[dsDoTuoi.length + 1];
+        itemsDoTuoi[0] = "--Select--";
+        for (int i = 0; i < dsDoTuoi.length; i++) {
+            itemsDoTuoi[i + 1] = dsDoTuoi[i].toString();
+        }
+        DefaultComboBoxModel<String> doTuoiCb = new DefaultComboBoxModel<>(itemsDoTuoi);
+        sanPhamUI.getCbDoTuoi().setModel(doTuoiCb);
+
+        //Lấy tình trạng từ enum
+        TinhTrangSanPham[] dsTinhTrang = TinhTrangSanPham.values();
+        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
+        itemsTinhTrang[0] = "--Select--";
+        for (int i = 0; i < dsTinhTrang.length; i++) {
+            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
+        }
+        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
+        sanPhamUI.getCbTinhTrang().setModel(tinhTrangCb);
+
+        //Lấy màu sắc từ enum
+        MauSac[] dsMauSac = MauSac.values();
+        String[] itemsMauSac = new String[dsMauSac.length + 1];
+        itemsMauSac[0] = "--Select--";
+        for (int i = 0; i < dsMauSac.length; i++) {
+            itemsMauSac[i + 1] = dsMauSac[i].toString();
+        }
+        DefaultComboBoxModel<String> mauSacCb = new DefaultComboBoxModel<>(itemsMauSac);
 //        sanPhamUI.getCbMauSac().setModel(mauSacCb);
-//
-//        //Lấy tình trạng từ enum
-//        PhongCachMac[] dsPhongCachMac = PhongCachMac.values();
-//        String[] itemsPhongCachMac = new String[dsPhongCachMac.length + 1];
-//        itemsPhongCachMac[0] = "--Select--";
-//        for (int i = 0; i < dsPhongCachMac.length; i++) {
-//            itemsPhongCachMac[i + 1] = dsPhongCachMac[i].toString();
-//        }
-//        DefaultComboBoxModel<String> PhongCachMacCb = new DefaultComboBoxModel<>(itemsPhongCachMac);
-//        sanPhamUI.getCbKieuNguoiMac().setModel(PhongCachMacCb);
-//
-//        //Load cbDanhMuc
-//        try {
-//            dsDanhMucSanPham = danhMucSanPhamDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] danhMucArray = dsDanhMucSanPham.stream().map(DanhMucSanPham::getTenDM).toArray(String[]::new);
-//        String[] itemsDanhMuc = new String[danhMucArray.length + 1];
-//        itemsDanhMuc[0] = "--Select--";
-//        System.arraycopy(danhMucArray, 0, itemsDanhMuc, 1, danhMucArray.length);
-//        DefaultComboBoxModel<String> danhMucComboBoxModel = new DefaultComboBoxModel<>(itemsDanhMuc);
-//        sanPhamUI.getDanhMuc().setModel(danhMucComboBoxModel);
-//
-//        //Load cbLoaiSanPham
-//        try {
-//            dsLoaiSanPham = loaiSanPhamDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] loaiArray = dsLoaiSanPham.stream().map(LoaiSanPham::getTenLoai).toArray(String[]::new);
-//        String[] itemsLoai = new String[loaiArray.length + 1];
-//        itemsLoai[0] = "--Select--";
-//        System.arraycopy(loaiArray, 0, itemsLoai, 1, loaiArray.length);
-//        DefaultComboBoxModel<String> loaiComboBoxModel = new DefaultComboBoxModel<>(itemsLoai);
-//        sanPhamUI.getCbLoai().setModel(loaiComboBoxModel);
-//
-//        //Load cbThuongHieu
-//        try {
-//            dsThuongHieu = thuongHieuDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] thuongHieuArray = dsThuongHieu.stream().map(ThuongHieu::getTenTH).toArray(String[]::new);
-//        String[] itemsThuongHieu = new String[thuongHieuArray.length + 1];
-//        itemsThuongHieu[0] = "--Select--";
-//        System.arraycopy(thuongHieuArray, 0, itemsThuongHieu, 1, thuongHieuArray.length);
-//        DefaultComboBoxModel<String> thuongHieuComboBoxModel = new DefaultComboBoxModel<>(itemsThuongHieu);
-//        sanPhamUI.getCbThuongHieu().setModel(thuongHieuComboBoxModel);
-//    }
-//
-//    //Load các comboBox phần tìm kiếm
-//    public void loadComboBoxPhanTimKiem(){
-//        //Load cbDanhMuc
-//        try {
-//            dsDanhMucSanPham = danhMucSanPhamDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] danhMucArray = dsDanhMucSanPham.stream().map(DanhMucSanPham::getTenDM).toArray(String[]::new);
-//        String[] itemsDanhMuc = new String[danhMucArray.length + 1];
-//        itemsDanhMuc[0] = "--Danh mục--";
-//        System.arraycopy(danhMucArray, 0, itemsDanhMuc, 1, danhMucArray.length);
-//        DefaultComboBoxModel<String> danhMucComboBoxModel = new DefaultComboBoxModel<>(itemsDanhMuc);
-//        sanPhamUI.getCbTkDanhMuc().setModel(danhMucComboBoxModel);
-//
-//        //Load cbLoaiSanPham
-//        try {
-//            dsLoaiSanPham = loaiSanPhamDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] loaiArray = dsLoaiSanPham.stream().map(LoaiSanPham::getTenLoai).toArray(String[]::new);
-//        String[] itemsLoai = new String[loaiArray.length + 1];
-//        itemsLoai[0] = "--Loại--";
-//        System.arraycopy(loaiArray, 0, itemsLoai, 1, loaiArray.length);
-//        DefaultComboBoxModel<String> loaiComboBoxModel = new DefaultComboBoxModel<>(itemsLoai);
-//        sanPhamUI.getCbTkLoaiSanPham().setModel(loaiComboBoxModel);
-//
-//        //Lấy tình trạng từ enum
-//        TinhTrangSanPham[] dsTinhTrang = TinhTrangSanPham.values();
-//        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
-//        itemsTinhTrang[0] = "--Tình trạng--";
-//        for (int i = 0; i < dsTinhTrang.length; i++) {
-//            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
-//        }
-//        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
-//        sanPhamUI.getCbTkTinhTrang().setModel(tinhTrangCb);
-//
-//        //Load cbThuongHieu
-//        try {
-//            dsThuongHieu = thuongHieuDAO.timKiem();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        String[] thuongHieuArray = dsThuongHieu.stream().map(ThuongHieu::getTenTH).toArray(String[]::new);
-//        String[] itemsThuongHieu = new String[thuongHieuArray.length + 1];
-//        itemsThuongHieu[0] = "--Thương hiệu--";
-//        System.arraycopy(thuongHieuArray, 0, itemsThuongHieu, 1, thuongHieuArray.length);
-//        DefaultComboBoxModel<String> thuongHieuComboBoxModel = new DefaultComboBoxModel<>(itemsThuongHieu);
-//        sanPhamUI.getCbTkThuongHieu().setModel(thuongHieuComboBoxModel);
-//
-//        //Lấy kích thước
-//        String[] itemsKichThuoc = {"--Kích thước--", "S", "M", "L", "XL", "XXL", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42"};
-//        DefaultComboBoxModel<String> kichThuocComboBoxModel = new DefaultComboBoxModel<>(itemsKichThuoc);
-//        sanPhamUI.getCbTkKichThuocSp().setModel(kichThuocComboBoxModel);
-//
-//        //Lấy PhongCachMac
-//        PhongCachMac[] dsPhongCachMac = PhongCachMac.values();
-//        String[] itemsPhongCachMac = new String[dsPhongCachMac.length + 1];
-//        itemsPhongCachMac[0] = "--Phong cách--";
-//        for (int i = 0; i < dsPhongCachMac.length; i++) {
-//            itemsPhongCachMac[i + 1] = dsPhongCachMac[i].toString();
-//        }
-//        DefaultComboBoxModel<String> PhongCachMacCb = new DefaultComboBoxModel<>(itemsPhongCachMac);
-//        sanPhamUI.getCbTkPhongCachMac().setModel(PhongCachMacCb);
-//    }
-//
-//    //Hàm đóng/mở tương tác
-//    public void tuongTac(boolean c){
+
+        //Lấy tình trạng từ enum
+        PhongCachMac[] dsPhongCachMac = PhongCachMac.values();
+        String[] itemsPhongCachMac = new String[dsPhongCachMac.length + 1];
+        itemsPhongCachMac[0] = "--Select--";
+        for (int i = 0; i < dsPhongCachMac.length; i++) {
+            itemsPhongCachMac[i + 1] = dsPhongCachMac[i].toString();
+        }
+        DefaultComboBoxModel<String> PhongCachMacCb = new DefaultComboBoxModel<>(itemsPhongCachMac);
+        sanPhamUI.getCbKieuNguoiMac().setModel(PhongCachMacCb);
+
+        //Load cbDanhMuc
+        try {
+            dsDanhMucSanPham = danhMucSanPhamDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] danhMucArray = dsDanhMucSanPham.stream().map(DanhMucSanPham::getTenDM).toArray(String[]::new);
+        String[] itemsDanhMuc = new String[danhMucArray.length + 1];
+        itemsDanhMuc[0] = "--Select--";
+        System.arraycopy(danhMucArray, 0, itemsDanhMuc, 1, danhMucArray.length);
+        DefaultComboBoxModel<String> danhMucComboBoxModel = new DefaultComboBoxModel<>(itemsDanhMuc);
+        sanPhamUI.getDanhMuc().setModel(danhMucComboBoxModel);
+
+        //Load cbLoaiSanPham
+        try {
+            dsLoaiSanPham = loaiSanPhamDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] loaiArray = dsLoaiSanPham.stream().map(LoaiSanPham::getTenLoai).toArray(String[]::new);
+        String[] itemsLoai = new String[loaiArray.length + 1];
+        itemsLoai[0] = "--Select--";
+        System.arraycopy(loaiArray, 0, itemsLoai, 1, loaiArray.length);
+        DefaultComboBoxModel<String> loaiComboBoxModel = new DefaultComboBoxModel<>(itemsLoai);
+        sanPhamUI.getCbLoai().setModel(loaiComboBoxModel);
+
+        //Load cbThuongHieu
+        try {
+            dsThuongHieu = thuongHieuDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] thuongHieuArray = dsThuongHieu.stream().map(ThuongHieu::getTenTH).toArray(String[]::new);
+        String[] itemsThuongHieu = new String[thuongHieuArray.length + 1];
+        itemsThuongHieu[0] = "--Select--";
+        System.arraycopy(thuongHieuArray, 0, itemsThuongHieu, 1, thuongHieuArray.length);
+        DefaultComboBoxModel<String> thuongHieuComboBoxModel = new DefaultComboBoxModel<>(itemsThuongHieu);
+        sanPhamUI.getCbThuongHieu().setModel(thuongHieuComboBoxModel);
+    }
+
+    //Load các comboBox phần tìm kiếm
+    public void loadComboBoxPhanTimKiem(){
+        //Load cbDanhMuc
+        try {
+            dsDanhMucSanPham = danhMucSanPhamDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] danhMucArray = dsDanhMucSanPham.stream().map(DanhMucSanPham::getTenDM).toArray(String[]::new);
+        String[] itemsDanhMuc = new String[danhMucArray.length + 1];
+        itemsDanhMuc[0] = "--Danh mục--";
+        System.arraycopy(danhMucArray, 0, itemsDanhMuc, 1, danhMucArray.length);
+        DefaultComboBoxModel<String> danhMucComboBoxModel = new DefaultComboBoxModel<>(itemsDanhMuc);
+        sanPhamUI.getCbTkDanhMuc().setModel(danhMucComboBoxModel);
+
+        //Load cbLoaiSanPham
+        try {
+            dsLoaiSanPham = loaiSanPhamDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] loaiArray = dsLoaiSanPham.stream().map(LoaiSanPham::getTenLoai).toArray(String[]::new);
+        String[] itemsLoai = new String[loaiArray.length + 1];
+        itemsLoai[0] = "--Loại--";
+        System.arraycopy(loaiArray, 0, itemsLoai, 1, loaiArray.length);
+        DefaultComboBoxModel<String> loaiComboBoxModel = new DefaultComboBoxModel<>(itemsLoai);
+        sanPhamUI.getCbTkLoaiSanPham().setModel(loaiComboBoxModel);
+
+        //Lấy tình trạng từ enum
+        TinhTrangSanPham[] dsTinhTrang = TinhTrangSanPham.values();
+        String[] itemsTinhTrang = new String[dsTinhTrang.length + 1];
+        itemsTinhTrang[0] = "--Tình trạng--";
+        for (int i = 0; i < dsTinhTrang.length; i++) {
+            itemsTinhTrang[i + 1] = dsTinhTrang[i].toString();
+        }
+        DefaultComboBoxModel<String> tinhTrangCb = new DefaultComboBoxModel<>(itemsTinhTrang);
+        sanPhamUI.getCbTkTinhTrang().setModel(tinhTrangCb);
+
+        //Load cbThuongHieu
+        try {
+            dsThuongHieu = thuongHieuDAO.timKiem();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String[] thuongHieuArray = dsThuongHieu.stream().map(ThuongHieu::getTenTH).toArray(String[]::new);
+        String[] itemsThuongHieu = new String[thuongHieuArray.length + 1];
+        itemsThuongHieu[0] = "--Thương hiệu--";
+        System.arraycopy(thuongHieuArray, 0, itemsThuongHieu, 1, thuongHieuArray.length);
+        DefaultComboBoxModel<String> thuongHieuComboBoxModel = new DefaultComboBoxModel<>(itemsThuongHieu);
+        sanPhamUI.getCbTkThuongHieu().setModel(thuongHieuComboBoxModel);
+
+        //Lấy kích thước
+        String[] itemsKichThuoc = {"--Kích thước--", "S", "M", "L", "XL", "XXL", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42"};
+        DefaultComboBoxModel<String> kichThuocComboBoxModel = new DefaultComboBoxModel<>(itemsKichThuoc);
+        sanPhamUI.getCbTkKichThuocSp().setModel(kichThuocComboBoxModel);
+
+        //Lấy PhongCachMac
+        PhongCachMac[] dsPhongCachMac = PhongCachMac.values();
+        String[] itemsPhongCachMac = new String[dsPhongCachMac.length + 1];
+        itemsPhongCachMac[0] = "--Phong cách--";
+        for (int i = 0; i < dsPhongCachMac.length; i++) {
+            itemsPhongCachMac[i + 1] = dsPhongCachMac[i].toString();
+        }
+        DefaultComboBoxModel<String> PhongCachMacCb = new DefaultComboBoxModel<>(itemsPhongCachMac);
+        sanPhamUI.getCbTkPhongCachMac().setModel(PhongCachMacCb);
+    }
+
+    //Hàm đóng/mở tương tác
+    public void tuongTac(boolean c){
 //        sanPhamUI.getTxtTenSanPham().setEnabled(c);
 //        sanPhamUI.getJDateChooserNgaySanXuat().setEnabled(c);
 //        sanPhamUI.getTxtXuatXu().setEnabled(c);
@@ -1205,24 +1209,25 @@
 //        sanPhamUI.getCbKieuNguoiMac().setEnabled(c);
 //        sanPhamUI.getTxtSoLuongSanPham().setEnabled(c);
 //        sanPhamUI.getBtnThemAnhSanPham().setEnabled(c);
-//    }
-//    //Hàm đóng/mở tương tác tìm kiếm
-//    public void tuongTacTimKiem(boolean o){
-//        sanPhamUI.getCbTkDanhMuc().setEnabled(o);
-//        sanPhamUI.getCbTkLoaiSanPham().setEnabled(o);
-//        sanPhamUI.getCbTkTinhTrang().setEnabled(o);
-//        sanPhamUI.getCbTkThuongHieu().setEnabled(o);
-//        sanPhamUI.getCbTkKichThuocSp().setEnabled(o);
-//        sanPhamUI.getCbTkPhongCachMac().setEnabled(o);
-//        sanPhamUI.getTxtTuKhoaTimKiem().setEnabled(o);
-//    }
-//
-////  Sự kiện click trên table load dữ liệu xuống phần thông tin
-//    @Override
-//    public void mouseClicked(MouseEvent event){
+    }
+    //Hàm đóng/mở tương tác tìm kiếm
+    public void tuongTacTimKiem(boolean o){
+        sanPhamUI.getCbTkDanhMuc().setEnabled(o);
+        sanPhamUI.getCbTkLoaiSanPham().setEnabled(o);
+        sanPhamUI.getCbTkTinhTrang().setEnabled(o);
+        sanPhamUI.getCbTkThuongHieu().setEnabled(o);
+        sanPhamUI.getCbTkKichThuocSp().setEnabled(o);
+        sanPhamUI.getCbTkPhongCachMac().setEnabled(o);
+        sanPhamUI.getTxtTuKhoaTimKiem().setEnabled(o);
+    }
+
+//  Sự kiện click trên table load dữ liệu xuống phần thông tin
+    @Override
+    public void mouseClicked(MouseEvent event){
 //        if(trangThaiNutThem==1){
 //            JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
-//        }else {
+//        }
+//        else {
 //            int row = sanPhamUI.getTbDanhSachSanPham().getSelectedRow();
 //            String ma = sanPhamUI.getTbDanhSachSanPham().getValueAt(row, 0).toString();
 //            Optional<SanPham> spHienThuc = null;
@@ -1273,36 +1278,36 @@
 //            picLabel.setSize(new Dimension(240,320));
 //            picLabel.setIcon(icon);
 //        }
-//    }
-//    @Override
-//    public void mousePressed(MouseEvent e) {
-//
-//    }
-//    @Override
-//    public void mouseReleased(MouseEvent e) {
-//
-//    }
-//    @Override
-//    public void mouseEntered(MouseEvent e) {
-//
-//    }
-//    @Override
-//    public void mouseExited(MouseEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyTyped(KeyEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyPressed(KeyEvent e) {
-//
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent e) {
-//
-//    }
-//}
+    }
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
