@@ -103,11 +103,9 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnTHongTinHoaDon = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtTienKhachDua = new javax.swing.JTextField();
         txtThue = new javax.swing.JTextField();
-        txtChietKhau = new javax.swing.JTextField();
         txtTongTIen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtNgayLapHoaDon = new javax.swing.JTextField();
@@ -140,7 +138,7 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         menuProduct.setFocusable(false);
 
-        pnTTKH.setPreferredSize(new java.awt.Dimension(242, 100));
+        pnTTKH.setPreferredSize(new java.awt.Dimension(390, 100));
 
         listKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jScrollPane2.setViewportView(listKhachHang);
@@ -168,7 +166,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiTrenLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTimKiemSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemSanPham.setText("");
+        txtTimKiemSanPham.setText("Tìm kiếm sản phẩm");
         txtTimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemSanPhamActionPerformed(evt);
@@ -182,6 +180,10 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbDanhSachCacSanPhamTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành tiền", ""
@@ -245,6 +247,10 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbHoaDonLuuTam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Tên khách hàng", "Số điện thoại", ""
@@ -267,7 +273,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         );
 
         txtTimKiemHoaDonLuuTam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemHoaDonLuuTam.setText("");
+        txtTimKiemHoaDonLuuTam.setText("Tìm kiếm hoá đơn lưu tạm");
         txtTimKiemHoaDonLuuTam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemHoaDonLuuTamActionPerformed(evt);
@@ -324,6 +330,12 @@ public class LapHoaDon extends javax.swing.JPanel {
         jLabel5.setText("Số điện thoại:");
 
         txtTenKhachHang.setEnabled(false);
+
+        txtSoDienThoaiKh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSoDienThoaiKhActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setText("Khách vãng lai:");
@@ -559,7 +571,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnThongTinHoaDonLayout.setVerticalGroup(
             pnThongTinHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnThongTinHoaDonLayout.createSequentialGroup()
-                .addContainerGap(212, Short.MAX_VALUE)
+                .addContainerGap(218, Short.MAX_VALUE)
                 .addComponent(pnThongTInKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnTHongTinHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -689,37 +701,6 @@ public class LapHoaDon extends javax.swing.JPanel {
         return btnLuuTam;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public JTable getTbHoaDonLuuTam(){
-        return tbHoaDonLuuTam;
-    }
-    public JTextField getTxtChietKhau(){
-        return txtChietKhau;
-    }
-    public JTextField getTxtThue(){
-        return txtThue;
-    }
-    public JTextField getTxtTongTIen(){
-        return txtTongTIen;
-    }
-    public JTextField getTxtTienKhachDua(){
-        return txtTienKhachDua;
-    }
-    public JTextField getTxtTienDu(){
-        return txtTienDu;
-    }
-    public JTextField getTxtGiamGia(){
-        return txtGiamGia;
-    }
-    public JTextField getTxtMaHoaDon(){
-        return txtMaHoaDon;
-    }
-    public JTextField getTxtNgayLapHoaDon(){
-        return txtNgayLapHoaDon;
-    }
-    public JCheckBox getjCheckBox1(){
-        return jCheckBox1;
-    }
-
     private javax.swing.JButton btnLapHoaDon;
     private javax.swing.JButton btnLuuTam;
     private javax.swing.JCheckBox jCheckBox1;
@@ -760,7 +741,6 @@ public class LapHoaDon extends javax.swing.JPanel {
     private javax.swing.JScrollPane spHoaDonLuuTam;
     private javax.swing.JTable tbDanhSachCacSanPhamTrongGioHang;
     private javax.swing.JTable tbHoaDonLuuTam;
-    private javax.swing.JTextField txtChietKhau;
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaNhanVien;
