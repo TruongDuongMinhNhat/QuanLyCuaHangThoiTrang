@@ -6,6 +6,7 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
+import dev.skyherobrine.app.controllers.dashboardui.thongKe.thongKeSanPhamController;
 //import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class FormBaoCaoSanPhamCuaHang extends javax.swing.JPanel {
      */
     public FormBaoCaoSanPhamCuaHang() {
         initComponents();
-        
+        thongKeSanPhamController controller = new thongKeSanPhamController(this);
     }
 
     /**
@@ -242,4 +243,8 @@ public class FormBaoCaoSanPhamCuaHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtBaoCaoDoanhThu;
     private javax.swing.JTextField txtBaoCaoTraHang;
     // End of variables declaration//GEN-END:variables
+
+    public JPanel getPnBieuDoTHongKeSanPham() {
+        return pnBieuDoTHongKeSanPham;
+    }
 }

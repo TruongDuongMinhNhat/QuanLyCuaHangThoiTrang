@@ -78,25 +78,9 @@ public class QuanLySanPham extends javax.swing.JPanel {
         btnSuaQuanLySanPham.addActionListener(controller);
         cbLoaiSanPham.addActionListener(controller);
         cbKieuNguoiMac.addActionListener(controller);
+        tbDIalogDanhSachCacSanPham.getModel().addTableModelListener(controller);
+        txtDialogMaSanPham.setEnabled(false);
     }
-
-//    public void themAnh(String fileAnh){
-//        URL path = getClass().getResource(fileAnh);
-//        if(path==null){
-//            System.out.println("1");
-//            path = getClass().getResource("/img/imgTest/0.png");
-//        }
-//
-//        ImageIcon iconGoc = new ImageIcon(path);
-//        Image anh = iconGoc.getImage();
-//        Image tinhChinhAnh = anh.getScaledInstance(200, 150, Image.SCALE_SMOOTH);
-//        ImageIcon icon = new ImageIcon(tinhChinhAnh);
-//        JLabel picLabel = new JLabel();
-//
-//        pnImgSanPham.add(picLabel);
-//        picLabel.setSize(new Dimension(240,320));
-//        picLabel.setIcon(icon);
-//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -275,10 +259,7 @@ public class QuanLySanPham extends javax.swing.JPanel {
 
         tbDIalogDanhSachCacSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Màu sắc", "Kích thước", "Số lượng", ""

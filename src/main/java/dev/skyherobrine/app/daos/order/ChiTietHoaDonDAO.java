@@ -9,6 +9,7 @@ import dev.skyherobrine.app.entities.person.KhachHang;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -94,7 +95,34 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
     public List<ChiTietHoaDon> timKiem(String... ids) throws Exception {
         return null;
     }
+    public List<Map<String, Integer>> timKiem(String cols, String join, String query) throws SQLException {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select " + cols + " from  ChiTietHoaDon " + join + " where " + query);
 
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Map<String, Integer>> listResult = new ArrayList<>();
+        while (resultSet.next()) {
+            Map<String, Integer> rowDatas = new HashMap<>();
+            rowDatas.put(resultSet.getString("MaPhienBanSP"), resultSet.getInt("soLuongBan"));
+            listResult.add(rowDatas);
+        }
+        return listResult;
+    }
+    public List<Map<String, Object>> timKiemHD(String cols, String join, String query) throws SQLException {
+        PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                ("select " + cols + " from  ChiTietHoaDon " + join + " where " + query);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<Map<String, Object>> listResult = new ArrayList<>();
+        while (resultSet.next()) {
+            Map<String, Integer> rowDatas = new HashMap<>();
+            rowDatas.put(resultSet.getString("NgayLap"), resultSet.getInt("soLuongBan"));
+            Map<String, Object> rowDatas1 = new HashMap<>();
+            rowDatas1.put(resultSet.getString("MaSP"), rowDatas);
+            listResult.add(rowDatas1);
+        }
+        return listResult;
+    }
     public Optional<ChiTietHoaDon> timKiem(String maHD, String maPhienBanSP) throws Exception{
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
                 ("select * from ChiTietHoaDon where MaPhienBanSP = ? and MaHD = ?");
@@ -141,4 +169,6 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         }
         return listResult;
     }
+
+
 }

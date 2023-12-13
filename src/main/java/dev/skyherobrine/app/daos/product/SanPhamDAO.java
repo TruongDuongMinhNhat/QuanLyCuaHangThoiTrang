@@ -41,7 +41,7 @@ public class SanPhamDAO implements IDAO<SanPham> {
     @Override
     public boolean capNhat(SanPham target) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, NgaySanXuat = ?, Thue = ?, TinhTrang = ? where MaSP = ?");
+                ("Update SanPham set TenSP = ?, MaLoai = ?, PhongCachMac = ?, DoTuoi = ?, XuatXu = ?, MaTH = ?, PhanTramLoi = ?, NgaySanXuat = ?, MaThue = ?, TinhTrang = ? where MaSP = ?");
         preparedStatement.setString(1, target.getTenSP());
         preparedStatement.setString(2, target.getLoaiSanPham().getMaLoai());
         preparedStatement.setString(3, target.getPhongCachMac().toString());

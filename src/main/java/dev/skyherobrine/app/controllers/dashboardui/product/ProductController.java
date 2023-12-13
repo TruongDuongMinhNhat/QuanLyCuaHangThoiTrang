@@ -1,5 +1,9 @@
 package dev.skyherobrine.app.controllers.dashboardui.product;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import dev.skyherobrine.app.daos.product.*;
 import dev.skyherobrine.app.daos.sale.ThueDAO;
 import dev.skyherobrine.app.entities.product.*;
@@ -12,12 +16,15 @@ import dev.skyherobrine.app.views.dashboard.component.QuanLySanPham;
 import dev.skyherobrine.app.views.dashboard.component.nutXoaDongTb.TableActionEvent;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -27,7 +34,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
-public class ProductController implements ActionListener, MouseListener, KeyListener, TableActionEvent {
+public class ProductController implements ActionListener, MouseListener, KeyListener, TableActionEvent, TableModelListener {
     private QuanLySanPham sanPhamUI;
     private  List<SanPham> dsSanPham;
     private SanPhamDAO sanPhamDAO;
@@ -121,16 +128,25 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm sản phẩm mới", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                         try {
                             if(sanPhamDAO.them(sp)){
+
                                 if(listCTPBSP.size()>0){
                                     for(ChiTietPhienBanSanPham ct : listCTPBSP){
                                         chiTietPhienBanSanPhamDAO.them(ct);
+                                        String data = ct.getMaPhienBanSP().toString();
+                                        String path = "src/main/resources/MaQRSanPham/"+ct.getMaPhienBanSP()+".jpg";
+
+                                        BitMatrix matrix = new MultiFormatWriter()
+                                                .encode(data, BarcodeFormat.QR_CODE, 500, 500);
+
+                                        MatrixToImageWriter.writeToPath(matrix, "jpg", Paths.get(path));
                                     }
                                 }
                                 loadDsSanPham();
                                 xoaTrangAll();
                                 JOptionPane.showMessageDialog(null, "Thêm thành công!");
-                                trangThaiNutThem = 1;
-                                trangThaiNutXoa = 1;
+                                trangThaiNutThem = 0;
+                                trangThaiNutXoa = 0;
+                                listCTPBSP.clear();
                             }else{
                                 JOptionPane.showMessageDialog(null, "Thêm thất bại!");
                             }
@@ -146,13 +162,23 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần sửa!");
                 }else {
                     SanPham spSua = layDataSua();
-                    if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa sản phẩm có mã" +spSua.getMaSP()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
+                    if ((JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn sửa sản phẩm có mã " +spSua.getMaSP()+" không?", "Lựa chọn", JOptionPane.YES_NO_OPTION)) == JOptionPane.YES_OPTION){
                         try {
                             if(sanPhamDAO.capNhat(spSua)){
+                                if(listCTPBSP.size()>0){
+                                    for(ChiTietPhienBanSanPham ct : listCTPBSP){
+                                        chiTietPhienBanSanPhamDAO.capNhat(ct);
+                                    }
+                                }
                                 loadDsSanPham();
                                 xoaTrangAll();
                                 JOptionPane.showMessageDialog(null, "Sửa thành công!");
-                                trangThaiNutThem = 2;
+                                trangThaiNutThem = 0;
+                                trangThaiNutXoa = 0;
+                                sanPhamUI.getButtonThem().setText("Thêm sản phẩm");
+                                sanPhamUI.getButtonSua().setText("Sửa sản phẩm");
+                                sanPhamUI.getButtonXoa().setText("Xóa sản phẩm");
+                                listCTPBSP.clear();
                             }else{
                                 JOptionPane.showMessageDialog(null, "Sửa thất bại!");
                             }
@@ -166,6 +192,7 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         }
         /*NÚT PBSP*/
         if (e.getSource().equals(sanPhamUI.getBtnThemPBSP())) {
+            trangThaiNutThemPBSP = 0;
             if(trangThaiNutThem==0){
                 if(sanPhamUI.getTxtMaSanPham().getText().equalsIgnoreCase("")){
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm cần xem phiên bản!");
@@ -179,11 +206,17 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                 anHienWinPBSP(true);
             }else if(trangThaiNutThem==1){
                 SanPham sp = layDataThem();
-                if(sp==null){
+                if(sp==null) {
                     return;
                 }
-                sanPhamUI.getTxtDialogMaSanPham().setEnabled(false);
+
                 sanPhamUI.getTxtDialogMaSanPham().setText(sanPhamUI.getTxtMaSanPham().getText());
+                loadComboBoxPhanThongTinPhienBanSP();
+                xoaTrangPBSP(false);
+                anHienWinPBSP(true);
+            }else{
+                sanPhamUI.getTxtDialogMaSanPham().setEnabled(false);
+                loadTTPBSP();
                 loadComboBoxPhanThongTinPhienBanSP();
                 xoaTrangPBSP(false);
                 anHienWinPBSP(true);
@@ -405,10 +438,8 @@ public class ProductController implements ActionListener, MouseListener, KeyList
             }else if(trangThaiNutThem == 1){
                 SanPham sp = layDataThem();
                 if(trangThaiNutThemPBSP==0) {
-                    sanPhamUI.getTbDialogDanhSachCacSanPham().clearSelection();
                     xoaTrangPBSP(true);
                     trangThaiNutThemPBSP = 1;
-
                     sanPhamUI.getBtnDialogThemXuong().setText("Xác nhận thêm");
                 }else {
                     if (sanPhamUI.getCbDialogMauSac().getSelectedItem().toString().equalsIgnoreCase("--Select--")) {
@@ -446,6 +477,9 @@ public class ProductController implements ActionListener, MouseListener, KeyList
                             ChiTietPhienBanSanPham chiTietPhienBanSanPham = new ChiTietPhienBanSanPham(maPhienBan, sp, MauSac.layGiaTri(mauSac), kichThuoc, Integer.parseInt(sanPhamUI.getTxtDialogSoLuong().getText()), fileAnh);
                             listCTPBSP.add(chiTietPhienBanSanPham);
                             tmPBSP.addRow(new String[]{maPhienBan, mauSac, kichThuoc, sanPhamUI.getTxtDialogSoLuong().getText(), null});
+                            trangThaiNutThemPBSP = 0;
+                            sanPhamUI.getBtnDialogThemXuong().setText("Thêm xuống");
+                            xoaTrangPBSP(false);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
@@ -1320,15 +1354,22 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         String anh = fileAnh;
         TinhTrangSanPham tt = TinhTrangSanPham.layGiaTri(sanPhamUI.getCbTinhTrang().getSelectedItem().toString());
 //        int soLuong = Integer.parseInt(sanPhamUI.getTxtSoLuongSanPham().getText());
-
-        //Mã sản phẩm
-        String ma = sanPhamUI.getTxtMaSanPham().getText();
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("HieuLuc", "CO");
+        List<Thue> thue;
         try {
-//            sps = new SanPham(ma,ten,loaiSanPhams.get(0),pcm,doTuoi,xuatXu,soLuong,thuongHieu.get(0),ptl,ms,kt,anh,localDate,tt);
+            thue = thueDAO.timKiem(conditions);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        sps =null ;
+        //Mã sản phẩm
+        String ma = sanPhamUI.getTxtMaSanPham().getText();
+        try {
+            sps = new SanPham(ma,ten,loaiSanPhams.get(0),pcm,doTuoi,xuatXu,thuongHieu.get(0),ptl,localDate,thue.get(0),tt);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return sps;
     }
 
@@ -1696,7 +1737,7 @@ public class ProductController implements ActionListener, MouseListener, KeyList
         }else if(event.getSource().equals(sanPhamUI.getTbDialogDanhSachCacSanPham())){
             if(trangThaiNutThemPBSP == 1){
                 JOptionPane.showMessageDialog(null, "Đang thực hiện chức năng thêm, không được click!!");
-            }else{
+            }else if(trangThaiNutThemPBSP == 0){
 
                 int row = sanPhamUI.getTbDialogDanhSachCacSanPham().getSelectedRow();
                 String ms = sanPhamUI.getTbDialogDanhSachCacSanPham().getValueAt(row, 0).toString();
@@ -1769,6 +1810,21 @@ public class ProductController implements ActionListener, MouseListener, KeyList
             }
         }else{
 
+        }
+    }
+
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        if(e.getSource().equals(sanPhamUI.getTbDialogDanhSachCacSanPham())){
+            DefaultTableModel tmPBSP = (DefaultTableModel) sanPhamUI.getTbDialogDanhSachCacSanPham().getModel();
+            int row = e.getFirstRow();
+            String maPBSP =  sanPhamUI.getTxtDialogMaSanPham().getText()+"-"+tmPBSP.getValueAt(row, 0).toString()+"-"+tmPBSP.getValueAt(row, 1).toString();
+            try {
+                ChiTietPhienBanSanPham phienBanSanPham = new ChiTietPhienBanSanPham(maPBSP, sanPhamDAO.timKiem(sanPhamUI.getTxtDialogMaSanPham().getText()).get(), MauSac.layGiaTri(tmPBSP.getValueAt(row, 0).toString()), tmPBSP.getValueAt(row, 1).toString(), Integer.parseInt(tmPBSP.getValueAt(row, 2).toString()), fileAnh);
+                listCTPBSP.add(phienBanSanPham);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }

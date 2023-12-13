@@ -6,6 +6,7 @@ package dev.skyherobrine.app.views.dashboard.component;
 
 import com.toedter.calendar.JDateChooser;
 import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
+import dev.skyherobrine.app.controllers.dashboardui.person.ThongTinCaNhanController;
 //import dev.skyherobrine.app.controllers.dashboardui.QuanLyHoaDon.HoaDonController;
 
 import javax.swing.*;
@@ -22,8 +23,10 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
     public FormTHongTinCaNhan() {
         initComponents();
 
-        
 
+        ThongTinCaNhanController controller = new ThongTinCaNhanController(this);
+        btnChinhSuaThongTin.addActionListener(controller);
+        btnSuaAnh.addActionListener(controller);
         setDoubleBuffered(true);
     }
 
@@ -122,13 +125,13 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setText("Số điện thoại:");
 
-        cbChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
-        cbCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
-        cbTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
-        cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
 
         btnChinhSuaThongTin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnChinhSuaThongTin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/edit.png"))); // NOI18N
@@ -281,4 +284,52 @@ public class FormTHongTinCaNhan extends javax.swing.JPanel {
     private javax.swing.JTextField txtSoDienThoai;
     private javax.swing.JTextField txtTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
+    public JButton getBtnChinhSuaThongTin() {
+        return btnChinhSuaThongTin;
+    }
+    public JButton getBtnSuaAnh() {
+        return btnSuaAnh;
+    }
+    public JComboBox<String> getCbCaLamViec() {
+        return cbCaLamViec;
+    }
+    public JComboBox<String> getCbChucVu() {
+        return cbChucVu;
+    }
+    public JComboBox<String> getCbGioiTinh() {
+        return cbGioiTinh;
+    }
+    public JComboBox<String> getCbTinhTrang() {
+        return cbTinhTrang;
+    }
+    public JDateChooser getjDateChooserNgaySinh() {
+        return jDateChooserNgaySinh;
+    }
+    public JPanel getPnAnhThongTInNhanVien() {
+        return pnAnhThongTInNhanVien;
+    }
+    public JPanel getPnBGThongTinCaNhan() {
+        return pnBGThongTinCaNhan;
+    }
+    public JTextField getTxtDiaChi() {
+        return txtDiaChi;
+    }
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
+    public JTextField getTxtHoVaTen() {
+        return txtHoVaTen;
+    }
+    public JTextField getTxtMaNv() {
+        return txtMaNv;
+    }
+    public JTextField getTxtMatKhau() {
+        return txtMatKhau;
+    }
+    public JTextField getTxtSoDienThoai() {
+        return txtSoDienThoai;
+    }
+    public JTextField getTxtTenTaiKhoan() {
+        return txtTenTaiKhoan;
+    }
 }

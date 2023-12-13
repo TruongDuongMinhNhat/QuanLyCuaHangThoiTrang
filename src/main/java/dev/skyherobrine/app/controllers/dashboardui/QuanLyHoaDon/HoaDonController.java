@@ -78,7 +78,7 @@ public class HoaDonController implements MouseListener, ActionListener, KeyListe
                 DefaultTableModel tmHoaDon= (DefaultTableModel) hoaDonUI.getTbDanhSachHoaDon().getModel();
                 tmHoaDon.setRowCount(0);
                 Map<String, Object> conditions = new HashMap<>();
-                conditions.put("NgayLap >= DATEADD(DAY, -3, GETDATE()) AND MaHD", "%%");
+                conditions.put("NgayLap >= DATEADD(DAY, -7, GETDATE()) AND MaHD", "%%");
                 try {
                     dsHoaDon = hoaDonDAO.timKiem(conditions);
                 } catch (Exception e) {
