@@ -86,10 +86,10 @@ public class Main extends javax.swing.JFrame {
                     showForm(new FrmNhanVien());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==9 && subIndex ==1 ) {// báo cáo cửa hàng về doanh thu
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                    showForm(new FormBaoCaoDoanhThuCuaHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==9 && subIndex ==2 ) {// báo cáo cửa hàng v sản phẩm
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                    showForm(new FormBaoCaoSanPhamCuaHang());
                     System.out.println("Form : " + index + " " + subIndex);
                 }else if (index==10 ) {// trợ giúp
                     showForm(new DefaultForm("Form : " + index + " " + subIndex));
