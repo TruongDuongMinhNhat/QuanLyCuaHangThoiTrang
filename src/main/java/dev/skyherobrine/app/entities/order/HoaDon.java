@@ -2,7 +2,6 @@ package dev.skyherobrine.app.entities.order;
 
 import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
-import dev.skyherobrine.app.entities.sale.KhuyenMai;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import java.util.List;
  */
 public class HoaDon {
     private String maHD;
-    private KhuyenMai khuyenMai;
     private LocalDateTime ngayLap;
     private NhanVien nhanVienLap;
     private KhachHang khachHang;
@@ -24,9 +22,8 @@ public class HoaDon {
 
     private List<ChiTietHoaDon> chiTietHoaDons;
 
-    public HoaDon(String maHD, KhuyenMai khuyenMai, LocalDateTime ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
+    public HoaDon(String maHD, LocalDateTime ngayLap, NhanVien nhanVienLap, KhachHang khachHang, BigDecimal soTienKHTra, String ghiChu) throws Exception {
         this.setMaHD(maHD);
-        this.khuyenMai = khuyenMai;
         this.setNgayLap(ngayLap);
         this.setNhanVienLap(nhanVienLap);
         this.setKhachHang(khachHang);
@@ -40,14 +37,6 @@ public class HoaDon {
 
     public void setMaHD(String maHD) {
         this.maHD = maHD;
-    }
-
-    public KhuyenMai getKhuyenMai() {
-        return khuyenMai;
-    }
-
-    public void setKhuyenMai(KhuyenMai khuyenMai) {
-        this.khuyenMai = khuyenMai;
     }
 
     public LocalDateTime getNgayLap() {
@@ -111,7 +100,6 @@ public class HoaDon {
     public String toString() {
         return "HoaDon{" +
                 "maHD='" + maHD + '\'' +
-                ", khuyenMai=" + khuyenMai +
                 ", ngayLap=" + ngayLap +
                 ", nhanVienLap=" + nhanVienLap +
                 ", khachHang=" + khachHang +

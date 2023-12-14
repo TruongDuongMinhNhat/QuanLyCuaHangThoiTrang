@@ -4,12 +4,8 @@ import dev.skyherobrine.app.daos.ConnectDB;
 import dev.skyherobrine.app.daos.IDAO;
 import dev.skyherobrine.app.daos.person.KhachHangDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
-import dev.skyherobrine.app.daos.sale.KhuyenMaiDAO;
 import dev.skyherobrine.app.entities.order.HoaDon;
-import dev.skyherobrine.app.entities.product.ThuongHieu;
-import dev.skyherobrine.app.enums.TinhTrangThuongHieu;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -25,14 +21,13 @@ public class HoaDonDAO implements IDAO<HoaDon> {
     @Override
     public boolean them(HoaDon hoaDon) throws Exception {
         PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
-                ("Insert HoaDon values (?, ?, ?, ?, ?, ?, ?)");
+                ("Insert HoaDon values (?, ?, ?, ?, ?, ?)");
         preparedStatement.setString(1, hoaDon.getMaHD());
-        preparedStatement.setString(2, hoaDon.getKhuyenMai() == null ? null : hoaDon.getKhuyenMai().getMaKM());
-        preparedStatement.setString(3, hoaDon.getNhanVienLap().getMaNV());
-        preparedStatement.setString(4, hoaDon.getKhachHang().getMaKH());
-        preparedStatement.setTimestamp(5, Timestamp.valueOf(hoaDon.getNgayLap()));
-        preparedStatement.setBigDecimal(6, hoaDon.getSoTienKHTra());
-        preparedStatement.setString(7, hoaDon.getGhiChu());
+        preparedStatement.setString(2, hoaDon.getNhanVienLap().getMaNV());
+        preparedStatement.setString(3, hoaDon.getKhachHang().getMaKH());
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(hoaDon.getNgayLap()));
+        preparedStatement.setBigDecimal(5, hoaDon.getSoTienKHTra());
+        preparedStatement.setString(6, hoaDon.getGhiChu());
 
         return preparedStatement.executeUpdate() > 0;
     }
@@ -60,7 +55,6 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         while (resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -89,7 +83,6 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         while (resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -111,7 +104,6 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         if (resultSet.next()) {
             return Optional.of(new HoaDon(
                     resultSet.getString("MaHD"),
-                    null,
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),
@@ -138,7 +130,6 @@ public class HoaDonDAO implements IDAO<HoaDon> {
         while(resultSet.next()) {
             HoaDon hoaDon = new HoaDon(
                     resultSet.getString("MaHD"),
-                    new KhuyenMaiDAO().timKiem(resultSet.getString("MaKM")).get(),
                     resultSet.getTimestamp("NgayLap").toLocalDateTime(),
                     new NhanVienDAO().timKiem(resultSet.getString("MaNV")).get(),
                     new KhachHangDAO().timKiem(resultSet.getString("MaKH")).get(),

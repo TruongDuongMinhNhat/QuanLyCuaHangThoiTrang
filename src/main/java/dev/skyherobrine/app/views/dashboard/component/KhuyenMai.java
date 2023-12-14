@@ -4,6 +4,10 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -13,7 +17,7 @@ public class KhuyenMai extends javax.swing.JPanel {
     /**
      * Creates new form ThongTinCaNhan
      */
-    public KhuyenMai() {
+    public KhuyenMai() throws Exception{
         initComponents();
     }
 
@@ -321,4 +325,37 @@ public class KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JTextField txtTile;
     private javax.swing.JTextField txtTuKhoaTimKiemKhuyenMai;
     // End of variables declaration//GEN-END:variables
+
+
+    public JButton getBtnSuaKhuyenMai() {
+        return btnSuaKhuyenMai;
+    }
+
+    public JButton getBtnThemKhuyenMai() {
+        return btnThemKhuyenMai;
+    }
+
+    public JButton getBtnXoaKhuyenMai() {
+        return btnXoaKhuyenMai;
+    }
+
+    public JTextField getTxtMaKhuyenMai() {
+        return txtMaKhuyenMai;
+    }
+
+    public JTextField getTxtTenKhuyenMai() {
+        return txtTenKhuyenMai;
+    }
+
+    public JTextField getTxtTile() {
+        return txtTile;
+    }
+
+    public JDateChooser getjDateChooserNgayApDungThongTinKhuyenMai() {
+        return jDateChooserNgayApDungThongTinKhuyenMai;
+    }
+
+    public JDateChooser getjDateChooserNgayHetHanjThongTinKhuyenMai() {
+        return jDateChooserNgayHetHanjThongTinKhuyenMai;
+    }
 }

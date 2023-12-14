@@ -15,14 +15,12 @@ import dev.skyherobrine.app.daos.person.KhachHangDAO;
 import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.daos.product.ChiTietPhienBanSanPhamDAO;
 import dev.skyherobrine.app.daos.product.SanPhamDAO;
-import dev.skyherobrine.app.daos.sale.KhuyenMaiDAO;
 import dev.skyherobrine.app.entities.order.ChiTietHoaDon;
 import dev.skyherobrine.app.entities.order.HoaDon;
 import dev.skyherobrine.app.entities.person.KhachHang;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.entities.product.ChiTietPhienBanSanPham;
 import dev.skyherobrine.app.entities.product.SanPham;
-import dev.skyherobrine.app.entities.sale.KhuyenMai;
 import dev.skyherobrine.app.views.dashboard.component.LapHoaDon;
 import dev.skyherobrine.app.views.dashboard.component.nutDuyetVaNutXoaDongTb.TableActionEvent1;
 
@@ -70,7 +68,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
     private HoaDonDAO hoaDonDAO;
     private DefaultListModel<String> listModelKH;
     private ChiTietPhieuNhapHangDAO chiTietPhieuNhapHangDAO;
-    private KhuyenMaiDAO khuyenMaiDAO;
     private ConnectDB connectDB;
     private static Map<String, Object> dsSPTAM = new HashMap<>();
     private static Map<String, Integer> dsSPLuuTam = new HashMap<>();
@@ -85,7 +82,6 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
             this.khachHangDAO = new KhachHangDAO();
             this.hoaDonDAO = new HoaDonDAO();
             this.chiTietHoaDonDAO = new ChiTietHoaDonDAO();
-            this.khuyenMaiDAO = new KhuyenMaiDAO();
             this.connectDB = new ConnectDB();
             loadTTNV();
             setCamera();
@@ -296,17 +292,17 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
         LocalDateTime local = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         lapHoaDon.getTxtNgayLapHoaDon().setText(local.format(dateTimeFormatter));
-        List<KhuyenMai> khuyenMais = null;
-        try {
-            khuyenMais = khuyenMaiDAO.timKiem();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        for(KhuyenMai km : khuyenMais){
-            if(km.getNgayApDung().isBefore(LocalDate.now()) && km.getNgayHetHan().isAfter(LocalDate.now())){
-                lapHoaDon.getTxtChietKhau().setText(5+"");
-            }
-        }
+//        List<KhuyenMai> khuyenMais = null;
+//        try {
+//            khuyenMais = khuyenMaiDAO.timKiem();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        for(KhuyenMai km : khuyenMais){
+//            if(km.getNgayApDung().isBefore(LocalDate.now()) && km.getNgayHetHan().isAfter(LocalDate.now())){
+//                lapHoaDon.getTxtChietKhau().setText(5+"");
+//            }
+//        }
     }
 //    public void loadTTHD(){
 //        LocalDateTime local = LocalDateTime.now();
@@ -356,7 +352,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     try {
                         List<KhachHang> khachHangs = khachHangDAO.timKiem(conditions);
 
-                        HoaDon hd = new HoaDon(maHD, null, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(0), new BigDecimal(tienKHTra), null);
+                        HoaDon hd = new HoaDon(maHD,  nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(0), new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
@@ -376,7 +372,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                 try {
                     Optional<KhachHang> khachHangs = khachHangDAO.timKiem("KH-00000000-000");
                     if(khachHangs.isPresent()){
-                        HoaDon hd = new HoaDon(maHD,null, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(), new BigDecimal(tienKHTra), null);
+                        HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), khachHangs.get(), new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();
@@ -391,7 +387,7 @@ public class LapHoaDonController implements KeyListener, Runnable, ThreadFactory
                     }else{
                         KhachHang kh = new KhachHang("KH-00000000-000", "Khách vãng lai", "0000000000", true, LocalDate.now(), 0);
                         khachHangDAO.them(kh);
-                        HoaDon hd = new HoaDon(maHD, null, nl, nhanVienDAO.timKiem(maNV).get(), kh, new BigDecimal(tienKHTra), null);
+                        HoaDon hd = new HoaDon(maHD, nl, nhanVienDAO.timKiem(maNV).get(), kh, new BigDecimal(tienKHTra), null);
                         hoaDonDAO.them(hd);
                         int sl = 0;
                         Optional<ChiTietPhienBanSanPham> pbsp = Optional.empty();

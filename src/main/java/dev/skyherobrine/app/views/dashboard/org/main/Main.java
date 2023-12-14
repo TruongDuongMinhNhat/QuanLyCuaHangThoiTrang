@@ -30,82 +30,86 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void selected(int index, int subIndex) {
 
+                try {
 
-                long startTime = System.currentTimeMillis();
+                    long startTime = System.currentTimeMillis();
 
 
 
-                if (index == 0) {//trang chủ
-                    showForm(t);
-                    System.out.println("Form : " + index + " " + subIndex);
-                } else if(index ==1){// thông tin cá nhân
-                    showForm(new FormTHongTinCaNhan());
-                    System.out.println("Form : " + index + " " + subIndex);
-                } else if (index==2 && subIndex==1) {//Lập hoá đơn
-                    showForm(new LapHoaDon());
-                    System.out.println("Form : " + index + " " + subIndex);
-                } else if (index==2 && subIndex==2) {//Quản lý hoá đơn
-                    showForm(new QuanLyHoaDon());
-                    System.out.println("Form : " + index + " " + subIndex);
-                } else if(index == 3) {//Thuế
-                    showForm(new FormThue());
-                    System.out.println("Form: " + index + " " + subIndex);
-                } else if (index==4 && subIndex==1) {// quản lý sản phẩm
-                    showForm(new QuanLySanPham());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==4 && subIndex==2) {//Quản lý Nhập hàng
-                    showForm(new QuanLyNhapHang());
-                    System.out.println("Form : " + index + " " + subIndex);
+                    if (index == 0) {//trang chủ
+                        showForm(t);
+                        System.out.println("Form : " + index + " " + subIndex);
+                    } else if(index ==1){// thông tin cá nhân
+                        showForm(new FormTHongTinCaNhan());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    } else if (index==2 && subIndex==1) {//Lập hoá đơn
+                        showForm(new LapHoaDon());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    } else if (index==2 && subIndex==2) {//Quản lý hoá đơn
+                        showForm(new QuanLyHoaDon());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    } else if(index == 3) {//Thuế
+                        showForm(new FormThue());
+                        System.out.println("Form: " + index + " " + subIndex);
+                    } else if (index==4 && subIndex==1) {// quản lý sản phẩm
+                        showForm(new QuanLySanPham());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==4 && subIndex==2) {//Quản lý Nhập hàng
+                        showForm(new QuanLyNhapHang());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+                    else if (index==4 && subIndex==3) {//Quản lý trả hành nhà cung cấp
+                        showForm(new QuanLyPhieuTraHangChoNhaCungCap());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+                    else if (index==4 && subIndex==4) {//quản lý trả hàng của khách hàng
+                        showForm(new QuanLyPhieuTraHangChoKhachHang());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+                    else if (index==4 && subIndex==5) {// xoá
+                        showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+                    else if (index==4 && subIndex==6) {// xoá
+                        showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                        System.out.println("Form : " + index + " " + subIndex);
+                    } else if (index==5 ) {//khuyến mãi
+                        showForm(new KhuyenMai());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+                    else if (index==6 ) {//nhà cung cấp
+                        showForm(new FrmNhaCungCap());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==7 ) {//khách hàng
+                        showForm(new FrmKhachHang());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==8) {//nhân viên
+                        showForm(new FrmNhanVien());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==9 && subIndex ==1 ) {// báo cáo cửa hàng về doanh thu
+                        showForm(new FormBaoCaoDoanhThuCuaHang());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==9 && subIndex ==2 ) {// báo cáo cửa hàng v sản phẩm
+                        showForm(new FormBaoCaoSanPhamCuaHang());
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==10 ) {// trợ giúp
+                        showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }else if (index==11 ) {// đăng xuất
+                        showForm(new DefaultForm("Form : " + index + " " + subIndex));
+                        System.exit(0);
+                        System.out.println("Form : " + index + " " + subIndex);
+                    }
+
+                    // tính toán thời gian load
+                    long endTime = System.currentTimeMillis();
+                    long executionTime = endTime - startTime;
+                    System.out.println("Thời gian load cho Form " + index + " " + subIndex + ": " + executionTime + "ms");
+
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
-                else if (index==4 && subIndex==3) {//Quản lý trả hành nhà cung cấp
-                    showForm(new QuanLyPhieuTraHangChoNhaCungCap());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }
-                else if (index==4 && subIndex==4) {//quản lý trả hàng của khách hàng
-                    showForm(new QuanLyPhieuTraHangChoKhachHang());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }
-                else if (index==4 && subIndex==5) {// xoá
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
-                    System.out.println("Form : " + index + " " + subIndex);
-                }
-                else if (index==4 && subIndex==6) {// xoá
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
-                    System.out.println("Form : " + index + " " + subIndex);
-                } else if (index==5 ) {//khuyến mãi
-                    showForm(new KhuyenMai());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }
-                else if (index==6 ) {//nhà cung cấp
-                    showForm(new FrmNhaCungCap());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==7 ) {//khách hàng
-                    showForm(new FrmKhachHang());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==8) {//nhân viên
-                    showForm(new FrmNhanVien());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==9 && subIndex ==1 ) {// báo cáo cửa hàng về doanh thu
-                    showForm(new FormBaoCaoDoanhThuCuaHang());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==9 && subIndex ==2 ) {// báo cáo cửa hàng v sản phẩm
-                    showForm(new FormBaoCaoSanPhamCuaHang());
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==10 ) {// trợ giúp
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
-                    System.out.println("Form : " + index + " " + subIndex);
-                }else if (index==11 ) {// đăng xuất
-                    showForm(new DefaultForm("Form : " + index + " " + subIndex));
-                    System.exit(0);
-                    System.out.println("Form : " + index + " " + subIndex);
-                }
-
-                // tính toán thời gian load
-                long endTime = System.currentTimeMillis();
-                long executionTime = endTime - startTime;
-                System.out.println("Thời gian load cho Form " + index + " " + subIndex + ": " + executionTime + "ms");
-
-
             }
         });
     }
