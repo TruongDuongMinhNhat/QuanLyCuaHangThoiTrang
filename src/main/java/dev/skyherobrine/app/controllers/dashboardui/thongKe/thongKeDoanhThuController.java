@@ -54,6 +54,7 @@ public class thongKeDoanhThuController {
 
         try {
             List<Map<String, Object>> result = chiTietHoaDonDAO.timKiemHD(cols, join, query);
+            double doanhthu = 0;
             for (Map<String, Object> map : result) {
                 for(Map.Entry<String, Object> entry : map.entrySet()){
                     Optional<SanPham> sp  = sanPhamDAO.timKiem(entry.getKey());
@@ -64,9 +65,12 @@ public class thongKeDoanhThuController {
                     Map<String, Integer> data = (Map<String, Integer>) entry.getValue();
                     for(Map.Entry<String, Integer> entry1 : data.entrySet()){
                         dataset.addValue(entry1.getValue()*dongia, series_1, entry1.getKey().substring(0,10));
+                        doanhthu =dongia*entry1.getValue();
                     }
+
                }
             }
+            formBaoCaoDoanhThuCuaHang.getTxtBaoCaoDoanhThu().setText(String.valueOf(doanhthu));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

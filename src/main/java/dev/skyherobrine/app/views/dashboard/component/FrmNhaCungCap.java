@@ -57,7 +57,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
         txtMaNhaCungCap = new javax.swing.JTextField();
         txtTenNhaCungCap = new javax.swing.JTextField();
         txtDiaChiNhaCungCap = new javax.swing.JTextField();
-        txtTinhTrangNhaCungCap3 = new javax.swing.JTextField();
         txtEmailNhaCungCap = new javax.swing.JTextField();
         btnThemNhaCungCap = new javax.swing.JButton();
         btnSuaNhaCungCap = new javax.swing.JButton();
@@ -75,13 +74,13 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
 
         tbDanhSachCacNhaCungCap.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã NCC", "Tên NCC", "Địa chỉ", "Email", "Tình trạng"
             }
         ));
         spDanhCacNhaCungCap.setViewportView(tbDanhSachCacNhaCungCap);
@@ -151,7 +150,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
         lbEmailNhaCungCap.setText("Email:");
 
         lbTinhTrangNhaCungCap.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbTinhTrangNhaCungCap.setText("Tình trạng:");
 
         txtMaNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtMaNhaCungCap.setEnabled(false);
@@ -159,8 +157,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
         txtTenNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtDiaChiNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        txtTinhTrangNhaCungCap3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtEmailNhaCungCap.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -204,7 +200,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmailNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -241,7 +236,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
                 .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnThongTInNhaCungCapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lbTinhTrangNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtTinhTrangNhaCungCap3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cbTinhTrangNhaCungCap))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
@@ -309,7 +303,6 @@ public class FrmNhaCungCap extends javax.swing.JPanel {
     private javax.swing.JTextField txtEmailNhaCungCap;
     private javax.swing.JTextField txtMaNhaCungCap;
     private javax.swing.JTextField txtTenNhaCungCap;
-    private javax.swing.JTextField txtTinhTrangNhaCungCap3;
     private javax.swing.JTextField txtTuKhoaTimKiem;
     // End of variables declaration//GEN-END:variables
 

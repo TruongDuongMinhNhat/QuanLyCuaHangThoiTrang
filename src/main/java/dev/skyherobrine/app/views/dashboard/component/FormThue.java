@@ -73,10 +73,13 @@ public class FormThue extends javax.swing.JPanel {
 
         tbDanhSachThueCuaSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "STT", "Mã thuế", "Ngày áp dụng", "Tỉ lệ"
             }
         ));
         spDanhSachThueCuaSanPham.setViewportView(tbDanhSachThueCuaSanPham);
@@ -93,7 +96,7 @@ public class FormThue extends javax.swing.JPanel {
         );
 
         pnTimKiemThue.setBackground(new java.awt.Color(255, 255, 255));
-        pnTimKiemThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm thuế", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        pnTimKiemThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm khuyến mãi", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         txtTuKhoaTimKiemThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTuKhoaTimKiemThue.addActionListener(new java.awt.event.ActionListener() {
@@ -154,7 +157,7 @@ public class FormThue extends javax.swing.JPanel {
         pnThongTInThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin thuế", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
         lbMaKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbMaKhuyenMai.setText("Mã thuế:");
+        lbMaKhuyenMai.setText("Mã khuyến mãi:");
 
         lbTile.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbTile.setText("Tỉ lệ:");

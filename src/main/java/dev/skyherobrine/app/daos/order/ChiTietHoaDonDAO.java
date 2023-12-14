@@ -103,7 +103,7 @@ public class ChiTietHoaDonDAO implements IDAO<ChiTietHoaDon> {
         List<Map<String, Integer>> listResult = new ArrayList<>();
         while (resultSet.next()) {
             Map<String, Integer> rowDatas = new HashMap<>();
-            rowDatas.put(resultSet.getString("MaPhienBanSP"), resultSet.getInt("soLuongBan"));
+            rowDatas.put(resultSet.getString("TenSP"), resultSet.getInt("soLuongBan"));
             listResult.add(rowDatas);
         }
         return listResult;

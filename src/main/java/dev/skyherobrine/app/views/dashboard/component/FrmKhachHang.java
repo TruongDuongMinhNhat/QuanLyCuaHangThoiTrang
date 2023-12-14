@@ -235,13 +235,13 @@ public class FrmKhachHang extends javax.swing.JPanel {
 
         tbDanhSachKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã khách hàng", "Họ tên", "Số điện thoại", "Giới tính", "Ngày sinh"
             }
         ));
         spDanhSachKhachHang.setViewportView(tbDanhSachKhachHang);
@@ -410,7 +410,7 @@ public class FrmKhachHang extends javax.swing.JPanel {
             .addGroup(pnBGThongTinCaNhanLayout.createSequentialGroup()
                 .addComponent(pnThongTinKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnLocDanhSachXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(pnLocDanhSachXuatFile, javax.swing.GroupLayout.PREFERRED_SIZE, 372, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnBGThongTinCaNhanLayout.setVerticalGroup(

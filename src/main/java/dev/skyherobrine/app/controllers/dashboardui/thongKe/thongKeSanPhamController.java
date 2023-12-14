@@ -35,18 +35,30 @@ public class thongKeSanPhamController {
     }
     private PieDataset createDataSet() {
 
-        String cols = "TOP 10 MaPhienBanSP, sum(soLuongMua) as soLuongBan";
-        String join = "cthd inner join HoaDon hd on cthd.MaHD = hd.MaHD";
-        String query = " NgayLap >= DATEADD(DAY, -1, GETDATE()) GROUP BY MaPhienBanSP ORDER BY soLuongBan DESC";
+        String cols = " TOP 10 TenSP, sum(soLuongMua) as soLuongBan ";
+        String join = " cthd inner join HoaDon hd on cthd.MaHD = hd.MaHD inner join PhienBanSanPham pbsp on cthd.MaPhienBanSP = pbsp.MaPhienBanSP inner join SanPham sp on pbsp.MaSP =sp.MaSP";
+        String query = " NgayLap >= DATEADD(DAY, -7, GETDATE()) GROUP BY TenSP ORDER BY soLuongBan DESC";
         DefaultPieDataset dataset = new DefaultPieDataset();
 
         try {
             List<Map<String, Integer>> result = chiTietHoaDonDAO.timKiem(cols, join, query);
+            String max = "";
+            int maxSoLuong = 0;
             for (Map<String, Integer> map : result) {
                 for(Map.Entry<String, Integer> entry : map.entrySet()){
                     dataset.setValue(entry.getKey(), entry.getValue());
+                    for (Map.Entry<String, Integer> entry1 : map.entrySet()) {
+                        if (entry1.getValue() > maxSoLuong) {
+                            maxSoLuong = entry1.getValue();
+                            max = entry1.getKey();
+                        }
+                    }
                 }
             }
+            formBaoCaoSanPhamCuaHang.getTxtBaoCaoDoanhThu1().setText(max);
+            formBaoCaoSanPhamCuaHang.getTxtBaoCaoDoanhThu().setEnabled(false);
+            formBaoCaoSanPhamCuaHang.getTxtBaoCaoDoanhThu().setText(String.valueOf(maxSoLuong));
+            formBaoCaoSanPhamCuaHang.getTxtBaoCaoDoanhThu1().setEnabled(false);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

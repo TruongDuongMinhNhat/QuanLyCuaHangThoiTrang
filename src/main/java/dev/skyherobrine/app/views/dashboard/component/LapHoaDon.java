@@ -166,7 +166,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         pnPhaiTrenLapHoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
         txtTimKiemSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemSanPham.setText("Tìm kiếm sản phẩm");
+        txtTimKiemSanPham.setText("");
         txtTimKiemSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemSanPhamActionPerformed(evt);
@@ -180,10 +180,6 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbDanhSachCacSanPhamTrongGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Mã sản phẩm", "Tên sản phẩm", "Kích thước", "Số lượng", "Đơn giá", "Thành tiền", ""
@@ -247,10 +243,6 @@ public class LapHoaDon extends javax.swing.JPanel {
 
         tbHoaDonLuuTam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Số thứ tự", "Tên khách hàng", "Số điện thoại", ""
@@ -273,7 +265,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         );
 
         txtTimKiemHoaDonLuuTam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTimKiemHoaDonLuuTam.setText("Tìm kiếm hoá đơn lưu tạm");
+        txtTimKiemHoaDonLuuTam.setText("");
         txtTimKiemHoaDonLuuTam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTimKiemHoaDonLuuTamActionPerformed(evt);
@@ -344,7 +336,7 @@ public class LapHoaDon extends javax.swing.JPanel {
         jLabel8.setText("Khách vãng lai:");
 
         jCheckBox1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jCheckBox1.setText("Tin chuẩn chưa");
+        jCheckBox1.setText("");
 
         javax.swing.GroupLayout pnThongTInKhachHangLayout = new javax.swing.GroupLayout(pnThongTInKhachHang);
         pnThongTInKhachHang.setLayout(pnThongTInKhachHangLayout);

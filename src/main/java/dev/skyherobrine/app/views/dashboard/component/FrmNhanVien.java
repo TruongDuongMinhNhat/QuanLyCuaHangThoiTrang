@@ -335,13 +335,13 @@ public class FrmNhanVien extends javax.swing.JPanel {
 
         tbDanhSachNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã nhân viên", "Họ tên", "Số điện thoại", "Giới tính", "Ngày sinh", "Email", "Địa chỉ", "Chức vụ", "Ca làm việc", "Tài khoản", "Mật khẩu", "Tình trạng"
             }
         ));
         spDanhSachNhanVien.setViewportView(tbDanhSachNhanVien);
