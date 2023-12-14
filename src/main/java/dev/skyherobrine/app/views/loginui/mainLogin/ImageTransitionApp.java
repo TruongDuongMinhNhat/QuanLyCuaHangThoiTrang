@@ -1,4 +1,4 @@
-package dev.virtue.loginui.mainLogin;
+package dev.skyherobrine.app.views.loginui.mainLogin;
 
 import javax.swing.*;
 import java.awt.*;

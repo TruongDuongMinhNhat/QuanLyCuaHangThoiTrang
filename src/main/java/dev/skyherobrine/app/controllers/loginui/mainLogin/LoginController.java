@@ -5,7 +5,7 @@ import dev.skyherobrine.app.daos.person.NhanVienDAO;
 import dev.skyherobrine.app.entities.person.NhanVien;
 import dev.skyherobrine.app.views.dashboard.org.main.Main;
 import dev.skyherobrine.app.views.loginui.mainLogin.FormQuenMatKhau;
-import dev.virtue.loginui.mainLogin.LoginUI;
+import dev.skyherobrine.app.views.loginui.mainLogin.LoginUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
