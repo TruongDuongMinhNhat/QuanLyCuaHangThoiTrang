@@ -43,7 +43,17 @@ public class ThueDAO implements IDAO<Thue> {
     public boolean capNhat(Thue target) throws Exception {
         return false;
     }
-
+    public boolean update(String HieuLuc){
+        try {
+            PreparedStatement preparedStatement = connectDB.getConnection().prepareStatement
+                    ("update Thue set HieuLuc = ?");
+            preparedStatement.setString(1, HieuLuc);
+            return preparedStatement.executeUpdate() > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
     @Override
     public boolean xoa(String id) throws Exception {
         return false;

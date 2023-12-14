@@ -36,14 +36,14 @@ public class thongKeDoanhThuController {
     public void loadData(){
         DefaultCategoryDataset dataset = createDataSet();
 
-        JFreeChart chart = ChartFactory.createLineChart("Line Chart Example", "Date", "Number of Visitor", dataset);
+        JFreeChart chart = ChartFactory.createLineChart("", "Date", "Number of Visitor", dataset);
         ChartPanel chartPanel = new ChartPanel(chart);
         formBaoCaoDoanhThuCuaHang.getPnBieuDoTHongKeDoanhThu().removeAll();
         formBaoCaoDoanhThuCuaHang.getPnBieuDoTHongKeDoanhThu().setLayout(new java.awt.BorderLayout());
         formBaoCaoDoanhThuCuaHang.getPnBieuDoTHongKeDoanhThu().add(chartPanel);
     }
     public DefaultCategoryDataset createDataSet() {
-        String series_1 =  "Visisotr";
+        String series_1 =  "Doanh Thu";
 
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

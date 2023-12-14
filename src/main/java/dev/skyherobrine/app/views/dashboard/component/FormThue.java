@@ -4,6 +4,11 @@
  */
 package dev.skyherobrine.app.views.dashboard.component;
 
+import com.toedter.calendar.JDateChooser;
+import dev.skyherobrine.app.controllers.dashboardui.product.ThueController;
+
+import javax.swing.*;
+
 /**
  *
  * @author Virtue Nguyen
@@ -15,6 +20,14 @@ public class FormThue extends javax.swing.JPanel {
      */
     public FormThue() {
         initComponents();
+        lbNgayHetHan.setText("");
+//        lbTenSanPhamApDung.setText("");
+//        txtTenThue.setVisible(false);
+        jDateChooserNgayHetHanjThongTinThue.setVisible(false);
+        ThueController thueController = new ThueController(this);
+        tbDanhSachThueCuaSanPham.addMouseListener(thueController);
+        btnThemThue.addActionListener(thueController);
+        btnXoaTrangThue.addActionListener(thueController);
     }
 
     /**
@@ -42,10 +55,8 @@ public class FormThue extends javax.swing.JPanel {
         lbTile = new javax.swing.JLabel();
         lbNgayApDung = new javax.swing.JLabel();
         lbNgayHetHan = new javax.swing.JLabel();
-        lbTenSanPhamApDung = new javax.swing.JLabel();
         txtMaThue = new javax.swing.JTextField();
         txtThue = new javax.swing.JTextField();
-        txtTenThue = new javax.swing.JTextField();
         btnThemThue = new javax.swing.JButton();
         btnXoaTrangThue = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -62,10 +73,7 @@ public class FormThue extends javax.swing.JPanel {
 
         tbDanhSachThueCuaSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -85,7 +93,7 @@ public class FormThue extends javax.swing.JPanel {
         );
 
         pnTimKiemThue.setBackground(new java.awt.Color(255, 255, 255));
-        pnTimKiemThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm khuyến mãi", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        pnTimKiemThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm thuế", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         txtTuKhoaTimKiemThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtTuKhoaTimKiemThue.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +154,7 @@ public class FormThue extends javax.swing.JPanel {
         pnThongTInThue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin thuế", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
         lbMaKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbMaKhuyenMai.setText("Mã khuyến mãi:");
+        lbMaKhuyenMai.setText("Mã thuế:");
 
         lbTile.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbTile.setText("Tỉ lệ:");
@@ -157,14 +165,9 @@ public class FormThue extends javax.swing.JPanel {
         lbNgayHetHan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbNgayHetHan.setText("Ngày hết hạn:");
 
-        lbTenSanPhamApDung.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbTenSanPhamApDung.setText("Tên khuyến mãi:");
-
         txtMaThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         txtThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        txtTenThue.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnThemThue.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnThemThue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/iconButtonChungChoCacForm/plus.png"))); // NOI18N
@@ -201,22 +204,18 @@ public class FormThue extends javax.swing.JPanel {
                                 .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbTile)
                                     .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                                        .addComponent(lbMaKhuyenMai)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lbMaKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtMaThue, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(317, 317, 317)
                                 .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbNgayHetHan)
                                     .addComponent(lbNgayApDung)))
                             .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                                .addComponent(lbTenSanPhamApDung)
+                                .addGap(147, 147, 147)
+                                .addComponent(txtThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnThongTInThueLayout.createSequentialGroup()
-                                        .addComponent(txtThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2))
-                                    .addComponent(txtTenThue, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                         .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jDateChooserNgayApDungThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
@@ -241,11 +240,7 @@ public class FormThue extends javax.swing.JPanel {
                         .addComponent(txtThue, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jDateChooserNgayHetHanjThongTinThue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbTenSanPhamApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTenThue, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(115, 115, 115)
+                .addGap(166, 166, 166)
                 .addGroup(pnThongTInThueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemThue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoaTrangThue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -310,7 +305,6 @@ public class FormThue extends javax.swing.JPanel {
     private javax.swing.JLabel lbMaKhuyenMai;
     private javax.swing.JLabel lbNgayApDung;
     private javax.swing.JLabel lbNgayHetHan;
-    private javax.swing.JLabel lbTenSanPhamApDung;
     private javax.swing.JLabel lbTile;
     private javax.swing.JPanel pnBGThongTinCaNhan;
     private javax.swing.JPanel pnDanhSachCacThue;
@@ -319,8 +313,29 @@ public class FormThue extends javax.swing.JPanel {
     private javax.swing.JScrollPane spDanhSachThueCuaSanPham;
     private javax.swing.JTable tbDanhSachThueCuaSanPham;
     private javax.swing.JTextField txtMaThue;
-    private javax.swing.JTextField txtTenThue;
     private javax.swing.JTextField txtThue;
     private javax.swing.JTextField txtTuKhoaTimKiemThue;
     // End of variables declaration//GEN-END:variables
+    public JTable getTbDanhSachThueCuaSanPham() {
+        return tbDanhSachThueCuaSanPham;
+    }
+    public JTextField getTxtMaThue() {
+        return txtMaThue;
+    }
+    public JTextField getTxtThue() {
+        return txtThue;
+    }
+    public JTextField getTxtTuKhoaTimKiemThue() {
+        return txtTuKhoaTimKiemThue;
+    }
+    public JDateChooser getjDateChooserNgayApDungThongTinThue() {
+        return jDateChooserNgayApDungThongTinThue;
+    }
+
+    public JButton getBtnThemThue() {
+        return btnThemThue;
+    }
+    public JButton getBtnXoaTrangThue() {
+        return btnXoaTrangThue;
+    }
 }
